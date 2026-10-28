@@ -50,7 +50,7 @@ near(C.parsePrice('62%').p, 0.62); assert(C.parsePrice('abc') === null); assert(
 // outcome functions agree with scanner/edge.py (printed by python into CASES)
 const cases = JSON.parse(process.argv[2]);
 for (const c of cases) { const f = C.outcomeFn(c.mk); assert.strictEqual(f(c.a, c.b), c.want, JSON.stringify(c)); }
-// evaluate: max-EV best bet (lock is info only) + sanity guard
+// evaluate: rule r3 best bet = top EV among model prob > 50% and EV > 0 (lock is info only) + sanity guard
 const res = { n: 100, bo: 3, exact: { '2-0': 40, '2-1': 25, '1-2': 20, '0-2': 15 }, reach: [100, 100, 45], gwin: [60, 60, 25] };
 const rows = [
   { kind: 'ml', side: 'A', price: '0.55', pair_id: 'M' }, { kind: 'ml', side: 'B', price: '0.47', pair_id: 'M' },
@@ -60,8 +60,17 @@ const ev = C.evaluate(rows, res, 0.07);
 near(ev.rows[0].q, 0.65); near(ev.rows[0].fair, 0.55 / 1.02); near(ev.rows[0].ev, 0.65 / (0.55 + 0.07 * 0.55 * 0.45) - 1);
 near(ev.rows[2].q, 0.60); assert.strictEqual(ev.rows[2].cashesOnLock, false);
 near(ev.rows[4].q, 0.45 * (25 / 45) + 0.55 * 0.5);
-const top = ev.rows.filter(r => r.valid && !r.skip && r.ev > 0).reduce((m, x) => x.ev > m.ev ? x : m);
-assert(ev.best === top && ev.best.ev > 0 && ev.bestAny === ev.best);
+const top = ev.rows.filter(r => r.valid && !r.skip && r.ev > 0 && r.q > 0.5).reduce((m, x) => x.ev > m.ev ? x : m);
+assert(ev.best === top && ev.best.ev > 0 && ev.best.q > 0.5 && ev.bestAny === ev.best);
+assert.strictEqual(C.MIN_MODEL_PROB, 0.5); assert(C.BEST_BET_RULE_VERSION.startsWith('r3'));
+// a +EV line under 50% (A -1.5 @0.15, q .40) beats everything on raw EV but is never the best bet
+const ev3 = C.evaluate(rows.concat([{ kind: 'hcp', side: 'A', line: -1.5, price: '0.15' }]), res, 0.07);
+assert(ev3.bestAny.q < 0.5 && ev3.bestAny.ev > ev3.best.ev && ev3.best === ev3.rows[2] && ev3.bestAny.qualifies === false);
+// only sub-50% lines are +EV -> NO BET
+const ev4 = C.evaluate([{ kind: 'ml', side: 'A', price: '0.80', pair_id: 'M' }, { kind: 'ml', side: 'B', price: '0.25', pair_id: 'M' }], res, 0.07);
+assert(ev4.best === null && ev4.bestAny && ev4.bestAny.side === 'B' && ev4.bestAny.q < 0.5);
+if (process.argv[3]) require('fs').writeFileSync(process.argv[3], JSON.stringify([ev, ev3, ev4].map(e => ({
+  best: e.best ? e.rows.indexOf(e.best) : null, rows: e.rows.map(r => ({ valid: r.valid, q: r.q, ev: r.ev, skip: r.skip || null })) }))));
 assert.strictEqual(ev.best.side, 'B'); assert.strictEqual(ev.best.cashesOnLock, false);   // B +1.5 @0.30 (q .60) dies on 2-0, still the pick
 const ev2 = C.evaluate([{ kind: 'ml', side: 'B', price: '0.02', pair_id: 'M' }, { kind: 'ml', side: 'A', price: '0.99', pair_id: 'M' }], res, 0.07);
 assert(ev2.best === null && /0.03/.test(ev2.rows[0].skip) && /0.97/.test(ev2.rows[1].skip));
@@ -96,5 +105,15 @@ def test_js_core_matches_python():
             for a, b in scores:
                 want = f(a, b)
                 cases.append({"mk": {"kind": kind, "side": side, "line": line, "game": g}, "a": a, "b": b, "want": want})
-    r = subprocess.run([NODE, "-e", JS_TEST, str(ROOT), json.dumps(cases)], capture_output=True, text=True, timeout=120)
+    out = ROOT / ".pytest_js_best.json"
+    r = subprocess.run([NODE, "-e", JS_TEST, str(ROOT), json.dumps(cases), str(out)], capture_output=True, text=True, timeout=120)
     assert r.returncode == 0 and "ok" in r.stdout, r.stderr[-2000:]
+    # parity: the JS best bet is exactly what scanner/edge.py's rule picks from the same priced lines
+    try:
+        for e in json.loads(out.read_text()):
+            legs = [{"skip_reason": x["skip"], "our_prob": round(x["q"], 4), "ev_per_$1": x["ev"], "i": i}
+                    for i, x in enumerate(e["rows"]) if x["valid"]]
+            py = max((l for l in legs if edge.qualifies(l)), key=lambda l: l["ev_per_$1"], default=None)
+            assert (py["i"] if py else None) == e["best"]
+    finally:
+        out.unlink(missing_ok=True)

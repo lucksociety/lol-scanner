@@ -149,7 +149,8 @@ def _edge_panel(c, r, snap_et=""):
     for l in ev.enrich(r, c):
         lk = {True: "✓", False: "✗", None: "–"}[l["cashes_on_lock"]]
         cls = ("pos" if l["ev_per_$1"] > 0 else "neg") + (" best" if l["is_best"] else "")
-        tag = ' <span class="bb">BEST BET</span>' if l["is_best"] else (f' <span class="nl">skipped: {E(l["skip_reason"])}</span>' if l.get("skip_reason") else "")
+        tag = ' <span class="bb">BEST BET</span>' if l["is_best"] else (f' <span class="nl">skipped: {E(l["skip_reason"])}</span>' if l.get("skip_reason") else
+               (' <span class="nl">model ≤ 50%: not eligible</span>' if l.get("qualifies") is False and l["ev_per_$1"] > 0 else ""))
         rows.append(f'<tr class="{cls}"><td>{E(l["market"])}{tag}</td><td>{E(l["side"])}</td><td>{l["ask"]:.2f}</td><td>{_pct(l["implied"])}</td>'
                     f'<td>{_pct(l["fair_prob"])}</td><td>{_pct(l["our_prob"])}</td><td>{_p(l["ratings_only_prob"])}</td><td>{l["edge_pct"]:+.1f}</td>'
                     f'<td>{l["ev_per_$1"]:+.3f}</td><td class="lk">{lk}</td><td>{l["volume"] or 0:,}</td></tr>')
@@ -162,7 +163,9 @@ def _edge_panel(c, r, snap_et=""):
         verdict = (f'<div class="verdict bet">BEST BET · {E(m)} · {E(sd)} @ {b["ask"]:.2f} · our {_pct(b["our_prob"])} vs no-vig {_pct(b["fair_prob"])} · '
                    f'edge {b["edge_pct"]:+.1f} pp · EV {b["ev_per_$1"]:+.3f}/$1 · cashes on lock {"✓" if b["cashes_on_lock"] else ("✗" if b["cashes_on_lock"] is False else "–")} (info)</div>')
     else:
-        verdict = '<div class="verdict pass">PASS · no Jupiter line has +EV after fees</div>'
+        top = (f' Top +EV line excluded by the &gt;50% rule: {E(ev.market_side(a)[0])} · {E(ev.market_side(a)[1])} @ {a["ask"]:.2f} '
+               f'(model {_pct(a["our_prob"])}, EV {a["ev_per_$1"]:+.3f}).') if (a and r.get("best_bet_rule_version")) else ""
+        verdict = f'<div class="verdict pass">NO BET · {E(ev.best_summary(r)["reason"])}.{top}</div>'
     sec = ""
     return (head + verdict + sec + warn +
             '<div class="tw"><table class="mk"><tr><th>Market</th><th>Side</th><th>Price</th><th>Implied</th><th>No-vig</th><th>Our sim</th>'
@@ -170,7 +173,7 @@ def _edge_panel(c, r, snap_et=""):
             + "".join(rows) + '</table></div>'
             '<p class="muted">Sorted by EV per $1 (fee 0.07·p·(1−p) included). Implied = raw ask; No-vig = ask normalised within its binary pair. '
             'Our sim = the frozen headline distribution (v2.1-ratings and later: ratings-only; v2 files: draft-path sims); Ratings-only = patch-recency Elo without the draft layer. '
-            f'BEST BET = highest-EV Jupiter line (every market and alt line, both sides) with EV &gt; 0; lines priced under 0.03 / over 0.97 or with no volume and no orderbook are skipped. '
+            f'BEST BET = highest-EV Jupiter line (every market and alt line, both sides) among lines with model probability &gt; 50% AND EV &gt; 0; lines priced under 0.03 / over 0.97 or with no volume and no orderbook are skipped. If none qualifies: NO BET. '
             'Cashes on lock is info only.</p>{ex}'
             f'<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
 
@@ -250,7 +253,7 @@ def _slate(fc, erows, edge, srows=(), date=""):
         win = f'{A["code"]} {_pct(s["p_series_a"])} · {B["code"]} {_pct(1 - s["p_series_a"])}'
         bs = ev.best_summary(erows.get(c["match_id"])) if edge else {"pass": True, "reason": "edge layer not run"}
         if bs["pass"]:
-            bet = f'<td class="pass">PASS</td><td colspan="5" class="muted">{E(bs["reason"])}</td>'
+            bet = f'<td class="pass">{E(bs.get("verdict", "PASS"))}</td><td colspan="5" class="muted">{E(bs["reason"])}</td>'
         else:
             bet = (f'<td class="bet">{E(bs["market"])} · {E(bs["side"])}</td><td>{bs["ask"]:.2f}</td><td>{_pct(bs["our_prob"])}</td>'
                    f'<td>{_pct(bs["fair_prob"])}</td><td>{bs["edge_pct"]:+.1f}</td><td>{bs["ev_per_$1"]:+.3f}</td>')
@@ -275,7 +278,7 @@ def _slate(fc, erows, edge, srows=(), date=""):
             f'<p class="eh">POST-FORECAST: Jupiter prices read only after the forecast froze; they never feed back into it{snap}</p>'
             '<div class="tw"><table><tr><th>Time (ET)</th><th>League</th><th>Matchup</th><th>Lock (exact %)</th><th>Series win</th>'
             '<th>Best bet (market · side)</th><th>Jupiter price</th><th>Our prob</th><th>No-vig mkt</th><th>Edge pp</th><th>EV/$1</th><th>Final</th><th>Sim</th></tr>'
-            + "".join(t for _, t in items) + '</table></div><p class="muted">PASS = no Jupiter line has +EV after fees. The lock is the headline score prediction; the best bet is the highest-EV line regardless of it. '
+            + "".join(t for _, t in items) + '</table></div><p class="muted">BEST BET = highest-EV Jupiter line with model probability &gt; 50% and EV &gt; 0 (after fees, price/liquidity guard applied). NO BET = no line meets both. PASS = no Jupiter market. The lock is the headline score prediction; the best bet is chosen regardless of it. '
             'NOT MODELED / TEAMS TBD / NO LOCK rows are listed so no series is dropped; none of them can carry a bet.</p></section>')
 
 
@@ -450,7 +453,7 @@ def render(date, version=None, write_index=True, srows=None):
 <div class="meta">{fmeta}</div>
 <div class="nav"><a class="simbtn" href="simulate.html?date={E(date)}">🎲 Simulate {E(pretty)}: ratings sim + edge finder</a></div></div></header>
 <main>{_slate(fc, erows, edge, srows, date)}{cards}{bt}</main>
-<footer>Forecast: {("model " + E(fc.get("model_version", "")) + (" = ratings-only headline (patch-recency map Elo, cross-region tuned); draft-path sims shown as an informational panel" if str(fc.get("model_version", "")).startswith(("v2.1-ratings", "v2.2")) else " = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced)") + ", data: lolesports, gol.gg, Data Dragon") if is_v2 else "lolesports schedule; model v2 when frozen"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '0.07·p·(1−p)')}. BEST BET = highest-EV Jupiter line with EV &gt; 0 (price 0.03–0.97, traded or on the book); otherwise PASS. Not financial advice.</footer>
+<footer>Forecast: {("model " + E(fc.get("model_version", "")) + (" = ratings-only headline (patch-recency map Elo, cross-region tuned); draft-path sims shown as an informational panel" if str(fc.get("model_version", "")).startswith(("v2.1-ratings", "v2.2")) else " = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced)") + ", data: lolesports, gol.gg, Data Dragon") if is_v2 else "lolesports schedule; model v2 when frozen"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '0.07·p·(1−p)')}. BEST BET = highest-EV Jupiter line with model probability &gt; 50% AND EV &gt; 0 (price 0.03–0.97, traded or on the book); otherwise NO BET. Not financial advice.</footer>
 <script src="assets/datenav.js"></script></body></html>"""
     config.DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (config.DOCS_DIR / f"{date}.html").write_text(page(False))
@@ -563,7 +566,7 @@ def write_simulate_page():
  <div><label class="muted" for="co">Opp. price (opt)</label><input id="co" placeholder="0.40 or +130"></div>
  <div><button class="ghost" id="add">+ add</button></div>
 </div>
-<p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest +EV line (any market, any side), otherwise PASS. Cashes on lock is info only. Not financial advice.</p>
+<p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest-EV line (any market, any side) among lines with model probability &gt; 50% AND EV &gt; 0; otherwise NO BET. Cashes on lock is info only. Not financial advice.</p>
 </section></main>
 <footer>Luck Society · in-browser ratings sim (Web Worker) · data: lolesports results → v2 patch-recency Elo, official rosters · Jupiter prices are post-forecast snapshots, never inputs to any forecast.</footer>
 <script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script><script src="assets/datenav.js"></script></body></html>"""

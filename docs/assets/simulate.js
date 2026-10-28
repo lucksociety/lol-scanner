@@ -145,7 +145,7 @@
       const cls = e && e.valid ? (e.ev > 0 ? "pos" : "neg") + (best ? " best" : "") : "";
       const lk = e && e.valid ? { true: "✓", false: "✗", null: "–" }[String(e.cashesOnLock)] : "";
       const fz = fl ? { true: "✓", false: "✗", null: "–" }[String(C.outcomeFn(r)(fl[0], fl[1]))] : null;
-      return `<tr class="${cls}"><td>${E(C.label(r, a, b))}${best ? ' <span class="bb">BEST BET</span>' : (e && e.skip ? ` <span class="nl">skipped: ${E(e.skip)}</span>` : "")}<small class="src">${E(r.src)}</small></td>
+      return `<tr class="${cls}"><td>${E(C.label(r, a, b))}${best ? ' <span class="bb">BEST BET</span>' : (e && e.skip ? ` <span class="nl">skipped: ${E(e.skip)}</span>` : (e && e.valid && e.ev > 0 && !e.qualifies ? ' <span class="nl">model ≤ 50%: not eligible</span>' : ""))}<small class="src">${E(r.src)}</small></td>
         <td><input class="px" data-i="${i}" value="${E(r.price || "")}" placeholder="price" inputmode="decimal"></td>
         <td><input class="opp" data-i="${i}" value="${E(r.opp || "")}" placeholder="${r.pair_id && !r.pair_id.startsWith("std") ? "paired" : "opp (opt)"}" ${r.pair_id && !r.pair_id.startsWith("std") ? "disabled" : ""}></td>
         <td><input type="checkbox" class="fee" data-i="${i}" ${(e && e.valid ? e.feeApplied : r.fee !== false) ? "checked" : ""}></td>
@@ -163,7 +163,7 @@
       $("#verdict").innerHTML = `<div class="verdict bet">BEST BET · ${E(C.label(x, a, b))} @ ${E(x.price)} · model ${pct(x.q)} vs no-vig ${pct(x.fair)} · edge ${x.edge >= 0 ? "+" : ""}${x.edge.toFixed(1)} pp · EV ${x.ev >= 0 ? "+" : ""}${x.ev.toFixed(3)}/$1 · cashes on sim lock ${E(lockTxt)} ${x.cashesOnLock === true ? "✓" : x.cashesOnLock === false ? "✗" : "–"} (info)</div>`;
     } else {
       const n = ev.rows.filter(r => r.valid).length;
-      $("#verdict").innerHTML = `<div class="verdict pass">PASS · ${n ? "no priced line has +EV after fees" : "enter at least one price"}</div>`;
+      $("#verdict").innerHTML = `<div class="verdict pass">NO BET · ${n ? "no priced line has model probability > 50% and +EV after fees" + (ev.bestAny ? ` (top +EV line ${E(C.label(ev.bestAny, a, b))} has model ${pct(ev.bestAny.q)})` : "") : "enter at least one price"}</div>`;
     }
   }
 

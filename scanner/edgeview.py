@@ -115,11 +115,14 @@ def enrich(row, card):
 
 
 def best_summary(row):
-    """Dict for the slate table / Discord: highest-EV eligible Jupiter line (any market, any side) or PASS."""
+    """Dict for the slate table / Discord: the best bet (highest-EV line with model prob > 50% and EV > 0) or
+    NO BET. 'verdict' is the display word: NO BET when Jupiter priced the series but nothing qualifies; PASS only
+    when there is no Jupiter market / edge layer at all."""
     if not row or row.get("status") != "ok":
-        return {"pass": True, "reason": "no Jupiter market"}
+        return {"pass": True, "verdict": "PASS", "reason": (row or {}).get("status") or "no Jupiter market"}
     b = row.get("best_bet")
     if not b:
-        return {"pass": True, "reason": "no Jupiter line has +EV after fees"}
+        from .edge import NO_BET_REASON
+        return {"pass": True, "verdict": "NO BET", "reason": NO_BET_REASON}
     m, s = market_side(b)
-    return {"pass": False, **b, "market": m, "side": s}
+    return {"pass": False, "verdict": "BEST BET", **b, "market": m, "side": s}

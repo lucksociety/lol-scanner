@@ -7,7 +7,7 @@ Daily League of Legends esports scanner with a hard wall between **forecast** an
    adversarial review. Written once to `forecast_log/<date>.json` with timestamp + SHA-256.
 2. **Post-forecast edge layer** (`scanner/edge.py`). Only after the freeze: pulls Jupiter prediction-market
    prices for LoL, de-vigs each binary pair, and shows price / no-vig prob / our prob / edge / EV per $1.
-   **BEST BET** = highest-EV Jupiter line (all markets incl. alt lines, both sides) with EV > 0; otherwise **PASS**.
+   **BEST BET** = highest-EV Jupiter line (all markets incl. alt lines, both sides) among lines with **model probability > 50% AND EV > 0** after fees (price/liquidity guard applied); if none qualifies: **NO BET**. Rule `r3-2026-10-28-prob50-maxEV`, recorded in every edge log as `best_bet_rule_version` (earlier logs: r2 = pure max-EV, commit 624ca75; r1 = had to cash on the lock).
    The locked score stays the headline prediction; "cashes on lock" is shown per line as info only. Sanity guard:
    lines priced < 0.03 or > 0.97, or with no volume and no orderbook, are skipped (`LOL_MIN_ASK` / `LOL_MAX_ASK`).
    Raw odds snapshots go to `odds_snapshots/<date>/<UTC stamp>.json` (+ `odds_log.jsonl`) for CLV grading.
@@ -156,6 +156,6 @@ The offsets fix the LCK under-rating at Worlds. At First Stand 2026 they over-co
 ## Discord `/lol`
 
 `/lol [date]` (pick Today / Tomorrow / Yesterday / any of the next 14 or past 7 days from the autocomplete list, or type YYYY-MM-DD) in the Luck Society Discord server (guild-locked: guild-only command + Worker and workflow allowlist) runs the scanner for that slate (default: today ET) and posts a Luck Society report:
-time (ET), league, matchup, Bo, locked exact score and %, series win %, and the Jupiter best bet with EV, or PASS.
+time (ET), league, matchup, Bo, locked exact score and %, series win %, and the Jupiter best bet with EV, or NO BET (no line > 50% model prob and +EV), or PASS (no Jupiter market).
 Flow: Discord → Cloudflare Worker (`worker/`, Ed25519-verified) → `workflow_dispatch` of `discord-lol.yml` → forecast freeze →
 post-forecast Jupiter edge → dashboard → Discord follow-up. Invite: https://discord.com/oauth2/authorize?client_id=1564914230837248060&scope=bot%20applications.commands&permissions=18432

@@ -39,7 +39,14 @@ def test_edge_log_matches_formulas():
                     assert l["ev_per_$1"] == pytest.approx(ev.ev_per_dollar(l["our_prob"], l["ask"]), abs=1e-3)
             b = r.get("best_bet")
             d = json.loads(p.read_text())
-            if d.get("best_bet_rule", "").startswith("max-EV"):   # current rule: top eligible +EV line, lock ignored
+            if d.get("best_bet_rule_version", "").startswith("r3"):   # current rule: top +EV line with model prob > 50%
+                ok = [l for l in r["legs"] if l.get("eligible") and l["ev_per_$1"] > 0 and l["our_prob"] > 0.5]
+                assert r.get("best_bet_rule_version") == d["best_bet_rule_version"]
+                if b:
+                    assert b["our_prob"] > 0.5 and b["ev_per_$1"] > 0 and b["eligible"] and b["ev_per_$1"] == max(l["ev_per_$1"] for l in ok)
+                elif r.get("status") == "ok":
+                    assert not ok and r["verdict"].startswith("NO BET")
+            elif d.get("best_bet_rule", "").startswith("max-EV"):   # r2 logs (pure max-EV, 624ca75)   # current rule: top eligible +EV line, lock ignored
                 ok = [l for l in r["legs"] if l.get("eligible") and l["ev_per_$1"] > 0]
                 if b:
                     assert b["ev_per_$1"] > 0 and b["eligible"] and b["ev_per_$1"] == max(l["ev_per_$1"] for l in ok)
@@ -78,7 +85,7 @@ def test_discord_payload_limits():
     p = dr.build_payload("2026-10-28")
     assert 1 <= len(p["embeds"]) <= 10 and p["allowed_mentions"] == {"parse": []}
     txt = json.dumps(p)
-    assert "PASS" in txt and "EV" in txt and "NONE" in txt
+    assert "EV" in txt and "NONE" in txt and "PASS" not in txt.replace("PASS (no", "")
     for em in p["embeds"]:
         assert len(em.get("description", "")) <= 4096
         for f in em.get("fields", []):

@@ -362,16 +362,27 @@ def evaluate(card, ev, obs, markets=None):
         x["has_book"] = bool(obs.get(x["market_id"].replace(":NO", "")))
         x["skip_reason"] = sanity_skip(x)
         x["eligible"] = x["skip_reason"] is None
-    plus = [x for x in legs if x["ev_per_$1"] > 0 and x["eligible"]]
-    # BEST BET = highest-EV eligible Jupiter line (every line, alts and both sides). The locked score is the
-    # headline prediction only; cashes_on_lock is informational and never filters the pick.
-    best = max(plus, key=lambda x: x["ev_per_$1"]) if plus else None
-    best_any = best
+        x["qualifies"] = qualifies(x)
+    # BEST BET (rule BEST_BET_RULE_VERSION): highest-EV Jupiter line among lines with model probability > 50% AND
+    # EV > 0 that pass the price/liquidity guard. None qualifies -> NO BET. The lock is the headline prediction only;
+    # cashes_on_lock is informational and never filters the pick. best_any = top +EV guarded line at any
+    # probability, recorded for transparency only (it is never the bet).
+    best = max((x for x in legs if x["qualifies"]), key=lambda x: x["ev_per_$1"], default=None)
+    best_any = max((x for x in legs if x["eligible"] and x["ev_per_$1"] > 0), key=lambda x: x["ev_per_$1"], default=None)
     return legs, best, best_any, not_modeled, unpriced
 
 
-BEST_BET_RULE = (f"max-EV: highest-EV Jupiter line with EV > 0 (any market/side); skip ask < {config.MIN_ASK} or > "
-                 f"{config.MAX_ASK} or no volume and no orderbook; cashes_on_lock is info only")
+def qualifies(leg):
+    """Best-bet eligibility: passes the sanity guard, model probability > MIN_MODEL_PROB, EV > 0."""
+    return leg.get("skip_reason") is None and leg["our_prob"] > MIN_MODEL_PROB and leg["ev_per_$1"] > 0
+
+
+MIN_MODEL_PROB = 0.50
+BEST_BET_RULE_VERSION = "r3-2026-10-28-prob50-maxEV"   # r2 (624ca75) = pure max-EV; r1 = had to cash on the lock
+BEST_BET_RULE = (f"prob>50%+max-EV: highest-EV Jupiter line among lines with model probability > {MIN_MODEL_PROB:.0%} AND EV > 0 "
+                 f"(any market/side); skip ask < {config.MIN_ASK} or > {config.MAX_ASK} or no volume and no orderbook; "
+                 f"none qualifies -> NO BET; cashes_on_lock is info only")
+NO_BET_REASON = f"no Jupiter line has model probability > {MIN_MODEL_PROB:.0%} and +EV after fees"
 
 
 def sanity_skip(leg):
@@ -441,11 +452,11 @@ def run(date, version=None, jup_events=None, jup_log=None):
                      "status": "ok", "jupiter_event_id": ev["eventId"], "jupiter_title": ev["metadata"].get("title"),
                      "jupiter_url": f"https://jup.ag/prediction/{ev['eventId']}",
                      "exact_score_offered": "exact" in offered, "warnings": warn, "legs": legs,
-                     "best_bet": best, "best_ev_any": best_any,
+                     "best_bet": best, "best_ev_any": best_any, "best_bet_rule_version": BEST_BET_RULE_VERSION,
                      "market_inventory": inventory(markets), "n_markets": len(markets), "n_priced_legs": len(legs),
                      "not_modeled": not_modeled, "unpriced": unpriced,
                      "verdict": (f"BEST BET: {best['label']} @ {best['ask']:.2f} (EV {best['ev_per_$1']:+.3f}/$1, model "
-                                 f"{best['our_prob']:.1%} vs no-vig {best['fair_prob']:.1%})") if best else "PASS (no Jupiter line has +EV after fees)"})
+                                 f"{best['our_prob']:.1%} vs no-vig {best['fair_prob']:.1%})") if best else f"NO BET ({NO_BET_REASON})"})
         raw[ev["eventId"]] = {"event": ev, "orderbooks": obs}
     log.append({"endpoint": "GET /orderbook/{marketId}", "ok": obs_ok > 0, "n": obs_ok})
     stamp = fetched.strftime("%Y%m%dT%H%M%SZ")
@@ -472,7 +483,8 @@ def run(date, version=None, jup_events=None, jup_log=None):
            "endpoints_ok": sorted({l["endpoint"] for l in log if l.get("ok")}), "coverage": cov,
            "jupiter_lol_events_listed": [{"id": e["eventId"], "title": e["metadata"].get("title")} for e in events],
            "fee_model": f"{config.JUP_FEE_COEF} * p * (1-p) per $1 contract",
-           "best_bet_rule": BEST_BET_RULE, "series": rows}
+           "best_bet_rule": BEST_BET_RULE, "best_bet_rule_version": BEST_BET_RULE_VERSION,
+           "min_model_prob": MIN_MODEL_PROB, "series": rows}
     config.EDGE_DIR.mkdir(parents=True, exist_ok=True)
     (config.EDGE_DIR / f"{date}{'.v2' if ver == 'v2' else ''}.json").write_text(json.dumps(out, indent=2))
     out["snapshot_file"] = str(snap_file.relative_to(config.ROOT))

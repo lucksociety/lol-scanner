@@ -38,7 +38,7 @@ def _embed_chars(em):
 
 
 def _series_field(c, row, have_edge, short=False):
-    """One embed field per series: teams · format · time / lock + prob · winner % / best bet + EV or PASS."""
+    """One embed field per series: teams · format · time / lock + prob · winner % / best bet + EV, or NO BET (nothing > 50% model prob and +EV), or PASS (no market)."""
     A, B, s = c["team_a"], c["team_b"], c["sim"]
     la, lb = map(int, s["locked_score"].split("-"))
     lock = f"{A['code'] if la > lb else B['code']} {max(la, lb)}-{min(la, lb)}"
@@ -47,7 +47,7 @@ def _series_field(c, row, have_edge, short=False):
     when = str(c.get("start_et", "")).split(", ")[-1]      # "Wed Oct 28, 04:00 PM ET" -> "04:00 PM ET"
     bs = ev.best_summary(row) if have_edge else {"pass": True, "reason": "edge layer not run"}
     if bs["pass"]:
-        bet = f"💰 **PASS** · {bs['reason']}"
+        bet = f"💰 **{bs.get('verdict', 'PASS')}** · {bs['reason']}"
     else:
         bet = f"💰 **{bs['market']} · {bs['side']} @ {bs['ask']:.2f}** · **EV {bs['ev_per_$1']:+.3f}/$1**"
         if not short:
@@ -61,7 +61,7 @@ def _series_field(c, row, have_edge, short=False):
 
 
 def render(date, fc, edge):
-    """Build the /lol message. ONE embed: header + one field per series (PASS and not-modeled included).
+    """Build the /lol message. ONE embed: header + one field per series (NO BET / PASS and not-modeled included).
 
     Why one embed: Discord merges consecutive embeds that share the same `url` into a single gallery card and shows
     only the first one's text, so per-series embeds pointing at the dashboard were silently dropped."""
@@ -104,7 +104,7 @@ def render(date, fc, edge):
         over += 1
     em["color"] = GREEN if bets else GOLD
     n = len(cards) + len(skipped)
-    summary = f"{n} series · {bets} bet{'s' if bets != 1 else ''} · {n - bets} PASS/not modeled" if n else "no series"
+    summary = f"{n} series · {bets} bet{'s' if bets != 1 else ''} · {n - bets} NO BET/not modeled" if n else "no series"
     return {"content": f"🍀 **/lol {date}** · {summary} · full tables: {link}", "embeds": [em],
             "allowed_mentions": {"parse": []}}
 

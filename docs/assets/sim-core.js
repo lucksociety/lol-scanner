@@ -78,6 +78,9 @@
     return null;
   };
 
+  C.MIN_MODEL_PROB = 0.5;
+  C.BEST_BET_RULE_VERSION = "r3-2026-10-28-prob50-maxEV";
+
   C.evaluate = function (rows, res, coef) {
     const lock = C.lockOf(res);
     const parsed = rows.map(r => ({ r, pp: C.parsePrice(r.price) }));
@@ -100,10 +103,14 @@
     });
     // sanity guard: pinned / dead lines can't win (same rule as scanner/edge.py)
     out.forEach(x => { if (x.valid) x.skip = C.sanitySkip(x); });
+    // BEST BET (rule r3, same as scanner/edge.py): highest-EV line, any market/side, among lines with
+    // model probability > 50% AND EV > 0 after the guard; none qualifies -> NO BET (best = null).
+    // q is compared at 4 dp, as edge.py stores it. bestAny = top +EV guarded line at any probability (info only).
     const plus = out.filter(x => x.valid && !x.skip && x.ev > 0);
-    // BEST BET = highest-EV line, any market, any side. The lock is the headline prediction; cashesOnLock is info only.
-    const best = plus.length ? plus.reduce((m, x) => x.ev > m.ev ? x : m) : null;
-    const bestAny = best;
+    out.forEach(x => { if (x.valid) x.qualifies = !x.skip && x.ev > 0 && Math.round(x.q * 1e4) / 1e4 > C.MIN_MODEL_PROB; });
+    const ok = out.filter(x => x.qualifies);
+    const top = a => a.length ? a.reduce((m, x) => x.ev > m.ev ? x : m) : null;
+    const best = top(ok), bestAny = top(plus);
     return { rows: out, best, bestAny, lock };
   };
 

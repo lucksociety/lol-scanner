@@ -51,7 +51,8 @@ def test_kill_totals_listed_not_modeled():
     assert len(kills) == 4 and all(x["yes_ask"] for x in kills)
     assert {l["type"] for l in legs} == {"moneyline", "map_handicap", "totals_over", "totals_under", "game"}
     if best:
-        assert best["ev_per_$1"] > 0 and best["ev_per_$1"] == max(l["ev_per_$1"] for l in legs if l["eligible"])
+        assert best["ev_per_$1"] > 0 and best["our_prob"] > 0.5
+        assert best["ev_per_$1"] == max(l["ev_per_$1"] for l in legs if l["eligible"] and l["our_prob"] > 0.5)
 
 
 def test_game_outcome_on_lock():

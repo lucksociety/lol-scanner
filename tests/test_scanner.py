@@ -33,27 +33,48 @@ def test_bo3_mapping_and_max_ev_rule():
         _mk("H-0", "map_handicap", "Alpha", .30, "-1.5", 'resolve to "Alpha" if Alpha wins 2 or more games than Beta'),
         _mk("H-1", "map_handicap", "Beta", .72, "-1.5", 'resolve to "Alpha" if Alpha wins 2 or more games than Beta'),
         _mk("T-0", "totals", "Over", .40, "2.5"), _mk("T-1", "totals", "Under", .62, "2.5")]}
-    legs, best, *_ = edge.evaluate(c, ev, {})
+    legs, best, best_any, *_ = edge.evaluate(c, ev, {})
     by = {l["label"]: l for l in legs}
     assert by["AAA -1.5 maps"]["our_prob"] == pytest.approx(.40)
     assert by["BBB +1.5 maps"]["our_prob"] == pytest.approx(.60)
     assert by["Over 2.5 maps"]["our_prob"] == pytest.approx(.45)
     assert by["BBB +1.5 maps"]["cashes_on_lock"] is False      # dies on locked 2-0
     assert by["AAA -1.5 maps"]["cashes_on_lock"] is True
-    plus = [l for l in legs if l["ev_per_$1"] > 0]
+    plus = [l for l in legs if l["ev_per_$1"] > 0 and l["our_prob"] > 0.5]
     assert best is not None and best["ev_per_$1"] == max(l["ev_per_$1"] for l in plus)
-    assert best["label"] == "AAA -1.5 maps"   # 0.30 for a 40% shot is the top EV line
+    # rule r3: AAA -1.5 @0.30 (40% shot) is the top raw EV but model prob <= 50%, so it is NOT the bet;
+    # ML AAA (65% @0.55) is the top-EV line above 50%. best_any keeps the excluded line for transparency.
+    assert best["label"] == "ML AAA" and best["qualifies"]
+    assert best_any["label"] == "AAA -1.5 maps" and not best_any["qualifies"] and best_any["ev_per_$1"] > best["ev_per_$1"]
     for pair in ("M", "H", "T"):
         ls = [l for l in legs if l["pair_id"] == pair]
         assert sum(l["fair_prob"] for l in ls) == pytest.approx(1, abs=1e-3)
 
 
 def test_anti_lock_market_can_be_best_bet():
-    ex = {"2-0": .30, "2-1": .25, "1-2": .25, "0-2": .20}
+    ex = {"2-0": .35, "2-1": .10, "1-2": .30, "0-2": .25}     # lock 2-0 but Beta wins the series 55%
     c = _card(3, "2-0", ex)
-    ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .80), _mk("M-1", "moneyline", "Beta", .22)]}
+    ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .57), _mk("M-1", "moneyline", "Beta", .45)]}
     legs, best, best_any, *_ = edge.evaluate(c, ev, {})
     assert best["label"] == "ML BBB" and best["cashes_on_lock"] is False and best_any is best
+
+
+def test_no_bet_when_only_plus_ev_lines_are_under_50pct():
+    ex = {"2-0": .30, "2-1": .25, "1-2": .25, "0-2": .20}     # Alpha 55%, Beta 45%
+    c = _card(3, "2-0", ex)
+    # Beta ML @0.30 is hugely +EV (45% shot) but under 50%; Alpha @0.72 (55%) is -EV -> NO BET
+    ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .72), _mk("M-1", "moneyline", "Beta", .30)]}
+    legs, best, best_any, *_ = edge.evaluate(c, ev, {})
+    assert best is None and best_any["label"] == "ML BBB" and best_any["ev_per_$1"] > 0 and best_any["our_prob"] < 0.5
+    assert not any(l["qualifies"] for l in legs)
+
+
+def test_exactly_50pct_does_not_qualify():
+    assert not edge.qualifies({"skip_reason": None, "our_prob": 0.5, "ev_per_$1": 0.2})
+    assert edge.qualifies({"skip_reason": None, "our_prob": 0.5001, "ev_per_$1": 0.0001})
+    assert not edge.qualifies({"skip_reason": "price < 0.03", "our_prob": 0.9, "ev_per_$1": 0.5})
+    assert not edge.qualifies({"skip_reason": None, "our_prob": 0.9, "ev_per_$1": 0})
+    assert edge.BEST_BET_RULE_VERSION.startswith("r3") and "50%" in edge.BEST_BET_RULE and "NO BET" in edge.BEST_BET_RULE
 
 
 def test_pass_when_nothing_plus_ev():

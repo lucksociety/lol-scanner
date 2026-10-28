@@ -37,9 +37,11 @@ def test_every_series_listed_even_when_all_pass():
     assert names[0].startswith("A1 vs B1 · Bo3") and names[1].startswith("A2 vs B2 · Bo1") and names[2].startswith("A3 vs B3 · Bo5")
     assert "04:00 PM ET" in names[0] and "not modeled" in names[3]
     v = [f["value"] for f in em["fields"]]
-    assert "**A1 2-0** (35.0%)" in v[0] and "A1 62.0% to win" in v[0] and "PASS" in v[0]
+    assert "**A1 2-0** (35.0%)" in v[0] and "A1 62.0% to win" in v[0] and "**NO BET**" in v[0] and "PASS" not in v[0]
+    assert "> 50%" in v[0]
     assert "**B2 1-0**" in v[1] and "B2 60.0% to win" in v[1] and "EV +0.004/$1" in v[1]
     assert "PASS" in v[2] and "no Jupiter market" in v[2]
+    assert "NO BET/not modeled" in dr.render("2026-10-28", fc, edge)["content"]
     assert "only back a bet that cashes on the lock" not in em["description"] and "ignores lock" not in " ".join(v)
 
 
