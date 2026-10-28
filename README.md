@@ -112,3 +112,10 @@ The draft model itself predicts held-out picks far better than uniform (pick NLL
 v2 full is the primary output because the owner asked for draft-driven sims. The ratings-only map probability is recorded on every card (`p_map_a_elo_only`).
 
 Integrity: the zero-market firewall and integrity declaration are unchanged. The only change is that `data_sources` now lists lolesports getTeams/getEventDetails, gol.gg game pages and champion stats, and Data Dragon. None of these is a market source.
+
+## Discord `/lol`
+
+`/lol [date:YYYY-MM-DD]` in Discord runs the scanner for that slate (default: today ET) and posts a Luck Society report:
+time (ET), league, matchup, Bo, locked exact score and %, series win %, and the Jupiter best bet with EV, or PASS.
+Flow: Discord → Cloudflare Worker (`worker/`, Ed25519-verified) → `workflow_dispatch` of `discord-lol.yml` → forecast freeze →
+post-forecast Jupiter edge → dashboard → Discord follow-up. Invite: https://discord.com/oauth2/authorize?client_id=1564914230837248060&scope=bot%20applications.commands&permissions=18432

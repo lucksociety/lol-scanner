@@ -1,0 +1,109 @@
+name: discord-lol
+
+# Dispatched by the Cloudflare Worker (worker/) when someone runs /lol in Discord.
+# Order is the same as daily-scan: FORECAST freeze first (idempotent), then the POST-FORECAST Jupiter edge,
+# then the dashboard, then the Discord report. Secrets: DISCORD_BOT_TOKEN, LOLESPORTS_API_KEY, JUP_API_KEY.
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Slate date YYYY-MM-DD (America/New_York). Blank = today ET."
+        required: false
+        default: ""
+      interaction_token:
+        description: "Discord interaction token (15-min life; set by the Worker)"
+        required: false
+        default: ""
+      application_id:
+        description: "Discord application id"
+        required: false
+        default: "1564914230837248060"
+      channel_id:
+        description: "Channel for the bot-token fallback post"
+        required: false
+        default: ""
+      requested_at:
+        description: "Unix seconds when /lol was invoked"
+        required: false
+        default: ""
+      dry_run:
+        description: "Build the report but post nothing (testing)"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: discord-lol
+  cancel-in-progress: false
+
+jobs:
+  lol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      LOLESPORTS_API_KEY: ${{ secrets.LOLESPORTS_API_KEY }}
+      JUP_API_KEY: ${{ secrets.JUP_API_KEY }}
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      TZ: America/New_York
+      # inputs go through env (never interpolated into scripts) so they cannot inject shell
+      IN_DATE: ${{ inputs.date }}
+      DISCORD_INTERACTION_TOKEN: ${{ inputs.interaction_token }}
+      DISCORD_APPLICATION_ID: ${{ inputs.application_id }}
+      DISCORD_CHANNEL_ID: ${{ inputs.channel_id }}
+      DISCORD_REQUESTED_AT: ${{ inputs.requested_at }}
+      DRY_RUN: ${{ inputs.dry_run }}
+    steps:
+      - name: Mask interaction token
+        run: '[ -n "$DISCORD_INTERACTION_TOKEN" ] && echo "::add-mask::$DISCORD_INTERACTION_TOKEN" || true'
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Restore gol.gg / Data Dragon cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .cache
+          key: scanner-cache-${{ github.run_id }}
+          restore-keys: scanner-cache-
+      - run: pip install -r requirements.txt
+      - name: Resolve + validate date
+        id: d
+        run: |
+          D="$IN_DATE"; [ -z "$D" ] && D=$(date +%F)
+          if ! [[ "$D" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || ! date -d "$D" >/dev/null 2>&1; then
+            echo "bad date: $D"; echo "date=$(date +%F)" >> "$GITHUB_OUTPUT"; echo "BAD_DATE=1" >> "$GITHUB_ENV"; exit 1
+          fi
+          echo "date=$D" >> "$GITHUB_OUTPUT"
+      - name: 1) FORECAST freeze (no-op if already frozen; never recomputed)
+        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage forecast --model v2
+      - name: Commit frozen forecast first
+        run: |
+          git config user.name "lol-scanner-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add forecast_log || true
+          git diff --cached --quiet || git commit -m "forecast: freeze ${{ steps.d.outputs.date }} (/lol)"
+      - name: 2) POST-FORECAST edge layer (fresh Jupiter snapshot)
+        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage edge --model v2
+        continue-on-error: true
+      - name: 3) Dashboard
+        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage dashboard --model v2
+      - name: Push forecast + snapshot + dashboard
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git add odds_snapshots edge_log docs || true
+          git diff --cached --quiet || git commit -m "edge+dashboard: ${{ steps.d.outputs.date }} (/lol)"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && break; sleep 5; done
+      - name: 4) Discord report (dry run = print payload only)
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then python -m scanner.discord_report --date "${{ steps.d.outputs.date }}" --dry-run
+          else python -m scanner.discord_report --date "${{ steps.d.outputs.date }}"; fi
+      - name: Report failure to Discord
+        if: ${{ failure() && !inputs.dry_run }}
+        run: |
+          MSG="workflow step failed (run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+          [ -n "$BAD_DATE" ] && MSG="date must be YYYY-MM-DD, got '${IN_DATE:0:20}'"
+          python -m scanner.discord_report --date "${{ steps.d.outputs.date || 'today' }}" --error "$MSG" || true

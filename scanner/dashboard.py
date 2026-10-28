@@ -3,6 +3,7 @@ Forecast cards render from the frozen forecast; the edge panel renders separatel
 import csv, html, json, shutil
 from pathlib import Path
 from . import config
+from . import edgeview as ev
 from .forecast import load_frozen, frozen_path
 
 E = html.escape
@@ -67,7 +68,7 @@ def _img(u):
     return "https://" + u[len("http://"):] if u.startswith("http://") else u   # avoid mixed content on GitHub Pages
 
 
-def _card(c, edge_row, v1=None):
+def _card(c, edge_row, v1=None, snap_et=""):
     A, B, s = c["team_a"], c["team_b"], c["sim"]
     A.setdefault("elo", A.get("elo_v2", 0)); B.setdefault("elo", B.get("elo_v2", 0))
     la, lb = map(int, s["locked_score"].split("-"))
@@ -97,13 +98,13 @@ def _card(c, edge_row, v1=None):
  <div class="lock">LOCKED EXACT SCORE: <b>{E(lock_team)} {max(la, lb)}-{min(la, lb)}</b> ({_pct(s['locked_score_prob'])}) · map win {A['code']} {_pct(c['model']['p_map_a'])} · E[maps] {s['e_maps']:.2f}</div>
  <div class="dist">{_bar(s['exact'], A['code'], B['code'])}</div>
  <div class="derived">{'<br>'.join(E(d) for d in derived)}</div>
+ {_edge_panel(c, edge_row, snap_et)}
  <div class="form"><div>{E(A['code'])}: {_form(A['form'])}</div><div>{E(B['code'])}: {_form(B['form'])}</div></div>
  {_lineups(c)}
  {_drafts(c)}
  {_v1cmp(c, v1)}
  <details><summary>Adversarial review / disclosed limitations</summary><ul>{flags}</ul></details>
  <div class="integrity">Integrity: market inputs to this forecast = <b>NONE</b> · {s['sims']:,} sims · {_model_line(c)}</div>
- {_edge_panel(c, edge_row)}
 </section>"""
     return out
 
@@ -124,26 +125,70 @@ def _v1cmp(c, v1):
             f'lock {E(s["locked_score"])} ({_pct(s["locked_score_prob"])})</div>')
 
 
-def _edge_panel(c, r):
-    head = '<div class="edge"><div class="eh">POST-FORECAST EDGE PANEL · Jupiter prediction markets · computed after the forecast froze, never fed back</div>'
+def _p(x):
+    return "–" if x is None else _pct(x)
+
+
+def _edge_panel(c, r, snap_et=""):
+    head = ('<div class="edge"><div class="eh">POST-FORECAST EDGE PANEL · Jupiter prediction markets · computed after the forecast froze, '
+            f'never fed back{(" · odds snapshot " + E(snap_et)) if snap_et else ""}</div>')
     if r is None:
         return head + '<p class="muted">Edge layer not run yet.</p></div>'
     if r["status"] != "ok":
-        return head + '<p class="pass">no Jupiter market</p></div>'
+        return head + '<p class="pass">PASS · no Jupiter market for this series</p></div>'
     rows = []
-    for l in r["legs"]:
-        lk = {True: "✔", False: "✘", None: "–"}[l["cashes_on_lock"]]
-        cls = "pos" if l["ev_per_$1"] > 0 else ""
-        best = " best" if r["best_bet"] and l["market_id"] == r["best_bet"]["market_id"] else ""
-        rows.append(f'<tr class="{cls}{best}"><td>{E(l["label"])}</td><td>{l["ask"]:.2f}</td>'
-                    f'<td>{_pct(l["fair_prob"])}</td><td>{_pct(l["our_prob"])}</td><td>{l["edge_pct"]:+.1f}</td>'
-                    f'<td>{l["ev_per_$1"]:+.3f}</td><td>{lk}</td><td>{l["volume"] or 0:,}</td></tr>')
+    for l in ev.enrich(r, c):
+        lk = {True: "✓", False: "✗", None: "–"}[l["cashes_on_lock"]]
+        cls = ("pos" if l["ev_per_$1"] > 0 else "neg") + (" best" if l["is_best"] else "")
+        tag = ' <span class="bb">BEST BET</span>' if l["is_best"] else (' <span class="nl">+EV, dies on lock</span>' if l["is_best_any"] else "")
+        rows.append(f'<tr class="{cls}"><td>{E(l["market"])}{tag}</td><td>{E(l["side"])}</td><td>{l["ask"]:.2f}</td><td>{_pct(l["implied"])}</td>'
+                    f'<td>{_pct(l["fair_prob"])}</td><td>{_pct(l["our_prob"])}</td><td>{_p(l["ratings_only_prob"])}</td><td>{l["edge_pct"]:+.1f}</td>'
+                    f'<td>{l["ev_per_$1"]:+.3f}</td><td class="lk">{lk}</td><td>{l["volume"] or 0:,}</td></tr>')
     warn = "".join(f'<p class="warn">⚠ {E(w)}</p>' for w in r.get("warnings", []))
     ex = "" if r.get("exact_score_offered") else '<p class="muted">Exact-score market: not offered on Jupiter for this series.</p>'
-    verdict_cls = "bet" if r["best_bet"] else "pass"
-    return (head + f'<p class="{verdict_cls}">{E(r["verdict"])}</p>{warn}'
-            f'<div class="tw"><table><tr><th>Market</th><th>Price</th><th>No-vig</th><th>Our</th><th>Edge pp</th><th>EV/$1</th><th>Cashes on lock</th><th>Vol</th></tr>'
-            + "".join(rows) + f'</table></div>{ex}<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
+    b, a = r.get("best_bet"), r.get("best_ev_any")
+    if b:
+        m, sd = ev.market_side(b)
+        verdict = (f'<div class="verdict bet">BEST BET · {E(m)} · {E(sd)} @ {b["ask"]:.2f} · our {_pct(b["our_prob"])} vs no-vig {_pct(b["fair_prob"])} · '
+                   f'edge {b["edge_pct"]:+.1f} pp · EV {b["ev_per_$1"]:+.3f}/$1 · cashes on lock ✓</div>')
+    else:
+        verdict = '<div class="verdict pass">PASS · no lock-compatible Jupiter market has +EV</div>'
+    sec = ""
+    if a and (not b or a["market_id"] != b["market_id"]):
+        m, sd = ev.market_side(a)
+        sec = (f'<p class="secondary">Secondary (ignores the lock rule, NOT a recommendation): best +EV overall = {E(m)} · {E(sd)} @ {a["ask"]:.2f} · '
+               f'EV {a["ev_per_$1"]:+.3f}/$1 · cashes on lock {"✓" if a["cashes_on_lock"] else "✗"}</p>')
+    return (head + verdict + sec + warn +
+            '<div class="tw"><table class="mk"><tr><th>Market</th><th>Side</th><th>Price</th><th>Implied</th><th>No-vig</th><th>Our sim (v2)</th>'
+            '<th>Ratings-only</th><th>Edge pp</th><th>EV/$1</th><th>Cashes on lock</th><th>Vol</th></tr>'
+            + "".join(rows) + '</table></div>'
+            '<p class="muted">Sorted by EV per $1 (fee 0.07·p·(1−p) included). Implied = raw ask; No-vig = ask normalised within its binary pair. '
+            'Our sim = v2 draft-path exact-score distribution; Ratings-only = v2 patch+lineup Elo without the draft layer (comparison only). '
+            f'BEST BET = top +EV market that also cashes on the locked score.</p>{ex}'
+            f'<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
+
+
+def _slate(fc, erows, edge):
+    trs = []
+    for c in fc["cards"]:
+        A, B, s = c["team_a"], c["team_b"], c["sim"]
+        la, lb = map(int, s["locked_score"].split("-"))
+        lock = f'{A["code"] if la > lb else B["code"]} {max(la, lb)}-{min(la, lb)}'
+        win = f'{A["code"]} {_pct(s["p_series_a"])} · {B["code"]} {_pct(1 - s["p_series_a"])}'
+        bs = ev.best_summary(erows.get(c["match_id"])) if edge else {"pass": True, "reason": "edge layer not run"}
+        if bs["pass"]:
+            bet = f'<td class="pass">PASS</td><td colspan="5" class="muted">{E(bs["reason"])}</td>'
+        else:
+            bet = (f'<td class="bet">{E(bs["market"])} · {E(bs["side"])}</td><td>{bs["ask"]:.2f}</td><td>{_pct(bs["our_prob"])}</td>'
+                   f'<td>{_pct(bs["fair_prob"])}</td><td>{bs["edge_pct"]:+.1f}</td><td>{bs["ev_per_$1"]:+.3f}</td>')
+        trs.append(f'<tr><td>{E(c["start_et"])}</td><td>{E(c["league"])}</td><td>{E(A["code"])} vs {E(B["code"])} <span class="bo">Bo{c["bo"]}</span></td>'
+                   f'<td><b>{E(lock)}</b> ({_pct(s["locked_score_prob"])})</td><td>{win}</td>{bet}</tr>')
+    snap = f' · odds snapshot <b>{E(edge["odds_fetched_at_et"])}</b>' if edge else ""
+    return ('<section class="card slate"><h2>Slate · locked score + Jupiter best bet</h2>'
+            f'<p class="eh">POST-FORECAST: Jupiter prices read only after the forecast froze; they never feed back into it{snap}</p>'
+            '<div class="tw"><table><tr><th>Time (ET)</th><th>League</th><th>Matchup</th><th>Lock (exact %)</th><th>Series win</th>'
+            '<th>Best bet (market · side)</th><th>Jupiter price</th><th>Our prob</th><th>No-vig mkt</th><th>Edge pp</th><th>EV/$1</th></tr>'
+            + "".join(trs) + '</table></div><p class="muted">PASS = no Jupiter market that cashes on the locked exact score has +EV after fees.</p></section>')
 
 
 CSS = """
@@ -154,12 +199,12 @@ CSS = """
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 .brand{position:relative;background:var(--black) url(assets/luck-society-banner.jpg) center/cover no-repeat;border-bottom:2px solid var(--gold)}
 .brand .ov{background:linear-gradient(90deg,rgba(1,23,26,.96) 0%,rgba(1,23,26,.82) 55%,rgba(1,23,26,.35) 100%);padding:22px 18px}
-.bi{max-width:980px;margin:auto;display:flex;gap:16px;align-items:center}
+.bi{max-width:1200px;margin:auto;display:flex;gap:16px;align-items:center}
 .logo{width:72px;height:72px;border-radius:50%;border:2px solid var(--gold);flex:none;background:var(--black)}
 h1{margin:0;font:700 26px/1.15 Georgia,"Times New Roman",serif;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-hi)}
 .tag{margin:4px 0 0;color:var(--gold);font-size:13px;letter-spacing:.04em}.voice{margin:6px 0 0;color:var(--ink);font-size:14px}
-.meta{max-width:980px;margin:12px auto 0;color:var(--mut);font-size:13px}.meta p{margin:4px 0}.meta b{color:var(--gold-hi)}
-main{max-width:980px;margin:auto;padding:14px}
+.meta{max-width:1200px;margin:12px auto 0;color:var(--mut);font-size:13px}.meta p{margin:4px 0}.meta b{color:var(--gold-hi)}
+main{max-width:1200px;margin:auto;padding:14px}
 .card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:14px;padding:16px;margin:16px 0}
 h2{font:700 16px/1.3 Georgia,"Times New Roman",serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 8px}
 .hdr{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:space-between;color:var(--mut);font-size:13px}
@@ -180,7 +225,7 @@ h2{font:700 16px/1.3 Georgia,"Times New Roman",serif;letter-spacing:.06em;text-t
 table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
 th,td{padding:5px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--gold);font-weight:600}
 th:first-child,td:first-child{text-align:left}
-tr.pos td{color:var(--pos)}tr.best td{background:#0d3a1a;font-weight:700}.bet{color:var(--pos);font-weight:700}.pass{color:var(--gold-hi);font-weight:700}
+tr.pos td{color:var(--pos)}tr.neg td{color:var(--mut)}td.lk{font-weight:700}.bb{background:var(--gold);color:var(--black);border-radius:4px;padding:0 5px;font-size:11px;margin-left:4px}.nl{border:1px solid var(--bronze);color:var(--gold);border-radius:4px;padding:0 5px;font-size:11px;margin-left:4px}.bo{background:var(--clover);color:var(--ink);border-radius:4px;padding:0 5px;font-size:11px}.verdict{margin:8px 0;padding:8px 10px;border-radius:6px;background:var(--card2);border-left:4px solid var(--gold)}.verdict.bet{border-left-color:var(--pos)}.secondary{color:var(--mut);font-size:12px;font-style:italic}.slate td.pass{font-size:15px}tr.best td{background:#0d3a1a;font-weight:700}.bet{color:var(--pos);font-weight:700}.pass{color:var(--gold-hi);font-weight:700}
 .warn{color:#ffb86b;font-size:13px}.muted{color:var(--mut);font-size:12px}a{color:var(--gold-hi)}
 details{margin-top:6px;color:var(--mut);font-size:13px}summary{cursor:pointer;color:var(--ink)}
 footer{color:var(--mut);font-size:12px;padding:20px;text-align:center;border-top:1px solid var(--line)}
@@ -201,7 +246,8 @@ def render(date, version=None):
     ep = config.EDGE_DIR / f"{date}{'.v2' if is_v2 else ''}.json"
     edge = json.loads(ep.read_text()) if ep.exists() else None
     erows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
-    cards = "".join(_card(c, erows.get(c["match_id"]) if edge else None, v1.get(c["match_id"])) for c in fc["cards"]) or \
+    snap = edge["odds_fetched_at_et"] if edge else ""
+    cards = "".join(_card(c, erows.get(c["match_id"]) if edge else None, v1.get(c["match_id"]), snap) for c in fc["cards"]) or \
         '<section class="card"><p>No series on the official schedule for this date.</p></section>'
     calib = ""
     if config.CALIB_FILE.exists():
@@ -231,12 +277,14 @@ def render(date, version=None):
 <p class="voice">{E(date)} slate 🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀</p></div></div>
 <div class="meta"><p>{E(fc.get('model_version', 'elo-map-v1'))} forecast frozen {E(fc['frozen_at_et'])} · sha256 {E(fc['sha256'][:16])}… · {E(fc['integrity']['protocol'])} · market inputs to forecast: <b>NONE</b></p>
 <p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p></div></div></header>
-<main>{cards}{bt}</main>
+<main>{_slate(fc, erows, edge) if fc['cards'] else ''}{cards}{bt}</main>
 <footer>Forecast: {"model v2 = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced), data: lolesports, gol.gg, Data Dragon" if is_v2 else "results-only map Elo + Monte Carlo series sim (lolesports data)"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '')}. BEST BET = highest +EV market that also cashes on the locked exact score; otherwise PASS. Not financial advice.</footer>
 </body></html>"""
     config.DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (config.DOCS_DIR / f"{date}.html").write_text(doc)
-    (config.DOCS_DIR / "index.html").write_text(doc)
+    latest = max((q.stem for q in config.DOCS_DIR.glob("20??-??-??.html")), default=date)
+    if date >= latest:   # an on-demand /lol run for an older date must not replace the current front page
+        (config.DOCS_DIR / "index.html").write_text(doc)
     (config.DOCS_DIR / ".nojekyll").write_text("")
     src = Path(__file__).resolve().parent.parent / "brand"
     (config.DOCS_DIR / "assets").mkdir(exist_ok=True)
