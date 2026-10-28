@@ -12,7 +12,8 @@
    "🍀 Luck Society scanner could not start (GitHub dispatch HTTP …)". The workflow always answers: when the date has no
    frozen forecast yet it first edits the reply to say it is building one from scratch (this is the slow path: gol.gg refresh,
    draft-model fit, 100k sims), and on any failure, step timeout (forecast 45 min) or cancellation it posts a red error embed.
-   The gol.gg / Data Dragon cache is saved after every run so the next fresh build is incremental.
+   The gol.gg / Data Dragon cache is saved after every run and kept warm by warm-cache.yml (every 6 h), so a fresh build is
+   incremental (~3 min). There is no concurrency group: GitHub silently cancels queued runs in a group, so each /lol runs on its own.
 
 Date picker: the `date` option uses Discord **autocomplete** (Discord has no native date picker). The Worker answers
 type-4 autocomplete requests with up to 25 type-8 choices computed in America/New_York: `Today · Wed Oct 28`,

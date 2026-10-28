@@ -1,0 +1,53 @@
+name: warm-cache
+
+# Keeps the gol.gg corpus / Data Dragon cache warm in actions/cache so a /lol for a date with no frozen forecast
+# only does an incremental refresh (~2-3 min) instead of crawling ~2k gol.gg game pages from scratch (~15 min).
+# Market-free: touches no odds and freezes nothing.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: warm-cache
+  cancel-in-progress: false
+
+jobs:
+  warm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      LOLESPORTS_API_KEY: ${{ secrets.LOLESPORTS_API_KEY }}
+      TZ: America/New_York
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Restore cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .cache
+          key: scanner-cache-${{ github.run_id }}
+          restore-keys: scanner-cache-
+      - run: pip install -r requirements.txt
+      - name: Incremental gol.gg corpus refresh
+        timeout-minutes: 75
+        run: |
+          python - <<'PY'
+          import time
+          from scanner import corpus
+          t = time.time(); g = corpus.build(refresh_live=True)
+          print(f"corpus: {len(g)} games in {time.time()-t:.0f}s")
+          PY
+          du -sh .cache || true
+      - name: Save cache (even on timeout, so progress is kept)
+        if: ${{ always() }}
+        uses: actions/cache/save@v5
+        with:
+          path: .cache
+          key: scanner-cache-${{ github.run_id }}

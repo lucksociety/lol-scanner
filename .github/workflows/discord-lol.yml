@@ -39,9 +39,9 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: discord-lol
-  cancel-in-progress: false
+# No concurrency group on purpose: GitHub silently cancels a *pending* run when a newer one joins the same group,
+# which left those /lol replies stuck on "Scanning…". Every /lol gets its own run and its own answer; the push
+# step below makes simultaneous freezes of the same date safe (the first frozen forecast wins, never recomputed).
 
 jobs:
   lol:
@@ -104,7 +104,8 @@ jobs:
           D="${{ steps.d.outputs.date }}"
           if [ -f "forecast_log/$D.v2.json" ]; then echo "forecast for $D already frozen"; exit 0; fi
           echo "FRESH=1" >> "$GITHUB_ENV"
-          MSG="no frozen forecast for $D yet, so I'm building it now (refresh gol.gg + lineups, fit the draft model, 100k draft-path sims) before looking at any price 🔒. This can take a while on a cold cache; the report lands here, or as a new message in this channel if it takes longer than 15 min."
+          if [ -f .cache/golgg/corpus.json ] && [ "$(ls .cache/golgg/games 2>/dev/null | wc -l)" -gt 1000 ]; then EST="~3 min"; else EST="~15 min (gol.gg cache is cold)"; fi
+          MSG="building a fresh forecast for $D, $EST: refresh gol.gg + lineups, fit the draft model, 100k draft-path sims, all before looking at any price 🔒. The report lands here, or as a new message in this channel if it takes longer than 15 min."
           if [ "$DRY_RUN" = "true" ]; then python -m scanner.discord_report --date "$D" --progress "$MSG" --dry-run
           else python -m scanner.discord_report --date "$D" --progress "$MSG" || true; fi
       - name: 1) FORECAST freeze (no-op if already frozen; never recomputed)
@@ -131,9 +132,23 @@ jobs:
       - name: Push forecast + snapshot + dashboard
         if: ${{ !inputs.dry_run }}
         run: |
+          D="${{ steps.d.outputs.date }}"
           git add odds_snapshots edge_log docs || true
-          git diff --cached --quiet || git commit -m "edge+dashboard: ${{ steps.d.outputs.date }} (/lol)"
-          for i in 1 2 3; do git pull --rebase --autostash && git push && break; sleep 5; done
+          git diff --cached --quiet || git commit -m "edge+dashboard: $D (/lol)"
+          for i in 1 2 3 4; do
+            if git pull --rebase --autostash; then git push && exit 0; else
+              # another /lol froze the same date first: keep main's frozen forecast (never recomputed) and redo edge + dashboard on it
+              git rebase --abort || true
+              git reset -q --hard origin/main
+              python -m scanner --date "$D" --stage edge --model v2 || true
+              python -m scanner --date "$D" --stage dashboard --model v2
+              git add odds_snapshots edge_log docs || true
+              git diff --cached --quiet || git commit -m "edge+dashboard: $D (/lol)"
+              git push && exit 0
+            fi
+            sleep $((RANDOM % 5 + 3))
+          done
+          exit 1
       - name: 4) Discord report (dry run = print payload only)
         id: post
         run: |
