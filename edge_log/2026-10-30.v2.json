@@ -5,9 +5,9 @@
   "forecast_file": "2026-10-30.v2.json",
   "forecast_sha256": "21e76585fc37a54b8a6b9a1a4a5205de66d7644392dc2e7e2e6b7f485c4598a1",
   "forecast_frozen_at_utc": "2026-10-28T15:27:53.005748Z",
-  "odds_fetched_at_utc": "2026-10-28T17:46:42.180464+00:00",
-  "odds_fetched_at_et": "2026-10-28 01:46:42 PM ET",
-  "snapshot_file": "odds_snapshots/2026-10-30/20261028T174642Z.json",
+  "odds_fetched_at_utc": "2026-10-28T17:58:14.459309+00:00",
+  "odds_fetched_at_et": "2026-10-28 01:58:14 PM ET",
+  "snapshot_file": "odds_snapshots/2026-10-30/20261028T175814Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -17,7 +17,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 134
+      "n": 133
     },
     {
       "endpoint": "GET /events/POLY-1262500/markets?includeAllMarkets=true (paged)",
@@ -96,7 +96,7 @@
           "cost": 0.2216,
           "our_prob": 0.4326,
           "cashes_on_lock": false,
-          "contracts_at_ask": 32668.26,
+          "contracts_at_ask": 32621.49,
           "overround": 0.01,
           "fair_prob": 0.2079,
           "edge_pct": 22.47,
@@ -120,7 +120,7 @@
           "cost": 0.8112,
           "our_prob": 0.5674,
           "cashes_on_lock": true,
-          "contracts_at_ask": 33992.52,
+          "contracts_at_ask": 33872.52,
           "overround": 0.01,
           "fair_prob": 0.7921,
           "edge_pct": -22.47,
@@ -361,7 +361,7 @@
         "cost": 0.2216,
         "our_prob": 0.4326,
         "cashes_on_lock": false,
-        "contracts_at_ask": 32668.26,
+        "contracts_at_ask": 32621.49,
         "overround": 0.01,
         "fair_prob": 0.2079,
         "edge_pct": 22.47,
@@ -488,8 +488,8 @@
           "label": "Game 1 Any penta kill",
           "game": 1,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 0.26,
+          "no_ask": 0.75,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -500,7 +500,7 @@
           "game": 1,
           "status": "open",
           "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "no_ask": 0.98,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
