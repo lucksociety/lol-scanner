@@ -207,7 +207,8 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True):
             sb = lineup_status(E, gb, official_roster(teams, row["b"], b), ev_trs, date)
         except NoHistory as e:  # not modeled -> no card, so no bet can be recommended on it
             skipped.append({"match_id": row["match_id"], "series": f'{row["a"]} vs {row["b"]}', "start_utc": row["start"],
-                            "reason": f"no pro-game history in the gol.gg corpus for {row['a'] if (ga is None or str(e) == str(ga)) else row['b']} ({e or 'team not mapped to gol.gg'}); not modeled (PASS)"})
+                            "reason": f"no pro-game history in the gol.gg corpus for {row['a'] if (ga is None or e.args[0] == ga) else row['b']}"
+                                      f"{'' if e.args[0] else ' (team not mapped to gol.gg)'}; not modeled (PASS)"})
             continue
         ca, cb = lineup_combos(sa), lineup_combos(sb)
         g1, g1_src = g1_side(row["match_id"], row["a"])
