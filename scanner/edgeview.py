@@ -115,13 +115,11 @@ def enrich(row, card):
 
 
 def best_summary(row):
-    """Dict for the slate table / Discord: best lock-compatible +EV leg or PASS."""
+    """Dict for the slate table / Discord: highest-EV eligible Jupiter line (any market, any side) or PASS."""
     if not row or row.get("status") != "ok":
         return {"pass": True, "reason": "no Jupiter market"}
     b = row.get("best_bet")
     if not b:
-        a = row.get("best_ev_any")
-        return {"pass": True, "reason": "no +EV market cashes on the lock",
-                "best_any": ({**a, "market": market_side(a)[0], "side": market_side(a)[1]} if a else None)}
+        return {"pass": True, "reason": "no Jupiter line has +EV after fees"}
     m, s = market_side(b)
     return {"pass": False, **b, "market": m, "side": s}

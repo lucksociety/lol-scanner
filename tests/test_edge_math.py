@@ -38,11 +38,15 @@ def test_edge_log_matches_formulas():
                     assert l["edge_pct"] == pytest.approx(100 * (l["our_prob"] - l["fair_prob"]), abs=0.011)
                     assert l["ev_per_$1"] == pytest.approx(ev.ev_per_dollar(l["our_prob"], l["ask"]), abs=1e-3)
             b = r.get("best_bet")
-            if b:   # best bet must be +EV AND cash on the lock, and be the top such leg
+            d = json.loads(p.read_text())
+            if d.get("best_bet_rule", "").startswith("max-EV"):   # current rule: top eligible +EV line, lock ignored
+                ok = [l for l in r["legs"] if l.get("eligible") and l["ev_per_$1"] > 0]
+                if b:
+                    assert b["ev_per_$1"] > 0 and b["eligible"] and b["ev_per_$1"] == max(l["ev_per_$1"] for l in ok)
+                elif r.get("status") == "ok":
+                    assert not ok
+            elif b:   # legacy logs (before the lock rule was removed): best bet had to cash on the lock
                 assert b["ev_per_$1"] > 0 and b["cashes_on_lock"] is True
-                assert b["ev_per_$1"] == max(l["ev_per_$1"] for l in r["legs"] if l["cashes_on_lock"] is True and l["ev_per_$1"] > 0)
-            elif r.get("status") == "ok":
-                assert not [l for l in r["legs"] if l["cashes_on_lock"] is True and l["ev_per_$1"] > 0]
 
 
 @pytest.mark.parametrize("bo", [1, 3, 5])

@@ -22,10 +22,10 @@ def _card(bo, lock, exact):
 
 def _mk(mid, t, title, ask, line=None, rules=""):
     return {"marketId": mid, "sportsMarketType": t, "title": title, "sportsLine": line, "status": "open",
-            "rulesPrimary": rules, "pricing": {"buyYesPriceUsd": int(ask * 1e6), "sellYesPriceUsd": int((ask - .01) * 1e6)}}
+            "rulesPrimary": rules, "pricing": {"buyYesPriceUsd": int(ask * 1e6), "sellYesPriceUsd": int((ask - .01) * 1e6), "volume": 100}}
 
 
-def test_bo3_mapping_and_lock_rule():
+def test_bo3_mapping_and_max_ev_rule():
     ex = {"2-0": .40, "2-1": .25, "1-2": .20, "0-2": .15}
     c = _card(3, "2-0", ex)
     ev = {"markets": [
@@ -40,18 +40,45 @@ def test_bo3_mapping_and_lock_rule():
     assert by["Over 2.5 maps"]["our_prob"] == pytest.approx(.45)
     assert by["BBB +1.5 maps"]["cashes_on_lock"] is False      # dies on locked 2-0
     assert by["AAA -1.5 maps"]["cashes_on_lock"] is True
-    assert best is not None and best["cashes_on_lock"] is True
+    plus = [l for l in legs if l["ev_per_$1"] > 0]
+    assert best is not None and best["ev_per_$1"] == max(l["ev_per_$1"] for l in plus)
+    assert best["label"] == "AAA -1.5 maps"   # 0.30 for a 40% shot is the top EV line
     for pair in ("M", "H", "T"):
         ls = [l for l in legs if l["pair_id"] == pair]
         assert sum(l["fair_prob"] for l in ls) == pytest.approx(1, abs=1e-3)
 
 
-def test_pass_when_only_anti_lock_markets_are_plus_ev():
+def test_anti_lock_market_can_be_best_bet():
     ex = {"2-0": .30, "2-1": .25, "1-2": .25, "0-2": .20}
     c = _card(3, "2-0", ex)
     ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .80), _mk("M-1", "moneyline", "Beta", .22)]}
     legs, best, best_any, *_ = edge.evaluate(c, ev, {})
-    assert best is None and best_any["label"] == "ML BBB"
+    assert best["label"] == "ML BBB" and best["cashes_on_lock"] is False and best_any is best
+
+
+def test_pass_when_nothing_plus_ev():
+    ex = {"2-0": .30, "2-1": .25, "1-2": .25, "0-2": .20}
+    c = _card(3, "2-0", ex)
+    ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .60), _mk("M-1", "moneyline", "Beta", .46)]}
+    legs, best, *_ = edge.evaluate(c, ev, {})
+    assert best is None and all(l["ev_per_$1"] <= 0 for l in legs)
+
+
+def test_sanity_guard_skips_pinned_and_dead_lines():
+    ex = {"2-0": .30, "2-1": .25, "1-2": .25, "0-2": .20}
+    c = _card(3, "2-0", ex)
+    # Beta ML at 0.02 would be the top raw EV, but a sub-0.03 price is skipped; Alpha at 0.50 is the pick
+    ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .50), _mk("M-1", "moneyline", "Beta", .02)]}
+    legs, best, *_ = edge.evaluate(c, ev, {})
+    by = {l["label"]: l for l in legs}
+    assert by["ML BBB"]["ev_per_$1"] > by["ML AAA"]["ev_per_$1"] > 0
+    assert by["ML BBB"]["eligible"] is False and "0.03" in by["ML BBB"]["skip_reason"]
+    assert best["label"] == "ML AAA"
+    # a 0.98 line is skipped too
+    assert edge.sanity_skip({"ask": .98, "volume": 10}) and edge.sanity_skip({"ask": .5, "volume": 10}) is None
+    # no volume and no orderbook -> skipped; volume or a book -> fine
+    assert edge.sanity_skip({"ask": .5, "volume": 0, "has_book": False}) == "no volume and no orderbook"
+    assert edge.sanity_skip({"ask": .5, "volume": 0, "has_book": True}) is None
 
 
 def test_bo1_ignores_handicap_and_totals():

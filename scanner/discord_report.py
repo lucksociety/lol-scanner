@@ -48,13 +48,10 @@ def _series_field(c, row, have_edge, short=False):
     bs = ev.best_summary(row) if have_edge else {"pass": True, "reason": "edge layer not run"}
     if bs["pass"]:
         bet = f"💰 **PASS** · {bs['reason']}"
-        a = bs.get("best_any")
-        if a and not short:
-            bet += f"\n_ignores lock: {a['market']} · {a['side']} @ {a['ask']:.2f}, EV {a['ev_per_$1']:+.3f}/$1, dies on lock_"
     else:
         bet = f"💰 **{bs['market']} · {bs['side']} @ {bs['ask']:.2f}** · **EV {bs['ev_per_$1']:+.3f}/$1**"
         if not short:
-            bet += f"\nour {_pct(bs['our_prob'])} vs no-vig {_pct(bs['fair_prob'])} · edge {bs['edge_pct']:+.1f} pp · cashes on lock ✅"
+            bet += f"\nour {_pct(bs['our_prob'])} vs no-vig {_pct(bs['fair_prob'])} · edge {bs['edge_pct']:+.1f} pp"
     name = f"{A['code']} vs {B['code']} · Bo{c['bo']} · 🕓 {when}"
     if row and row.get("status") == "ok" and not short:
         nm = len(row.get("not_modeled") or [])
@@ -72,7 +69,7 @@ def render(date, fc, edge):
     link = f"{PAGES}/{date}.html"
     cards = fc.get("cards", [])
     skipped = fc.get("skipped") or []
-    desc = ("🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀\n"
+    desc = ("🔒 Score locked before we look at a single price. Then we hunt the biggest edge on the board. Let's stay green 🍀\n"
             f"Forecast **{fc.get('model_version', 'v1')}** frozen {fc['frozen_at_et']} · market inputs to forecast: **NONE**\n"
             + (f"POST-FORECAST Jupiter odds snapshot: {edge['odds_fetched_at_et']} (never fed back into the forecast)"
                if edge else "Edge layer unavailable for this run: forecast only."))

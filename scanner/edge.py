@@ -358,11 +358,31 @@ def evaluate(card, ev, obs, markets=None):
     order = {"moneyline": 0, "map_handicap": 1, "totals_over": 2, "totals_under": 2, "exact": 3, "game": 4}
     legs.sort(key=lambda x: (order.get(x["type"], 9), x["label"]))
     not_modeled.sort(key=lambda x: (x["game"] or 0, x["type"], x["label"]))
-    plus = [x for x in legs if x["ev_per_$1"] > 0]
-    compat = [x for x in plus if x["cashes_on_lock"] is True]
-    best = max(compat, key=lambda x: x["ev_per_$1"]) if compat else None
-    best_any = max(plus, key=lambda x: x["ev_per_$1"]) if plus else None
+    for x in legs:
+        x["has_book"] = bool(obs.get(x["market_id"].replace(":NO", "")))
+        x["skip_reason"] = sanity_skip(x)
+        x["eligible"] = x["skip_reason"] is None
+    plus = [x for x in legs if x["ev_per_$1"] > 0 and x["eligible"]]
+    # BEST BET = highest-EV eligible Jupiter line (every line, alts and both sides). The locked score is the
+    # headline prediction only; cashes_on_lock is informational and never filters the pick.
+    best = max(plus, key=lambda x: x["ev_per_$1"]) if plus else None
+    best_any = best
     return legs, best, best_any, not_modeled, unpriced
+
+
+BEST_BET_RULE = (f"max-EV: highest-EV Jupiter line with EV > 0 (any market/side); skip ask < {config.MIN_ASK} or > "
+                 f"{config.MAX_ASK} or no volume and no orderbook; cashes_on_lock is info only")
+
+
+def sanity_skip(leg):
+    """Liquidity / price guard so dead or pinned lines can't win the best bet. Returns a reason or None."""
+    if leg["ask"] < config.MIN_ASK:
+        return f"price < {config.MIN_ASK:.2f}"
+    if leg["ask"] > config.MAX_ASK:
+        return f"price > {config.MAX_ASK:.2f}"
+    if not (leg.get("volume") or 0) > 0 and not leg.get("has_book") and not leg.get("contracts_at_ask"):
+        return "no volume and no orderbook"
+    return None
 
 
 def inventory(markets):
@@ -424,8 +444,8 @@ def run(date, version=None, jup_events=None, jup_log=None):
                      "best_bet": best, "best_ev_any": best_any,
                      "market_inventory": inventory(markets), "n_markets": len(markets), "n_priced_legs": len(legs),
                      "not_modeled": not_modeled, "unpriced": unpriced,
-                     "verdict": (f"BEST BET: {best['label']} @ {best['ask']:.2f} (EV {best['ev_per_$1']:+.3f}/$1, cashes on lock "
-                                 f"{card['sim']['locked_score']})") if best else "PASS (no +EV market that cashes on the locked score)"})
+                     "verdict": (f"BEST BET: {best['label']} @ {best['ask']:.2f} (EV {best['ev_per_$1']:+.3f}/$1, model "
+                                 f"{best['our_prob']:.1%} vs no-vig {best['fair_prob']:.1%})") if best else "PASS (no Jupiter line has +EV after fees)"})
         raw[ev["eventId"]] = {"event": ev, "orderbooks": obs}
     log.append({"endpoint": "GET /orderbook/{marketId}", "ok": obs_ok > 0, "n": obs_ok})
     stamp = fetched.strftime("%Y%m%dT%H%M%SZ")
@@ -451,7 +471,8 @@ def run(date, version=None, jup_events=None, jup_log=None):
            "snapshot_file": str(snap_file.relative_to(config.ROOT)), "endpoints": log,
            "endpoints_ok": sorted({l["endpoint"] for l in log if l.get("ok")}), "coverage": cov,
            "jupiter_lol_events_listed": [{"id": e["eventId"], "title": e["metadata"].get("title")} for e in events],
-           "fee_model": f"{config.JUP_FEE_COEF} * p * (1-p) per $1 contract", "series": rows}
+           "fee_model": f"{config.JUP_FEE_COEF} * p * (1-p) per $1 contract",
+           "best_bet_rule": BEST_BET_RULE, "series": rows}
     config.EDGE_DIR.mkdir(parents=True, exist_ok=True)
     (config.EDGE_DIR / f"{date}{'.v2' if ver == 'v2' else ''}.json").write_text(json.dumps(out, indent=2))
     out["snapshot_file"] = str(snap_file.relative_to(config.ROOT))

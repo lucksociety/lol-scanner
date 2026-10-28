@@ -40,6 +40,7 @@ def test_every_series_listed_even_when_all_pass():
     assert "**A1 2-0** (35.0%)" in v[0] and "A1 62.0% to win" in v[0] and "PASS" in v[0]
     assert "**B2 1-0**" in v[1] and "B2 60.0% to win" in v[1] and "EV +0.004/$1" in v[1]
     assert "PASS" in v[2] and "no Jupiter market" in v[2]
+    assert "only back a bet that cashes on the lock" not in em["description"] and "ignores lock" not in " ".join(v)
 
 
 def test_no_edge_layer_still_lists_series():

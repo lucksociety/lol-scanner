@@ -50,7 +50,7 @@ near(C.parsePrice('62%').p, 0.62); assert(C.parsePrice('abc') === null); assert(
 // outcome functions agree with scanner/edge.py (printed by python into CASES)
 const cases = JSON.parse(process.argv[2]);
 for (const c of cases) { const f = C.outcomeFn(c.mk); assert.strictEqual(f(c.a, c.b), c.want, JSON.stringify(c)); }
-// evaluate: lock rule + best bet
+// evaluate: max-EV best bet (lock is info only) + sanity guard
 const res = { n: 100, bo: 3, exact: { '2-0': 40, '2-1': 25, '1-2': 20, '0-2': 15 }, reach: [100, 100, 45], gwin: [60, 60, 25] };
 const rows = [
   { kind: 'ml', side: 'A', price: '0.55', pair_id: 'M' }, { kind: 'ml', side: 'B', price: '0.47', pair_id: 'M' },
@@ -60,7 +60,11 @@ const ev = C.evaluate(rows, res, 0.07);
 near(ev.rows[0].q, 0.65); near(ev.rows[0].fair, 0.55 / 1.02); near(ev.rows[0].ev, 0.65 / (0.55 + 0.07 * 0.55 * 0.45) - 1);
 near(ev.rows[2].q, 0.60); assert.strictEqual(ev.rows[2].cashesOnLock, false);
 near(ev.rows[4].q, 0.45 * (25 / 45) + 0.55 * 0.5);
-assert(ev.best && ev.best.cashesOnLock === true && ev.best.ev > 0);
+const top = ev.rows.filter(r => r.valid && !r.skip && r.ev > 0).reduce((m, x) => x.ev > m.ev ? x : m);
+assert(ev.best === top && ev.best.ev > 0 && ev.bestAny === ev.best);
+assert.strictEqual(ev.best.side, 'B'); assert.strictEqual(ev.best.cashesOnLock, false);   // B +1.5 @0.30 (q .60) dies on 2-0, still the pick
+const ev2 = C.evaluate([{ kind: 'ml', side: 'B', price: '0.02', pair_id: 'M' }, { kind: 'ml', side: 'A', price: '0.99', pair_id: 'M' }], res, 0.07);
+assert(ev2.best === null && /0.03/.test(ev2.rows[0].skip) && /0.97/.test(ev2.rows[1].skip));
 assert.strictEqual(ev.lock.key, '2-0');
 // worker: no uncertainty, no side -> analytic Bo3 at p=.6
 global.self = { postMessage: m => { if (m.type === 'done') global.out = m; } };

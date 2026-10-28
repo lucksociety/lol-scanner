@@ -7,7 +7,9 @@ Daily League of Legends esports scanner with a hard wall between **forecast** an
    adversarial review. Written once to `forecast_log/<date>.json` with timestamp + SHA-256.
 2. **Post-forecast edge layer** (`scanner/edge.py`). Only after the freeze: pulls Jupiter prediction-market
    prices for LoL, de-vigs each binary pair, and shows price / no-vig prob / our prob / edge / EV per $1.
-   **BEST BET** = highest +EV market that also cashes on the locked score; otherwise **PASS**.
+   **BEST BET** = highest-EV Jupiter line (all markets incl. alt lines, both sides) with EV > 0; otherwise **PASS**.
+   The locked score stays the headline prediction; "cashes on lock" is shown per line as info only. Sanity guard:
+   lines priced < 0.03 or > 0.97, or with no volume and no orderbook, are skipped (`LOL_MIN_ASK` / `LOL_MAX_ASK`).
    Raw odds snapshots go to `odds_snapshots/<date>/<UTC stamp>.json` (+ `odds_log.jsonl`) for CLV grading.
 3. **Dashboard**: static `docs/index.html` (+ `docs/<date>.html` archive), GitHub Pages ready.
 

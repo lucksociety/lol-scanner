@@ -37,7 +37,7 @@ def leg_spec(leg, code_a, code_b):
     else:
         return None
     return {"kind": kind, "side": side, "line": line, "game": game, "neg": neg, "label": leg["label"],
-            "ask": leg["ask"], "pair_id": leg["pair_id"], "market_id": leg["market_id"], "volume": leg.get("volume"),
+            "ask": leg["ask"], "pair_id": leg["pair_id"], "market_id": leg["market_id"], "volume": leg.get("volume"), "has_book": leg.get("has_book", True),
             "jupiter": True}
 
 

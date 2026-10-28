@@ -13,6 +13,8 @@ LOLESPORTS_API_KEY = os.environ.get("LOLESPORTS_API_KEY", "")
 JUP_BASE = os.environ.get("JUP_BASE", "https://prediction-market-api.jup.ag/api/v1")
 JUP_API_KEY = os.environ.get("JUP_API_KEY", "")          # optional; only needed for api.jup.ag/prediction/v1
 JUP_FEE_COEF = float(os.environ.get("JUP_FEE_COEF", "0.07"))  # taker fee = coef * p * (1-p) per $1 contract
+MIN_ASK = float(os.environ.get("LOL_MIN_ASK", "0.03"))     # best-bet sanity guard: skip pinned/dead prices
+MAX_ASK = float(os.environ.get("LOL_MAX_ASK", "0.97"))
 
 SIMS = int(os.environ.get("LOL_SIMS", "100000"))
 SEED = int(os.environ.get("LOL_SEED", "20261028"))

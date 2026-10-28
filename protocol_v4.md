@@ -10,8 +10,10 @@
    SHA-256, and appended to `forecast_log/forecast_log.jsonl`. Files are immutable (re-freeze raises).
 4. **Post-forecast edge layer only.** `scanner/edge.py` loads the frozen file (hash-verified), asserts the odds
    fetch time is after the freeze, and writes only to `odds_snapshots/` and `edge_log/`.
-5. **Lock-compatible tickets only.** BEST BET = highest +EV market that also cashes if the locked score hits.
-   If none: **PASS**.
+5. **Best bet = biggest edge.** The locked score is the headline prediction. BEST BET = the highest-EV Jupiter
+   line (every market and alt line, both sides) with EV > 0 after fees, whether or not it cashes on the lock
+   ("cashes on lock" is shown per line as info only). Sanity guard: lines priced under 0.03 or over 0.97, or with
+   no volume and no orderbook, can't be the best bet. If none: **PASS**.
 6. **Honest method disclosure + adversarial review.** Each card lists the model's limits and the reasons it
    could be wrong (thin samples, cross-region inference, coin-flip maps, no draft/patch/roster adjustment).
 7. **Calibration log.** After results post, `calibration/calibration_log.csv` records Brier, log loss,

@@ -70,6 +70,14 @@
   };
 
   /** rows: [{kind, side, line, game, neg, price (string), opp (string|undefined), pair_id, fee (bool)}] */
+  C.MIN_ASK = 0.03; C.MAX_ASK = 0.97;
+  C.sanitySkip = function (x) {
+    if (x.implied < C.MIN_ASK) return "price < " + C.MIN_ASK.toFixed(2);
+    if (x.implied > C.MAX_ASK) return "price > " + C.MAX_ASK.toFixed(2);
+    if (x.volume === 0 && !x.has_book) return "no volume and no orderbook";
+    return null;
+  };
+
   C.evaluate = function (rows, res, coef) {
     const lock = C.lockOf(res);
     const parsed = rows.map(r => ({ r, pp: C.parsePrice(r.price) }));
@@ -90,10 +98,12 @@
       return { ...r, valid: true, implied: p, fair, overround: opp !== null ? p + opp - 1 : null, q, edge: 100 * (q - fair),
                cost, ev, american: x.pp.american, feeApplied: useFee, cashesOnLock: C.outcomeFn(r)(lock.a, lock.b) };
     });
-    const plus = out.filter(x => x.valid && x.ev > 0);
-    const compat = plus.filter(x => x.cashesOnLock === true);
-    const best = compat.length ? compat.reduce((m, x) => x.ev > m.ev ? x : m) : null;
-    const bestAny = plus.length ? plus.reduce((m, x) => x.ev > m.ev ? x : m) : null;
+    // sanity guard: pinned / dead lines can't win (same rule as scanner/edge.py)
+    out.forEach(x => { if (x.valid) x.skip = C.sanitySkip(x); });
+    const plus = out.filter(x => x.valid && !x.skip && x.ev > 0);
+    // BEST BET = highest-EV line, any market, any side. The lock is the headline prediction; cashesOnLock is info only.
+    const best = plus.length ? plus.reduce((m, x) => x.ev > m.ev ? x : m) : null;
+    const bestAny = best;
     return { rows: out, best, bestAny, lock };
   };
 
