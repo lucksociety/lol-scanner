@@ -82,46 +82,82 @@ def _team_table(now, params):
     return out, cur
 
 
-def export(date, version="v2"):
+def _slate_entry(c, fc):
+    A, B, s = c["team_a"], c["team_b"], c["sim"]
+    return {"match_id": c["match_id"], "a": A["code"], "b": B["code"], "a_name": A["name"], "b_name": B["name"],
+            "bo": c["bo"], "fearless": bool(c["model"].get("fearless", c["bo"] > 1)), "start_et": c["start_et"],
+            "start_utc": c.get("start_utc"), "league": c["league"], "g1_a_blue": c["model"].get("g1_a_blue"), "modeled": True,
+            "elo_v2": [A.get("elo_v2"), B.get("elo_v2")],
+            "lineups": [[{"role": x["role"], "name": x["name"], "status": x["status"]} for x in t.get("lineup", [])] for t in (A, B)],
+            "frozen": {"model_version": fc.get("model_version"), "frozen_at_et": c.get("frozen_at_et") or fc.get("frozen_at_et"),
+                       "p_map_a": c["model"].get("p_map_a"), "p_map_a_elo_only": c["model"].get("p_map_a_elo_only"),
+                       "p_series_a": s["p_series_a"], "locked_score": s["locked_score"], "exact": s["exact"],
+                       "p_game_a": s.get("p_game_a"), "p_game_reached": s.get("p_game_reached")}}
+
+
+def _status_entry(r, status, reason):
+    return {"match_id": r["match_id"], "a": r["a"], "b": r["b"], "a_name": r.get("a_name"), "b_name": r.get("b_name"),
+            "bo": r.get("bo") or 1, "fearless": (r.get("bo") or 1) > 1, "start_et": r.get("start_et", ""), "start_utc": r.get("start"),
+            "league": r.get("league", ""), "g1_a_blue": None, "modeled": False, "status": status, "reason": reason,
+            "lineups": [[], []], "frozen": None}
+
+
+def export(dates, version="v2"):
+    """Rebuild the simulator slate for `dates` (list, or one ISO date). Every scheduled series is listed: frozen
+    cards (preload + frozen lock), plus not-modeled / TBD / not-scanned rows (still simmable on ratings when the
+    teams are known)."""
+    from . import window
+    from .dashboard import _unmodeled_reason
+    if isinstance(dates, str):
+        dates = [dates]
     now = datetime.now(timezone.utc)
+    now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     path = OUT(); path.parent.mkdir(parents=True, exist_ok=True)
     prev = json.loads(path.read_text()) if path.exists() else {}
-    ver = version if frozen_path(date, version).exists() else None
-    fc = load_frozen(date, ver) if frozen_path(date, ver).exists() else {"cards": [], "params": {}}
-    params = fc.get("params", {}) or {}
+    sched = window.load_sched().get("dates", {})
+    slate = dict(prev.get("slate", {}))
+    odds = dict(prev.get("odds", {}))
+    params = {}
+    for date in dates:
+        ver = version if frozen_path(date, version).exists() else None
+        fc = load_frozen(date, ver) if frozen_path(date, ver).exists() else {"cards": [], "params": {}}
+        params = fc.get("params") or params
+        slate[date] = []
+        edge_p = config.EDGE_DIR / f"{date}{'.v2' if str(fc.get('model_version', '')).startswith('v2') else ''}.json"
+        edge = json.loads(edge_p.read_text()) if (fc["cards"] and edge_p.exists()) else None
+        erows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
+        for c in fc["cards"]:
+            A, B = c["team_a"], c["team_b"]
+            slate[date].append(_slate_entry(c, fc))
+            r = erows.get(c["match_id"])
+            if r and r.get("status") == "ok":
+                legs = [x for x in (leg_spec(l, A["code"], B["code"]) for l in r["legs"]) if x]
+                odds[c["match_id"]] = {"a": A["code"], "b": B["code"], "date": date, "fetched_at_et": edge["odds_fetched_at_et"],
+                                       "title": r.get("jupiter_title"), "url": r.get("jupiter_url"), "legs": legs,
+                                       "not_modeled": r.get("not_modeled", [])}
+        have = {c["match_id"] for c in fc["cards"]}
+        skipped = {x["match_id"]: x["reason"] for x in fc.get("skipped", [])}
+        for r in sched.get(date, []):
+            if r["match_id"] not in have:
+                st, why = _unmodeled_reason(r, skipped, now_iso)
+                slate[date].append(_status_entry(r, st, why))
+        slate[date].sort(key=lambda m: m.get("start_utc") or "")
+    if not params:   # ratings params from the newest frozen v2 forecast
+        for q in sorted(config.FORECAST_DIR.glob("20??-??-??.v2.json"), reverse=True):
+            params = json.loads(q.read_text()).get("params") or {}
+            if params:
+                break
     teams, patch = _team_table(now, params)
     if teams is None:   # cold cache: keep the previous ratings table rather than publishing nothing
         teams, patch = prev.get("teams", []), prev.get("patch")
     o = params.get("outcome_model", {})
     hs = params.get("hand_set", {})
-    slate = dict(prev.get("slate", {}))
-    odds = dict(prev.get("odds", {}))
-    slate[date] = []
-    edge_p = config.EDGE_DIR / f"{date}{'.v2' if str(fc.get('model_version', '')).startswith('v2') else ''}.json"
-    edge = json.loads(edge_p.read_text()) if edge_p.exists() else None
-    erows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
-    for c in fc["cards"]:
-        A, B, s = c["team_a"], c["team_b"], c["sim"]
-        slate[date].append({"match_id": c["match_id"], "a": A["code"], "b": B["code"], "a_name": A["name"], "b_name": B["name"],
-                            "bo": c["bo"], "fearless": bool(c["model"].get("fearless", c["bo"] > 1)), "start_et": c["start_et"],
-                            "league": c["league"], "g1_a_blue": c["model"].get("g1_a_blue"),
-                            "elo_v2": [A.get("elo_v2"), B.get("elo_v2")],
-                            "lineups": [[{"role": x["role"], "name": x["name"], "status": x["status"]} for x in t.get("lineup", [])] for t in (A, B)],
-                            "frozen": {"model_version": fc.get("model_version"), "frozen_at_et": fc.get("frozen_at_et"),
-                                       "p_map_a": c["model"].get("p_map_a"), "p_map_a_elo_only": c["model"].get("p_map_a_elo_only"),
-                                       "p_series_a": s["p_series_a"], "locked_score": s["locked_score"], "exact": s["exact"],
-                                       "p_game_a": s.get("p_game_a"), "p_game_reached": s.get("p_game_reached")}})
-        r = erows.get(c["match_id"])
-        if r and r.get("status") == "ok":
-            legs = [x for x in (leg_spec(l, A["code"], B["code"]) for l in r["legs"]) if x]
-            odds[c["match_id"]] = {"a": A["code"], "b": B["code"], "date": date, "fetched_at_et": edge["odds_fetched_at_et"],
-                                   "title": r.get("jupiter_title"), "url": r.get("jupiter_url"), "legs": legs,
-                                   "not_modeled": r.get("not_modeled", [])}
-    keep = sorted(slate)[-14:]
+    keep = sorted(slate)[-21:]
     slate = {d: slate[d] for d in keep}
     live = {m["match_id"] for d in keep for m in slate[d]}
     odds = {k: v for k, v in odds.items() if k in live}
-    out = {"generated_at_utc": now.isoformat(), "patch": patch, "latest_date": max(keep) if keep else date,
+    out = {"generated_at_utc": now.isoformat(), "patch": patch, "latest_date": max(keep) if keep else None,
+           "today_et": window.today_et(now),
            "label": "Ratings export for the in-browser sim (no market inputs). Odds are post-forecast snapshots for the edge comparison only.",
            "params": {"elo_scale": ratings.SCALE, "rating_sd": hs.get("rating_sd", 0.35), "map_sd": hs.get("map_sd", 0.20),
                       "side_blue_logit": o.get("side_blue", 0.0), "q_loser_blue": params.get("q_loser_blue", 0.5),

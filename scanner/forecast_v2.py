@@ -172,7 +172,7 @@ def draft_summary(E, sp, out, combo, base_logit, a_code, b_code, g1_a_blue):
     return games
 
 
-def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True):
+def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, only=None):
     now = now or datetime.now(timezone.utc)
     sims = sims or config.SIMS
     events = events if events is not None else schedule.fetch_all_events()
@@ -186,7 +186,8 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True):
         teams = schedule._get("getTeams")["data"]["teams"]
     except Exception:
         teams = json.loads((config.CACHE_DIR / "teams_all.json").read_text())["data"]["teams"]
-    slate = [r for r in rows if _et_date(r["start"]) == date and r["a"] != "TBD" and r["b"] != "TBD"]
+    slate = [r for r in rows if _et_date(r["start"]) == date and r["a"] != "TBD" and r["b"] != "TBD"
+             and (only is None or r["match_id"] in only)]
     live_patch = cal.on(date)
     try:
         ext, meta_info = external_meta(E, live_patch)

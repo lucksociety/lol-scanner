@@ -35,7 +35,10 @@ def test_sim_data_export_shape():
     assert {"side_blue_logit", "q_loser_blue", "rating_sd", "map_sd", "fee_coef"} <= set(d["params"])
     for date, ms in d["slate"].items():
         for m in ms:
-            assert m["frozen"]["locked_score"] in m["frozen"]["exact"]
+            if m.get("frozen"):
+                assert m["frozen"]["locked_score"] in m["frozen"]["exact"]
+            else:   # listed so the slate never drops a series, but never carries a lock
+                assert m.get("modeled") is False and m.get("status")
 
 
 JS_TEST = r"""

@@ -116,17 +116,50 @@ def _same(team, jname):
     return j in toks or any(t and (t == j or (len(t) > 3 and (t in j or j in t))) for t in toks)
 
 
-def match_event(card, events):
+def _event_start(e):
+    """Jupiter event start as an aware UTC datetime (beginAt unix seconds; else closeTime), or None."""
+    b = e.get("beginAt") or (e.get("metadata") or {}).get("beginAt")
+    try:
+        if b:
+            return datetime.fromtimestamp(int(b), timezone.utc)
+    except (TypeError, ValueError):
+        pass
+    ct = (e.get("metadata") or {}).get("closeTime")
+    try:
+        return datetime.fromisoformat(ct.replace("Z", "+00:00")) if ct else None
+    except ValueError:
+        return None
+
+
+def _day_gap(card, e):
+    """|ET calendar-day difference| between the official lolesports start and Jupiter's start (None = unknown).
+    Jupiter/Polymarket slugs and close times are often a day off (UTC / next-day close), so +/-1 day still matches."""
+    st = _event_start(e)
+    if not st or not card.get("start_utc"):
+        return None
+    cs = datetime.fromisoformat(card["start_utc"].replace("Z", "+00:00"))
+    return abs((st.astimezone(ET).date() - cs.astimezone(ET).date()).days)
+
+
+def match_event(card, events, max_days=1):
+    """Same two teams (either order) and a Jupiter start within +/-max_days ET days of the official start;
+    the closest start wins (the same pair can meet twice in one event, e.g. Swiss then knockouts)."""
+    best = None
     for e in events:
-        title = e.get("metadata", {}).get("title", "")
         teams = {m.get("title") for m in e.get("markets", []) if m.get("sportsMarketType") == "moneyline"}
         if len(teams) != 2:
             continue
         ta, tb = sorted(teams)
-        if ((_same(card["team_a"], ta) and _same(card["team_b"], tb)) or
+        if not ((_same(card["team_a"], ta) and _same(card["team_b"], tb)) or
                 (_same(card["team_a"], tb) and _same(card["team_b"], ta))):
-            return e
-    return None
+            continue
+        gap = _day_gap(card, e)
+        if gap is not None and gap > max_days:
+            continue
+        key = 99 if gap is None else gap
+        if best is None or key < best[0]:
+            best = (key, e)
+    return best[1] if best else None
 
 
 # ------------------------------------------------------------------ pricing
@@ -345,7 +378,7 @@ def inventory(markets):
     return {t: {"markets": v["markets"], "lines": sorted(v["lines"]), "games": sorted(v["games"])} for t, v in sorted(inv.items())}
 
 
-def run(date, version=None):
+def run(date, version=None, jup_events=None, jup_log=None):
     if version and not frozen_path(date, version).exists():
         version = None
     if not frozen_path(date, version).exists():
@@ -354,9 +387,10 @@ def run(date, version=None):
     ver = "v2" if str(fc.get("model_version", "")).startswith("v2") else "v1"
     frozen_at = datetime.fromisoformat(fc["frozen_at_utc"].replace("Z", "+00:00"))
     fetched = datetime.now(timezone.utc)
-    assert fetched > frozen_at, "odds fetch must happen strictly after the forecast freeze"
-    log = []
-    events = fetch_lol_events(log)
+    latest = datetime.fromisoformat(fc.get("frozen_at_utc_latest", fc["frozen_at_utc"]).replace("Z", "+00:00"))
+    assert fetched > max(frozen_at, latest), "odds fetch must happen strictly after the forecast freeze (incl. addenda)"
+    log = list(jup_log or [])
+    events = jup_events if jup_events is not None else fetch_lol_events(log)
     rows, raw = [], {}
     obs_ok = 0
     for card in fc["cards"]:

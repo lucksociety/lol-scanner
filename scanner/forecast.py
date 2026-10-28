@@ -86,11 +86,12 @@ def _flags(R, a, b, pm, fa, fb, row):
     return f
 
 
-def build_forecast(date, now=None, events=None):
+def build_forecast(date, now=None, events=None, only=None):
     now = now or datetime.now(timezone.utc)
     events = events if events is not None else schedule.fetch_all_events()
     rows = schedule.series_rows(events)
-    slate = [r for r in rows if _et_date(r["start"]) == date and r["a"] != "TBD" and r["b"] != "TBD"]
+    slate = [r for r in rows if _et_date(r["start"]) == date and r["a"] != "TBD" and r["b"] != "TBD"
+             and (only is None or r["match_id"] in only)]
     cards = []
     for i, row in enumerate(slate):
         cutoff = min(row["start"], now.strftime("%Y-%m-%dT%H:%M:%SZ"))
@@ -118,6 +119,32 @@ def build_forecast(date, now=None, events=None):
     return body
 
 
+def addendum_paths(date, version=None):
+    """Addenda: series that appeared on the schedule (e.g. TBD -> teams set) after <date> was first frozen.
+    Each addendum is its own immutable, hash-stamped freeze: forecast_log/<date>[.v2].addN.json."""
+    base = frozen_path(date, version)
+    stem = base.name[:-len(".json")]
+    return sorted(base.parent.glob(f"{stem}.add*.json"), key=lambda q: int(q.name[len(stem) + 4:-5] or 0))
+
+
+def _stamp(body, now):
+    body = dict(body)
+    body["frozen_at_utc"] = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    body["frozen_at_et"] = now.astimezone(ET).strftime("%Y-%m-%d %I:%M:%S %p ET")
+    body["sha256"] = canonical_hash({k: v for k, v in body.items() if k != "sha256"})
+    return body
+
+
+def _log(body, p, event="FROZEN"):
+    with open(config.FORECAST_DIR / "forecast_log.jsonl", "a") as f:
+        f.write(json.dumps({"event": event, "date": body["date"], "frozen_at_utc": body["frozen_at_utc"],
+                            "sha256": body["sha256"], "n_series": len(body["cards"]),
+                            "model_version": body.get("model_version"), "file": p.name,
+                            "locks": {c["match_id"]: f'{c["team_a"]["code"]} vs {c["team_b"]["code"]} -> {c["sim"]["locked_score"]}'
+                                      for c in body["cards"]},
+                            "market_inputs_to_forecast": "NONE"}) + "\n")
+
+
 def freeze(body, now=None):
     """Write the forecast once. Refuses to overwrite an existing frozen file."""
     now = now or datetime.now(timezone.utc)
@@ -125,26 +152,68 @@ def freeze(body, now=None):
     if p.exists():
         raise FileExistsError(f"{p} already frozen; forecasts are immutable")
     config.FORECAST_DIR.mkdir(parents=True, exist_ok=True)
-    body = dict(body)
-    body["frozen_at_utc"] = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-    body["frozen_at_et"] = now.astimezone(ET).strftime("%Y-%m-%d %I:%M:%S %p ET")
-    body["sha256"] = canonical_hash({k: v for k, v in body.items() if k != "sha256"})
+    body = _stamp(body, now)
     p.write_text(json.dumps(body, indent=2))
-    with open(config.FORECAST_DIR / "forecast_log.jsonl", "a") as f:
-        f.write(json.dumps({"event": "FROZEN", "date": body["date"], "frozen_at_utc": body["frozen_at_utc"],
-                            "sha256": body["sha256"], "n_series": len(body["cards"]),
-                            "model_version": body.get("model_version"), "file": p.name,
-                            "locks": {c["match_id"]: f'{c["team_a"]["code"]} vs {c["team_b"]["code"]} -> {c["sim"]["locked_score"]}'
-                                      for c in body["cards"]},
-                            "market_inputs_to_forecast": "NONE"}) + "\n")
+    _log(body, p)
+    return body
+
+
+def freeze_addendum(body, now=None):
+    """Freeze series that were not on the date's original frozen slate. Never touches the base file or earlier
+    addenda; refuses any series that is already frozen for that date."""
+    now = now or datetime.now(timezone.utc)
+    ver = version_of(body)
+    base = frozen_path(body["date"], ver)
+    if not base.exists():
+        raise FileNotFoundError(f"{base} missing: freeze the base slate first")
+    have = load_frozen(body["date"], ver)
+    dup = {c["match_id"] for c in body["cards"]} & {c["match_id"] for c in have["cards"]}
+    if dup:
+        raise FileExistsError(f"series {sorted(dup)} already frozen for {body['date']}; forecasts are immutable")
+    n = len(addendum_paths(body["date"], ver)) + 1
+    p = base.with_name(f"{base.name[:-5]}.add{n}.json")
+    body = _stamp({**body, "addendum": n}, now)
+    p.write_text(json.dumps(body, indent=2))
+    _log(body, p, "FROZEN_ADDENDUM")
+    return body
+
+
+def _verified(p, date):
+    body = json.loads(p.read_text())
+    want = body.get("sha256")
+    got = canonical_hash({k: v for k, v in body.items() if k != "sha256"})
+    if not body.get("frozen_at_utc") or want != got:
+        raise RuntimeError(f"forecast {date} ({p.name}) is not frozen or hash mismatch ({want} != {got})")
     return body
 
 
 def load_frozen(date, version=None):
-    """Read-only loader with hash verification (used by edge.py and dashboard.py)."""
-    body = json.loads(frozen_path(date, version).read_text())
-    want = body.get("sha256")
-    got = canonical_hash({k: v for k, v in body.items() if k != "sha256"})
-    if not body.get("frozen_at_utc") or want != got:
-        raise RuntimeError(f"forecast {date} is not frozen or hash mismatch ({want} != {got})")
+    """Read-only loader with hash verification (used by edge.py and dashboard.py). Addenda (series frozen later
+    for the same date) are verified one by one and merged in; each card keeps its own freeze time."""
+    body = _verified(frozen_path(date, version), date)
+    for c in body["cards"]:
+        c.setdefault("frozen_at_et", body["frozen_at_et"])
+    adds = addendum_paths(date, version)
+    if adds:
+        body["addenda"] = []
+        seen = {c["match_id"] for c in body["cards"]}
+        for q in adds:
+            a = _verified(q, date)
+            body["addenda"].append({"file": q.name, "frozen_at_utc": a["frozen_at_utc"], "frozen_at_et": a["frozen_at_et"],
+                                    "sha256": a["sha256"], "n_series": len(a["cards"])})
+            for c in a["cards"]:
+                if c["match_id"] not in seen:
+                    seen.add(c["match_id"]); body["cards"].append({**c, "frozen_at_et": a["frozen_at_et"]})
+            if a.get("skipped"):
+                body.setdefault("skipped", []).extend(a["skipped"])
+        body["cards"].sort(key=lambda c: c.get("start_utc", ""))
+    body["frozen_at_utc_latest"] = max([body["frozen_at_utc"]] + [x["frozen_at_utc"] for x in body.get("addenda", [])])
     return body
+
+
+def frozen_ids(date, version=None):
+    """match_ids already frozen (cards + skipped/not-modeled) for a date, or an empty set."""
+    if not frozen_path(date, version).exists():
+        return set()
+    b = load_frozen(date, version)
+    return {c["match_id"] for c in b["cards"]} | {s["match_id"] for s in b.get("skipped", [])}

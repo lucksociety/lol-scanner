@@ -196,9 +196,48 @@ def _simbtn(c, date):
             f'title="Open the in-browser ratings sim + edge finder preloaded with this series">Simulate</a>')
 
 
-def _slate(fc, erows, edge):
-    trs = []
-    for c in fc["cards"]:
+def _result(r):
+    if not r or r.get("state") != "completed" or r.get("a_w") is None:
+        return None
+    return r["a_w"], r["b_w"]
+
+
+def _final_cell(c_or_row, r, lock=None):
+    res = _result(r)
+    if not res:
+        return '<td class="muted">live</td>' if r and r.get("state") == "inProgress" else '<td class="muted">–</td>'
+    a, b = (c_or_row["team_a"]["code"], c_or_row["team_b"]["code"]) if "team_a" in c_or_row else (c_or_row["a"], c_or_row["b"])
+    x, y = res
+    if "team_a" in c_or_row and r["a"] != a:   # schedule order differs from the card order
+        x, y = y, x
+    txt = f'{a if x > y else b} {max(x, y)}-{min(x, y)}'
+    hit = "" if lock is None else (' <span class="bb">LOCK HIT</span>' if f"{x}-{y}" == lock else ' <span class="nl">lock missed</span>')
+    return f'<td><b>{E(txt)}</b>{hit}</td>'
+
+
+def _status_row(r, why, cls="pass"):
+    return (f'<tr class="nm"><td>{E(r["start_et"])}</td><td>{E(r["league"])}</td><td>{E(r["a"])} vs {E(r["b"])} <span class="bo">Bo{r["bo"]}</span></td>'
+            f'<td colspan="2" class="muted">no lock</td><td class="{cls}">{E(why[0])}</td><td colspan="5" class="muted">{E(why[1])}</td>'
+            f'{_final_cell(r, r)}<td></td></tr>')
+
+
+def _unmodeled_reason(r, skipped, now_iso):
+    if r["match_id"] in skipped:
+        return ("NOT MODELED", skipped[r["match_id"]])
+    if r["a"] == "TBD" or r["b"] == "TBD":
+        return ("TEAMS TBD", "matchup not set yet on lolesports; it is forecast at the first scan after both teams are known")
+    if r["state"] != "unstarted" or r["start"] <= now_iso:
+        return ("NO LOCK", "not scanned before it started; a forecast is never frozen after the start")
+    return ("PENDING", "teams just set: frozen at the next scan, before any price is read")
+
+
+def _slate(fc, erows, edge, srows=(), date=""):
+    from datetime import datetime, timezone
+    now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    sres = {r["match_id"]: r for r in srows}
+    skipped = {x["match_id"]: x["reason"] for x in (fc or {}).get("skipped", [])}
+    items = []
+    for c in (fc or {}).get("cards", []):
         A, B, s = c["team_a"], c["team_b"], c["sim"]
         la, lb = map(int, s["locked_score"].split("-"))
         lock = f'{A["code"] if la > lb else B["code"]} {max(la, lb)}-{min(la, lb)}'
@@ -209,18 +248,81 @@ def _slate(fc, erows, edge):
         else:
             bet = (f'<td class="bet">{E(bs["market"])} · {E(bs["side"])}</td><td>{bs["ask"]:.2f}</td><td>{_pct(bs["our_prob"])}</td>'
                    f'<td>{_pct(bs["fair_prob"])}</td><td>{bs["edge_pct"]:+.1f}</td><td>{bs["ev_per_$1"]:+.3f}</td>')
-        trs.append(f'<tr><td>{E(c["start_et"])}</td><td>{E(c["league"])}</td><td>{E(A["code"])} vs {E(B["code"])} <span class="bo">Bo{c["bo"]}</span></td>'
-                   f'<td><b>{E(lock)}</b> ({_pct(s["locked_score_prob"])})</td><td>{win}</td>{bet}'
-                   f'<td>{_simbtn(c, fc.get("date", ""))}</td></tr>')
+        items.append((c.get("start_utc", ""), f'<tr><td>{E(c["start_et"])}</td><td>{E(c["league"])}</td><td>{E(A["code"])} vs {E(B["code"])} <span class="bo">Bo{c["bo"]}</span></td>'
+                     f'<td><b>{E(lock)}</b> ({_pct(s["locked_score_prob"])})</td><td>{win}</td>{bet}'
+                     f'{_final_cell(c, sres.get(c["match_id"]), s["locked_score"])}<td>{_simbtn(c, date)}</td></tr>'))
+    have = {c["match_id"] for c in (fc or {}).get("cards", [])}
+    for r in srows:
+        if r["match_id"] not in have:
+            items.append((r["start"], _status_row(r, _unmodeled_reason(r, skipped, now_iso))))
+    for mid, why in skipped.items():   # not-modeled series that dropped off the schedule feed
+        if mid not in have and mid not in sres:
+            x = next(x for x in fc["skipped"] if x["match_id"] == mid)
+            a, _, b = x["series"].partition(" vs ")
+            items.append((x.get("start_utc", ""), _status_row({"match_id": mid, "start_et": x.get("start_utc", ""), "league": "", "a": a, "b": b,
+                                                               "bo": "?", "state": "unstarted"}, ("NOT MODELED", why))))
+    if not items:
+        return ""
+    items.sort(key=lambda t: t[0])
     snap = f' · odds snapshot <b>{E(edge["odds_fetched_at_et"])}</b>' if edge else ""
-    return ('<section class="card slate"><h2>Slate · locked score + Jupiter best bet</h2>'
+    return (f'<section class="card slate"><h2>Slate · {len(items)} series · locked score + Jupiter best bet</h2>'
             f'<p class="eh">POST-FORECAST: Jupiter prices read only after the forecast froze; they never feed back into it{snap}</p>'
             '<div class="tw"><table><tr><th>Time (ET)</th><th>League</th><th>Matchup</th><th>Lock (exact %)</th><th>Series win</th>'
-            '<th>Best bet (market · side)</th><th>Jupiter price</th><th>Our prob</th><th>No-vig mkt</th><th>Edge pp</th><th>EV/$1</th><th>Sim</th></tr>'
-            + "".join(trs) + '</table></div><p class="muted">PASS = no Jupiter market that cashes on the locked exact score has +EV after fees.</p></section>')
+            '<th>Best bet (market · side)</th><th>Jupiter price</th><th>Our prob</th><th>No-vig mkt</th><th>Edge pp</th><th>EV/$1</th><th>Final</th><th>Sim</th></tr>'
+            + "".join(t for _, t in items) + '</table></div><p class="muted">PASS = no Jupiter market that cashes on the locked exact score has +EV after fees. '
+            'NOT MODELED / TEAMS TBD / NO LOCK rows are listed so no series is dropped; none of them can carry a bet.</p></section>')
 
 
-CSS = """
+DATENAV_CSS = """
+.datenav{max-width:1200px;margin:12px auto 0;display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
+.dchip{display:flex;flex-direction:column;justify-content:center;min-width:86px;padding:5px 10px;border:1px solid var(--bronze);border-radius:8px;
+ background:rgba(5,34,32,.85);color:var(--ink)!important;text-decoration:none;font-size:12px;line-height:1.25}
+.dchip b{color:var(--gold-hi);font:700 13px/1.2 Georgia,serif;letter-spacing:.04em;text-transform:uppercase}.dchip small{color:var(--mut)}
+.dchip:hover{border-color:var(--gold-hi)}.dchip.on{background:var(--gold);border-color:var(--gold-hi)}.dchip.on b,.dchip.on small,.dchip.on span{color:var(--black)}
+.dchip.empty{opacity:.55}.dchip .n{color:var(--clover-hi);font-weight:700}.dchip.on .n{color:var(--clover)}
+.dpick{display:flex;flex-direction:column;justify-content:center;padding:4px 10px;border:1px solid var(--bronze);border-radius:8px;background:rgba(5,34,32,.85);font-size:12px;color:var(--gold)}
+.dpick input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:3px 6px;font:inherit;color-scheme:dark}
+#dmsg{flex-basis:100%;color:#ffb86b;font-size:12px;min-height:0}
+tr.nm td{color:var(--mut)}tr.nm td.pass{color:var(--gold)}
+"""
+
+
+def _manifest():
+    p = config.DOCS_DIR / "data" / "dates.json"
+    try:
+        return json.loads(p.read_text())
+    except Exception:
+        return {"dates": []}
+
+
+def datenav(date, mode="dash", is_index=False):
+    """Branded date selector (static links work without JS; assets/datenav.js relabels Yesterday/Today/Tomorrow in ET,
+    rebuilds the strip around today and wires the calendar)."""
+    from datetime import date as _d
+    from . import window
+    m = _manifest()
+    have = {x["date"]: x for x in m.get("dates", [])}
+    today = window.today_et()
+    days = window.window_dates(today)
+    if date not in days:
+        days = sorted(set(days) | {date})
+    rel = {-1: "Yesterday", 0: "Today", 1: "Tomorrow"}
+    chips = []
+    for d in days:
+        dd = _d.fromisoformat(d); off = (dd - _d.fromisoformat(today)).days
+        x = have.get(d)
+        n = f'<span class="n">{x["n_series"]} series</span>' if x and x["n_series"] else "no games"
+        href = f"simulate.html?date={d}" if mode == "sim" else f"{d}.html"
+        cls = "dchip" + (" on" if d == date else "") + ("" if x and x["n_series"] else " empty")
+        chips.append(f'<a class="{cls}" data-d="{d}" href="{href}"><b>{rel.get(off, dd.strftime("%a"))}</b><small>{dd.strftime("%b %-d")} · {n}</small></a>')
+    all_d = sorted(have) or [date]
+    return (f'<nav class="datenav" id="datenav" data-date="{E(date)}" data-mode="{mode}" data-index="{1 if is_index else 0}" aria-label="Pick a slate date">'
+            + "".join(chips) +
+            f'<label class="dpick">📅 Any date<input type="date" id="dpick" value="{E(date)}" min="{E(min(all_d[0], date))}" max="{E(max(all_d[-1], date))}"></label>'
+            '<span id="dmsg" role="status"></span></nav>')
+
+
+CSS_BASE = """
 /* Luck Society palette: k-means on the @lucksociety X avatar + banner (see brand/README.md) */
 :root{--bg:#01171a;--card:#052220;--card2:#0a2b27;--line:#1f341c;--ink:#efe6cc;--mut:#9fb3a8;
 --gold:#d79d07;--gold-hi:#f6d12b;--bronze:#a9700a;--clover:#036718;--clover-hi:#1b9625;--pos:#3fbf4f;--neg:#ff6b5b;--black:#040402}
@@ -260,28 +362,37 @@ tr.pos td{color:var(--pos)}tr.neg td{color:var(--mut)}td.lk{font-weight:700}.bb{
 .warn{color:#ffb86b;font-size:13px}.muted{color:var(--mut);font-size:12px}a{color:var(--gold-hi)}
 details{margin-top:6px;color:var(--mut);font-size:13px}summary{cursor:pointer;color:var(--ink)}
 footer{color:var(--mut);font-size:12px;padding:20px;text-align:center;border-top:1px solid var(--line)}
-@media (max-width:560px){.brand .ov{background:rgba(1,23,26,.9)}h1{font-size:20px}.logo{width:54px;height:54px}.t em{font-size:20px}.card{padding:12px;border-radius:10px}main{padding:8px}td,th{padding:4px}}
+@media (max-width:560px){.brand .ov{background:rgba(1,23,26,.9)}h1{font-size:20px}.logo{width:54px;height:54px}.t em{font-size:20px}.card{padding:12px;border-radius:10px}main{padding:8px}td,th{padding:4px}.dchip{min-width:72px;padding:4px 7px}}
 """
+CSS = CSS_BASE + DATENAV_CSS
 
 
-def render(date, version=None):
+def _schedule_rows(date):
+    from . import window
+    return window.load_sched().get("dates", {}).get(date, [])
+
+
+def render(date, version=None, write_index=True, srows=None):
+    """docs/<date>.html. Works with or without a frozen forecast: every series on the official schedule for the
+    date is listed (locked, not modeled, TBD or not scanned), so nothing silently disappears."""
     if version and not frozen_path(date, version).exists():
         version = None   # e.g. v2 not frozen for an old date -> fall back to whatever is frozen
-    if not frozen_path(date, version).exists():
-        raise SystemExit(f"no frozen forecast for {date}")
-    fc = load_frozen(date, version)
-    is_v2 = str(fc.get("model_version", "")).startswith("v2")
+    fc = load_frozen(date, version) if frozen_path(date, version).exists() else None
+    srows = _schedule_rows(date) if srows is None else srows
+    is_v2 = bool(fc) and str(fc.get("model_version", "")).startswith("v2")
     v1 = {}
     if is_v2 and frozen_path(date, "v1").exists():
         v1 = {c["match_id"]: c for c in load_frozen(date, "v1")["cards"]}
     ep = config.EDGE_DIR / f"{date}{'.v2' if is_v2 else ''}.json"
-    edge = json.loads(ep.read_text()) if ep.exists() else None
+    edge = json.loads(ep.read_text()) if (fc and ep.exists()) else None
     erows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
     snap = edge["odds_fetched_at_et"] if edge else ""
-    for c in fc["cards"]:
+    cards_l = (fc or {}).get("cards", [])
+    for c in cards_l:
         c["_date"] = date
-    cards = "".join(_card(c, erows.get(c["match_id"]) if edge else None, v1.get(c["match_id"]), snap) for c in fc["cards"]) or \
-        '<section class="card"><p>No series on the official schedule for this date.</p></section>'
+    cards = "".join(_card(c, erows.get(c["match_id"]) if edge else None, v1.get(c["match_id"]), snap) for c in cards_l)
+    if not cards and not srows and not (fc or {}).get("skipped"):
+        cards = '<section class="card"><h2>No games</h2><p>No LoL series on the official lolesports schedule for this date. Pick another day above 🍀</p></section>'
     calib = ""
     if config.CALIB_FILE.exists():
         rows = list(csv.DictReader(open(config.CALIB_FILE)))
@@ -290,7 +401,7 @@ def render(date, version=None):
             hit = sum(int(r["lock_hit"]) for r in rows) / n
             calib = f"Calibration log: {n} graded series · Brier {br:.3f} · log loss {ll:.3f} · exact-lock hit {hit:.0%}"
     bt = ""
-    btp = config.ROOT / "calibration" / "backtest_v1_vs_v2.json" if hasattr(config, "ROOT") else Path(__file__).resolve().parent.parent / "calibration" / "backtest_v1_vs_v2.json"
+    btp = config.ROOT / "calibration" / "backtest_v1_vs_v2.json"
     if is_v2 and btp.exists():
         b = json.loads(btp.read_text())
         names = [("v1", "v1"), ("v2_elo_only", "v2 ratings only"), ("v2", "v2 full (draft sims)")]
@@ -302,23 +413,33 @@ def render(date, version=None):
               f'<div class="tw"><table><tr><th>model</th><th>Brier</th><th>log loss</th><th>winner acc</th><th>exact-lock hit</th></tr>{trs}</table></div>'
               f'<p><b>{E(verdict)}</b></p></section>')
     edge_meta = (f"Odds snapshot {E(edge['odds_fetched_at_et'])} · coverage {E(edge['coverage'])}" if edge
-                 else "Edge layer not run")
-    doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Luck Society · LoL Scanner · {E(date)}</title><meta name="theme-color" content="#01171a"><link rel="icon" href="assets/luck-society-avatar.jpg"><style>{CSS}</style></head><body>
+                 else "Edge layer not run for this date")
+    from datetime import date as _d
+    pretty = _d.fromisoformat(date).strftime("%a %b %-d, %Y")
+    if fc:
+        adds = "".join(f" · addendum {i + 1} frozen {E(a['frozen_at_et'])} ({a['n_series']} series, sha256 {E(a['sha256'][:10])}…)"
+                       for i, a in enumerate(fc.get("addenda", [])))
+        fmeta = (f"<p>{E(fc.get('model_version', 'elo-map-v1'))} forecast frozen {E(fc['frozen_at_et'])} · sha256 {E(fc['sha256'][:16])}…{adds} · "
+                 f"{E(fc['integrity']['protocol'])} · market inputs to forecast: <b>NONE</b></p>"
+                 f"<p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p>")
+    else:
+        fmeta = (f"<p>No frozen forecast for this date ({'no series scheduled' if not srows else 'series are TBD, already played, or freeze at the next scan'}). "
+                 f"Times are America/New_York. {E(calib)}</p>")
+
+    def page(is_index):
+        return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luck Society · LoL Scanner · {E(date)}</title><meta name="theme-color" content="#01171a"><link rel="icon" href="assets/luck-society-avatar.jpg"><style>{CSS}</style></head><body data-date="{E(date)}">
 <header class="brand"><div class="ov"><div class="bi"><img class="logo" src="assets/luck-society-avatar.jpg" alt="Luck Society clover coin logo">
 <div><h1>Luck Society · LoL Scanner</h1><p class="tag">Sports Betting • Crypto • Stocks • Predictions 🍀</p>
-<p class="voice">{E(date)} slate 🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀</p></div></div>
-<div class="meta"><p>{E(fc.get('model_version', 'elo-map-v1'))} forecast frozen {E(fc['frozen_at_et'])} · sha256 {E(fc['sha256'][:16])}… · {E(fc['integrity']['protocol'])} · market inputs to forecast: <b>NONE</b></p>
-<p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p></div>
-<div class="nav"><a class="simbtn" href="simulate.html">🎲 Simulate: ratings sim + edge finder</a></div></div></header>
-<main>{_slate(fc, erows, edge) if fc['cards'] else ''}{cards}{bt}</main>
-<footer>Forecast: {"model v2 = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced), data: lolesports, gol.gg, Data Dragon" if is_v2 else "results-only map Elo + Monte Carlo series sim (lolesports data)"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '')}. BEST BET = highest +EV market that also cashes on the locked exact score; otherwise PASS. Not financial advice.</footer>
-</body></html>"""
+<p class="voice"><b>{E(pretty)}</b> slate (ET) 🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀</p></div></div>
+{datenav(date, "dash", is_index)}
+<div class="meta">{fmeta}</div>
+<div class="nav"><a class="simbtn" href="simulate.html?date={E(date)}">🎲 Simulate {E(pretty)}: ratings sim + edge finder</a></div></div></header>
+<main>{_slate(fc, erows, edge, srows, date)}{cards}{bt}</main>
+<footer>Forecast: {"model v2 = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced), data: lolesports, gol.gg, Data Dragon" if is_v2 else "lolesports schedule; model v2 when frozen"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '0.07·p·(1−p)')}. BEST BET = highest +EV market that also cashes on the locked exact score; otherwise PASS. Not financial advice.</footer>
+<script src="assets/datenav.js"></script></body></html>"""
     config.DOCS_DIR.mkdir(parents=True, exist_ok=True)
-    (config.DOCS_DIR / f"{date}.html").write_text(doc)
-    latest = max((q.stem for q in config.DOCS_DIR.glob("20??-??-??.html")), default=date)
-    if date >= latest:   # an on-demand /lol run for an older date must not replace the current front page
-        (config.DOCS_DIR / "index.html").write_text(doc)
+    (config.DOCS_DIR / f"{date}.html").write_text(page(False))
     (config.DOCS_DIR / ".nojekyll").write_text("")
     src = Path(__file__).resolve().parent.parent / "brand"
     (config.DOCS_DIR / "assets").mkdir(exist_ok=True)
@@ -326,12 +447,34 @@ def render(date, version=None):
         if (src / f).exists():
             shutil.copyfile(src / f, config.DOCS_DIR / "assets" / f)
     write_simulate_page()
+    if write_index:
+        write_index_page()
+        try:
+            from . import simexport
+            simexport.export([date], version or "v2")
+        except Exception as e:  # the forecast dashboard must never fail because of the optional sim export
+            print(f"[dashboard] sim export skipped: {e}")
+    return config.DOCS_DIR / f"{date}.html"
+
+
+def write_index_page(today=None):
+    """index.html = TODAY in America/New_York (never 'the latest date rendered'; that is what showed tomorrow).
+    If today's page does not exist yet, render it from the schedule snapshot (it lists TBD / not-scanned series)."""
+    from . import window
+    today = today or window.today_et()
+    p = config.DOCS_DIR / f"{today}.html"
+    if not p.exists():
+        render(today, write_index=False)
     try:
-        from . import simexport
-        simexport.export(date, version or "v2")
-    except Exception as e:  # the forecast dashboard must never fail because of the optional sim export
-        print(f"[dashboard] sim export skipped: {e}")
+        window.write_manifest(today, {})
+    except Exception as e:  # selector falls back to its static links
+        print(f"[dashboard] manifest skipped: {e}")
+    doc = p.read_text().replace('data-index="0"', 'data-index="1"', 1)
+    (config.DOCS_DIR / "index.html").write_text(doc)
     return config.DOCS_DIR / "index.html"
+
+
+write_index = write_index_page
 
 
 SIM_CSS = """
@@ -351,11 +494,16 @@ button.ghost{background:transparent;color:var(--gold-hi);border:1px solid var(--
 """
 
 
+def _today():
+    from . import window
+    return window.today_et()
+
+
 def write_simulate_page():
     """Static Simulate page (GitHub Pages). JS lives in web/ and is copied to docs/assets/."""
     web = Path(__file__).resolve().parent.parent / "web"
     (config.DOCS_DIR / "assets").mkdir(parents=True, exist_ok=True)
-    for f in ("sim-core.js", "sim-worker.js", "simulate.js"):
+    for f in ("sim-core.js", "sim-worker.js", "simulate.js", "datenav.js"):
         if (web / f).exists():
             shutil.copyfile(web / f, config.DOCS_DIR / "assets" / f)
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -364,11 +512,12 @@ def write_simulate_page():
 <div><h1>Luck Society · LoL Simulator</h1><p class="tag">Sports Betting • Crypto • Stocks • Predictions 🍀</p>
 <p class="voice">Pick any two teams, sim the series, then put any price against it. Let's stay green 🍀</p></div></div>
 <div class="meta"><p><span class="badge">RATINGS-BASED SIM</span> Runs in your browser on the exported v2 patch-weighted map Elo. It is <b>separate from the frozen protocol lock</b> on the <a href="index.html">dashboard</a> (that one adds lineups + draft-path sims and is frozen before any price is read). <span id="gen"></span></p></div>
-<div class="nav"><a class="simbtn" href="index.html">← Dashboard</a></div></div></header>
+{datenav(_today(), "sim")}
+<div class="nav"><a class="simbtn" id="dashlink" href="index.html">← Dashboard</a></div></div></header>
 <main>
 <section class="card"><h2>1 · Matchup</h2>
 <div class="simgrid">
- <div><label for="preset">Slate series</label><select id="preset"></select></div>
+ <div><label for="preset">Slate series · <span id="pdate">today</span></label><select id="preset"></select><small class="muted" id="pnote"></small></div>
  <div><label for="ta">Team A</label><select id="ta"></select></div>
  <div><label for="tb">Team B</label><select id="tb"></select></div>
  <div><label for="bo">Format</label><select id="bo"><option value="1">Bo1</option><option value="3" selected>Bo3</option><option value="5">Bo5</option></select>
@@ -403,5 +552,5 @@ def write_simulate_page():
 <p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest +EV market that cashes on this sim's lock, otherwise PASS. Not financial advice.</p>
 </section></main>
 <footer>Luck Society · in-browser ratings sim (Web Worker) · data: lolesports results → v2 patch-recency Elo, official rosters · Jupiter prices are post-forecast snapshots, never inputs to any forecast.</footer>
-<script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script></body></html>"""
+<script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script><script src="assets/datenav.js"></script></body></html>"""
     (config.DOCS_DIR / "simulate.html").write_text(doc)
