@@ -1,3 +1,4 @@
+from pathlib import Path
 """Static dashboard (GitHub Pages ready): docs/index.html (latest) + docs/<date>.html (archive).
 Forecast cards render from the frozen forecast; the edge panel renders separately and is labelled post-forecast."""
 import csv, html, json
@@ -182,6 +183,18 @@ def render(date, version=None):
             n = len(rows); br = sum(float(r["brier"]) for r in rows) / n; ll = sum(float(r["logloss"]) for r in rows) / n
             hit = sum(int(r["lock_hit"]) for r in rows) / n
             calib = f"Calibration log: {n} graded series · Brier {br:.3f} · log loss {ll:.3f} · exact-lock hit {hit:.0%}"
+    bt = ""
+    btp = config.ROOT / "calibration" / "backtest_v1_vs_v2.json" if hasattr(config, "ROOT") else Path(__file__).resolve().parent.parent / "calibration" / "backtest_v1_vs_v2.json"
+    if is_v2 and btp.exists():
+        b = json.loads(btp.read_text())
+        names = [("v1", "v1"), ("v2_elo_only", "v2 ratings only"), ("v2", "v2 full (draft sims)")]
+        trs = "".join(f"<tr><td>{n}</td><td>{b[k]['brier']:.4f}</td><td>{b[k]['logloss']:.4f}</td><td>{b[k]['winner_acc']:.1%}</td><td>{b[k]['exact_lock_hit']:.1%}</td></tr>" for k, n in names if k in b)
+        verdict = ("v2 full does NOT beat v1 on Brier or log loss; it is better on winner accuracy and exact-lock hit. "
+                   "Patch+lineup ratings alone beat v1 on every metric; the draft layer worsens calibration.") \
+            if b["v2"]["brier"] > b["v1"]["brier"] else "v2 full beats v1 on Brier."
+        bt = (f'<section class="card"><h2>Walk-forward backtest v1 vs v2 ({b["v1"]["series"]} international series, same set)</h2>'
+              f'<table><tr><th>model</th><th>Brier</th><th>log loss</th><th>winner acc</th><th>exact-lock hit</th></tr>{trs}</table>'
+              f'<p><b>{E(verdict)}</b></p></section>')
     edge_meta = (f"Odds snapshot {E(edge['odds_fetched_at_et'])} · coverage {E(edge['coverage'])}" if edge
                  else "Edge layer not run")
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -189,7 +202,7 @@ def render(date, version=None):
 <header><h1>LoL Esports Scanner · {E(date)}</h1>
 <p>{E(fc.get('model_version', 'elo-map-v1'))} forecast frozen {E(fc['frozen_at_et'])} · sha256 {E(fc['sha256'][:16])}… · {E(fc['integrity']['protocol'])} · market inputs to forecast: <b>NONE</b></p>
 <p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p></header>
-<main>{cards}</main>
+<main>{cards}{bt}</main>
 <footer>Forecast: {"model v2 = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced), data: lolesports, gol.gg, Data Dragon" if is_v2 else "results-only map Elo + Monte Carlo series sim (lolesports data)"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '')}. BEST BET = highest +EV market that also cashes on the locked exact score; otherwise PASS. Not financial advice.</footer>
 </body></html>"""
     config.DOCS_DIR.mkdir(parents=True, exist_ok=True)
