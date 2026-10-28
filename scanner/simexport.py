@@ -49,7 +49,9 @@ def _team_table(now, params):
     cal = patches.load()
     lam, ks = params.get("elo_patch_lambda", 1.0), params.get("elo_kscale", 1.0)
     now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    R, _, _ = ratings_v2.elo_pass([r for r in rows if r["start"] < now_iso], cal, lam, kscale=ks)
+    kil = params.get("elo_intl_k_leagues")   # v2.1 forecasts record it; v2 files predate it (-> v2 behaviour)
+    R, _, _ = ratings_v2.elo_pass([r for r in rows if r["start"] < now_iso], cal, lam, kscale=ks,
+                                  k_intl_leagues=frozenset(kil) if kil else None)
     R1, _, _ = ratings.build(rows, now_iso)
     cur = cal.on(now.date().isoformat()); cord = cal.ord(cur)
     meta, maps = {}, {}

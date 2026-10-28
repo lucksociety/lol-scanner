@@ -10,7 +10,8 @@ import numpy as np
 from . import config, schedule, ratings, patches, golgg, corpus, v2, sim_v2, draftmodel as dm
 from .forecast import ET, INTEGRITY, _et_date, _form, _event_record, freeze  # noqa: F401  (same freeze/hash path)
 
-MODEL_VERSION = "v2-patch-lineup-draft"
+MODEL_VERSION = "v2.1-patch-lineup-draft"   # v2.1 (2026-10-28 audit): cross-region Elo tuning/K, no continuity term
+MODEL_VERSIONS = {"v2": "v2-patch-lineup-draft", "v2.1": MODEL_VERSION}
 INTEGRITY_V2 = dict(INTEGRITY)
 INTEGRITY_V2["data_sources"] = [
     "lolesports.com persisted gateway: getSchedule (results + schedule), getTeams (official rosters), "
@@ -172,7 +173,7 @@ def draft_summary(E, sp, out, combo, base_logit, a_code, b_code, g1_a_blue):
     return games
 
 
-def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, only=None):
+def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, only=None, variant=None):
     now = now or datetime.now(timezone.utc)
     sims = sims or config.SIMS
     events = events if events is not None else schedule.fetch_all_events()
@@ -181,7 +182,7 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
         corpus.build(refresh_live=True)
     cal = patches.load(); games = v2.load_corpus()
     E = v2.Engine(games, rows, cal)
-    params = E.fit(date)
+    params = E.fit(date, variant=variant)
     try:
         teams = schedule._get("getTeams")["data"]["teams"]
     except Exception:
@@ -202,7 +203,7 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
         a, b = row["a_name"], row["b_name"]
         ra, rb, P = E.pre[row["match_id"]]
         P = live_patch
-        ga, gb = E.golgg_name(a), E.golgg_name(b)
+        ga, gb = E.golgg_name(a, date), E.golgg_name(b, date)
         try:
             sa = lineup_status(E, ga, official_roster(teams, row["a"], a), ev_trs, date)
             sb = lineup_status(E, gb, official_roster(teams, row["b"], b), ev_trs, date)
@@ -241,14 +242,15 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
                       "history_cutoff_utc": cutoff},
             "sim": simout,
             "drafts": drafts,
-            "adversarial_review": flags(row, sa, sb, out, drafts, E, ga, gb),
+            "adversarial_review": flags(row, sa, sb, out, drafts, E, ga, gb, rho=sp["rho"]),
         })
-    body = {"date": date, "integrity": INTEGRITY_V2, "model_version": MODEL_VERSION,
-            "params": {"elo_patch_lambda": params["elo_lambda"], "elo_kscale": params["elo_kscale"],
+    body = {"date": date, "integrity": INTEGRITY_V2, "model_version": MODEL_VERSIONS[params["variant"]],
+            "params": {"ratings_variant": params["variant"], "elo_patch_lambda": params["elo_lambda"], "elo_kscale": params["elo_kscale"],
+                       "elo_intl_k_leagues": params["elo_intl_k_leagues"],
                        "draft_model": params["draft"], "outcome_model": params["outcome"],
                        "q_loser_blue": params["q_loser_blue"], "q_loser_blue_n": params["q_loser_blue_n"],
                        "fitted": ["elo_patch_lambda (tuned on grid)", "elo_kscale (tuned on grid)", "draft_model weights (MLE)",
-                                  "outcome_model side/draft/continuity coefficients (ridge MLE)", "q_loser_blue (frequency)"],
+                                  "outcome_model side/draft coefficients (ridge MLE; continuity term only in v2)", "q_loser_blue (frequency)"],
                        "hand_set": {"PREV_W": dm.PREV_W, "POOL_ALPHA": dm.POOL_ALPHA, "META_K": dm.META_K, "PROF_K": dm.PROF_K,
                                     "KDA_K": dm.KDA_K, "TEAMBAN_BETA": dm.TEAMBAN_BETA, "DRAFT_CAP": dm.DRAFT_CAP, "RIDGE": dm.RIDGE,
                                     "CONT_TAU": v2.CONT_TAU, "TOPK_draft_sampling": sim_v2.TOPK, "rating_sd": 0.35, "map_sd": 0.20},
@@ -260,14 +262,15 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
     return body
 
 
-def flags(row, sa, sb, out, drafts, E, ga, gb):
+def flags(row, sa, sb, out, drafts, E, ga, gb, rho=0.0):
     f = []
     for code, st, gn in ((row["a"], sa, ga), (row["b"], sb, gb)):
         unc = [s for s in st if s["status"] == "UNCERTAIN"]
         if unc:
             f.append(f"{code}: uncertain starter(s) {', '.join(s['role'] + ' ' + s['name'] for s in unc)} -> both lineups simulated")
         if E.S.continuity(gn, [s["pid"] for s in st]) < 5:
-            f.append(f"{code}: this exact five has fewer than 5 tracked maps together (continuity penalty applies)")
+            f.append(f"{code}: this exact five has fewer than 5 tracked maps together"
+                     + (" (continuity penalty applies)" if rho else " (shown for context; v2.1 applies no continuity penalty)"))
     if row["bo"] > 1:
         f.append("Fearless: later-game drafts depend on earlier picks; G2/G3 draft trees are wide (top-draft probabilities are small)")
     f.append("Draft score is capped at +/-%.2f logit and regularised; drafts move map odds modestly by design" % dm.DRAFT_CAP)

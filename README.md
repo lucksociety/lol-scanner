@@ -82,14 +82,14 @@ Both are frozen (SHA-256) before any market data is read; the edge layer reads o
 *international* maps before the cutoff. If there is no international history in the window, the default is (1.0, 1.0).
 Revision disclosed: the first attempt tuned on all maps. It picked K-scale 2–3 and made forecasts worse
 (`calibration/backtest_v1_vs_v2_attempt1_allmaps_tuning.json`), so the objective was narrowed after seeing that backtest.
-For 2026-10-28 the tuned value is λ=0.8, K-scale=0.8. The patch meta is gol.gg champion stats for the current patch, blended 0.6 with the previous patch and shrunk toward 50%.
+For 2026-10-28 v2 tuned λ=0.8, K-scale=0.8 (a grid corner caused by a bug; see v2.1 below). The patch meta is gol.gg champion stats for the current patch, blended 0.6 with the previous patch and shrunk toward 50%.
 
 **Lineups.** The expected five come from the lolesports getTeams roster and the event's latest starters.
 - CONFIRMED: on the official roster and started every event game.
 - PROBABLE: anything else.
 - UNCERTAIN: a different player started one of the last 3 event games. Both lineups are then simulated.
 
-Roster continuity (maps the five have played together) enters the outcome model as exp(−n/8).
+Roster continuity (maps the five have played together) entered the v2 outcome model as exp(−n/8). v2.1 removes it because it was selection-biased.
 
 **Drafts.** The model is a conditional logit over the real ban/pick order. Its features are player pool (current and prior patch), meta, team bans, comfort and roster needs; weights are fitted by MLE.
 - Fearless (no repeat picks across the games of a Bo3/Bo5) is enforced. It was verified from data: Worlds 2026 had 0 repeat picks in 10 multi-game series.
@@ -114,6 +114,19 @@ The draft model itself predicts held-out picks far better than uniform (pick NLL
 v2 full is the primary output because the owner asked for draft-driven sims. The ratings-only map probability is recorded on every card (`p_map_a_elo_only`).
 
 Integrity: the zero-market firewall and integrity declaration are unchanged. The only change is that `data_sources` now lists lolesports getTeams/getEventDetails, gol.gg game pages and champion stats, and Data Dragon. None of these is a market source.
+
+### v2.1 (`v2.1-patch-lineup-draft`, applies to new freezes after 2026-10-28; see `calibration/MODEL_AUDIT_2026-10-28.md`)
+- (λ, K) tuning and K_INTL now cover **cross-region events only** (Worlds/MSI/First Stand/EWC). v2 also counted KeSPA Cup and Asian Games, which drove λ to 0.8. Worlds 2026 now tunes λ=0.96, K×0.5.
+- The roster-continuity term is removed (ρ=0) because it was selection-biased.
+- gol.gg alias fix: the most recent alias before the date is used, not the oldest. HLE had been simulated with its 2025 roster.
+- No temperature: walk-forward τ made out-of-sample Brier worse.
+
+| model | Brier | log loss | winner acc | exact-lock hit |
+|---|---|---|---|---|
+| v2.1 ratings only | **0.1914** | **0.5632** | 73.2% | 44.7% |
+| v2.1 full | 0.1995 | 0.5817 | 73.2% | 45.5% |
+
+Oct 28–30 stay frozen on v2. The v2.1 re-forecast of those dates is evaluation-only (`calibration/reforecast_2026-10-28_to_30_v2.1_EVAL_ONLY.json`).
 
 ## Discord `/lol`
 

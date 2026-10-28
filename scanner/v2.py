@@ -107,10 +107,14 @@ class Engine:
         self.U = dm.Universe(extra=[c for g in games for c in g["blue_picks"] + g["red_picks"]])
 
     # ---------------------------------------------------------------- fitting (walk-forward)
-    def fit(self, cutoff_date, cutoff_iso=None):
+    def fit(self, cutoff_date, cutoff_iso=None, variant=None):
+        """variant 'v2' = frozen v2 behaviour (reproducible); 'v2.1' (default) = audit fixes: cross-region-only Elo
+        tuning/K and no lineup-continuity term (see ratings_v2.VARIANTS and draftmodel.fit_outcome)."""
+        variant = variant or ratings_v2.DEFAULT_VARIANT
         cutoff_iso = cutoff_iso or cutoff_date + "T00:00:00Z"
-        (lam, ks), _ = ratings_v2.tune_lambda(self.rows, self.cal, cutoff_iso)
-        R, pre, _ = ratings_v2.elo_pass(self.rows, self.cal, lam, kscale=ks)
+        (lam, ks), _ = ratings_v2.tune_lambda(self.rows, self.cal, cutoff_iso, variant=variant)
+        kil = ratings_v2.VARIANTS[variant]["k_intl_leagues"]
+        R, pre, _ = ratings_v2.elo_pass(self.rows, self.cal, lam, kscale=ks, k_intl_leagues=kil)
         S = dm.Stats(self.U, self.cal)
         items, X, off, y, cont = [], [], [], [], []
         lb = [0, 0]
@@ -139,8 +143,9 @@ class Engine:
                 lb[0] += 1; lb[1] += (g["blue"] == g["prev_loser"])
             S.add(g)
         draft = dm.fit_draft(items, self.U)
-        outcome = dm.fit_outcome(np.array(X), np.array(off), np.array(y), np.array(cont))
-        self.params = {"cutoff": cutoff_date, "elo_lambda": lam, "elo_kscale": ks, "draft": draft, "outcome": outcome,
+        outcome = dm.fit_outcome(np.array(X), np.array(off), np.array(y), np.array(cont), use_cont=(variant == "v2"))
+        self.params = {"cutoff": cutoff_date, "variant": variant, "elo_lambda": lam, "elo_kscale": ks,
+                       "elo_intl_k_leagues": sorted(kil), "draft": draft, "outcome": outcome,
                        "q_loser_blue": (lb[1] + 1) / (lb[0] + 2), "q_loser_blue_n": lb[0]}
         self.S, self.pre, self.R = S, pre, R
         self._cursor = sum(1 for g in self.games if g["date"] < cutoff_date)
@@ -181,12 +186,20 @@ class Engine:
                 return lineup_of(g, "blue" if g["blue"] == team else "red"), g
         return None, None
 
-    def golgg_name(self, ls_name):
-        inv = {}
-        for gn, ln in self.names.items():
-            inv.setdefault(ln, gn)
-        if ls_name in inv:
-            return inv[ls_name]
+    def golgg_name(self, ls_name, before_date=None):
+        """lolesports team name -> gol.gg team name. gol.gg renames teams between seasons ('Hanwha Life eSports' 2025 vs
+        'Hanwha Life Esports' 2026, 'Gen.G eSports' vs 'Gen.G', 'DRX' vs 'Kiwoom DRX', ...). Bug fixed in the 2026-10-28
+        audit: the first-seen (oldest) gol.gg name used to win, so HLE was simulated with its 2025 five (Peanut/Viper) and
+        2025 draft pools. Now the alias with the most recent game before `before_date` wins (walk-forward safe)."""
+        cands = [gn for gn, ln in self.names.items() if ln == ls_name]
+        if cands:
+            last = {}
+            for g in self.games:
+                if before_date is None or g["date"] < before_date:
+                    for t in (g["blue"], g["red"]):
+                        if t in cands:
+                            last[t] = g["date"]
+            return max(cands, key=lambda gn: (last.get(gn, ""), gn))
         best = max(self.names, key=lambda gn: _sim(gn, ls_name), default=None)
         return best if best and _sim(best, ls_name) >= 0.6 else None
 

@@ -262,9 +262,17 @@ def score_features(ctx, U, champ_by_role):
     return np.concatenate([parts.sum(0), [comp_fit(U, idx[None, :])[0]]])   # 5 features
 
 
-def fit_outcome(X, offset, y, cont):
-    """logit P(blue win) = offset + b0 + gamma . (x_blue - x_red) + rho * cont_diff ; ridge on gamma/rho."""
-    Z = np.column_stack([np.ones(len(y)), X, cont])
+def fit_outcome(X, offset, y, cont, use_cont=True):
+    """logit P(blue win) = offset + b0 + gamma . (x_blue - x_red) + rho * cont_diff ; ridge on gamma/rho.
+
+    use_cont=False (model v2.1) drops the lineup-continuity term (rho = 0). Audit 2026-10-28: the corpus only holds each
+    team's last 12 tier-1 series before an international event, so 'few maps together' in training mostly marks the
+    non-qualifying opponents that appear in a qualifier's window, i.e. it encodes who qualified later (selection on
+    the outcome). It fit rho ~ -1.0 to -1.4 in-sample, then moved Worlds 2026 maps by up to ~1 logit for a single
+    roster change (TES with 369 in for ZUIAN: +0.95 logit to BLG) and was the largest source of v2's Worlds 2026 error."""
+    if not use_cont:
+        cont = np.zeros(0)
+    Z = np.column_stack([np.ones(len(y)), X] + ([cont] if use_cont else []))
 
     def f(w):
         z = offset + Z @ w
@@ -281,7 +289,8 @@ def fit_outcome(X, offset, y, cont):
     ll0 = -np.mean(y * np.log(p0 + 1e-12) + (1 - y) * np.log(1 - p0 + 1e-12))
     p1 = 1 / (1 + np.exp(-(offset + Z @ w)))
     ll1 = -np.mean(y * np.log(p1 + 1e-12) + (1 - y) * np.log(1 - p1 + 1e-12))
-    return {"side_blue": float(w[0]), "gamma": w[1:-1].tolist(), "rho": float(w[-1]),
+    gamma = w[1:-1] if use_cont else w[1:]
+    return {"side_blue": float(w[0]), "gamma": gamma.tolist(), "rho": float(w[-1]) if use_cont else 0.0, "use_cont": bool(use_cont),
             "train_logloss_elo_only": float(ll0), "train_logloss_with_draft": float(ll1), "n_maps": int(len(y))}
 
 

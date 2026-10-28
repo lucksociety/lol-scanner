@@ -23,7 +23,8 @@ def _metrics(recs, key):
             "winner_acc": round(hs / n, 3), "exact_lock_hit": round(hl / n, 3)}
 
 
-def run(sims=10000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand"), out_path=None):
+def run(sims=10000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand"), out_path=None, variant=None):
+    """variant: 'v2' (as frozen through 2026-10-30) or 'v2.1' (audit fixes; default)."""
     t0 = time.time()
     events = json.loads((config.CACHE_DIR / "schedule_pages/events.json").read_text())
     rows = schedule.series_rows(events)
@@ -41,7 +42,7 @@ def run(sims=10000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand")
         ev = [n for n, c in cuts if c <= r["start"][:10]][-1]
         if ev != cur:
             cur = ev; cut = EVENT_CUTOFFS[ev]
-            fits[ev] = E.fit(cut)
+            fits[ev] = E.fit(cut, variant=variant)
             fits[ev] = {k: v for k, v in fits[ev].items()}
         day = r["start"][:10]
         # advance stats game by game, scoring the draft model on held-out event games before adding them
@@ -62,7 +63,7 @@ def run(sims=10000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand")
         ra, rb, P = E.pre[r["match_id"]]
         s15 = sim.simulate(ratings.p_map(ra, rb), r["bo"], sims=20000, seed=1)
         # ---- v2 full
-        ta, tb = E.golgg_name(r["a_name"]), E.golgg_name(r["b_name"])
+        ta, tb = E.golgg_name(r["a_name"], day), E.golgg_name(r["b_name"], day)
         la = E.last_lineup(ta, day)[0] if ta else None
         lb = E.last_lineup(tb, day)[0] if tb else None
         sk = by_mid.get(r["match_id"]); g1 = None
@@ -78,13 +79,13 @@ def run(sims=10000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand")
                      "v1": {"p": s1["p_series_a"], "lock": s1["locked_score"]},
                      "v2_elo_only": {"p": s15["p_series_a"], "lock": s15["locked_score"]},
                      "v2": {"p": s2["p_series_a"], "lock": s2["locked_score"]}})
-    res = {"scope": f"{'/'.join(leagues)} since {since}; walk-forward per event", "sims": {"v1": 20000, "v2_elo_only": 20000, "v2": sims},
+    res = {"variant": variant or "v2.1", "scope": f"{'/'.join(leagues)} since {since}; walk-forward per event", "sims": {"v1": 20000, "v2_elo_only": 20000, "v2": sims},
            "v1": _metrics(recs, "v1"), "v2_elo_only": _metrics(recs, "v2_elo_only"), "v2": _metrics(recs, "v2"),
            "coverage": {"series": len(recs), "g1_side_from_data": sum(r["joined"] for r in recs),
                         "lineups_known": sum(r["lineups_known"] for r in recs)},
            "by_event": {ev: {k: _metrics([x for x in recs if x["event"] == ev], k) for k in ("v1", "v2_elo_only", "v2")}
                         for ev in dict.fromkeys(x["event"] for x in recs)},
-           "fits": {ev: {"elo_lambda": f["elo_lambda"], "elo_kscale": f["elo_kscale"], "draft_w_pick": f["draft"]["w_pick"],
+           "fits": {ev: {"elo_lambda": f["elo_lambda"], "elo_kscale": f["elo_kscale"], "rho": f["outcome"]["rho"], "draft_w_pick": f["draft"]["w_pick"],
                          "draft_w_ban": f["draft"]["w_ban"], "outcome": f["outcome"], "q_loser_blue": f["q_loser_blue"]}
                     for ev, f in fits.items()},
            "draft_model_heldout": {ev: dm.eval_draft(items, E.U, fits[ev]["draft"]["w_pick"], fits[ev]["draft"]["w_ban"])
@@ -98,6 +99,7 @@ def run(sims=10000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand")
 
 if __name__ == "__main__":
     import sys
-    p = config.ROOT / "calibration" / "backtest_v1_vs_v2.json"
-    r = run(sims=int(sys.argv[1]) if len(sys.argv) > 1 else 10000, out_path=p)
+    variant = sys.argv[2] if len(sys.argv) > 2 else "v2.1"
+    p = config.ROOT / "calibration" / (sys.argv[3] if len(sys.argv) > 3 else ("backtest_v1_vs_v2.json" if variant == "v2" else f"backtest_v1_vs_{variant}.json"))
+    r = run(sims=int(sys.argv[1]) if len(sys.argv) > 1 else 10000, out_path=p, variant=variant)
     print(json.dumps({k: v for k, v in r.items() if k != "series_detail"}, indent=1, default=float))
