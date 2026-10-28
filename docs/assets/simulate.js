@@ -124,7 +124,7 @@
     const seen = new Set();
     if (src) {
       src.o.legs.forEach(l => {
-        const r = { kind: l.kind, side: src.flip ? flip(l.side) : l.side, line: l.line, game: l.game, neg: l.neg, price: String(l.ask), pair_id: l.pair_id, src: "Jupiter", fee: true, vol: l.volume };
+        const r = { kind: l.kind, side: src.flip ? flip(l.side) : l.side, line: l.line, game: l.game, neg: l.neg, price: String(l.ask), pair_id: l.pair_id, src: "Jupiter", fee: true, vol: l.volume, volume: l.volume, has_book: l.has_book };
         if (r.kind === "exact" && src.flip && r.line) r.line = [r.line[1], r.line[0]];
         rows.push(r); seen.add(keyOf(r));
       });
@@ -145,14 +145,14 @@
       const cls = e && e.valid ? (e.ev > 0 ? "pos" : "neg") + (best ? " best" : "") : "";
       const lk = e && e.valid ? { true: "✓", false: "✗", null: "–" }[String(e.cashesOnLock)] : "";
       const fz = fl ? { true: "✓", false: "✗", null: "–" }[String(C.outcomeFn(r)(fl[0], fl[1]))] : null;
-      return `<tr class="${cls}"><td>${E(C.label(r, a, b))}${best ? ' <span class="bb">BEST BET</span>' : ""}<small class="src">${E(r.src)}</small></td>
+      return `<tr class="${cls}"><td>${E(C.label(r, a, b))}${best ? ' <span class="bb">BEST BET</span>' : (e && e.skip ? ` <span class="nl">skipped: ${E(e.skip)}</span>` : "")}<small class="src">${E(r.src)}</small></td>
         <td><input class="px" data-i="${i}" value="${E(r.price || "")}" placeholder="price" inputmode="decimal"></td>
         <td><input class="opp" data-i="${i}" value="${E(r.opp || "")}" placeholder="${r.pair_id && !r.pair_id.startsWith("std") ? "paired" : "opp (opt)"}" ${r.pair_id && !r.pair_id.startsWith("std") ? "disabled" : ""}></td>
         <td><input type="checkbox" class="fee" data-i="${i}" ${(e && e.valid ? e.feeApplied : r.fee !== false) ? "checked" : ""}></td>
         <td>${e && e.valid ? pct(e.implied) : ""}</td><td>${e && e.valid ? pct(e.fair) : ""}</td><td>${e && e.q !== null && e.q !== undefined ? pct(e.q) : ""}</td>
         <td>${e && e.valid ? (e.edge >= 0 ? "+" : "") + e.edge.toFixed(1) : ""}</td><td>${e && e.valid ? (e.ev >= 0 ? "+" : "") + e.ev.toFixed(3) : ""}</td><td class="lk">${lk}</td>${fl ? `<td class="lk">${fz}</td>` : ""}</tr>`;
     }).join("");
-    $("#mk").innerHTML = `<tr><th>Market · side</th><th>Price</th><th>Opp. side</th><th>Fee</th><th>Implied</th><th>No-vig</th><th>Model</th><th>Edge pp</th><th>EV/$1</th><th>Cashes on sim lock</th>${fl ? "<th>Cashes on frozen protocol lock</th>" : ""}</tr>` + tr;
+    $("#mk").innerHTML = `<tr><th>Market · side</th><th>Price</th><th>Opp. side</th><th>Fee</th><th>Implied</th><th>No-vig</th><th>Model</th><th>Edge pp</th><th>EV/$1</th><th>Cashes on sim lock (info)</th>${fl ? "<th>Cashes on frozen protocol lock</th>" : ""}</tr>` + tr;
     document.querySelectorAll("#mk input.px").forEach(inp => inp.onchange = () => { rows[+inp.dataset.i].price = inp.value; delete rows[+inp.dataset.i].fee; setTimeout(drawMarkets, 0); });
     document.querySelectorAll("#mk input.opp").forEach(inp => inp.onchange = () => { rows[+inp.dataset.i].opp = inp.value; setTimeout(drawMarkets, 0); });
     document.querySelectorAll("#mk input.fee").forEach(inp => inp.onchange = () => { rows[+inp.dataset.i].fee = inp.checked; setTimeout(drawMarkets, 0); });
@@ -160,11 +160,10 @@
     const L = ev.lock, lockTxt = `${L.a > L.b ? a : b} ${Math.max(L.a, L.b)}-${Math.min(L.a, L.b)}`;
     if (ev.best) {
       const x = ev.best;
-      $("#verdict").innerHTML = `<div class="verdict bet">BEST BET · ${E(C.label(x, a, b))} @ ${E(x.price)} · model ${pct(x.q)} vs no-vig ${pct(x.fair)} · edge ${x.edge >= 0 ? "+" : ""}${x.edge.toFixed(1)} pp · EV ${x.ev >= 0 ? "+" : ""}${x.ev.toFixed(3)}/$1 · cashes on sim lock ${E(lockTxt)} ✓</div>`;
+      $("#verdict").innerHTML = `<div class="verdict bet">BEST BET · ${E(C.label(x, a, b))} @ ${E(x.price)} · model ${pct(x.q)} vs no-vig ${pct(x.fair)} · edge ${x.edge >= 0 ? "+" : ""}${x.edge.toFixed(1)} pp · EV ${x.ev >= 0 ? "+" : ""}${x.ev.toFixed(3)}/$1 · cashes on sim lock ${E(lockTxt)} ${x.cashesOnLock === true ? "✓" : x.cashesOnLock === false ? "✗" : "–"} (info)</div>`;
     } else {
       const n = ev.rows.filter(r => r.valid).length;
-      $("#verdict").innerHTML = `<div class="verdict pass">PASS · ${n ? "no priced market that cashes on the sim lock " + E(lockTxt) + " has +EV" : "enter at least one price"}</div>` +
-        (ev.bestAny ? `<p class="secondary">Ignores the lock rule (not a recommendation): ${E(C.label(ev.bestAny, a, b))} @ ${E(ev.bestAny.price)} · EV ${ev.bestAny.ev.toFixed(3)}/$1 · dies on lock</p>` : "");
+      $("#verdict").innerHTML = `<div class="verdict pass">PASS · ${n ? "no priced line has +EV after fees" : "enter at least one price"}</div>`;
     }
   }
 

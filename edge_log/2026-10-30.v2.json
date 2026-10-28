@@ -5,9 +5,9 @@
   "forecast_file": "2026-10-30.v2.json",
   "forecast_sha256": "21e76585fc37a54b8a6b9a1a4a5205de66d7644392dc2e7e2e6b7f485c4598a1",
   "forecast_frozen_at_utc": "2026-10-28T15:27:53.005748Z",
-  "odds_fetched_at_utc": "2026-10-28T15:28:18.341973+00:00",
-  "odds_fetched_at_et": "2026-10-28 11:28:18 AM ET",
-  "snapshot_file": "odds_snapshots/2026-10-30/20261028T152818Z.json",
+  "odds_fetched_at_utc": "2026-10-28T15:41:51.519775+00:00",
+  "odds_fetched_at_et": "2026-10-28 11:41:51 AM ET",
+  "snapshot_file": "odds_snapshots/2026-10-30/20261028T154151Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -17,7 +17,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 134
+      "n": 133
     },
     {
       "endpoint": "GET /events/POLY-1262500/markets?includeAllMarkets=true (paged)",
@@ -68,6 +68,7 @@
     }
   ],
   "fee_model": "0.07 * p * (1-p) per $1 contract",
+  "best_bet_rule": "max-EV: highest-EV Jupiter line with EV > 0 (any market/side); skip ask < 0.03 or > 0.97 or no volume and no orderbook; cashes_on_lock is info only",
   "series": [
     {
       "match_id": "115660540726095081",
@@ -93,11 +94,14 @@
           "cost": 0.2216,
           "our_prob": 0.4326,
           "cashes_on_lock": false,
-          "contracts_at_ask": 44229.17,
+          "contracts_at_ask": 44148.69,
           "overround": 0.01,
           "fair_prob": 0.2079,
           "edge_pct": 22.47,
-          "ev_per_$1": 0.9522
+          "ev_per_$1": 0.9522,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280278-0",
@@ -113,11 +117,14 @@
           "cost": 0.8112,
           "our_prob": 0.5674,
           "cashes_on_lock": true,
-          "contracts_at_ask": 36009.28,
+          "contracts_at_ask": 36087.28,
           "overround": 0.01,
           "fair_prob": 0.7921,
           "edge_pct": -22.47,
-          "ev_per_$1": -0.3005
+          "ev_per_$1": -0.3005,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280280-1",
@@ -137,7 +144,10 @@
           "overround": 0.01,
           "fair_prob": 0.4653,
           "edge_pct": 23.69,
-          "ev_per_$1": 0.4407
+          "ev_per_$1": 0.4407,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280280-0",
@@ -157,7 +167,10 @@
           "overround": 0.01,
           "fair_prob": 0.5347,
           "edge_pct": -23.69,
-          "ev_per_$1": -0.4657
+          "ev_per_$1": -0.4657,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280279-0",
@@ -177,7 +190,10 @@
           "overround": 0.01,
           "fair_prob": 0.396,
           "edge_pct": 8.4,
-          "ev_per_$1": 0.1516
+          "ev_per_$1": 0.1516,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280279-1",
@@ -193,11 +209,14 @@
           "cost": 0.6267,
           "our_prob": 0.52,
           "cashes_on_lock": true,
-          "contracts_at_ask": 868.2,
+          "contracts_at_ask": 863.2,
           "overround": 0.01,
           "fair_prob": 0.604,
           "edge_pct": -8.4,
-          "ev_per_$1": -0.1703
+          "ev_per_$1": -0.1703,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280276-1",
@@ -217,7 +236,10 @@
           "overround": 0.01,
           "fair_prob": 0.2871,
           "edge_pct": 19.44,
-          "ev_per_$1": 0.5818
+          "ev_per_$1": 0.5818,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280276-0",
@@ -237,7 +259,10 @@
           "overround": 0.01,
           "fair_prob": 0.7129,
           "edge_pct": -19.44,
-          "ev_per_$1": -0.2937
+          "ev_per_$1": -0.2937,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280277-1",
@@ -253,11 +278,14 @@
           "cost": 0.2735,
           "our_prob": 0.4428,
           "cashes_on_lock": false,
-          "contracts_at_ask": 335.68,
+          "contracts_at_ask": 403.68,
           "overround": 0.01,
           "fair_prob": 0.2574,
           "edge_pct": 18.54,
-          "ev_per_$1": 0.619
+          "ev_per_$1": 0.619,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         },
         {
           "market_id": "POLY-6280277-0",
@@ -277,10 +305,35 @@
           "overround": 0.01,
           "fair_prob": 0.7426,
           "edge_pct": -18.54,
-          "ev_per_$1": -0.2698
+          "ev_per_$1": -0.2698,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true
         }
       ],
-      "best_bet": null,
+      "best_bet": {
+        "market_id": "POLY-6280278-1",
+        "pair_id": "POLY-6280278",
+        "label": "ML G2",
+        "type": "moneyline",
+        "game": null,
+        "line": null,
+        "ask": 0.21,
+        "bid": 0.2,
+        "volume": 92752,
+        "fee": 0.0116,
+        "cost": 0.2216,
+        "our_prob": 0.4326,
+        "cashes_on_lock": false,
+        "contracts_at_ask": 44148.69,
+        "overround": 0.01,
+        "fair_prob": 0.2079,
+        "edge_pct": 22.47,
+        "ev_per_$1": 0.9522,
+        "has_book": true,
+        "skip_reason": null,
+        "eligible": true
+      },
       "best_ev_any": {
         "market_id": "POLY-6280278-1",
         "pair_id": "POLY-6280278",
@@ -295,11 +348,14 @@
         "cost": 0.2216,
         "our_prob": 0.4326,
         "cashes_on_lock": false,
-        "contracts_at_ask": 44229.17,
+        "contracts_at_ask": 44148.69,
         "overround": 0.01,
         "fair_prob": 0.2079,
         "edge_pct": 22.47,
-        "ev_per_$1": 0.9522
+        "ev_per_$1": 0.9522,
+        "has_book": true,
+        "skip_reason": null,
+        "eligible": true
       },
       "market_inventory": {
         "child_moneyline": {
@@ -545,7 +601,7 @@
         }
       ],
       "unpriced": [],
-      "verdict": "PASS (no +EV market that cashes on the locked score)"
+      "verdict": "BEST BET: ML G2 @ 0.21 (EV +0.952/$1, model 43.3% vs no-vig 20.8%)"
     }
   ]
 }
