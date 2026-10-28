@@ -7,11 +7,20 @@ import json, math
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 import numpy as np
-from . import config, schedule, ratings, patches, golgg, corpus, v2, sim_v2, draftmodel as dm
+from . import config, schedule, ratings, patches, golgg, corpus, v2, sim_v2, sim_r, draftmodel as dm
 from .forecast import ET, INTEGRITY, _et_date, _form, _event_record, freeze  # noqa: F401  (same freeze/hash path)
 
-MODEL_VERSION = "v2.1-patch-lineup-draft"   # v2.1 (2026-10-28 audit): cross-region Elo tuning/K, no continuity term
-MODEL_VERSIONS = {"v2": "v2-patch-lineup-draft", "v2.1": MODEL_VERSION}
+# Model versions (all write forecast_log/<date>.v2.json; frozen files are never recomputed):
+#   v2            draft-path sims headline (frozen Oct 28-30 2026)
+#   v2.1          audit fixes (cross-region Elo tuning/K, no continuity term), draft-path sims headline (never frozen)
+#   v2.1-ratings  PRIMARY since 2026-10-28 (owner-approved): v2.1 ratings-only headline; draft sims kept as an info panel
+#   v2.2          v2.1-ratings + cross-region league offsets; backtested, NOT adopted (worse out of sample)
+MODEL_VERSIONS = {"v2": "v2-patch-lineup-draft", "v2.1": "v2.1-patch-lineup-draft",
+                  "v2.1-ratings": "v2.1-ratings-patch", "v2.2": "v2.2-ratings-xregion"}
+PRIMARY = "v2.1-ratings"
+MODEL_VERSION = MODEL_VERSIONS[PRIMARY]
+_RATINGS_VARIANT = {"v2": "v2", "v2.1": "v2.1", "v2.1-ratings": "v2.1", "v2.2": "v2.2"}
+_HEADLINE = {"v2": "draft", "v2.1": "draft", "v2.1-ratings": "ratings", "v2.2": "ratings"}
 INTEGRITY_V2 = dict(INTEGRITY)
 INTEGRITY_V2["data_sources"] = [
     "lolesports.com persisted gateway: getSchedule (results + schedule), getTeams (official rosters), "
@@ -174,6 +183,11 @@ def draft_summary(E, sp, out, combo, base_logit, a_code, b_code, g1_a_blue):
 
 
 def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, only=None, variant=None):
+    """variant: a MODEL_VERSIONS key (default PRIMARY = 'v2.1-ratings'). Ratings-headline variants put the ratings-only
+    simulation in card['sim'] (what is locked, graded and priced) and the draft-path simulation in card['draft_sim']
+    (informational only)."""
+    model = variant or PRIMARY
+    headline = _HEADLINE[model]
     now = now or datetime.now(timezone.utc)
     sims = sims or config.SIMS
     events = events if events is not None else schedule.fetch_all_events()
@@ -182,7 +196,7 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
         corpus.build(refresh_live=True)
     cal = patches.load(); games = v2.load_corpus()
     E = v2.Engine(games, rows, cal)
-    params = E.fit(date, variant=variant)
+    params = E.fit(date, variant=_RATINGS_VARIANT[model])
     try:
         teams = schedule._get("getTeams")["data"]["teams"]
     except Exception:
@@ -201,7 +215,8 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
         cutoff = min(row["start"], now.strftime("%Y-%m-%dT%H:%M:%SZ"))
         R1, _, _ = ratings.build(rows, cutoff)
         a, b = row["a_name"], row["b_name"]
-        ra, rb, P = E.pre[row["match_id"]]
+        ra_raw, rb_raw, _ = E.pre[row["match_id"]]
+        ra, rb, _ = E.rating(row["match_id"], a, b)
         P = live_patch
         ga, gb = E.golgg_name(a, date), E.golgg_name(b, date)
         try:
@@ -217,36 +232,49 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
         elo_logit = (ra - rb) * v2.LN10_400
         sp = E.spec(elo_logit, row["bo"], row["bo"] > 1, P, ga, gb, [(w, l) for w, l, _ in ca], [(w, l) for w, l, _ in cb], g1)
         out = sim_v2.simulate(sp, sims=sims, seed=config.SEED + i)
+        p_r = 1 / (1 + math.exp(-elo_logit))
+        rout = sim_r.simulate(p_r, row["bo"], sims=sims, seed=config.SEED + i) if headline == "ratings" else None
         best = max(range(len(sp["combos"])), key=lambda k: sp["combos"][k]["w"])
         drafts = draft_summary(E, sp, out, sp["combos"][best], elo_logit, row["a"], row["b"], g1)
         combos_desc = [{"w": round(wa * wb, 3), "a": da, "b": db, "share_in_sims": round(out["lineup_combo_share"][k], 4)}
                        for k, ((wa, _, da), (wb, _, db)) in enumerate((x, y) for x in ca for y in cb)]
         simout = {k: v for k, v in out.items() if k not in ("drafts", "role_marginals")}
         simout["p_map_a_by_game"] = [round(x, 4) for x in out.get("p_map_a_by_game", [])]
+        p_map_draft = round(float(np.mean([x for x in out["p_game_a"] if x is not None][:1])), 4)
+        if rout:
+            draft_sim = {**simout, "note": "INFORMATIONAL ONLY: draft-path simulation; not the lock, not graded, not used for edge"}
+            simout = rout
+        else:
+            draft_sim = None
         o = params["outcome"]
         cards.append({
             "match_id": row["match_id"], "start_utc": row["start"],
             "start_et": datetime.fromisoformat(row["start"].replace("Z", "+00:00")).astimezone(ET).strftime("%a %b %d, %I:%M %p ET"),
             "league": row["league"], "stage": row["block"], "bo": row["bo"],
-            "team_a": {"code": row["a"], "name": a, "img": row["a_img"], "elo_v2": round(ra, 1), "elo_v1": round(R1.get(a, row["league"]), 1),
+            "team_a": {"code": row["a"], "name": a, "img": row["a_img"], "elo_v2": round(ra, 1), "elo_v2_raw": round(ra_raw, 1), "elo_v1": round(R1.get(a, row["league"]), 1),
                        "home": R1.home.get(a), "event_record": _event_record(rows, a, row["league"], row["block"], cutoff, row["start"][:4]),
                        "form": _form(rows, a, cutoff), "lineup": sa, "golgg_name": ga},
-            "team_b": {"code": row["b"], "name": b, "img": row["b_img"], "elo_v2": round(rb, 1), "elo_v1": round(R1.get(b, row["league"]), 1),
+            "team_b": {"code": row["b"], "name": b, "img": row["b_img"], "elo_v2": round(rb, 1), "elo_v2_raw": round(rb_raw, 1), "elo_v1": round(R1.get(b, row["league"]), 1),
                        "home": R1.home.get(b), "event_record": _event_record(rows, b, row["league"], row["block"], cutoff, row["start"][:4]),
                        "form": _form(rows, b, cutoff), "lineup": sb, "golgg_name": gb},
-            "model": {"p_map_a": round(float(np.mean([x for x in out["p_game_a"] if x is not None][:1])), 4),
-                      "p_map_a_elo_only": round(1 / (1 + math.exp(-elo_logit)), 4), "patch": P, "fearless": sp["fearless"],
+            "model": {"p_map_a": round(p_r, 4) if rout else p_map_draft, "headline": headline,
+                      "p_map_a_elo_only": round(p_r, 4), "p_map_a_draft_sim": p_map_draft, "patch": P, "fearless": sp["fearless"],
                       "g1_a_blue": g1, "g1_side_source": g1_src or "unknown -> 50/50", "lineup_combos": combos_desc,
                       "continuity_maps_together": {row["a"]: E.S.continuity(ga, [s["pid"] for s in sa]),
                                                    row["b"]: E.S.continuity(gb, [s["pid"] for s in sb])},
                       "history_cutoff_utc": cutoff},
             "sim": simout,
+            **({"draft_sim": draft_sim} if draft_sim else {}),
             "drafts": drafts,
             "adversarial_review": flags(row, sa, sb, out, drafts, E, ga, gb, rho=sp["rho"]),
         })
-    body = {"date": date, "integrity": INTEGRITY_V2, "model_version": MODEL_VERSIONS[params["variant"]],
-            "params": {"ratings_variant": params["variant"], "elo_patch_lambda": params["elo_lambda"], "elo_kscale": params["elo_kscale"],
-                       "elo_intl_k_leagues": params["elo_intl_k_leagues"],
+    body = {"date": date, "integrity": INTEGRITY_V2, "model_version": MODEL_VERSIONS[model],
+            "params": {"ratings_variant": params["variant"], "headline": headline,
+                       "headline_simulator": ("ratings-only (sim_r: rating_sd %.2f, map_sd %.2f, no side/draft term); draft sims are "
+                                              "an informational panel" % (sim_r.RATING_SD, sim_r.MAP_SD)) if headline == "ratings"
+                                             else "draft-path sims (sim_v2)",
+                       "elo_patch_lambda": params["elo_lambda"], "elo_kscale": params["elo_kscale"],
+                       "elo_intl_k_leagues": params["elo_intl_k_leagues"], "league_offsets": params["league_offsets"],
                        "draft_model": params["draft"], "outcome_model": params["outcome"],
                        "q_loser_blue": params["q_loser_blue"], "q_loser_blue_n": params["q_loser_blue_n"],
                        "fitted": ["elo_patch_lambda (tuned on grid)", "elo_kscale (tuned on grid)", "draft_model weights (MLE)",

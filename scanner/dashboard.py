@@ -60,7 +60,13 @@ def _drafts(c):
                    f'{E(g["assumed_sides"])} on modal path · Fearless-locked before: {g["fearless_locked_before"]}</summary>'
                    f'<div class="tw"><table><tr><th>Draft</th><th>{E(A)} picks</th><th>{E(B)} picks</th><th>Seq. prob (bans+picks)</th><th>{E(A)} win</th></tr>{"".join(lines)}</table></div>'
                    f'<p class="muted">Most likely pick per role in the sims - {E(A)}: {marg}<br>{E(B)}: {margb}</p></details>')
-    return '<div class="form"><b>Top drafts per map (beam search on the fitted draft model; sims sample the same model)</b>' + "".join(out) + "</div>"
+    if c["model"].get("headline") == "ratings":
+        ds = c.get("draft_sim") or {}
+        head = ('<b>Draft panel (INFORMATIONAL ONLY; the lock, grading and edge use the ratings-only headline)</b>'
+                + (f'<div class="muted">Draft-path sims would give {E(c["team_a"]["code"])} {_pct(ds["p_series_a"])} · lock {E(ds["locked_score"])}</div>' if ds else ""))
+    else:
+        head = '<b>Top drafts per map (beam search on the fitted draft model; sims sample the same model)</b>'
+    return '<div class="form">' + head + "".join(out) + "</div>"
 
 
 def _img(u):
@@ -113,6 +119,9 @@ def _model_line(c):
     m = c["model"]
     if "train_maps" in m:
         return f"results-only Elo ({m['train_maps']:,} maps, cutoff {E(m['history_cutoff_utc'])})"
+    if m.get("headline") == "ratings":
+        return (f"headline: ratings-only (patch-recency map Elo, cross-region tuned) · patch {E(m['patch'])} · "
+                f"cutoff {E(m['history_cutoff_utc'])}")
     return (f"model v2: patch {E(m['patch'])} · Fearless {'on' if m['fearless'] else 'off'} · G1 side: {E(m['g1_side_source'])} · "
             f"cutoff {E(m['history_cutoff_utc'])}")
 
@@ -156,11 +165,11 @@ def _edge_panel(c, r, snap_et=""):
         verdict = '<div class="verdict pass">PASS · no Jupiter line has +EV after fees</div>'
     sec = ""
     return (head + verdict + sec + warn +
-            '<div class="tw"><table class="mk"><tr><th>Market</th><th>Side</th><th>Price</th><th>Implied</th><th>No-vig</th><th>Our sim (v2)</th>'
+            '<div class="tw"><table class="mk"><tr><th>Market</th><th>Side</th><th>Price</th><th>Implied</th><th>No-vig</th><th>Our sim</th>'
             '<th>Ratings-only</th><th>Edge pp</th><th>EV/$1</th><th>Cashes on lock</th><th>Vol</th></tr>'
             + "".join(rows) + '</table></div>'
             '<p class="muted">Sorted by EV per $1 (fee 0.07·p·(1−p) included). Implied = raw ask; No-vig = ask normalised within its binary pair. '
-            'Our sim = v2 draft-path exact-score distribution; Ratings-only = v2 patch+lineup Elo without the draft layer (comparison only). '
+            'Our sim = the frozen headline distribution (v2.1-ratings and later: ratings-only; v2 files: draft-path sims); Ratings-only = patch-recency Elo without the draft layer. '
             f'BEST BET = highest-EV Jupiter line (every market and alt line, both sides) with EV &gt; 0; lines priced under 0.03 / over 0.97 or with no volume and no orderbook are skipped. '
             'Cashes on lock is info only.</p>{ex}'
             f'<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
@@ -409,6 +418,14 @@ def render(date, version=None, write_index=True, srows=None):
         bt = (f'<section class="card"><h2>Walk-forward backtest v1 vs v2 ({b["v1"]["series"]} international series, same set)</h2>'
               f'<div class="tw"><table><tr><th>model</th><th>Brier</th><th>log loss</th><th>winner acc</th><th>exact-lock hit</th></tr>{trs}</table></div>'
               f'<p><b>{E(verdict)}</b></p></section>')
+    btr = config.ROOT / "calibration" / "backtest_v2.1_ratings_vs_v2.2.json"
+    if is_v2 and btr.exists():
+        b2 = json.loads(btr.read_text())
+        nm2 = [("v2.1_ratings", "v2.1 ratings-only (PRIMARY)"), ("v2.2_sd50", "v2.2 + league offsets (not adopted)")]
+        trs2 = "".join(f"<tr><td>{n}</td><td>{b2[k]['brier']:.4f}</td><td>{b2[k]['logloss']:.4f}</td><td>{b2[k]['winner_acc']:.1%}</td><td>{b2[k]['cal_slope']:.2f}</td></tr>" for k, n in nm2 if k in b2)
+        bt += (f'<section class="card"><h2>Walk-forward backtest, primary model selection ({b2["v2.1_ratings"]["series"]} series)</h2>'
+               f'<div class="tw"><table><tr><th>model</th><th>Brier</th><th>log loss</th><th>winner acc</th><th>calib. slope</th></tr>{trs2}</table></div>'
+               '<p>Primary = v2.1 ratings-only: the cross-region league-offset version (v2.2) was worse out of sample, so it was not adopted.</p></section>')
     edge_meta = (f"Odds snapshot {E(edge['odds_fetched_at_et'])} · coverage {E(edge['coverage'])}" if edge
                  else "Edge layer not run for this date")
     from datetime import date as _d
@@ -433,7 +450,7 @@ def render(date, version=None, write_index=True, srows=None):
 <div class="meta">{fmeta}</div>
 <div class="nav"><a class="simbtn" href="simulate.html?date={E(date)}">🎲 Simulate {E(pretty)}: ratings sim + edge finder</a></div></div></header>
 <main>{_slate(fc, erows, edge, srows, date)}{cards}{bt}</main>
-<footer>Forecast: {"model v2 = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced), data: lolesports, gol.gg, Data Dragon" if is_v2 else "lolesports schedule; model v2 when frozen"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '0.07·p·(1−p)')}. BEST BET = highest-EV Jupiter line with EV &gt; 0 (price 0.03–0.97, traded or on the book); otherwise PASS. Not financial advice.</footer>
+<footer>Forecast: {("model " + E(fc.get("model_version", "")) + (" = ratings-only headline (patch-recency map Elo, cross-region tuned); draft-path sims shown as an informational panel" if str(fc.get("model_version", "")).startswith(("v2.1-ratings", "v2.2")) else " = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced)") + ", data: lolesports, gol.gg, Data Dragon") if is_v2 else "lolesports schedule; model v2 when frozen"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '0.07·p·(1−p)')}. BEST BET = highest-EV Jupiter line with EV &gt; 0 (price 0.03–0.97, traded or on the book); otherwise PASS. Not financial advice.</footer>
 <script src="assets/datenav.js"></script></body></html>"""
     config.DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (config.DOCS_DIR / f"{date}.html").write_text(page(False))

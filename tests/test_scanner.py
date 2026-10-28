@@ -119,7 +119,7 @@ def test_edge_refuses_without_frozen_forecast(tmp_path, monkeypatch):
 
 def test_forecast_modules_never_import_market_code():
     for mod in ("forecast.py", "ratings.py", "sim.py", "schedule.py", "forecast_v2.py", "v2.py", "sim_v2.py",
-                "draftmodel.py", "ratings_v2.py", "golgg.py", "corpus.py", "patches.py", "champs.py", "backtest_v2.py"):
+                "draftmodel.py", "ratings_v2.py", "golgg.py", "corpus.py", "patches.py", "champs.py", "backtest_v2.py", "sim_r.py"):
         tree = ast.parse((ROOT / "scanner" / mod).read_text())
         names = {a.name for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom)) for a in n.names}
         mods = {n.module for n in ast.walk(tree) if isinstance(n, ast.ImportFrom) and n.module}

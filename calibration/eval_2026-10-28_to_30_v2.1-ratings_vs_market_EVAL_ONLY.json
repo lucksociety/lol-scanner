@@ -1,0 +1,373 @@
+{
+ "label": "EVALUATION ONLY. Not frozen, not graded, not used for edge. Oct 28-30 remain frozen on v2 (forecast_log/*.v2.json).",
+ "primary": "v2.1-ratings",
+ "sims": 50000,
+ "history_cutoff": "each date's original v2 freeze time",
+ "series": {
+  "115660540726095061": {
+   "series": "MKOI vs T1",
+   "date": "2026-10-28",
+   "bo": 3,
+   "frozen_v2": {
+    "p_series_a": 0.3862,
+    "lock": "0-2",
+    "lock_p": 0.33124
+   },
+   "v2.1-ratings": {
+    "model_version": "v2.1-ratings-patch",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {},
+    "elo_a": 1588.1,
+    "elo_b": 1703.1,
+    "home": [
+     "LEC",
+     "LCK"
+    ],
+    "p_map_a": 0.3403,
+    "p_series_a": 0.284,
+    "lock": "0-2",
+    "lock_p": 0.4328,
+    "exact": {
+     "0-2": 0.4328,
+     "1-2": 0.2832,
+     "2-0": 0.1259,
+     "2-1": 0.158
+    },
+    "draft_sim_p_series_a_info": 0.3304
+   },
+   "v2.2": {
+    "model_version": "v2.2-ratings-xregion",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {
+     "Circuito Desafiante": 8.61,
+     "LCK": 66.65,
+     "LCP": -22.15,
+     "LCS": -5.57,
+     "LEC": -7.28,
+     "LPL": 5.97,
+     "LTA North": 29.81,
+     "LTA South": -38.68,
+     "PCS": -31.18,
+     "VCS": -6.17
+    },
+    "elo_a": 1580.8,
+    "elo_b": 1769.7,
+    "home": [
+     "LEC",
+     "LCK"
+    ],
+    "p_map_a": 0.2521,
+    "p_series_a": 0.1753,
+    "lock": "0-2",
+    "lock_p": 0.5496,
+    "exact": {
+     "0-2": 0.5496,
+     "1-2": 0.275,
+     "2-0": 0.0722,
+     "2-1": 0.1032
+    },
+    "draft_sim_p_series_a_info": 0.2115
+   },
+   "market_no_vig_moneyline_COMPARISON_ONLY": {
+    "team": "T1",
+    "p": 0.8515,
+    "p_series_a": 0.1485,
+    "source": "odds_snapshots/2026-10-28/20261028T154141Z.json (11:41 AM ET), post-forecast; NOT a model input"
+   }
+  },
+  "115660540726095065": {
+   "series": "LYON vs IG",
+   "date": "2026-10-28",
+   "bo": 3,
+   "frozen_v2": {
+    "p_series_a": 0.34325,
+    "lock": "0-2",
+    "lock_p": 0.37639
+   },
+   "v2.1-ratings": {
+    "model_version": "v2.1-ratings-patch",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {},
+    "elo_a": 1618.2,
+    "elo_b": 1675.8,
+    "home": [
+     "LTA North",
+     "LPL"
+    ],
+    "p_map_a": 0.4179,
+    "p_series_a": 0.3831,
+    "lock": "0-2",
+    "lock_p": 0.3424,
+    "exact": {
+     "0-2": 0.3424,
+     "1-2": 0.2745,
+     "2-0": 0.1827,
+     "2-1": 0.2005
+    },
+    "draft_sim_p_series_a_info": 0.4256
+   },
+   "v2.2": {
+    "model_version": "v2.2-ratings-xregion",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {
+     "Circuito Desafiante": 8.61,
+     "LCK": 66.65,
+     "LCP": -22.15,
+     "LCS": -5.57,
+     "LEC": -7.28,
+     "LPL": 5.97,
+     "LTA North": 29.81,
+     "LTA South": -38.68,
+     "PCS": -31.18,
+     "VCS": -6.17
+    },
+    "elo_a": 1648.1,
+    "elo_b": 1681.8,
+    "home": [
+     "LTA North",
+     "LPL"
+    ],
+    "p_map_a": 0.4516,
+    "p_series_a": 0.43,
+    "lock": "0-2",
+    "lock_p": 0.3063,
+    "exact": {
+     "0-2": 0.3063,
+     "1-2": 0.2636,
+     "2-0": 0.2109,
+     "2-1": 0.2192
+    },
+    "draft_sim_p_series_a_info": 0.4736
+   },
+   "market_no_vig_moneyline_COMPARISON_ONLY": {
+    "team": "IG",
+    "p": 0.6634,
+    "p_series_a": 0.3366,
+    "source": "odds_snapshots/2026-10-28/20261028T154141Z.json (11:41 AM ET), post-forecast; NOT a model input"
+   }
+  },
+  "115660540726095073": {
+   "series": "CFO vs KC",
+   "date": "2026-10-29",
+   "bo": 3,
+   "frozen_v2": {
+    "p_series_a": 0.26141000000000003,
+    "lock": "0-2",
+    "lock_p": 0.44657
+   },
+   "v2.1-ratings": {
+    "model_version": "v2.1-ratings-patch",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {},
+    "elo_a": 1508.7,
+    "elo_b": 1652.5,
+    "home": [
+     "LCP",
+     "LEC"
+    ],
+    "p_map_a": 0.3042,
+    "p_series_a": 0.2379,
+    "lock": "0-2",
+    "lock_p": 0.479,
+    "exact": {
+     "0-2": 0.479,
+     "1-2": 0.2831,
+     "2-0": 0.1023,
+     "2-1": 0.1356
+    },
+    "draft_sim_p_series_a_info": 0.1808
+   },
+   "v2.2": {
+    "model_version": "v2.2-ratings-xregion",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {
+     "Circuito Desafiante": 8.61,
+     "LCK": 66.65,
+     "LCP": -22.15,
+     "LCS": -5.57,
+     "LEC": -7.28,
+     "LPL": 5.97,
+     "LTA North": 29.81,
+     "LTA South": -38.68,
+     "PCS": -31.18,
+     "VCS": -6.17
+    },
+    "elo_a": 1486.6,
+    "elo_b": 1645.2,
+    "home": [
+     "LCP",
+     "LEC"
+    ],
+    "p_map_a": 0.2864,
+    "p_series_a": 0.2159,
+    "lock": "0-2",
+    "lock_p": 0.5025,
+    "exact": {
+     "0-2": 0.5025,
+     "1-2": 0.2816,
+     "2-0": 0.0915,
+     "2-1": 0.1245
+    },
+    "draft_sim_p_series_a_info": 0.1619
+   },
+   "market_no_vig_moneyline_COMPARISON_ONLY": {
+    "team": "KC",
+    "p": 0.7921,
+    "p_series_a": 0.2079,
+    "source": "odds_snapshots/2026-10-28/20261028T154141Z.json (11:41 AM ET), post-forecast; NOT a model input"
+   }
+  },
+  "115660540726095069": {
+   "series": "BLG vs TES",
+   "date": "2026-10-29",
+   "bo": 3,
+   "frozen_v2": {
+    "p_series_a": 0.8710199999999999,
+    "lock": "2-0",
+    "lock_p": 0.61998
+   },
+   "v2.1-ratings": {
+    "model_version": "v2.1-ratings-patch",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {},
+    "elo_a": 1764.6,
+    "elo_b": 1671.3,
+    "home": [
+     "LPL",
+     "LPL"
+    ],
+    "p_map_a": 0.6312,
+    "p_series_a": 0.677,
+    "lock": "2-0",
+    "lock_p": 0.3957,
+    "exact": {
+     "0-2": 0.1453,
+     "1-2": 0.1777,
+     "2-0": 0.3957,
+     "2-1": 0.2813
+    },
+    "draft_sim_p_series_a_info": 0.7225
+   },
+   "v2.2": {
+    "model_version": "v2.2-ratings-xregion",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {
+     "Circuito Desafiante": 8.61,
+     "LCK": 66.65,
+     "LCP": -22.15,
+     "LCS": -5.57,
+     "LEC": -7.28,
+     "LPL": 5.97,
+     "LTA North": 29.81,
+     "LTA South": -38.68,
+     "PCS": -31.18,
+     "VCS": -6.17
+    },
+    "elo_a": 1770.6,
+    "elo_b": 1677.2,
+    "home": [
+     "LPL",
+     "LPL"
+    ],
+    "p_map_a": 0.6312,
+    "p_series_a": 0.677,
+    "lock": "2-0",
+    "lock_p": 0.3957,
+    "exact": {
+     "0-2": 0.1453,
+     "1-2": 0.1777,
+     "2-0": 0.3957,
+     "2-1": 0.2813
+    },
+    "draft_sim_p_series_a_info": 0.7225
+   },
+   "market_no_vig_moneyline_COMPARISON_ONLY": {
+    "team": "BLG",
+    "p": 0.7525,
+    "p_series_a": 0.7525,
+    "source": "odds_snapshots/2026-10-28/20261028T154141Z.json (11:41 AM ET), post-forecast; NOT a model input"
+   }
+  },
+  "115660540726095081": {
+   "series": "G2 vs HLE",
+   "date": "2026-10-30",
+   "bo": 3,
+   "frozen_v2": {
+    "p_series_a": 0.43258,
+    "lock": "0-2",
+    "lock_p": 0.29782
+   },
+   "v2.1-ratings": {
+    "model_version": "v2.1-ratings-patch",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {},
+    "elo_a": 1648.3,
+    "elo_b": 1715.1,
+    "home": [
+     "LEC",
+     "LCK"
+    ],
+    "p_map_a": 0.405,
+    "p_series_a": 0.3684,
+    "lock": "0-2",
+    "lock_p": 0.3566,
+    "exact": {
+     "0-2": 0.3566,
+     "1-2": 0.275,
+     "2-0": 0.1738,
+     "2-1": 0.1946
+    },
+    "draft_sim_p_series_a_info": 0.4015
+   },
+   "v2.2": {
+    "model_version": "v2.2-ratings-xregion",
+    "lambda": 0.96,
+    "kscale": 0.5,
+    "league_offsets": {
+     "Circuito Desafiante": 8.61,
+     "LCK": 66.65,
+     "LCP": -22.15,
+     "LCS": -5.57,
+     "LEC": -7.28,
+     "LPL": 5.97,
+     "LTA North": 29.81,
+     "LTA South": -38.68,
+     "PCS": -31.18,
+     "VCS": -6.17
+    },
+    "elo_a": 1641.0,
+    "elo_b": 1781.7,
+    "home": [
+     "LEC",
+     "LCK"
+    ],
+    "p_map_a": 0.3079,
+    "p_series_a": 0.2427,
+    "lock": "0-2",
+    "lock_p": 0.4741,
+    "exact": {
+     "0-2": 0.4741,
+     "1-2": 0.2832,
+     "2-0": 0.1044,
+     "2-1": 0.1383
+    },
+    "draft_sim_p_series_a_info": 0.2669
+   },
+   "market_no_vig_moneyline_COMPARISON_ONLY": {
+    "team": "HLE",
+    "p": 0.7921,
+    "p_series_a": 0.2079,
+    "source": "odds_snapshots/2026-10-28/20261028T154141Z.json (11:41 AM ET), post-forecast; NOT a model input"
+   }
+  }
+ }
+}

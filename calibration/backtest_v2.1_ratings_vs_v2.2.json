@@ -1,0 +1,4915 @@
+{
+ "scope": "Worlds/MSI/First Stand since 2025-06-01; walk-forward per event; ratings-only simulator, 20000 sims",
+ "primary_rule": "v2.2 (sd 50, pre-declared) becomes primary only if BOTH out-of-sample Brier and log loss beat v2.1_ratings",
+ "v2.1_ratings": {
+  "series": 123,
+  "brier": 0.1914,
+  "logloss": 0.5632,
+  "winner_acc": 0.732,
+  "exact_lock_hit": 0.447,
+  "cal_slope": 1.288,
+  "cal_slope_se": 0.275,
+  "fav_55_70": {
+   "n": 56,
+   "pred": 0.621,
+   "won": 0.661
+  }
+ },
+ "v2.2_sd25": {
+  "series": 123,
+  "brier": 0.1919,
+  "logloss": 0.5652,
+  "winner_acc": 0.732,
+  "exact_lock_hit": 0.455,
+  "cal_slope": 1.183,
+  "cal_slope_se": 0.256,
+  "fav_55_70": {
+   "n": 56,
+   "pred": 0.622,
+   "won": 0.696
+  }
+ },
+ "v2.2_sd50": {
+  "series": 123,
+  "brier": 0.1933,
+  "logloss": 0.5719,
+  "winner_acc": 0.732,
+  "exact_lock_hit": 0.455,
+  "cal_slope": 1.018,
+  "cal_slope_se": 0.227,
+  "fav_55_70": {
+   "n": 51,
+   "pred": 0.629,
+   "won": 0.706
+  }
+ },
+ "v2.2_sd100": {
+  "series": 123,
+  "brier": 0.195,
+  "logloss": 0.5836,
+  "winner_acc": 0.683,
+  "exact_lock_hit": 0.455,
+  "cal_slope": 0.845,
+  "cal_slope_se": 0.194,
+  "fav_55_70": {
+   "n": 41,
+   "pred": 0.623,
+   "won": 0.659
+  }
+ },
+ "cross_league_series_only": {
+  "v2.1_ratings": {
+   "series": 109,
+   "brier": 0.188,
+   "logloss": 0.5541,
+   "winner_acc": 0.743,
+   "exact_lock_hit": 0.459,
+   "cal_slope": 1.28,
+   "cal_slope_se": 0.282,
+   "fav_55_70": {
+    "n": 49,
+    "pred": 0.625,
+    "won": 0.633
+   }
+  },
+  "v2.2_sd25": {
+   "series": 109,
+   "brier": 0.1885,
+   "logloss": 0.5565,
+   "winner_acc": 0.743,
+   "exact_lock_hit": 0.468,
+   "cal_slope": 1.17,
+   "cal_slope_se": 0.261,
+   "fav_55_70": {
+    "n": 49,
+    "pred": 0.626,
+    "won": 0.673
+   }
+  },
+  "v2.2_sd50": {
+   "series": 109,
+   "brier": 0.1901,
+   "logloss": 0.564,
+   "winner_acc": 0.743,
+   "exact_lock_hit": 0.468,
+   "cal_slope": 1.001,
+   "cal_slope_se": 0.229,
+   "fav_55_70": {
+    "n": 44,
+    "pred": 0.635,
+    "won": 0.682
+   }
+  },
+  "v2.2_sd100": {
+   "series": 109,
+   "brier": 0.192,
+   "logloss": 0.5772,
+   "winner_acc": 0.688,
+   "exact_lock_hit": 0.468,
+   "cal_slope": 0.827,
+   "cal_slope_se": 0.195,
+   "fav_55_70": {
+    "n": 34,
+    "pred": 0.63,
+    "won": 0.618
+   }
+  }
+ },
+ "by_event": {
+  "MSI 2025": {
+   "v2.1_ratings": {
+    "series": 19,
+    "brier": 0.1431,
+    "logloss": 0.4527,
+    "winner_acc": 0.842,
+    "exact_lock_hit": 0.105,
+    "cal_slope": 2.828,
+    "cal_slope_se": 1.29,
+    "fav_55_70": {
+     "n": 9,
+     "pred": 0.619,
+     "won": 0.778
+    }
+   },
+   "v2.2_sd25": {
+    "series": 19,
+    "brier": 0.1431,
+    "logloss": 0.4527,
+    "winner_acc": 0.842,
+    "exact_lock_hit": 0.105,
+    "cal_slope": 2.828,
+    "cal_slope_se": 1.29,
+    "fav_55_70": {
+     "n": 9,
+     "pred": 0.619,
+     "won": 0.778
+    }
+   },
+   "v2.2_sd50": {
+    "series": 19,
+    "brier": 0.1431,
+    "logloss": 0.4527,
+    "winner_acc": 0.842,
+    "exact_lock_hit": 0.105,
+    "cal_slope": 2.828,
+    "cal_slope_se": 1.29,
+    "fav_55_70": {
+     "n": 9,
+     "pred": 0.619,
+     "won": 0.778
+    }
+   },
+   "v2.2_sd100": {
+    "series": 19,
+    "brier": 0.1431,
+    "logloss": 0.4527,
+    "winner_acc": 0.842,
+    "exact_lock_hit": 0.105,
+    "cal_slope": 2.828,
+    "cal_slope_se": 1.29,
+    "fav_55_70": {
+     "n": 9,
+     "pred": 0.619,
+     "won": 0.778
+    }
+   }
+  },
+  "Worlds 2025": {
+   "v2.1_ratings": {
+    "series": 41,
+    "brier": 0.1923,
+    "logloss": 0.5686,
+    "winner_acc": 0.732,
+    "exact_lock_hit": 0.561,
+    "cal_slope": 1.519,
+    "cal_slope_se": 0.564,
+    "fav_55_70": {
+     "n": 20,
+     "pred": 0.621,
+     "won": 0.7
+    }
+   },
+   "v2.2_sd25": {
+    "series": 41,
+    "brier": 0.1906,
+    "logloss": 0.5641,
+    "winner_acc": 0.732,
+    "exact_lock_hit": 0.561,
+    "cal_slope": 1.504,
+    "cal_slope_se": 0.551,
+    "fav_55_70": {
+     "n": 20,
+     "pred": 0.622,
+     "won": 0.7
+    }
+   },
+   "v2.2_sd50": {
+    "series": 41,
+    "brier": 0.1877,
+    "logloss": 0.5561,
+    "winner_acc": 0.732,
+    "exact_lock_hit": 0.561,
+    "cal_slope": 1.446,
+    "cal_slope_se": 0.519,
+    "fav_55_70": {
+     "n": 18,
+     "pred": 0.634,
+     "won": 0.722
+    }
+   },
+   "v2.2_sd100": {
+    "series": 41,
+    "brier": 0.1847,
+    "logloss": 0.5466,
+    "winner_acc": 0.683,
+    "exact_lock_hit": 0.537,
+    "cal_slope": 1.285,
+    "cal_slope_se": 0.451,
+    "fav_55_70": {
+     "n": 13,
+     "pred": 0.627,
+     "won": 0.692
+    }
+   }
+  },
+  "First Stand 2026": {
+   "v2.1_ratings": {
+    "series": 13,
+    "brier": 0.1536,
+    "logloss": 0.4879,
+    "winner_acc": 0.846,
+    "exact_lock_hit": 0.385,
+    "cal_slope": 1.286,
+    "cal_slope_se": 0.738,
+    "fav_55_70": {
+     "n": 6,
+     "pred": 0.635,
+     "won": 0.833
+    }
+   },
+   "v2.2_sd25": {
+    "series": 13,
+    "brier": 0.169,
+    "logloss": 0.534,
+    "winner_acc": 0.846,
+    "exact_lock_hit": 0.462,
+    "cal_slope": 0.919,
+    "cal_slope_se": 0.586,
+    "fav_55_70": {
+     "n": 6,
+     "pred": 0.64,
+     "won": 0.833
+    }
+   },
+   "v2.2_sd50": {
+    "series": 13,
+    "brier": 0.1885,
+    "logloss": 0.6077,
+    "winner_acc": 0.846,
+    "exact_lock_hit": 0.462,
+    "cal_slope": 0.593,
+    "cal_slope_se": 0.433,
+    "fav_55_70": {
+     "n": 2,
+     "pred": 0.679,
+     "won": 1.0
+    }
+   },
+   "v2.2_sd100": {
+    "series": 13,
+    "brier": 0.2052,
+    "logloss": 0.709,
+    "winner_acc": 0.692,
+    "exact_lock_hit": 0.462,
+    "cal_slope": 0.395,
+    "cal_slope_se": 0.321,
+    "fav_55_70": {
+     "n": 1,
+     "pred": 0.573,
+     "won": 0.0
+    }
+   }
+  },
+  "MSI 2026": {
+   "v2.1_ratings": {
+    "series": 20,
+    "brier": 0.2221,
+    "logloss": 0.6184,
+    "winner_acc": 0.65,
+    "exact_lock_hit": 0.4,
+    "cal_slope": 0.61,
+    "cal_slope_se": 0.433,
+    "fav_55_70": {
+     "n": 5,
+     "pred": 0.617,
+     "won": 0.6
+    }
+   },
+   "v2.2_sd25": {
+    "series": 20,
+    "brier": 0.2234,
+    "logloss": 0.6203,
+    "winner_acc": 0.65,
+    "exact_lock_hit": 0.4,
+    "cal_slope": 0.575,
+    "cal_slope_se": 0.399,
+    "fav_55_70": {
+     "n": 5,
+     "pred": 0.62,
+     "won": 0.6
+    }
+   },
+   "v2.2_sd50": {
+    "series": 20,
+    "brier": 0.2279,
+    "logloss": 0.6318,
+    "winner_acc": 0.65,
+    "exact_lock_hit": 0.4,
+    "cal_slope": 0.515,
+    "cal_slope_se": 0.351,
+    "fav_55_70": {
+     "n": 3,
+     "pred": 0.629,
+     "won": 0.333
+    }
+   },
+   "v2.2_sd100": {
+    "series": 20,
+    "brier": 0.2341,
+    "logloss": 0.6501,
+    "winner_acc": 0.5,
+    "exact_lock_hit": 0.4,
+    "cal_slope": 0.458,
+    "cal_slope_se": 0.308,
+    "fav_55_70": {
+     "n": 3,
+     "pred": 0.644,
+     "won": 0.333
+    }
+   }
+  },
+  "Worlds 2026": {
+   "v2.1_ratings": {
+    "series": 30,
+    "brier": 0.2167,
+    "logloss": 0.6215,
+    "winner_acc": 0.667,
+    "exact_lock_hit": 0.567,
+    "cal_slope": 1.325,
+    "cal_slope_se": 0.656,
+    "fav_55_70": {
+     "n": 16,
+     "pred": 0.618,
+     "won": 0.5
+    }
+   },
+   "v2.2_sd25": {
+    "series": 30,
+    "brier": 0.2135,
+    "logloss": 0.6149,
+    "winner_acc": 0.667,
+    "exact_lock_hit": 0.567,
+    "cal_slope": 1.302,
+    "cal_slope_se": 0.612,
+    "fav_55_70": {
+     "n": 16,
+     "pred": 0.617,
+     "won": 0.625
+    }
+   },
+   "v2.2_sd50": {
+    "series": 30,
+    "brier": 0.2118,
+    "logloss": 0.6136,
+    "winner_acc": 0.667,
+    "exact_lock_hit": 0.567,
+    "cal_slope": 1.165,
+    "cal_slope_se": 0.545,
+    "fav_55_70": {
+     "n": 19,
+     "pred": 0.623,
+     "won": 0.684
+    }
+   },
+   "v2.2_sd100": {
+    "series": 30,
+    "brier": 0.2113,
+    "logloss": 0.6183,
+    "winner_acc": 0.7,
+    "exact_lock_hit": 0.6,
+    "cal_slope": 0.992,
+    "cal_slope_se": 0.476,
+    "fav_55_70": {
+     "n": 15,
+     "pred": 0.622,
+     "won": 0.667
+    }
+   }
+  }
+ },
+ "fits": {
+  "MSI 2025": {
+   "elo_lambda": 1.0,
+   "elo_kscale": 1.0,
+   "league_offsets": {
+    "25": {
+     "offsets": {},
+     "n_series": 0,
+     "n_maps": 0,
+     "sd": 25.0
+    },
+    "50": {
+     "offsets": {},
+     "n_series": 0,
+     "n_maps": 0,
+     "sd": 50.0
+    },
+    "100": {
+     "offsets": {},
+     "n_series": 0,
+     "n_maps": 0,
+     "sd": 100.0
+    }
+   }
+  },
+  "Worlds 2025": {
+   "elo_lambda": 1.0,
+   "elo_kscale": 1.25,
+   "league_offsets": {
+    "25": {
+     "offsets": {
+      "LCK": 7.33,
+      "LCP": 1.39,
+      "LEC": -8.87,
+      "LPL": -1.64,
+      "LTA North": 3.58,
+      "LTA South": -1.8
+     },
+     "maps_by_league": {
+      "LCK": 22,
+      "LCP": 26,
+      "LEC": 28,
+      "LPL": 36,
+      "LTA North": 12,
+      "LTA South": 10
+     },
+     "n_series": 16,
+     "n_maps": 67,
+     "sd": 25.0
+    },
+    "50": {
+     "offsets": {
+      "LCK": 22.45,
+      "LCP": 2.46,
+      "LEC": -26.14,
+      "LPL": -2.48,
+      "LTA North": 11.33,
+      "LTA South": -7.63
+     },
+     "maps_by_league": {
+      "LCK": 22,
+      "LCP": 26,
+      "LEC": 28,
+      "LPL": 36,
+      "LTA North": 12,
+      "LTA South": 10
+     },
+     "n_series": 16,
+     "n_maps": 67,
+     "sd": 50.0
+    },
+    "100": {
+     "offsets": {
+      "LCK": 49.26,
+      "LCP": -0.42,
+      "LEC": -52.69,
+      "LPL": 2.93,
+      "LTA North": 27.7,
+      "LTA South": -26.79
+     },
+     "maps_by_league": {
+      "LCK": 22,
+      "LCP": 26,
+      "LEC": 28,
+      "LPL": 36,
+      "LTA North": 12,
+      "LTA South": 10
+     },
+     "n_series": 16,
+     "n_maps": 67,
+     "sd": 100.0
+    }
+   }
+  },
+  "First Stand 2026": {
+   "elo_lambda": 1.0,
+   "elo_kscale": 1.0,
+   "league_offsets": {
+    "25": {
+     "offsets": {
+      "LCK": 25.73,
+      "LCP": -2.49,
+      "LEC": -12.47,
+      "LPL": -4.95,
+      "LTA North": -1.67,
+      "LTA South": -4.15
+     },
+     "maps_by_league": {
+      "LCK": 56,
+      "LCP": 49,
+      "LEC": 45,
+      "LPL": 68,
+      "LTA North": 25,
+      "LTA South": 17
+     },
+     "n_series": 50,
+     "n_maps": 130,
+     "sd": 25.0
+    },
+    "50": {
+     "offsets": {
+      "LCK": 63.82,
+      "LCP": -5.87,
+      "LEC": -32.57,
+      "LPL": -4.33,
+      "LTA North": -5.55,
+      "LTA South": -15.5
+     },
+     "maps_by_league": {
+      "LCK": 56,
+      "LCP": 49,
+      "LEC": 45,
+      "LPL": 68,
+      "LTA North": 25,
+      "LTA South": 17
+     },
+     "n_series": 50,
+     "n_maps": 130,
+     "sd": 50.0
+    },
+    "100": {
+     "offsets": {
+      "LCK": 108.96,
+      "LCP": -9.63,
+      "LEC": -54.85,
+      "LPL": 6.12,
+      "LTA North": -10.29,
+      "LTA South": -40.31
+     },
+     "maps_by_league": {
+      "LCK": 56,
+      "LCP": 49,
+      "LEC": 45,
+      "LPL": 68,
+      "LTA North": 25,
+      "LTA South": 17
+     },
+     "n_series": 50,
+     "n_maps": 130,
+     "sd": 100.0
+    }
+   }
+  },
+  "MSI 2026": {
+   "elo_lambda": 1.0,
+   "elo_kscale": 1.0,
+   "league_offsets": {
+    "25": {
+     "offsets": {
+      "LCK": 20.45,
+      "LCP": -8.8,
+      "LEC": -2.4,
+      "LPL": 0.82,
+      "LTA North": -3.1,
+      "LTA South": -6.97
+     },
+     "maps_by_league": {
+      "LCK": 76,
+      "LCP": 55,
+      "LEC": 61,
+      "LPL": 90,
+      "LTA North": 37,
+      "LTA South": 25
+     },
+     "n_series": 62,
+     "n_maps": 172,
+     "sd": 25.0
+    },
+    "50": {
+     "offsets": {
+      "LCK": 47.46,
+      "LCP": -19.52,
+      "LEC": -4.71,
+      "LPL": 7.49,
+      "LTA North": -8.0,
+      "LTA South": -22.71
+     },
+     "maps_by_league": {
+      "LCK": 76,
+      "LCP": 55,
+      "LEC": 61,
+      "LPL": 90,
+      "LTA North": 37,
+      "LTA South": 25
+     },
+     "n_series": 62,
+     "n_maps": 172,
+     "sd": 50.0
+    },
+    "100": {
+     "offsets": {
+      "LCK": 75.2,
+      "LCP": -28.19,
+      "LEC": -4.6,
+      "LPL": 19.2,
+      "LTA North": -13.0,
+      "LTA South": -48.61
+     },
+     "maps_by_league": {
+      "LCK": 76,
+      "LCP": 55,
+      "LEC": 61,
+      "LPL": 90,
+      "LTA North": 37,
+      "LTA South": 25
+     },
+     "n_series": 62,
+     "n_maps": 172,
+     "sd": 100.0
+    }
+   }
+  },
+  "Worlds 2026": {
+   "elo_lambda": 0.96,
+   "elo_kscale": 0.5,
+   "league_offsets": {
+    "25": {
+     "offsets": {
+      "LCK": 31.73,
+      "LCP": -8.48,
+      "LCS": -1.56,
+      "LEC": -10.83,
+      "LPL": -1.36,
+      "LTA North": 13.44,
+      "LTA South": -12.55,
+      "PCS": -8.75,
+      "VCS": -1.66
+     },
+     "maps_by_league": {
+      "LCK": 139,
+      "LCP": 71,
+      "LCS": 4,
+      "LEC": 104,
+      "LPL": 125,
+      "LTA North": 67,
+      "LTA South": 34,
+      "PCS": 6,
+      "VCS": 4
+     },
+     "n_series": 101,
+     "n_maps": 277,
+     "sd": 25.0
+    },
+    "50": {
+     "offsets": {
+      "LCK": 63.72,
+      "LCP": -14.99,
+      "LCS": -5.88,
+      "LEC": -14.99,
+      "LPL": 9.41,
+      "LTA North": 34.25,
+      "LTA South": -33.62,
+      "PCS": -31.33,
+      "VCS": -6.57
+     },
+     "maps_by_league": {
+      "LCK": 139,
+      "LCP": 71,
+      "LCS": 4,
+      "LEC": 104,
+      "LPL": 125,
+      "LTA North": 67,
+      "LTA South": 34,
+      "PCS": 6,
+      "VCS": 4
+     },
+     "n_series": 101,
+     "n_maps": 277,
+     "sd": 50.0
+    },
+    "100": {
+     "offsets": {
+      "LCK": 99.85,
+      "LCP": -8.51,
+      "LCS": -18.6,
+      "LEC": -4.81,
+      "LPL": 34.72,
+      "LTA North": 62.94,
+      "LTA South": -53.26,
+      "PCS": -91.43,
+      "VCS": -20.89
+     },
+     "maps_by_league": {
+      "LCK": 139,
+      "LCP": 71,
+      "LCS": 4,
+      "LEC": 104,
+      "LPL": 125,
+      "LTA North": 67,
+      "LTA South": 34,
+      "PCS": 6,
+      "VCS": 4
+     },
+     "n_series": 101,
+     "n_maps": 277,
+     "sd": 100.0
+    }
+   }
+  }
+ },
+ "seconds": 12.0,
+ "series_detail": [
+  {
+   "match_id": "113470922764572270",
+   "start": "2025-06-27T19:00:00Z",
+   "event": "MSI 2025",
+   "a": "G2 Esports",
+   "b": "FURIA",
+   "home": [
+    "LEC",
+    "LTA South"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.694,
+    "lock": "3-1",
+    "p_map": 0.616
+   },
+   "v2.2_sd25": {
+    "p": 0.694,
+    "lock": "3-1",
+    "p_map": 0.616
+   },
+   "v2.2_sd50": {
+    "p": 0.694,
+    "lock": "3-1",
+    "p_map": 0.616
+   },
+   "v2.2_sd100": {
+    "p": 0.694,
+    "lock": "3-1",
+    "p_map": 0.616
+   }
+  },
+  {
+   "match_id": "113470922764572276",
+   "start": "2025-06-28T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "GAM Esports",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LCP",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.1238,
+    "lock": "0-3",
+    "p_map": 0.2495
+   },
+   "v2.2_sd25": {
+    "p": 0.1238,
+    "lock": "0-3",
+    "p_map": 0.2495
+   },
+   "v2.2_sd50": {
+    "p": 0.1238,
+    "lock": "0-3",
+    "p_map": 0.2495
+   },
+   "v2.2_sd100": {
+    "p": 0.1238,
+    "lock": "0-3",
+    "p_map": 0.2495
+   }
+  },
+  {
+   "match_id": "113470922764572288",
+   "start": "2025-06-28T19:00:00Z",
+   "event": "MSI 2025",
+   "a": "FURIA",
+   "b": "GAM Esports",
+   "home": [
+    "LTA South",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.47685,
+    "lock": "1-3",
+    "p_map": 0.4868
+   },
+   "v2.2_sd25": {
+    "p": 0.47685,
+    "lock": "1-3",
+    "p_map": 0.4868
+   },
+   "v2.2_sd50": {
+    "p": 0.47685,
+    "lock": "1-3",
+    "p_map": 0.4868
+   },
+   "v2.2_sd100": {
+    "p": 0.47685,
+    "lock": "1-3",
+    "p_map": 0.4868
+   }
+  },
+  {
+   "match_id": "113470922764572282",
+   "start": "2025-06-29T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "G2 Esports",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LEC",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.1593,
+    "lock": "0-3",
+    "p_map": 0.2798
+   },
+   "v2.2_sd25": {
+    "p": 0.1593,
+    "lock": "0-3",
+    "p_map": 0.2798
+   },
+   "v2.2_sd50": {
+    "p": 0.1593,
+    "lock": "0-3",
+    "p_map": 0.2798
+   },
+   "v2.2_sd100": {
+    "p": 0.1593,
+    "lock": "0-3",
+    "p_map": 0.2798
+   }
+  },
+  {
+   "match_id": "113470922764572294",
+   "start": "2025-06-30T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "GAM Esports",
+   "b": "G2 Esports",
+   "home": [
+    "LCP",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.4253,
+    "lock": "1-3",
+    "p_map": 0.4566
+   },
+   "v2.2_sd25": {
+    "p": 0.4253,
+    "lock": "1-3",
+    "p_map": 0.4566
+   },
+   "v2.2_sd50": {
+    "p": 0.4253,
+    "lock": "1-3",
+    "p_map": 0.4566
+   },
+   "v2.2_sd100": {
+    "p": 0.4253,
+    "lock": "1-3",
+    "p_map": 0.4566
+   }
+  },
+  {
+   "match_id": "113470922758018585",
+   "start": "2025-07-02T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "G2 Esports",
+   "b": "Gen.G Esports",
+   "home": [
+    "LEC",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "1-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.07525,
+    "lock": "0-3",
+    "p_map": 0.2002
+   },
+   "v2.2_sd25": {
+    "p": 0.07525,
+    "lock": "0-3",
+    "p_map": 0.2002
+   },
+   "v2.2_sd50": {
+    "p": 0.07525,
+    "lock": "0-3",
+    "p_map": 0.2002
+   },
+   "v2.2_sd100": {
+    "p": 0.07525,
+    "lock": "0-3",
+    "p_map": 0.2002
+   }
+  },
+  {
+   "match_id": "113470922758215199",
+   "start": "2025-07-03T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "FlyQuest",
+   "b": "Anyone's Legend",
+   "home": [
+    "LTA North",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "1-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.2024,
+    "lock": "0-3",
+    "p_map": 0.3136
+   },
+   "v2.2_sd25": {
+    "p": 0.2024,
+    "lock": "0-3",
+    "p_map": 0.3136
+   },
+   "v2.2_sd50": {
+    "p": 0.2024,
+    "lock": "0-3",
+    "p_map": 0.3136
+   },
+   "v2.2_sd100": {
+    "p": 0.2024,
+    "lock": "0-3",
+    "p_map": 0.3136
+   }
+  },
+  {
+   "match_id": "113470922758215211",
+   "start": "2025-07-03T19:00:00Z",
+   "event": "MSI 2025",
+   "a": "BILIBILI GAMING",
+   "b": "Movistar KOI",
+   "home": [
+    "LPL",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.8205,
+    "lock": "3-0",
+    "p_map": 0.705
+   },
+   "v2.2_sd25": {
+    "p": 0.8205,
+    "lock": "3-0",
+    "p_map": 0.705
+   },
+   "v2.2_sd50": {
+    "p": 0.8205,
+    "lock": "3-0",
+    "p_map": 0.705
+   },
+   "v2.2_sd100": {
+    "p": 0.8205,
+    "lock": "3-0",
+    "p_map": 0.705
+   }
+  },
+  {
+   "match_id": "113470922758215205",
+   "start": "2025-07-04T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "T1",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LCK",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.7829,
+    "lock": "3-0",
+    "p_map": 0.6772
+   },
+   "v2.2_sd25": {
+    "p": 0.7829,
+    "lock": "3-0",
+    "p_map": 0.6772
+   },
+   "v2.2_sd50": {
+    "p": 0.7829,
+    "lock": "3-0",
+    "p_map": 0.6772
+   },
+   "v2.2_sd100": {
+    "p": 0.7829,
+    "lock": "3-0",
+    "p_map": 0.6772
+   }
+  },
+  {
+   "match_id": "113470922758215229",
+   "start": "2025-07-04T19:00:00Z",
+   "event": "MSI 2025",
+   "a": "G2 Esports",
+   "b": "FlyQuest",
+   "home": [
+    "LEC",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.43095,
+    "lock": "1-3",
+    "p_map": 0.4599
+   },
+   "v2.2_sd25": {
+    "p": 0.43095,
+    "lock": "1-3",
+    "p_map": 0.4599
+   },
+   "v2.2_sd50": {
+    "p": 0.43095,
+    "lock": "1-3",
+    "p_map": 0.4599
+   },
+   "v2.2_sd100": {
+    "p": 0.43095,
+    "lock": "1-3",
+    "p_map": 0.4599
+   }
+  },
+  {
+   "match_id": "113470922758215217",
+   "start": "2025-07-05T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "Gen.G Esports",
+   "b": "Anyone's Legend",
+   "home": [
+    "LCK",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.62195,
+    "lock": "3-1",
+    "p_map": 0.5724
+   },
+   "v2.2_sd25": {
+    "p": 0.62195,
+    "lock": "3-1",
+    "p_map": 0.5724
+   },
+   "v2.2_sd50": {
+    "p": 0.62195,
+    "lock": "3-1",
+    "p_map": 0.5724
+   },
+   "v2.2_sd100": {
+    "p": 0.62195,
+    "lock": "3-1",
+    "p_map": 0.5724
+   }
+  },
+  {
+   "match_id": "113470922758215235",
+   "start": "2025-07-05T19:00:00Z",
+   "event": "MSI 2025",
+   "a": "Movistar KOI",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LEC",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "1-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.5426,
+    "lock": "3-1",
+    "p_map": 0.5246
+   },
+   "v2.2_sd25": {
+    "p": 0.5426,
+    "lock": "3-1",
+    "p_map": 0.5246
+   },
+   "v2.2_sd50": {
+    "p": 0.5426,
+    "lock": "3-1",
+    "p_map": 0.5246
+   },
+   "v2.2_sd100": {
+    "p": 0.5426,
+    "lock": "3-1",
+    "p_map": 0.5246
+   }
+  },
+  {
+   "match_id": "113470922758215223",
+   "start": "2025-07-06T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "T1",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LCK",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.3307,
+    "lock": "1-3",
+    "p_map": 0.3991
+   },
+   "v2.2_sd25": {
+    "p": 0.3307,
+    "lock": "1-3",
+    "p_map": 0.3991
+   },
+   "v2.2_sd50": {
+    "p": 0.3307,
+    "lock": "1-3",
+    "p_map": 0.3991
+   },
+   "v2.2_sd100": {
+    "p": 0.3307,
+    "lock": "1-3",
+    "p_map": 0.3991
+   }
+  },
+  {
+   "match_id": "113470922758215253",
+   "start": "2025-07-08T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "Anyone's Legend",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LPL",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.77695,
+    "lock": "3-0",
+    "p_map": 0.6733
+   },
+   "v2.2_sd25": {
+    "p": 0.77695,
+    "lock": "3-0",
+    "p_map": 0.6733
+   },
+   "v2.2_sd50": {
+    "p": 0.77695,
+    "lock": "3-0",
+    "p_map": 0.6733
+   },
+   "v2.2_sd100": {
+    "p": 0.77695,
+    "lock": "3-0",
+    "p_map": 0.6733
+   }
+  },
+  {
+   "match_id": "113470922758215247",
+   "start": "2025-07-09T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "BILIBILI GAMING",
+   "b": "FlyQuest",
+   "home": [
+    "LPL",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.7034,
+    "lock": "3-1",
+    "p_map": 0.6226
+   },
+   "v2.2_sd25": {
+    "p": 0.7034,
+    "lock": "3-1",
+    "p_map": 0.6226
+   },
+   "v2.2_sd50": {
+    "p": 0.7034,
+    "lock": "3-1",
+    "p_map": 0.6226
+   },
+   "v2.2_sd100": {
+    "p": 0.7034,
+    "lock": "3-1",
+    "p_map": 0.6226
+   }
+  },
+  {
+   "match_id": "113470922758215241",
+   "start": "2025-07-10T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "Gen.G Esports",
+   "b": "T1",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.6376,
+    "lock": "3-1",
+    "p_map": 0.5815
+   },
+   "v2.2_sd25": {
+    "p": 0.6376,
+    "lock": "3-1",
+    "p_map": 0.5815
+   },
+   "v2.2_sd50": {
+    "p": 0.6376,
+    "lock": "3-1",
+    "p_map": 0.5815
+   },
+   "v2.2_sd100": {
+    "p": 0.6376,
+    "lock": "3-1",
+    "p_map": 0.5815
+   }
+  },
+  {
+   "match_id": "113470922758215259",
+   "start": "2025-07-11T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "BILIBILI GAMING",
+   "b": "Anyone's Legend",
+   "home": [
+    "LPL",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.40375,
+    "lock": "1-3",
+    "p_map": 0.4437
+   },
+   "v2.2_sd25": {
+    "p": 0.40375,
+    "lock": "1-3",
+    "p_map": 0.4437
+   },
+   "v2.2_sd50": {
+    "p": 0.40375,
+    "lock": "1-3",
+    "p_map": 0.4437
+   },
+   "v2.2_sd100": {
+    "p": 0.40375,
+    "lock": "1-3",
+    "p_map": 0.4437
+   }
+  },
+  {
+   "match_id": "113470922758215265",
+   "start": "2025-07-12T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "Anyone's Legend",
+   "b": "T1",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.6153,
+    "lock": "3-1",
+    "p_map": 0.5682
+   },
+   "v2.2_sd25": {
+    "p": 0.6153,
+    "lock": "3-1",
+    "p_map": 0.5682
+   },
+   "v2.2_sd50": {
+    "p": 0.6153,
+    "lock": "3-1",
+    "p_map": 0.5682
+   },
+   "v2.2_sd100": {
+    "p": 0.6153,
+    "lock": "3-1",
+    "p_map": 0.5682
+   }
+  },
+  {
+   "match_id": "113470922758215271",
+   "start": "2025-07-13T00:00:00Z",
+   "event": "MSI 2025",
+   "a": "T1",
+   "b": "Gen.G Esports",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.41025,
+    "lock": "1-3",
+    "p_map": 0.4476
+   },
+   "v2.2_sd25": {
+    "p": 0.41025,
+    "lock": "1-3",
+    "p_map": 0.4476
+   },
+   "v2.2_sd50": {
+    "p": 0.41025,
+    "lock": "1-3",
+    "p_map": 0.4476
+   },
+   "v2.2_sd100": {
+    "p": 0.41025,
+    "lock": "1-3",
+    "p_map": 0.4476
+   }
+  },
+  {
+   "match_id": "113475493522079909",
+   "start": "2025-10-14T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "Invictus Gaming",
+   "home": [
+    "LCK",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.65845,
+    "lock": "3-1",
+    "p_map": 0.5945
+   },
+   "v2.2_sd25": {
+    "p": 0.6776,
+    "lock": "3-1",
+    "p_map": 0.6068
+   },
+   "v2.2_sd50": {
+    "p": 0.71285,
+    "lock": "3-1",
+    "p_map": 0.6285
+   },
+   "v2.2_sd100": {
+    "p": 0.75475,
+    "lock": "3-0",
+    "p_map": 0.6568
+   }
+  },
+  {
+   "match_id": "113475798006599034",
+   "start": "2025-10-15T05:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Vivo Keyd Stars",
+   "b": "Team Secret Whales",
+   "home": [
+    "LTA South",
+    "LCP"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.4773,
+    "lock": "0-1",
+    "p_map": 0.4824
+   },
+   "v2.2_sd25": {
+    "p": 0.47335,
+    "lock": "0-1",
+    "p_map": 0.4778
+   },
+   "v2.2_sd50": {
+    "p": 0.46345,
+    "lock": "0-1",
+    "p_map": 0.4679
+   },
+   "v2.2_sd100": {
+    "p": 0.44195,
+    "lock": "0-1",
+    "p_map": 0.4446
+   }
+  },
+  {
+   "match_id": "113475798006664572",
+   "start": "2025-10-15T06:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Fnatic",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LEC",
+    "LCP"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.35205,
+    "lock": "0-1",
+    "p_map": 0.3498
+   },
+   "v2.2_sd25": {
+    "p": 0.33995,
+    "lock": "0-1",
+    "p_map": 0.3365
+   },
+   "v2.2_sd50": {
+    "p": 0.3182,
+    "lock": "0-1",
+    "p_map": 0.3133
+   },
+   "v2.2_sd100": {
+    "p": 0.2918,
+    "lock": "0-1",
+    "p_map": 0.2848
+   }
+  },
+  {
+   "match_id": "113475798006664574",
+   "start": "2025-10-15T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Movistar KOI",
+   "b": "kt Rolster",
+   "home": [
+    "LEC",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.3824,
+    "lock": "0-1",
+    "p_map": 0.3817
+   },
+   "v2.2_sd25": {
+    "p": 0.3616,
+    "lock": "0-1",
+    "p_map": 0.36
+   },
+   "v2.2_sd50": {
+    "p": 0.323,
+    "lock": "0-1",
+    "p_map": 0.3182
+   },
+   "v2.2_sd100": {
+    "p": 0.2625,
+    "lock": "0-1",
+    "p_map": 0.2556
+   }
+  },
+  {
+   "match_id": "113475798006664576",
+   "start": "2025-10-15T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "100 Thieves",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LTA North",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.2503,
+    "lock": "0-1",
+    "p_map": 0.243
+   },
+   "v2.2_sd25": {
+    "p": 0.25495,
+    "lock": "0-1",
+    "p_map": 0.2486
+   },
+   "v2.2_sd50": {
+    "p": 0.26515,
+    "lock": "0-1",
+    "p_map": 0.2579
+   },
+   "v2.2_sd100": {
+    "p": 0.27715,
+    "lock": "0-1",
+    "p_map": 0.2702
+   }
+  },
+  {
+   "match_id": "113475798006664578",
+   "start": "2025-10-15T09:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "FlyQuest",
+   "home": [
+    "LCK",
+    "LTA North"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.60065,
+    "lock": "1-0",
+    "p_map": 0.6129
+   },
+   "v2.2_sd25": {
+    "p": 0.6062,
+    "lock": "1-0",
+    "p_map": 0.618
+   },
+   "v2.2_sd50": {
+    "p": 0.6149,
+    "lock": "1-0",
+    "p_map": 0.6279
+   },
+   "v2.2_sd100": {
+    "p": 0.6311,
+    "lock": "1-0",
+    "p_map": 0.6419
+   }
+  },
+  {
+   "match_id": "113475798006664580",
+   "start": "2025-10-15T10:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Anyone's Legend",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.4296,
+    "lock": "0-1",
+    "p_map": 0.4325
+   },
+   "v2.2_sd25": {
+    "p": 0.41825,
+    "lock": "0-1",
+    "p_map": 0.4199
+   },
+   "v2.2_sd50": {
+    "p": 0.3975,
+    "lock": "0-1",
+    "p_map": 0.3977
+   },
+   "v2.2_sd100": {
+    "p": 0.36975,
+    "lock": "0-1",
+    "p_map": 0.3686
+   }
+  },
+  {
+   "match_id": "113475798006664582",
+   "start": "2025-10-15T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "TOP ESPORTS",
+   "b": "G2 Esports",
+   "home": [
+    "LPL",
+    "LEC"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.6213,
+    "lock": "1-0",
+    "p_map": 0.6338
+   },
+   "v2.2_sd25": {
+    "p": 0.6326,
+    "lock": "1-0",
+    "p_map": 0.6434
+   },
+   "v2.2_sd50": {
+    "p": 0.65405,
+    "lock": "1-0",
+    "p_map": 0.6648
+   },
+   "v2.2_sd100": {
+    "p": 0.6926,
+    "lock": "1-0",
+    "p_map": 0.7045
+   }
+  },
+  {
+   "match_id": "113475798006664584",
+   "start": "2025-10-15T12:00:00Z",
+   "event": "Worlds 2025",
+   "a": "PSG Talon",
+   "b": "Gen.G Esports",
+   "home": [
+    "LCP",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.09795,
+    "lock": "0-1",
+    "p_map": 0.0909
+   },
+   "v2.2_sd25": {
+    "p": 0.0946,
+    "lock": "0-1",
+    "p_map": 0.0881
+   },
+   "v2.2_sd50": {
+    "p": 0.08855,
+    "lock": "0-1",
+    "p_map": 0.0818
+   },
+   "v2.2_sd100": {
+    "p": 0.07675,
+    "lock": "0-1",
+    "p_map": 0.0699
+   }
+  },
+  {
+   "match_id": "113475798006664594",
+   "start": "2025-10-16T05:00:00Z",
+   "event": "Worlds 2025",
+   "a": "FlyQuest",
+   "b": "Vivo Keyd Stars",
+   "home": [
+    "LTA North",
+    "LTA South"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.7387,
+    "lock": "1-0",
+    "p_map": 0.7519
+   },
+   "v2.2_sd25": {
+    "p": 0.74485,
+    "lock": "1-0",
+    "p_map": 0.7577
+   },
+   "v2.2_sd50": {
+    "p": 0.758,
+    "lock": "1-0",
+    "p_map": 0.7717
+   },
+   "v2.2_sd100": {
+    "p": 0.7924,
+    "lock": "1-0",
+    "p_map": 0.8057
+   }
+  },
+  {
+   "match_id": "113475798006664586",
+   "start": "2025-10-16T06:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Team Secret Whales",
+   "b": "kt Rolster",
+   "home": [
+    "LCP",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.3316,
+    "lock": "0-1",
+    "p_map": 0.3277
+   },
+   "v2.2_sd25": {
+    "p": 0.3245,
+    "lock": "0-1",
+    "p_map": 0.3202
+   },
+   "v2.2_sd50": {
+    "p": 0.30825,
+    "lock": "0-1",
+    "p_map": 0.3029
+   },
+   "v2.2_sd100": {
+    "p": 0.275,
+    "lock": "0-1",
+    "p_map": 0.2681
+   }
+  },
+  {
+   "match_id": "113475798006664596",
+   "start": "2025-10-16T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "G2 Esports",
+   "b": "Movistar KOI",
+   "home": [
+    "LEC",
+    "LEC"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.60465,
+    "lock": "1-0",
+    "p_map": 0.6165
+   },
+   "v2.2_sd25": {
+    "p": 0.60465,
+    "lock": "1-0",
+    "p_map": 0.6165
+   },
+   "v2.2_sd50": {
+    "p": 0.60465,
+    "lock": "1-0",
+    "p_map": 0.6165
+   },
+   "v2.2_sd100": {
+    "p": 0.60465,
+    "lock": "1-0",
+    "p_map": 0.6165
+   }
+  },
+  {
+   "match_id": "113475798006664588",
+   "start": "2025-10-16T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "100 Thieves",
+   "b": "TOP ESPORTS",
+   "home": [
+    "LTA North",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.24715,
+    "lock": "0-1",
+    "p_map": 0.2398
+   },
+   "v2.2_sd25": {
+    "p": 0.25225,
+    "lock": "0-1",
+    "p_map": 0.2453
+   },
+   "v2.2_sd50": {
+    "p": 0.26155,
+    "lock": "0-1",
+    "p_map": 0.2546
+   },
+   "v2.2_sd100": {
+    "p": 0.2737,
+    "lock": "0-1",
+    "p_map": 0.2668
+   }
+  },
+  {
+   "match_id": "113475798006664590",
+   "start": "2025-10-16T09:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LCK",
+    "LCP"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.63995,
+    "lock": "1-0",
+    "p_map": 0.6502
+   },
+   "v2.2_sd25": {
+    "p": 0.6477,
+    "lock": "1-0",
+    "p_map": 0.658
+   },
+   "v2.2_sd50": {
+    "p": 0.6643,
+    "lock": "1-0",
+    "p_map": 0.6759
+   },
+   "v2.2_sd100": {
+    "p": 0.701,
+    "lock": "1-0",
+    "p_map": 0.7122
+   }
+  },
+  {
+   "match_id": "113475798006664592",
+   "start": "2025-10-16T10:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Anyone's Legend",
+   "b": "Gen.G Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.3272,
+    "lock": "0-1",
+    "p_map": 0.3235
+   },
+   "v2.2_sd25": {
+    "p": 0.31695,
+    "lock": "0-1",
+    "p_map": 0.3123
+   },
+   "v2.2_sd50": {
+    "p": 0.2986,
+    "lock": "0-1",
+    "p_map": 0.2929
+   },
+   "v2.2_sd100": {
+    "p": 0.275,
+    "lock": "0-1",
+    "p_map": 0.268
+   }
+  },
+  {
+   "match_id": "113475798006664598",
+   "start": "2025-10-16T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Fnatic",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LEC",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.30605,
+    "lock": "0-1",
+    "p_map": 0.3008
+   },
+   "v2.2_sd25": {
+    "p": 0.2981,
+    "lock": "0-1",
+    "p_map": 0.2921
+   },
+   "v2.2_sd50": {
+    "p": 0.28025,
+    "lock": "0-1",
+    "p_map": 0.2729
+   },
+   "v2.2_sd100": {
+    "p": 0.2456,
+    "lock": "0-1",
+    "p_map": 0.238
+   }
+  },
+  {
+   "match_id": "113475798006664600",
+   "start": "2025-10-16T12:00:00Z",
+   "event": "Worlds 2025",
+   "a": "PSG Talon",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LCP",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.1731,
+    "lock": "0-1",
+    "p_map": 0.1637
+   },
+   "v2.2_sd25": {
+    "p": 0.16775,
+    "lock": "0-1",
+    "p_map": 0.1591
+   },
+   "v2.2_sd50": {
+    "p": 0.15765,
+    "lock": "0-1",
+    "p_map": 0.1486
+   },
+   "v2.2_sd100": {
+    "p": 0.13575,
+    "lock": "0-1",
+    "p_map": 0.1282
+   }
+  },
+  {
+   "match_id": "113475798006664602",
+   "start": "2025-10-17T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "TOP ESPORTS",
+   "b": "kt Rolster",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 3,
+   "score": "0-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.66955,
+    "lock": "2-0",
+    "p_map": 0.6261
+   },
+   "v2.2_sd25": {
+    "p": 0.6549,
+    "lock": "2-0",
+    "p_map": 0.6139
+   },
+   "v2.2_sd50": {
+    "p": 0.62585,
+    "lock": "2-0",
+    "p_map": 0.592
+   },
+   "v2.2_sd100": {
+    "p": 0.5837,
+    "lock": "2-0",
+    "p_map": 0.5619
+   }
+  },
+  {
+   "match_id": "113475798006664606",
+   "start": "2025-10-17T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Anyone's Legend",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LPL",
+    "LCP"
+   ],
+   "bo": 3,
+   "score": "2-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.61015,
+    "lock": "2-0",
+    "p_map": 0.5805
+   },
+   "v2.2_sd25": {
+    "p": 0.6041,
+    "lock": "2-0",
+    "p_map": 0.5762
+   },
+   "v2.2_sd50": {
+    "p": 0.60055,
+    "lock": "2-0",
+    "p_map": 0.5736
+   },
+   "v2.2_sd100": {
+    "p": 0.61665,
+    "lock": "2-0",
+    "p_map": 0.5852
+   }
+  },
+  {
+   "match_id": "113475798006664610",
+   "start": "2025-10-18T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Team Secret Whales",
+   "b": "FlyQuest",
+   "home": [
+    "LCP",
+    "LTA North"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.28515,
+    "lock": "0-1",
+    "p_map": 0.278
+   },
+   "v2.2_sd25": {
+    "p": 0.2831,
+    "lock": "0-1",
+    "p_map": 0.2755
+   },
+   "v2.2_sd50": {
+    "p": 0.2749,
+    "lock": "0-1",
+    "p_map": 0.2679
+   },
+   "v2.2_sd100": {
+    "p": 0.25365,
+    "lock": "0-1",
+    "p_map": 0.2467
+   }
+  },
+  {
+   "match_id": "113475798006664612",
+   "start": "2025-10-18T09:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "Gen.G Esports",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.39335,
+    "lock": "0-1",
+    "p_map": 0.3938
+   },
+   "v2.2_sd25": {
+    "p": 0.39335,
+    "lock": "0-1",
+    "p_map": 0.3938
+   },
+   "v2.2_sd50": {
+    "p": 0.39335,
+    "lock": "0-1",
+    "p_map": 0.3938
+   },
+   "v2.2_sd100": {
+    "p": 0.39335,
+    "lock": "0-1",
+    "p_map": 0.3938
+   }
+  },
+  {
+   "match_id": "113475798006664614",
+   "start": "2025-10-18T10:00:00Z",
+   "event": "Worlds 2025",
+   "a": "G2 Esports",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LEC",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.4128,
+    "lock": "0-1",
+    "p_map": 0.4146
+   },
+   "v2.2_sd25": {
+    "p": 0.4035,
+    "lock": "0-1",
+    "p_map": 0.4046
+   },
+   "v2.2_sd50": {
+    "p": 0.3827,
+    "lock": "0-1",
+    "p_map": 0.382
+   },
+   "v2.2_sd100": {
+    "p": 0.34245,
+    "lock": "0-1",
+    "p_map": 0.3396
+   }
+  },
+  {
+   "match_id": "113475798006664616",
+   "start": "2025-10-18T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "100 Thieves",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LTA North",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.24475,
+    "lock": "0-1",
+    "p_map": 0.2369
+   },
+   "v2.2_sd25": {
+    "p": 0.2409,
+    "lock": "0-1",
+    "p_map": 0.233
+   },
+   "v2.2_sd50": {
+    "p": 0.23395,
+    "lock": "0-1",
+    "p_map": 0.2255
+   },
+   "v2.2_sd100": {
+    "p": 0.22445,
+    "lock": "0-1",
+    "p_map": 0.2152
+   }
+  },
+  {
+   "match_id": "113475798006664618",
+   "start": "2025-10-19T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Fnatic",
+   "b": "Movistar KOI",
+   "home": [
+    "LEC",
+    "LEC"
+   ],
+   "bo": 3,
+   "score": "1-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.50255,
+    "lock": "2-0",
+    "p_map": 0.5029
+   },
+   "v2.2_sd25": {
+    "p": 0.50255,
+    "lock": "2-0",
+    "p_map": 0.5029
+   },
+   "v2.2_sd50": {
+    "p": 0.50255,
+    "lock": "2-0",
+    "p_map": 0.5029
+   },
+   "v2.2_sd100": {
+    "p": 0.50255,
+    "lock": "2-0",
+    "p_map": 0.5029
+   }
+  },
+  {
+   "match_id": "113475798006664622",
+   "start": "2025-10-19T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Vivo Keyd Stars",
+   "b": "PSG Talon",
+   "home": [
+    "LTA South",
+    "LCP"
+   ],
+   "bo": 3,
+   "score": "2-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.5499,
+    "lock": "2-0",
+    "p_map": 0.5378
+   },
+   "v2.2_sd25": {
+    "p": 0.54395,
+    "lock": "2-0",
+    "p_map": 0.5332
+   },
+   "v2.2_sd50": {
+    "p": 0.53055,
+    "lock": "2-0",
+    "p_map": 0.5234
+   },
+   "v2.2_sd100": {
+    "p": 0.4978,
+    "lock": "0-2",
+    "p_map": 0.4999
+   }
+  },
+  {
+   "match_id": "113475798006664626",
+   "start": "2025-10-22T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Hanwha Life Esports",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LCK",
+    "LCP"
+   ],
+   "bo": 3,
+   "score": "2-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.61635,
+    "lock": "2-0",
+    "p_map": 0.5849
+   },
+   "v2.2_sd25": {
+    "p": 0.6274,
+    "lock": "2-0",
+    "p_map": 0.5932
+   },
+   "v2.2_sd50": {
+    "p": 0.65215,
+    "lock": "2-0",
+    "p_map": 0.6126
+   },
+   "v2.2_sd100": {
+    "p": 0.7055,
+    "lock": "2-0",
+    "p_map": 0.6523
+   }
+  },
+  {
+   "match_id": "113475798006664630",
+   "start": "2025-10-22T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "G2 Esports",
+   "b": "FlyQuest",
+   "home": [
+    "LEC",
+    "LTA North"
+   ],
+   "bo": 3,
+   "score": "2-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.43275,
+    "lock": "0-2",
+    "p_map": 0.4531
+   },
+   "v2.2_sd25": {
+    "p": 0.407,
+    "lock": "0-2",
+    "p_map": 0.4354
+   },
+   "v2.2_sd50": {
+    "p": 0.3575,
+    "lock": "0-2",
+    "p_map": 0.4004
+   },
+   "v2.2_sd100": {
+    "p": 0.28345,
+    "lock": "0-2",
+    "p_map": 0.3428
+   }
+  },
+  {
+   "match_id": "113475798006664638",
+   "start": "2025-10-23T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Team Secret Whales",
+   "b": "Movistar KOI",
+   "home": [
+    "LCP",
+    "LEC"
+   ],
+   "bo": 3,
+   "score": "1-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.4147,
+    "lock": "0-2",
+    "p_map": 0.4404
+   },
+   "v2.2_sd25": {
+    "p": 0.43515,
+    "lock": "0-2",
+    "p_map": 0.455
+   },
+   "v2.2_sd50": {
+    "p": 0.47105,
+    "lock": "0-2",
+    "p_map": 0.4813
+   },
+   "v2.2_sd100": {
+    "p": 0.5198,
+    "lock": "2-0",
+    "p_map": 0.5154
+   }
+  },
+  {
+   "match_id": "113475798006664634",
+   "start": "2025-10-23T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "TOP ESPORTS",
+   "b": "Gen.G Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 3,
+   "score": "0-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.247,
+    "lock": "0-2",
+    "p_map": 0.3135
+   },
+   "v2.2_sd25": {
+    "p": 0.2333,
+    "lock": "0-2",
+    "p_map": 0.3025
+   },
+   "v2.2_sd50": {
+    "p": 0.20995,
+    "lock": "0-2",
+    "p_map": 0.2835
+   },
+   "v2.2_sd100": {
+    "p": 0.1813,
+    "lock": "0-2",
+    "p_map": 0.2591
+   }
+  },
+  {
+   "match_id": "113475798006664642",
+   "start": "2025-10-24T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Vivo Keyd Stars",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LTA South",
+    "LPL"
+   ],
+   "bo": 3,
+   "score": "0-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.16935,
+    "lock": "0-2",
+    "p_map": 0.249
+   },
+   "v2.2_sd25": {
+    "p": 0.16915,
+    "lock": "0-2",
+    "p_map": 0.2488
+   },
+   "v2.2_sd50": {
+    "p": 0.16385,
+    "lock": "0-2",
+    "p_map": 0.2435
+   },
+   "v2.2_sd100": {
+    "p": 0.1379,
+    "lock": "0-2",
+    "p_map": 0.2184
+   }
+  },
+  {
+   "match_id": "113475798006664646",
+   "start": "2025-10-24T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "100 Thieves",
+   "home": [
+    "LCK",
+    "LTA North"
+   ],
+   "bo": 3,
+   "score": "2-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.85585,
+    "lock": "2-0",
+    "p_map": 0.7746
+   },
+   "v2.2_sd25": {
+    "p": 0.8599,
+    "lock": "2-0",
+    "p_map": 0.7784
+   },
+   "v2.2_sd50": {
+    "p": 0.86855,
+    "lock": "2-0",
+    "p_map": 0.7856
+   },
+   "v2.2_sd100": {
+    "p": 0.87845,
+    "lock": "2-0",
+    "p_map": 0.7956
+   }
+  },
+  {
+   "match_id": "113475798006664650",
+   "start": "2025-10-25T05:00:00Z",
+   "event": "Worlds 2025",
+   "a": "FlyQuest",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LTA North",
+    "LCP"
+   ],
+   "bo": 3,
+   "score": "0-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.52025,
+    "lock": "2-0",
+    "p_map": 0.5158
+   },
+   "v2.2_sd25": {
+    "p": 0.52415,
+    "lock": "2-0",
+    "p_map": 0.5189
+   },
+   "v2.2_sd50": {
+    "p": 0.53745,
+    "lock": "2-0",
+    "p_map": 0.5285
+   },
+   "v2.2_sd100": {
+    "p": 0.57545,
+    "lock": "2-0",
+    "p_map": 0.556
+   }
+  },
+  {
+   "match_id": "113475798006664654",
+   "start": "2025-10-25T08:00:00Z",
+   "event": "Worlds 2025",
+   "a": "BILIBILI GAMING",
+   "b": "TOP ESPORTS",
+   "home": [
+    "LPL",
+    "LPL"
+   ],
+   "bo": 3,
+   "score": "1-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.5092,
+    "lock": "2-0",
+    "p_map": 0.5079
+   },
+   "v2.2_sd25": {
+    "p": 0.5092,
+    "lock": "2-0",
+    "p_map": 0.5079
+   },
+   "v2.2_sd50": {
+    "p": 0.5092,
+    "lock": "2-0",
+    "p_map": 0.5079
+   },
+   "v2.2_sd100": {
+    "p": 0.5092,
+    "lock": "2-0",
+    "p_map": 0.5079
+   }
+  },
+  {
+   "match_id": "113475798006664658",
+   "start": "2025-10-25T11:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "Movistar KOI",
+   "home": [
+    "LCK",
+    "LEC"
+   ],
+   "bo": 3,
+   "score": "2-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.8343,
+    "lock": "2-0",
+    "p_map": 0.7563
+   },
+   "v2.2_sd25": {
+    "p": 0.85435,
+    "lock": "2-0",
+    "p_map": 0.7731
+   },
+   "v2.2_sd50": {
+    "p": 0.8874,
+    "lock": "2-0",
+    "p_map": 0.8041
+   },
+   "v2.2_sd100": {
+    "p": 0.9269,
+    "lock": "2-0",
+    "p_map": 0.848
+   }
+  },
+  {
+   "match_id": "113475871523985223",
+   "start": "2025-10-28T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "Hanwha Life Esports",
+   "b": "Gen.G Esports",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "1-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.28765,
+    "lock": "1-3",
+    "p_map": 0.3722
+   },
+   "v2.2_sd25": {
+    "p": 0.28765,
+    "lock": "1-3",
+    "p_map": 0.3722
+   },
+   "v2.2_sd50": {
+    "p": 0.28765,
+    "lock": "1-3",
+    "p_map": 0.3722
+   },
+   "v2.2_sd100": {
+    "p": 0.28765,
+    "lock": "1-3",
+    "p_map": 0.3722
+   }
+  },
+  {
+   "match_id": "113475871523985229",
+   "start": "2025-10-29T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "CTBC Flying Oyster",
+   "b": "kt Rolster",
+   "home": [
+    "LCP",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.4664,
+    "lock": "1-3",
+    "p_map": 0.4802
+   },
+   "v2.2_sd25": {
+    "p": 0.45215,
+    "lock": "1-3",
+    "p_map": 0.4717
+   },
+   "v2.2_sd50": {
+    "p": 0.41715,
+    "lock": "1-3",
+    "p_map": 0.4516
+   },
+   "v2.2_sd100": {
+    "p": 0.34685,
+    "lock": "1-3",
+    "p_map": 0.4097
+   }
+  },
+  {
+   "match_id": "113475871523985217",
+   "start": "2025-10-30T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "G2 Esports",
+   "b": "TOP ESPORTS",
+   "home": [
+    "LEC",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "1-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.43035,
+    "lock": "1-3",
+    "p_map": 0.4596
+   },
+   "v2.2_sd25": {
+    "p": 0.4138,
+    "lock": "1-3",
+    "p_map": 0.4493
+   },
+   "v2.2_sd50": {
+    "p": 0.374,
+    "lock": "1-3",
+    "p_map": 0.426
+   },
+   "v2.2_sd100": {
+    "p": 0.30315,
+    "lock": "1-3",
+    "p_map": 0.3817
+   }
+  },
+  {
+   "match_id": "113475871523985211",
+   "start": "2025-10-31T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "Anyone's Legend",
+   "home": [
+    "LCK",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.5317,
+    "lock": "3-1",
+    "p_map": 0.5183
+   },
+   "v2.2_sd25": {
+    "p": 0.5536,
+    "lock": "3-1",
+    "p_map": 0.5312
+   },
+   "v2.2_sd50": {
+    "p": 0.59285,
+    "lock": "3-1",
+    "p_map": 0.554
+   },
+   "v2.2_sd100": {
+    "p": 0.6418,
+    "lock": "3-1",
+    "p_map": 0.5842
+   }
+  },
+  {
+   "match_id": "113475871523985241",
+   "start": "2025-11-01T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "kt Rolster",
+   "b": "Gen.G Esports",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.211,
+    "lock": "0-3",
+    "p_map": 0.3194
+   },
+   "v2.2_sd25": {
+    "p": 0.211,
+    "lock": "0-3",
+    "p_map": 0.3194
+   },
+   "v2.2_sd50": {
+    "p": 0.211,
+    "lock": "0-3",
+    "p_map": 0.3194
+   },
+   "v2.2_sd100": {
+    "p": 0.211,
+    "lock": "0-3",
+    "p_map": 0.3194
+   }
+  },
+  {
+   "match_id": "113475871523985235",
+   "start": "2025-11-02T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "TOP ESPORTS",
+   "b": "T1",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.3838,
+    "lock": "1-3",
+    "p_map": 0.4321
+   },
+   "v2.2_sd25": {
+    "p": 0.3627,
+    "lock": "1-3",
+    "p_map": 0.4195
+   },
+   "v2.2_sd50": {
+    "p": 0.32785,
+    "lock": "1-3",
+    "p_map": 0.3973
+   },
+   "v2.2_sd100": {
+    "p": 0.28185,
+    "lock": "1-3",
+    "p_map": 0.3682
+   }
+  },
+  {
+   "match_id": "113475871524050783",
+   "start": "2025-11-09T07:00:00Z",
+   "event": "Worlds 2025",
+   "a": "T1",
+   "b": "kt Rolster",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.54175,
+    "lock": "3-1",
+    "p_map": 0.524
+   },
+   "v2.2_sd25": {
+    "p": 0.54175,
+    "lock": "3-1",
+    "p_map": 0.524
+   },
+   "v2.2_sd50": {
+    "p": 0.54175,
+    "lock": "3-1",
+    "p_map": 0.524
+   },
+   "v2.2_sd100": {
+    "p": 0.54175,
+    "lock": "3-1",
+    "p_map": 0.524
+   }
+  },
+  {
+   "match_id": "115570888977308363",
+   "start": "2026-03-16T13:00:00Z",
+   "event": "First Stand 2026",
+   "a": "BNK FEARX",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LCK",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.32675,
+    "lock": "1-3",
+    "p_map": 0.3965
+   },
+   "v2.2_sd25": {
+    "p": 0.39645,
+    "lock": "1-3",
+    "p_map": 0.4395
+   },
+   "v2.2_sd50": {
+    "p": 0.4887,
+    "lock": "1-3",
+    "p_map": 0.4931
+   },
+   "v2.2_sd100": {
+    "p": 0.5734,
+    "lock": "3-1",
+    "p_map": 0.5429
+   }
+  },
+  {
+   "match_id": "115570888977308369",
+   "start": "2026-03-16T18:00:00Z",
+   "event": "First Stand 2026",
+   "a": "Team Secret Whales",
+   "b": "G2 Esports",
+   "home": [
+    "LCP",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.4026,
+    "lock": "1-3",
+    "p_map": 0.4429
+   },
+   "v2.2_sd25": {
+    "p": 0.42655,
+    "lock": "1-3",
+    "p_map": 0.4571
+   },
+   "v2.2_sd50": {
+    "p": 0.46805,
+    "lock": "1-3",
+    "p_map": 0.4811
+   },
+   "v2.2_sd100": {
+    "p": 0.5137,
+    "lock": "3-1",
+    "p_map": 0.5077
+   }
+  },
+  {
+   "match_id": "115570888977308393",
+   "start": "2026-03-17T13:00:00Z",
+   "event": "First Stand 2026",
+   "a": "Beijing JDG Esports",
+   "b": "Gen.G Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.1611,
+    "lock": "0-3",
+    "p_map": 0.2813
+   },
+   "v2.2_sd25": {
+    "p": 0.12105,
+    "lock": "0-3",
+    "p_map": 0.247
+   },
+   "v2.2_sd50": {
+    "p": 0.08265,
+    "lock": "0-3",
+    "p_map": 0.2091
+   },
+   "v2.2_sd100": {
+    "p": 0.05765,
+    "lock": "0-3",
+    "p_map": 0.178
+   }
+  },
+  {
+   "match_id": "115570888977308399",
+   "start": "2026-03-17T18:00:00Z",
+   "event": "First Stand 2026",
+   "a": "LYON",
+   "b": "LOUD",
+   "home": [
+    "LTA North",
+    "LTA South"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.6446,
+    "lock": "3-1",
+    "p_map": 0.5858
+   },
+   "v2.2_sd25": {
+    "p": 0.6504,
+    "lock": "3-1",
+    "p_map": 0.5893
+   },
+   "v2.2_sd50": {
+    "p": 0.6667,
+    "lock": "3-1",
+    "p_map": 0.5996
+   },
+   "v2.2_sd100": {
+    "p": 0.7096,
+    "lock": "3-1",
+    "p_map": 0.627
+   }
+  },
+  {
+   "match_id": "115570888977308375",
+   "start": "2026-03-18T13:00:00Z",
+   "event": "First Stand 2026",
+   "a": "BILIBILI GAMING",
+   "b": "G2 Esports",
+   "home": [
+    "LPL",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.6508,
+    "lock": "3-1",
+    "p_map": 0.5896
+   },
+   "v2.2_sd25": {
+    "p": 0.6669,
+    "lock": "3-1",
+    "p_map": 0.6
+   },
+   "v2.2_sd50": {
+    "p": 0.712,
+    "lock": "3-1",
+    "p_map": 0.6282
+   },
+   "v2.2_sd100": {
+    "p": 0.7736,
+    "lock": "3-0",
+    "p_map": 0.6711
+   }
+  },
+  {
+   "match_id": "115846976541810692",
+   "start": "2026-03-18T18:00:00Z",
+   "event": "First Stand 2026",
+   "a": "Team Secret Whales",
+   "b": "BNK FEARX",
+   "home": [
+    "LCP",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.2795,
+    "lock": "1-3",
+    "p_map": 0.3665
+   },
+   "v2.2_sd25": {
+    "p": 0.22655,
+    "lock": "0-3",
+    "p_map": 0.3297
+   },
+   "v2.2_sd50": {
+    "p": 0.1585,
+    "lock": "0-3",
+    "p_map": 0.2792
+   },
+   "v2.2_sd100": {
+    "p": 0.09825,
+    "lock": "0-3",
+    "p_map": 0.2262
+   }
+  },
+  {
+   "match_id": "115570888977308405",
+   "start": "2026-03-19T13:00:00Z",
+   "event": "First Stand 2026",
+   "a": "LYON",
+   "b": "Gen.G Esports",
+   "home": [
+    "LTA North",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.03375,
+    "lock": "0-3",
+    "p_map": 0.1417
+   },
+   "v2.2_sd25": {
+    "p": 0.0231,
+    "lock": "0-3",
+    "p_map": 0.1236
+   },
+   "v2.2_sd50": {
+    "p": 0.01335,
+    "lock": "0-3",
+    "p_map": 0.0997
+   },
+   "v2.2_sd100": {
+    "p": 0.00675,
+    "lock": "0-3",
+    "p_map": 0.0767
+   }
+  },
+  {
+   "match_id": "115846976541941770",
+   "start": "2026-03-19T18:00:00Z",
+   "event": "First Stand 2026",
+   "a": "Beijing JDG Esports",
+   "b": "LOUD",
+   "home": [
+    "LPL",
+    "LTA South"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.84555,
+    "lock": "3-0",
+    "p_map": 0.7233
+   },
+   "v2.2_sd25": {
+    "p": 0.8442,
+    "lock": "3-0",
+    "p_map": 0.7224
+   },
+   "v2.2_sd50": {
+    "p": 0.8604,
+    "lock": "3-0",
+    "p_map": 0.736
+   },
+   "v2.2_sd100": {
+    "p": 0.9004,
+    "lock": "3-0",
+    "p_map": 0.7735
+   }
+  },
+  {
+   "match_id": "115570888977308387",
+   "start": "2026-03-20T13:00:00Z",
+   "event": "First Stand 2026",
+   "a": "BNK FEARX",
+   "b": "G2 Esports",
+   "home": [
+    "LCK",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.613,
+    "lock": "3-1",
+    "p_map": 0.5664
+   },
+   "v2.2_sd25": {
+    "p": 0.6987,
+    "lock": "3-1",
+    "p_map": 0.6195
+   },
+   "v2.2_sd50": {
+    "p": 0.80635,
+    "lock": "3-0",
+    "p_map": 0.6947
+   },
+   "v2.2_sd100": {
+    "p": 0.8977,
+    "lock": "3-0",
+    "p_map": 0.7704
+   }
+  },
+  {
+   "match_id": "115570888977308417",
+   "start": "2026-03-20T18:00:00Z",
+   "event": "First Stand 2026",
+   "a": "Beijing JDG Esports",
+   "b": "LYON",
+   "home": [
+    "LPL",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.79965,
+    "lock": "3-0",
+    "p_map": 0.689
+   },
+   "v2.2_sd25": {
+    "p": 0.79405,
+    "lock": "3-0",
+    "p_map": 0.6849
+   },
+   "v2.2_sd50": {
+    "p": 0.80165,
+    "lock": "3-0",
+    "p_map": 0.6905
+   },
+   "v2.2_sd100": {
+    "p": 0.82595,
+    "lock": "3-0",
+    "p_map": 0.7089
+   }
+  },
+  {
+   "match_id": "115570888977308429",
+   "start": "2026-03-21T13:00:00Z",
+   "event": "First Stand 2026",
+   "a": "G2 Esports",
+   "b": "Gen.G Esports",
+   "home": [
+    "LEC",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.14745,
+    "lock": "0-3",
+    "p_map": 0.2699
+   },
+   "v2.2_sd25": {
+    "p": 0.10085,
+    "lock": "0-3",
+    "p_map": 0.2288
+   },
+   "v2.2_sd50": {
+    "p": 0.0555,
+    "lock": "0-3",
+    "p_map": 0.1751
+   },
+   "v2.2_sd100": {
+    "p": 0.0244,
+    "lock": "0-3",
+    "p_map": 0.1259
+   }
+  },
+  {
+   "match_id": "115570888977308423",
+   "start": "2026-03-21T18:00:00Z",
+   "event": "First Stand 2026",
+   "a": "Beijing JDG Esports",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LPL",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.26405,
+    "lock": "0-3",
+    "p_map": 0.3561
+   },
+   "v2.2_sd25": {
+    "p": 0.26405,
+    "lock": "0-3",
+    "p_map": 0.3561
+   },
+   "v2.2_sd50": {
+    "p": 0.26405,
+    "lock": "0-3",
+    "p_map": 0.3561
+   },
+   "v2.2_sd100": {
+    "p": 0.26405,
+    "lock": "0-3",
+    "p_map": 0.3561
+   }
+  },
+  {
+   "match_id": "115570888977308435",
+   "start": "2026-03-22T13:00:00Z",
+   "event": "First Stand 2026",
+   "a": "G2 Esports",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LEC",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "1-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.37125,
+    "lock": "1-3",
+    "p_map": 0.4245
+   },
+   "v2.2_sd25": {
+    "p": 0.35315,
+    "lock": "1-3",
+    "p_map": 0.4139
+   },
+   "v2.2_sd50": {
+    "p": 0.30925,
+    "lock": "1-3",
+    "p_map": 0.3853
+   },
+   "v2.2_sd100": {
+    "p": 0.24335,
+    "lock": "0-3",
+    "p_map": 0.3418
+   }
+  },
+  {
+   "match_id": "115570934355614497",
+   "start": "2026-06-28T03:00:00Z",
+   "event": "MSI 2026",
+   "a": "T1",
+   "b": "Team Liquid Alienware",
+   "home": [
+    "LCK",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.93975,
+    "lock": "3-0",
+    "p_map": 0.8153
+   },
+   "v2.2_sd25": {
+    "p": 0.95465,
+    "lock": "3-0",
+    "p_map": 0.8349
+   },
+   "v2.2_sd50": {
+    "p": 0.96855,
+    "lock": "3-0",
+    "p_map": 0.8587
+   },
+   "v2.2_sd100": {
+    "p": 0.97925,
+    "lock": "3-0",
+    "p_map": 0.88
+   }
+  },
+  {
+   "match_id": "115570934355614503",
+   "start": "2026-06-28T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "Relove Deep Cross Gaming",
+   "b": "Karmine Corp",
+   "home": [
+    "PCS",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.23065,
+    "lock": "0-3",
+    "p_map": 0.3324
+   },
+   "v2.2_sd25": {
+    "p": 0.2352,
+    "lock": "0-3",
+    "p_map": 0.3355
+   },
+   "v2.2_sd50": {
+    "p": 0.23875,
+    "lock": "0-3",
+    "p_map": 0.3385
+   },
+   "v2.2_sd100": {
+    "p": 0.23865,
+    "lock": "0-3",
+    "p_map": 0.3383
+   }
+  },
+  {
+   "match_id": "115570934355614509",
+   "start": "2026-06-29T03:00:00Z",
+   "event": "MSI 2026",
+   "a": "T1",
+   "b": "Karmine Corp",
+   "home": [
+    "LCK",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.7736,
+    "lock": "3-0",
+    "p_map": 0.6711
+   },
+   "v2.2_sd25": {
+    "p": 0.81335,
+    "lock": "3-0",
+    "p_map": 0.6994
+   },
+   "v2.2_sd50": {
+    "p": 0.8573,
+    "lock": "3-0",
+    "p_map": 0.7337
+   },
+   "v2.2_sd100": {
+    "p": 0.8905,
+    "lock": "3-0",
+    "p_map": 0.7636
+   }
+  },
+  {
+   "match_id": "115846993721104369",
+   "start": "2026-06-29T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "Team Liquid Alienware",
+   "b": "Relove Deep Cross Gaming",
+   "home": [
+    "LTA North",
+    "PCS"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.52725,
+    "lock": "3-1",
+    "p_map": 0.5157
+   },
+   "v2.2_sd25": {
+    "p": 0.5191,
+    "lock": "3-1",
+    "p_map": 0.5113
+   },
+   "v2.2_sd50": {
+    "p": 0.5079,
+    "lock": "3-1",
+    "p_map": 0.5042
+   },
+   "v2.2_sd100": {
+    "p": 0.4959,
+    "lock": "3-1",
+    "p_map": 0.497
+   }
+  },
+  {
+   "match_id": "115570934355614521",
+   "start": "2026-06-30T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "Team Liquid Alienware",
+   "b": "Karmine Corp",
+   "home": [
+    "LTA North",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.2732,
+    "lock": "1-3",
+    "p_map": 0.3622
+   },
+   "v2.2_sd25": {
+    "p": 0.2715,
+    "lock": "1-3",
+    "p_map": 0.3613
+   },
+   "v2.2_sd50": {
+    "p": 0.2664,
+    "lock": "0-3",
+    "p_map": 0.3579
+   },
+   "v2.2_sd100": {
+    "p": 0.2561,
+    "lock": "0-3",
+    "p_map": 0.3512
+   }
+  },
+  {
+   "match_id": "115570969745329263",
+   "start": "2026-07-01T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "T1",
+   "b": "Team Liquid Alienware",
+   "home": [
+    "LCK",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.9119,
+    "lock": "3-0",
+    "p_map": 0.7844
+   },
+   "v2.2_sd25": {
+    "p": 0.93255,
+    "lock": "3-0",
+    "p_map": 0.8064
+   },
+   "v2.2_sd50": {
+    "p": 0.9533,
+    "lock": "3-0",
+    "p_map": 0.8335
+   },
+   "v2.2_sd100": {
+    "p": 0.96805,
+    "lock": "3-0",
+    "p_map": 0.858
+   }
+  },
+  {
+   "match_id": "115570934355614539",
+   "start": "2026-07-03T03:00:00Z",
+   "event": "MSI 2026",
+   "a": "Hanwha Life Esports",
+   "b": "Team Secret Whales",
+   "home": [
+    "LCK",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.81585,
+    "lock": "3-0",
+    "p_map": 0.7013
+   },
+   "v2.2_sd25": {
+    "p": 0.8596,
+    "lock": "3-0",
+    "p_map": 0.7353
+   },
+   "v2.2_sd50": {
+    "p": 0.90195,
+    "lock": "3-0",
+    "p_map": 0.7754
+   },
+   "v2.2_sd100": {
+    "p": 0.93495,
+    "lock": "3-0",
+    "p_map": 0.8098
+   }
+  },
+  {
+   "match_id": "115570934355614545",
+   "start": "2026-07-03T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "TOP ESPORTS",
+   "b": "G2 Esports",
+   "home": [
+    "LPL",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.4664,
+    "lock": "1-3",
+    "p_map": 0.4802
+   },
+   "v2.2_sd25": {
+    "p": 0.4738,
+    "lock": "1-3",
+    "p_map": 0.4849
+   },
+   "v2.2_sd50": {
+    "p": 0.49725,
+    "lock": "3-1",
+    "p_map": 0.4978
+   },
+   "v2.2_sd100": {
+    "p": 0.52465,
+    "lock": "3-1",
+    "p_map": 0.5145
+   }
+  },
+  {
+   "match_id": "115570934355614533",
+   "start": "2026-07-04T03:00:00Z",
+   "event": "MSI 2026",
+   "a": "FURIA",
+   "b": "LYON",
+   "home": [
+    "LTA South",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.40575,
+    "lock": "1-3",
+    "p_map": 0.4451
+   },
+   "v2.2_sd25": {
+    "p": 0.39655,
+    "lock": "1-3",
+    "p_map": 0.4396
+   },
+   "v2.2_sd50": {
+    "p": 0.3707,
+    "lock": "1-3",
+    "p_map": 0.4243
+   },
+   "v2.2_sd100": {
+    "p": 0.3242,
+    "lock": "1-3",
+    "p_map": 0.3952
+   }
+  },
+  {
+   "match_id": "115570934355614527",
+   "start": "2026-07-04T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "T1",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LCK",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.55835,
+    "lock": "3-1",
+    "p_map": 0.5341
+   },
+   "v2.2_sd25": {
+    "p": 0.60585,
+    "lock": "3-1",
+    "p_map": 0.5621
+   },
+   "v2.2_sd50": {
+    "p": 0.65265,
+    "lock": "3-1",
+    "p_map": 0.5907
+   },
+   "v2.2_sd100": {
+    "p": 0.68855,
+    "lock": "3-1",
+    "p_map": 0.6128
+   }
+  },
+  {
+   "match_id": "115570934355614569",
+   "start": "2026-07-05T03:00:00Z",
+   "event": "MSI 2026",
+   "a": "Team Secret Whales",
+   "b": "TOP ESPORTS",
+   "home": [
+    "LCP",
+    "LPL"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.2714,
+    "lock": "1-3",
+    "p_map": 0.3612
+   },
+   "v2.2_sd25": {
+    "p": 0.2524,
+    "lock": "0-3",
+    "p_map": 0.3485
+   },
+   "v2.2_sd50": {
+    "p": 0.22075,
+    "lock": "0-3",
+    "p_map": 0.3261
+   },
+   "v2.2_sd100": {
+    "p": 0.18625,
+    "lock": "0-3",
+    "p_map": 0.3009
+   }
+  },
+  {
+   "match_id": "115570934355614557",
+   "start": "2026-07-05T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "Hanwha Life Esports",
+   "b": "G2 Esports",
+   "home": [
+    "LCK",
+    "LEC"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.6356,
+    "lock": "3-1",
+    "p_map": 0.5802
+   },
+   "v2.2_sd25": {
+    "p": 0.6868,
+    "lock": "3-1",
+    "p_map": 0.6119
+   },
+   "v2.2_sd50": {
+    "p": 0.7463,
+    "lock": "3-1",
+    "p_map": 0.6511
+   },
+   "v2.2_sd100": {
+    "p": 0.79625,
+    "lock": "3-0",
+    "p_map": 0.6863
+   }
+  },
+  {
+   "match_id": "115570934355614551",
+   "start": "2026-07-06T03:00:00Z",
+   "event": "MSI 2026",
+   "a": "BILIBILI GAMING",
+   "b": "LYON",
+   "home": [
+    "LPL",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.89915,
+    "lock": "3-0",
+    "p_map": 0.772
+   },
+   "v2.2_sd25": {
+    "p": 0.9029,
+    "lock": "3-0",
+    "p_map": 0.776
+   },
+   "v2.2_sd50": {
+    "p": 0.91455,
+    "lock": "3-0",
+    "p_map": 0.7873
+   },
+   "v2.2_sd100": {
+    "p": 0.92935,
+    "lock": "3-0",
+    "p_map": 0.803
+   }
+  },
+  {
+   "match_id": "115570934355614563",
+   "start": "2026-07-06T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "T1",
+   "b": "FURIA",
+   "home": [
+    "LCK",
+    "LTA South"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.9651,
+    "lock": "3-0",
+    "p_map": 0.8524
+   },
+   "v2.2_sd25": {
+    "p": 0.9752,
+    "lock": "3-0",
+    "p_map": 0.8712
+   },
+   "v2.2_sd50": {
+    "p": 0.9859,
+    "lock": "3-0",
+    "p_map": 0.8964
+   },
+   "v2.2_sd100": {
+    "p": 0.99405,
+    "lock": "3-0",
+    "p_map": 0.9218
+   }
+  },
+  {
+   "match_id": "115570934355614587",
+   "start": "2026-07-08T03:00:00Z",
+   "event": "MSI 2026",
+   "a": "LYON",
+   "b": "Team Secret Whales",
+   "home": [
+    "LTA North",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.45415,
+    "lock": "1-3",
+    "p_map": 0.4727
+   },
+   "v2.2_sd25": {
+    "p": 0.46765,
+    "lock": "1-3",
+    "p_map": 0.4809
+   },
+   "v2.2_sd50": {
+    "p": 0.48185,
+    "lock": "1-3",
+    "p_map": 0.4893
+   },
+   "v2.2_sd100": {
+    "p": 0.49115,
+    "lock": "1-3",
+    "p_map": 0.4945
+   }
+  },
+  {
+   "match_id": "115570934355614581",
+   "start": "2026-07-08T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "G2 Esports",
+   "b": "T1",
+   "home": [
+    "LEC",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.1942,
+    "lock": "0-3",
+    "p_map": 0.3077
+   },
+   "v2.2_sd25": {
+    "p": 0.16015,
+    "lock": "0-3",
+    "p_map": 0.2804
+   },
+   "v2.2_sd50": {
+    "p": 0.1217,
+    "lock": "0-3",
+    "p_map": 0.2476
+   },
+   "v2.2_sd100": {
+    "p": 0.0924,
+    "lock": "0-3",
+    "p_map": 0.2192
+   }
+  },
+  {
+   "match_id": "115570934355614575",
+   "start": "2026-07-09T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "BILIBILI GAMING",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.6008,
+    "lock": "3-1",
+    "p_map": 0.5586
+   },
+   "v2.2_sd25": {
+    "p": 0.5525,
+    "lock": "3-1",
+    "p_map": 0.5306
+   },
+   "v2.2_sd50": {
+    "p": 0.50305,
+    "lock": "3-1",
+    "p_map": 0.5014
+   },
+   "v2.2_sd100": {
+    "p": 0.4629,
+    "lock": "1-3",
+    "p_map": 0.4783
+   }
+  },
+  {
+   "match_id": "115570934355614593",
+   "start": "2026-07-10T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "G2 Esports",
+   "b": "LYON",
+   "home": [
+    "LEC",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "0-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.7066,
+    "lock": "3-1",
+    "p_map": 0.6251
+   },
+   "v2.2_sd25": {
+    "p": 0.708,
+    "lock": "3-1",
+    "p_map": 0.6261
+   },
+   "v2.2_sd50": {
+    "p": 0.7146,
+    "lock": "3-1",
+    "p_map": 0.6296
+   },
+   "v2.2_sd100": {
+    "p": 0.7253,
+    "lock": "3-1",
+    "p_map": 0.6364
+   }
+  },
+  {
+   "match_id": "115570934355614599",
+   "start": "2026-07-11T08:00:00Z",
+   "event": "MSI 2026",
+   "a": "LYON",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LTA North",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.2835,
+    "lock": "1-3",
+    "p_map": 0.3693
+   },
+   "v2.2_sd25": {
+    "p": 0.2386,
+    "lock": "0-3",
+    "p_map": 0.3383
+   },
+   "v2.2_sd50": {
+    "p": 0.183,
+    "lock": "0-3",
+    "p_map": 0.2985
+   },
+   "v2.2_sd100": {
+    "p": 0.1365,
+    "lock": "0-3",
+    "p_map": 0.2606
+   }
+  },
+  {
+   "match_id": "115570934355614605",
+   "start": "2026-07-12T06:00:00Z",
+   "event": "MSI 2026",
+   "a": "BILIBILI GAMING",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 5,
+   "score": "2-3",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.6964,
+    "lock": "3-1",
+    "p_map": 0.6178
+   },
+   "v2.2_sd25": {
+    "p": 0.65285,
+    "lock": "3-1",
+    "p_map": 0.5908
+   },
+   "v2.2_sd50": {
+    "p": 0.6061,
+    "lock": "3-1",
+    "p_map": 0.5622
+   },
+   "v2.2_sd100": {
+    "p": 0.5673,
+    "lock": "3-1",
+    "p_map": 0.5394
+   }
+  },
+  {
+   "match_id": "115660588583171786",
+   "start": "2026-10-15T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Karmine Corp",
+   "b": "Cloud9 Kia",
+   "home": [
+    "LEC",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "3-2",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.68705,
+    "lock": "3-1",
+    "p_map": 0.612
+   },
+   "v2.2_sd25": {
+    "p": 0.6325,
+    "lock": "3-1",
+    "p_map": 0.5784
+   },
+   "v2.2_sd50": {
+    "p": 0.5735,
+    "lock": "3-1",
+    "p_map": 0.543
+   },
+   "v2.2_sd100": {
+    "p": 0.52875,
+    "lock": "3-1",
+    "p_map": 0.5164
+   }
+  },
+  {
+   "match_id": "115660588583040710",
+   "start": "2026-10-15T23:00:00Z",
+   "event": "Worlds 2026",
+   "a": "MVK Esports",
+   "b": "FURIA",
+   "home": [
+    "LCP",
+    "LTA South"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.5052,
+    "lock": "3-1",
+    "p_map": 0.5026
+   },
+   "v2.2_sd25": {
+    "p": 0.5149,
+    "lock": "3-1",
+    "p_map": 0.5084
+   },
+   "v2.2_sd50": {
+    "p": 0.5503,
+    "lock": "3-1",
+    "p_map": 0.5294
+   },
+   "v2.2_sd100": {
+    "p": 0.6133,
+    "lock": "3-1",
+    "p_map": 0.5666
+   }
+  },
+  {
+   "match_id": "115660588583171790",
+   "start": "2026-10-16T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Karmine Corp",
+   "b": "MVK Esports",
+   "home": [
+    "LEC",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.7532,
+    "lock": "3-0",
+    "p_map": 0.6559
+   },
+   "v2.2_sd25": {
+    "p": 0.74835,
+    "lock": "3-0",
+    "p_map": 0.6529
+   },
+   "v2.2_sd50": {
+    "p": 0.7532,
+    "lock": "3-0",
+    "p_map": 0.6559
+   },
+   "v2.2_sd100": {
+    "p": 0.76035,
+    "lock": "3-0",
+    "p_map": 0.6607
+   }
+  },
+  {
+   "match_id": "115660588583171794",
+   "start": "2026-10-16T23:00:00Z",
+   "event": "Worlds 2026",
+   "a": "FURIA",
+   "b": "Cloud9 Kia",
+   "home": [
+    "LTA South",
+    "LTA North"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.31085,
+    "lock": "1-3",
+    "p_map": 0.3864
+   },
+   "v2.2_sd25": {
+    "p": 0.2567,
+    "lock": "0-3",
+    "p_map": 0.3516
+   },
+   "v2.2_sd50": {
+    "p": 0.18345,
+    "lock": "0-3",
+    "p_map": 0.2988
+   },
+   "v2.2_sd100": {
+    "p": 0.11765,
+    "lock": "0-3",
+    "p_map": 0.2439
+   }
+  },
+  {
+   "match_id": "115660588583171798",
+   "start": "2026-10-17T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "MVK Esports",
+   "b": "FURIA",
+   "home": [
+    "LCP",
+    "LTA South"
+   ],
+   "bo": 5,
+   "score": "3-1",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.5249,
+    "lock": "3-1",
+    "p_map": 0.5146
+   },
+   "v2.2_sd25": {
+    "p": 0.53605,
+    "lock": "3-1",
+    "p_map": 0.5205
+   },
+   "v2.2_sd50": {
+    "p": 0.5704,
+    "lock": "3-1",
+    "p_map": 0.5413
+   },
+   "v2.2_sd100": {
+    "p": 0.63245,
+    "lock": "3-1",
+    "p_map": 0.5784
+   }
+  },
+  {
+   "match_id": "116299649498303884",
+   "start": "2026-10-18T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Karmine Corp",
+   "b": "MVK Esports",
+   "home": [
+    "LEC",
+    "LCP"
+   ],
+   "bo": 5,
+   "score": "3-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.78195,
+    "lock": "3-0",
+    "p_map": 0.6767
+   },
+   "v2.2_sd25": {
+    "p": 0.77765,
+    "lock": "3-0",
+    "p_map": 0.6737
+   },
+   "v2.2_sd50": {
+    "p": 0.78195,
+    "lock": "3-0",
+    "p_map": 0.6767
+   },
+   "v2.2_sd100": {
+    "p": 0.7895,
+    "lock": "3-0",
+    "p_map": 0.6813
+   }
+  },
+  {
+   "match_id": "115660540726095005",
+   "start": "2026-10-23T17:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Invictus Gaming",
+   "b": "Gen.G Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.37415,
+    "lock": "0-1",
+    "p_map": 0.3727
+   },
+   "v2.2_sd25": {
+    "p": 0.333,
+    "lock": "0-1",
+    "p_map": 0.3294
+   },
+   "v2.2_sd50": {
+    "p": 0.3083,
+    "lock": "0-1",
+    "p_map": 0.303
+   },
+   "v2.2_sd100": {
+    "p": 0.29625,
+    "lock": "0-1",
+    "p_map": 0.29
+   }
+  },
+  {
+   "match_id": "115660540726095013",
+   "start": "2026-10-23T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "TOP ESPORTS",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.4091,
+    "lock": "0-1",
+    "p_map": 0.411
+   },
+   "v2.2_sd25": {
+    "p": 0.3669,
+    "lock": "0-1",
+    "p_map": 0.3658
+   },
+   "v2.2_sd50": {
+    "p": 0.3411,
+    "lock": "0-1",
+    "p_map": 0.3379
+   },
+   "v2.2_sd100": {
+    "p": 0.3278,
+    "lock": "0-1",
+    "p_map": 0.3241
+   }
+  },
+  {
+   "match_id": "115660540726095019",
+   "start": "2026-10-23T19:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Movistar KOI",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LEC",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.26375,
+    "lock": "0-1",
+    "p_map": 0.2568
+   },
+   "v2.2_sd25": {
+    "p": 0.25355,
+    "lock": "0-1",
+    "p_map": 0.2465
+   },
+   "v2.2_sd50": {
+    "p": 0.2391,
+    "lock": "0-1",
+    "p_map": 0.2309
+   },
+   "v2.2_sd100": {
+    "p": 0.2253,
+    "lock": "0-1",
+    "p_map": 0.2158
+   }
+  },
+  {
+   "match_id": "115660540726095009",
+   "start": "2026-10-23T20:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Karmine Corp",
+   "b": "Anyone's Legend",
+   "home": [
+    "LEC",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.43995,
+    "lock": "0-1",
+    "p_map": 0.4425
+   },
+   "v2.2_sd25": {
+    "p": 0.42645,
+    "lock": "0-1",
+    "p_map": 0.4291
+   },
+   "v2.2_sd50": {
+    "p": 0.40625,
+    "lock": "0-1",
+    "p_map": 0.4082
+   },
+   "v2.2_sd100": {
+    "p": 0.38705,
+    "lock": "0-1",
+    "p_map": 0.3873
+   }
+  },
+  {
+   "match_id": "115660540726095011",
+   "start": "2026-10-23T21:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Dplus KIA",
+   "b": "G2 Esports",
+   "home": [
+    "LCK",
+    "LEC"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.5323,
+    "lock": "1-0",
+    "p_map": 0.5393
+   },
+   "v2.2_sd25": {
+    "p": 0.5877,
+    "lock": "1-0",
+    "p_map": 0.5993
+   },
+   "v2.2_sd50": {
+    "p": 0.63745,
+    "lock": "1-0",
+    "p_map": 0.6481
+   },
+   "v2.2_sd100": {
+    "p": 0.6692,
+    "lock": "1-0",
+    "p_map": 0.6814
+   }
+  },
+  {
+   "match_id": "115660540726095007",
+   "start": "2026-10-23T22:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Team Liquid Alienware",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LTA North",
+    "LCP"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.6173,
+    "lock": "1-0",
+    "p_map": 0.6299
+   },
+   "v2.2_sd25": {
+    "p": 0.64855,
+    "lock": "1-0",
+    "p_map": 0.6588
+   },
+   "v2.2_sd50": {
+    "p": 0.6811,
+    "lock": "1-0",
+    "p_map": 0.6932
+   },
+   "v2.2_sd100": {
+    "p": 0.70805,
+    "lock": "1-0",
+    "p_map": 0.7197
+   }
+  },
+  {
+   "match_id": "115660540726095015",
+   "start": "2026-10-23T23:00:00Z",
+   "event": "Worlds 2026",
+   "a": "LOS",
+   "b": "T1",
+   "home": [
+    "Circuito Desafiante",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.23655,
+    "lock": "0-1",
+    "p_map": 0.2282
+   },
+   "v2.2_sd25": {
+    "p": 0.20635,
+    "lock": "0-1",
+    "p_map": 0.1977
+   },
+   "v2.2_sd50": {
+    "p": 0.179,
+    "lock": "0-1",
+    "p_map": 0.1701
+   },
+   "v2.2_sd100": {
+    "p": 0.1512,
+    "lock": "0-1",
+    "p_map": 0.1427
+   }
+  },
+  {
+   "match_id": "115660540726095017",
+   "start": "2026-10-24T00:00:00Z",
+   "event": "Worlds 2026",
+   "a": "LYON",
+   "b": "Team Secret Whales",
+   "home": [
+    "LTA North",
+    "LCP"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.53905,
+    "lock": "1-0",
+    "p_map": 0.5464
+   },
+   "v2.2_sd25": {
+    "p": 0.5681,
+    "lock": "1-0",
+    "p_map": 0.5774
+   },
+   "v2.2_sd50": {
+    "p": 0.6037,
+    "lock": "1-0",
+    "p_map": 0.6152
+   },
+   "v2.2_sd100": {
+    "p": 0.63425,
+    "lock": "1-0",
+    "p_map": 0.645
+   }
+  },
+  {
+   "match_id": "115660540726095029",
+   "start": "2026-10-24T17:00:00Z",
+   "event": "Worlds 2026",
+   "a": "TOP ESPORTS",
+   "b": "Anyone's Legend",
+   "home": [
+    "LPL",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.4472,
+    "lock": "0-1",
+    "p_map": 0.4508
+   },
+   "v2.2_sd25": {
+    "p": 0.4472,
+    "lock": "0-1",
+    "p_map": 0.4508
+   },
+   "v2.2_sd50": {
+    "p": 0.4472,
+    "lock": "0-1",
+    "p_map": 0.4508
+   },
+   "v2.2_sd100": {
+    "p": 0.4472,
+    "lock": "0-1",
+    "p_map": 0.4508
+   }
+  },
+  {
+   "match_id": "115660540726095021",
+   "start": "2026-10-24T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Movistar KOI",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LEC",
+    "LCP"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.59345,
+    "lock": "1-0",
+    "p_map": 0.6052
+   },
+   "v2.2_sd25": {
+    "p": 0.58965,
+    "lock": "1-0",
+    "p_map": 0.6019
+   },
+   "v2.2_sd50": {
+    "p": 0.59345,
+    "lock": "1-0",
+    "p_map": 0.6052
+   },
+   "v2.2_sd100": {
+    "p": 0.5983,
+    "lock": "1-0",
+    "p_map": 0.6102
+   }
+  },
+  {
+   "match_id": "115660540726095031",
+   "start": "2026-10-24T19:00:00Z",
+   "event": "Worlds 2026",
+   "a": "LOS",
+   "b": "G2 Esports",
+   "home": [
+    "Circuito Desafiante",
+    "LEC"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.28845,
+    "lock": "0-1",
+    "p_map": 0.2815
+   },
+   "v2.2_sd25": {
+    "p": 0.29995,
+    "lock": "0-1",
+    "p_map": 0.2943
+   },
+   "v2.2_sd50": {
+    "p": 0.3046,
+    "lock": "0-1",
+    "p_map": 0.2993
+   },
+   "v2.2_sd100": {
+    "p": 0.29365,
+    "lock": "0-1",
+    "p_map": 0.2871
+   }
+  },
+  {
+   "match_id": "115660540726095023",
+   "start": "2026-10-24T20:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Karmine Corp",
+   "b": "LYON",
+   "home": [
+    "LEC",
+    "LTA North"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.5734,
+    "lock": "1-0",
+    "p_map": 0.5832
+   },
+   "v2.2_sd25": {
+    "p": 0.54115,
+    "lock": "1-0",
+    "p_map": 0.5489
+   },
+   "v2.2_sd50": {
+    "p": 0.5065,
+    "lock": "1-0",
+    "p_map": 0.5131
+   },
+   "v2.2_sd100": {
+    "p": 0.481,
+    "lock": "0-1",
+    "p_map": 0.4865
+   }
+  },
+  {
+   "match_id": "115660540726095033",
+   "start": "2026-10-24T21:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Team Secret Whales",
+   "b": "Invictus Gaming",
+   "home": [
+    "LCP",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.34185,
+    "lock": "0-1",
+    "p_map": 0.3386
+   },
+   "v2.2_sd25": {
+    "p": 0.3331,
+    "lock": "0-1",
+    "p_map": 0.3295
+   },
+   "v2.2_sd50": {
+    "p": 0.31305,
+    "lock": "0-1",
+    "p_map": 0.3079
+   },
+   "v2.2_sd100": {
+    "p": 0.29215,
+    "lock": "0-1",
+    "p_map": 0.2853
+   }
+  },
+  {
+   "match_id": "115660540726095025",
+   "start": "2026-10-24T22:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Hanwha Life Esports",
+   "b": "Gen.G Esports",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.44895,
+    "lock": "0-1",
+    "p_map": 0.4526
+   },
+   "v2.2_sd25": {
+    "p": 0.44895,
+    "lock": "0-1",
+    "p_map": 0.4526
+   },
+   "v2.2_sd50": {
+    "p": 0.44895,
+    "lock": "0-1",
+    "p_map": 0.4526
+   },
+   "v2.2_sd100": {
+    "p": 0.44895,
+    "lock": "0-1",
+    "p_map": 0.4526
+   }
+  },
+  {
+   "match_id": "115660540726095027",
+   "start": "2026-10-24T23:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Dplus KIA",
+   "b": "T1",
+   "home": [
+    "LCK",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.4745,
+    "lock": "0-1",
+    "p_map": 0.4791
+   },
+   "v2.2_sd25": {
+    "p": 0.4745,
+    "lock": "0-1",
+    "p_map": 0.4791
+   },
+   "v2.2_sd50": {
+    "p": 0.4745,
+    "lock": "0-1",
+    "p_map": 0.4791
+   },
+   "v2.2_sd100": {
+    "p": 0.4745,
+    "lock": "0-1",
+    "p_map": 0.4791
+   }
+  },
+  {
+   "match_id": "115660540726095035",
+   "start": "2026-10-25T00:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Team Liquid Alienware",
+   "b": "BILIBILI GAMING",
+   "home": [
+    "LTA North",
+    "LPL"
+   ],
+   "bo": 1,
+   "score": "0-1",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.29155,
+    "lock": "0-1",
+    "p_map": 0.2845
+   },
+   "v2.2_sd25": {
+    "p": 0.3074,
+    "lock": "0-1",
+    "p_map": 0.3022
+   },
+   "v2.2_sd50": {
+    "p": 0.32,
+    "lock": "0-1",
+    "p_map": 0.3145
+   },
+   "v2.2_sd100": {
+    "p": 0.3232,
+    "lock": "0-1",
+    "p_map": 0.3187
+   }
+  },
+  {
+   "match_id": "115660540726095045",
+   "start": "2026-10-25T17:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Invictus Gaming",
+   "b": "Hanwha Life Esports",
+   "home": [
+    "LPL",
+    "LCK"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.41775,
+    "lock": "0-1",
+    "p_map": 0.4191
+   },
+   "v2.2_sd25": {
+    "p": 0.37505,
+    "lock": "0-1",
+    "p_map": 0.3736
+   },
+   "v2.2_sd50": {
+    "p": 0.3481,
+    "lock": "0-1",
+    "p_map": 0.3455
+   },
+   "v2.2_sd100": {
+    "p": 0.3348,
+    "lock": "0-1",
+    "p_map": 0.3315
+   }
+  },
+  {
+   "match_id": "115660540726095047",
+   "start": "2026-10-25T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "TOP ESPORTS",
+   "b": "G2 Esports",
+   "home": [
+    "LPL",
+    "LEC"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.50555,
+    "lock": "1-0",
+    "p_map": 0.512
+   },
+   "v2.2_sd25": {
+    "p": 0.5187,
+    "lock": "1-0",
+    "p_map": 0.5257
+   },
+   "v2.2_sd50": {
+    "p": 0.5397,
+    "lock": "1-0",
+    "p_map": 0.547
+   },
+   "v2.2_sd100": {
+    "p": 0.55885,
+    "lock": "1-0",
+    "p_map": 0.5685
+   }
+  },
+  {
+   "match_id": "115660540726095037",
+   "start": "2026-10-25T19:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Movistar KOI",
+   "b": "Dplus KIA",
+   "home": [
+    "LEC",
+    "LCK"
+   ],
+   "bo": 3,
+   "score": "0-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.30135,
+    "lock": "0-2",
+    "p_map": 0.3576
+   },
+   "v2.2_sd25": {
+    "p": 0.23445,
+    "lock": "0-2",
+    "p_map": 0.3035
+   },
+   "v2.2_sd50": {
+    "p": 0.18375,
+    "lock": "0-2",
+    "p_map": 0.2613
+   },
+   "v2.2_sd100": {
+    "p": 0.15305,
+    "lock": "0-2",
+    "p_map": 0.2335
+   }
+  },
+  {
+   "match_id": "115660540726095041",
+   "start": "2026-10-25T22:00:00Z",
+   "event": "Worlds 2026",
+   "a": "LYON",
+   "b": "Gen.G Esports",
+   "home": [
+    "LTA North",
+    "LCK"
+   ],
+   "bo": 3,
+   "score": "1-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.2199,
+    "lock": "0-2",
+    "p_map": 0.2926
+   },
+   "v2.2_sd25": {
+    "p": 0.195,
+    "lock": "0-2",
+    "p_map": 0.2713
+   },
+   "v2.2_sd50": {
+    "p": 0.18085,
+    "lock": "0-2",
+    "p_map": 0.2587
+   },
+   "v2.2_sd100": {
+    "p": 0.17105,
+    "lock": "0-2",
+    "p_map": 0.2506
+   }
+  },
+  {
+   "match_id": "115660540726095049",
+   "start": "2026-10-26T17:00:00Z",
+   "event": "Worlds 2026",
+   "a": "T1",
+   "b": "CTBC Flying Oyster",
+   "home": [
+    "LCK",
+    "LCP"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.73215,
+    "lock": "1-0",
+    "p_map": 0.7455
+   },
+   "v2.2_sd25": {
+    "p": 0.77265,
+    "lock": "1-0",
+    "p_map": 0.7869
+   },
+   "v2.2_sd50": {
+    "p": 0.808,
+    "lock": "1-0",
+    "p_map": 0.8217
+   },
+   "v2.2_sd100": {
+    "p": 0.83195,
+    "lock": "1-0",
+    "p_map": 0.8453
+   }
+  },
+  {
+   "match_id": "115660540726095051",
+   "start": "2026-10-26T18:00:00Z",
+   "event": "Worlds 2026",
+   "a": "BILIBILI GAMING",
+   "b": "Karmine Corp",
+   "home": [
+    "LPL",
+    "LEC"
+   ],
+   "bo": 1,
+   "score": "1-0",
+   "y": 1,
+   "v2.1_ratings": {
+    "p": 0.6311,
+    "lock": "1-0",
+    "p_map": 0.6419
+   },
+   "v2.2_sd25": {
+    "p": 0.64365,
+    "lock": "1-0",
+    "p_map": 0.6543
+   },
+   "v2.2_sd50": {
+    "p": 0.66205,
+    "lock": "1-0",
+    "p_map": 0.6735
+   },
+   "v2.2_sd100": {
+    "p": 0.6801,
+    "lock": "1-0",
+    "p_map": 0.6923
+   }
+  },
+  {
+   "match_id": "115660540726095053",
+   "start": "2026-10-26T19:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Team Secret Whales",
+   "b": "LOS",
+   "home": [
+    "LCP",
+    "Circuito Desafiante"
+   ],
+   "bo": 3,
+   "score": "0-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.60945,
+    "lock": "2-0",
+    "p_map": 0.5803
+   },
+   "v2.2_sd25": {
+    "p": 0.5927,
+    "lock": "2-0",
+    "p_map": 0.5684
+   },
+   "v2.2_sd50": {
+    "p": 0.57945,
+    "lock": "2-0",
+    "p_map": 0.5591
+   },
+   "v2.2_sd100": {
+    "p": 0.59265,
+    "lock": "2-0",
+    "p_map": 0.5683
+   }
+  },
+  {
+   "match_id": "115660540726095057",
+   "start": "2026-10-26T22:00:00Z",
+   "event": "Worlds 2026",
+   "a": "Anyone's Legend",
+   "b": "Team Liquid Alienware",
+   "home": [
+    "LPL",
+    "LTA North"
+   ],
+   "bo": 3,
+   "score": "0-2",
+   "y": 0,
+   "v2.1_ratings": {
+    "p": 0.6733,
+    "lock": "2-0",
+    "p_map": 0.6284
+   },
+   "v2.2_sd25": {
+    "p": 0.6459,
+    "lock": "2-0",
+    "p_map": 0.6083
+   },
+   "v2.2_sd50": {
+    "p": 0.6287,
+    "lock": "2-0",
+    "p_map": 0.5945
+   },
+   "v2.2_sd100": {
+    "p": 0.6237,
+    "lock": "2-0",
+    "p_map": 0.5898
+   }
+  }
+ ]
+}

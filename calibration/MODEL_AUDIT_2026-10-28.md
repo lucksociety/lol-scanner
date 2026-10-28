@@ -84,3 +84,24 @@ The gain is concentrated in Worlds 2026, where the bug was active. Earlier event
 | G2–HLE | HLE 56.7% | HLE 59.9% | HLE 79.2% |
 
 The remaining gap on T1 is not a bug. Results-only Elo sees T1's weak summer of 2026, with losses to HLE, Gen.G and DK, where T1 fell from about 1770 to about 1700. LCK vs LPL cross-region results are also under-rated: 63.5% actual against 49.9% expected.
+
+
+## Follow-up (owner-approved, 2026-10-28 ~1:10 PM ET): primary = v2.1-ratings; v2.2 tested, not adopted
+- The headline is now ratings-only v2.1 (`v2.1-ratings-patch`). Draft sims are informational only.
+- v2.2 adds per-home-league Elo offsets: ridge with prior SD 50 (pre-declared), fitted on prequential cross-region residuals before each cutoff.
+  - At the Worlds 2026 cutoff the offsets were LCK +64, LTA North +34, LPL +9, LEC −15, LCP −15.
+  - Backtest: v2.2 Brier .1933 / log loss .5719, against v2.1-ratings .1914 / .5632. That fails the adoption rule.
+  - Per-event Brier: Worlds25 .1923→.1877, FS26 .1536→.1885, MSI26 .2221→.2279, Worlds26 .2167→.2118.
+  - Calibration slope 1.29 → 1.02. Sensitivity: sd 25 gives .1919/.5652; sd 100 gives .1950/.5836.
+
+EVAL ONLY: Oct 28–30 at the original freeze cutoffs, 50k sims, in `eval_2026-10-28_to_30_v2.1-ratings_vs_market_EVAL_ONLY.json`.
+
+| series | frozen v2 | **v2.1-ratings (primary)** | v2.2 (not adopted) | no-vig market 11:41 ET (comparison only) |
+|---|---|---|---|---|
+| MKOI–T1 | T1 61.4% | **T1 71.6%**, lock T1 2-0 43.3% | T1 82.5% | T1 85.2% |
+| LYON–IG | IG 65.7% | **IG 61.7%**, IG 2-0 34.2% | IG 57.0% | IG 66.3% |
+| CFO–KC | KC 73.9% | **KC 76.2%**, KC 2-0 47.9% | KC 78.4% | KC 79.2% |
+| BLG–TES | BLG 87.1% | **BLG 67.7%**, BLG 2-0 39.6% | BLG 67.7% | BLG 75.2% |
+| G2–HLE | HLE 56.7% | **HLE 63.2%**, HLE 2-0 35.7% | HLE 75.7% | HLE 79.2% |
+
+v2.2 lands closer to the market on T1 and HLE. That is not evidence for it: the market is not ground truth, and odds are never an input. v2.2 lost on out-of-sample results.

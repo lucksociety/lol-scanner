@@ -97,8 +97,80 @@ def run(sims=10000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand")
     return res
 
 
+# ---------------------------------------------------------------- ratings-only backtest: v2.1-ratings vs v2.2
+def cal_slope(ps, ys):
+    """Logistic recalibration slope (y ~ a + b*logit p); b<1 overconfident, b>1 underconfident. Returns (b, se)."""
+    x = np.log(np.clip(ps, 1e-4, 1 - 1e-4) / (1 - np.clip(ps, 1e-4, 1 - 1e-4))); y = np.asarray(ys, float)
+    X = np.c_[np.ones_like(x), x]; b = np.array([0.0, 1.0])
+    for _ in range(100):
+        p = 1 / (1 + np.exp(-X @ b)); H = X.T @ (X * (p * (1 - p))[:, None]) + 1e-9 * np.eye(2)
+        st = np.linalg.solve(H, X.T @ (y - p)); b = b + st
+        if np.abs(st).max() < 1e-9:
+            break
+    return round(float(b[1]), 3), round(float(np.sqrt(np.linalg.inv(H)[1, 1])), 3)
+
+
+def run_ratings(sims=20000, since="2025-06-01", leagues=("Worlds", "MSI", "First Stand"), sds=(25.0, 50.0, 100.0), out_path=None):
+    """Walk-forward per event: tune (lambda, K) on cross-region maps before the cutoff (v2.1), then
+    v2.1-ratings = p_map(ra, rb); v2.2 = p_map(ra + o[home a], rb + o[home b]) with offsets fitted before the cutoff.
+    Both use the ratings-only simulator (sim_r, same draws as the v2 ratings-only ablation)."""
+    from . import ratings_v2 as rv, sim_r
+    t0 = time.time()
+    rows = schedule.series_rows(json.loads((config.CACHE_DIR / "schedule_pages/events.json").read_text()))
+    cal = patches.load()
+    tests = sorted([r for r in rows if r["league"] in leagues and r["state"] == "completed" and r["start"] >= since
+                    and r["a_w"] is not None and r["a_w"] + r["b_w"] > 0], key=lambda x: x["start"])
+    cuts = sorted(EVENT_CUTOFFS.items(), key=lambda kv: kv[1])
+    keys = ["v2.1_ratings"] + [f"v2.2_sd{int(s)}" for s in sds]
+    recs, fits, cur = [], {}, None
+    for r in tests:
+        ev = [n for n, c in cuts if c <= r["start"][:10]][-1]
+        if ev != cur:
+            cur = ev; ci = EVENT_CUTOFFS[ev] + "T00:00:00Z"
+            (lam, ks), _ = rv.tune_lambda(rows, cal, ci, variant="v2.1")
+            R, pre, _ = rv.elo_pass(rows, cal, lam, kscale=ks, k_intl_leagues=rv.CROSS_REGION)
+            offs = {s: rv.fit_league_offsets(rows, pre, R.home, ci, sd=s) for s in sds}
+            fits[ev] = {"elo_lambda": lam, "elo_kscale": ks, "league_offsets": {int(s): o for s, o in offs.items()}}
+        ra, rb, _ = pre[r["match_id"]]
+        y = 1 if r["a_w"] > r["b_w"] else 0
+        rec = {"match_id": r["match_id"], "start": r["start"], "event": cur, "a": r["a_name"], "b": r["b_name"],
+               "home": [R.home.get(r["a_name"]), R.home.get(r["b_name"])], "bo": r["bo"], "score": f'{r["a_w"]}-{r["b_w"]}', "y": y}
+        s = sim_r.simulate(ratings.p_map(ra, rb), r["bo"], sims=sims, seed=1)
+        rec["v2.1_ratings"] = {"p": s["p_series_a"], "lock": s["locked_score"], "p_map": round(ratings.p_map(ra, rb), 4)}
+        for sd in sds:
+            o = offs[sd]["offsets"]
+            pm = ratings.p_map(ra + rv.offset(r["a_name"], R.home, o), rb + rv.offset(r["b_name"], R.home, o))
+            s = sim_r.simulate(pm, r["bo"], sims=sims, seed=1)
+            rec[f"v2.2_sd{int(sd)}"] = {"p": s["p_series_a"], "lock": s["locked_score"], "p_map": round(pm, 4)}
+        recs.append(rec)
+
+    def summ(xs, k):
+        m = _metrics(xs, k); b, se = cal_slope([x[k]["p"] for x in xs], [x["y"] for x in xs])
+        m["cal_slope"], m["cal_slope_se"] = b, se
+        fav = [(max(x[k]["p"], 1 - x[k]["p"]), x["y"] if x[k]["p"] >= .5 else 1 - x["y"]) for x in xs]
+        bk = [f for f in fav if .55 <= f[0] <= .70]
+        m["fav_55_70"] = {"n": len(bk), "pred": round(float(np.mean([f[0] for f in bk])), 3) if bk else None,
+                          "won": round(float(np.mean([f[1] for f in bk])), 3) if bk else None}
+        return m
+    xr = [x for x in recs if x["home"][0] and x["home"][1] and x["home"][0] != x["home"][1]]
+    res = {"scope": f"{'/'.join(leagues)} since {since}; walk-forward per event; ratings-only simulator, {sims} sims",
+           "primary_rule": "v2.2 (sd 50, pre-declared) becomes primary only if BOTH out-of-sample Brier and log loss beat v2.1_ratings",
+           **{k: summ(recs, k) for k in keys},
+           "cross_league_series_only": {k: summ(xr, k) for k in keys},
+           "by_event": {ev: {k: summ([x for x in recs if x["event"] == ev], k) for k in keys} for ev in dict.fromkeys(x["event"] for x in recs)},
+           "fits": fits, "seconds": round(time.time() - t0, 1), "series_detail": recs}
+    if out_path:
+        out_path.write_text(json.dumps(res, indent=1, default=float))
+    return res
+
+
 if __name__ == "__main__":
     import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "ratings":   # python -m scanner.backtest_v2 ratings [SIMS]
+        r = run_ratings(sims=int(sys.argv[2]) if len(sys.argv) > 2 else 20000,
+                        out_path=config.ROOT / "calibration" / "backtest_v2.1_ratings_vs_v2.2.json")
+        print(json.dumps({k: v for k, v in r.items() if k not in ("series_detail", "fits")}, indent=1, default=float))
+        sys.exit(0)
     variant = sys.argv[2] if len(sys.argv) > 2 else "v2.1"
     p = config.ROOT / "calibration" / (sys.argv[3] if len(sys.argv) > 3 else ("backtest_v1_vs_v2.json" if variant == "v2" else f"backtest_v1_vs_{variant}.json"))
     r = run(sims=int(sys.argv[1]) if len(sys.argv) > 1 else 10000, out_path=p, variant=variant)

@@ -115,6 +115,9 @@ class Engine:
         (lam, ks), _ = ratings_v2.tune_lambda(self.rows, self.cal, cutoff_iso, variant=variant)
         kil = ratings_v2.VARIANTS[variant]["k_intl_leagues"]
         R, pre, _ = ratings_v2.elo_pass(self.rows, self.cal, lam, kscale=ks, k_intl_leagues=kil)
+        # v2.2: per-home-league offsets from prequential cross-region residuals before the cutoff (results only)
+        lo = (ratings_v2.fit_league_offsets(self.rows, pre, R.home, cutoff_iso)
+              if ratings_v2.VARIANTS[variant].get("league_offsets") else {"offsets": {}, "note": f"not used in {variant}"})
         S = dm.Stats(self.U, self.cal)
         items, X, off, y, cont = [], [], [], [], []
         lb = [0, 0]
@@ -145,11 +148,17 @@ class Engine:
         draft = dm.fit_draft(items, self.U)
         outcome = dm.fit_outcome(np.array(X), np.array(off), np.array(y), np.array(cont), use_cont=(variant == "v2"))
         self.params = {"cutoff": cutoff_date, "variant": variant, "elo_lambda": lam, "elo_kscale": ks,
-                       "elo_intl_k_leagues": sorted(kil), "draft": draft, "outcome": outcome,
+                       "elo_intl_k_leagues": sorted(kil), "league_offsets": lo, "draft": draft, "outcome": outcome,
                        "q_loser_blue": (lb[1] + 1) / (lb[0] + 2), "q_loser_blue_n": lb[0]}
         self.S, self.pre, self.R = S, pre, R
         self._cursor = sum(1 for g in self.games if g["date"] < cutoff_date)
         return self.params
+
+    def rating(self, match_id, a_name, b_name):
+        """Pre-series ratings (ra, rb, patch) incl. the v2.2 league offsets (0 for v2/v2.1)."""
+        ra, rb, P = self.pre[match_id]
+        o = self.params.get("league_offsets", {}).get("offsets", {})
+        return ra + ratings_v2.offset(a_name, self.R.home, o), rb + ratings_v2.offset(b_name, self.R.home, o), P
 
     def advance(self, to_date):
         """Add games with date < to_date to the stats (pools/meta/continuity) without refitting parameters."""

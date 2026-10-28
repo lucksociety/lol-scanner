@@ -74,6 +74,8 @@ see `python -c "from scanner import backtest; print(backtest.run())"`. Not finan
 
 ## Model v2 (`--model v2`, default since 2026-10-28): patch, lineups, probable drafts
 
+> Primary headline since 2026-10-28: **v2.1-ratings** (see below). Draft sims are an informational panel.
+
 v1 stays frozen next to it as the baseline (`forecast_log/<date>.json`); v2 is written to `forecast_log/<date>.v2.json`.
 Both are frozen (SHA-256) before any market data is read; the edge layer reads only the frozen file.
 
@@ -127,6 +129,29 @@ Integrity: the zero-market firewall and integrity declaration are unchanged. The
 | v2.1 full | 0.1995 | 0.5817 | 73.2% | 45.5% |
 
 Oct 28–30 stay frozen on v2. The v2.1 re-forecast of those dates is evaluation-only (`calibration/reforecast_2026-10-28_to_30_v2.1_EVAL_ONLY.json`).
+
+### Primary model since 2026-10-28: `v2.1-ratings-patch` (ratings-only headline)
+The headline is the v2.1 patch-recency map Elo with the ratings-only simulator (`scanner/sim_r.py`: rating sd 0.35, map sd 0.25, no side or draft term). That headline is what gets locked, graded, priced by the edge layer and exported to the browser sim.
+The draft-path simulation still runs. It is stored as `draft_sim` on each card and shown as an **informational** panel.
+Reason: on the 123-series backtest, the draft layer made Brier worse in every version (v2.1 full .1995 vs ratings-only .1914).
+
+**v2.2 (cross-region league offsets) was tested and NOT adopted.** For each home league, v2.2 adds an Elo offset. The offsets are fitted with a ridge (prior SD 50 Elo, set before the backtest) on prequential residuals of cross-region maps before each cutoff. This uses results only.
+Rule declared before the run: adopt v2.2 only if out-of-sample Brier **and** log loss both improve. They did not.
+
+| model (123 series, walk-forward, `calibration/backtest_v2.1_ratings_vs_v2.2.json`) | Brier | log loss | winner acc | calib. slope |
+|---|---|---|---|---|
+| **v2.1 ratings-only (PRIMARY)** | **0.1914** | **0.5632** | 73.2% | 1.29 ± 0.28 |
+| v2.2 offsets, sd 50 (pre-declared) | 0.1933 | 0.5719 | 73.2% | 1.02 ± 0.23 |
+| v2.2 sensitivity: sd 25 / sd 100 | 0.1919 / 0.1950 | 0.5652 / 0.5836 | 73.2% / 68.3% | 1.18 / 0.85 |
+
+Per event (Brier, v2.1-ratings → v2.2 sd 50):
+- MSI25: .1431 → .1431 (no offsets: no earlier cross-region data)
+- Worlds25: .1923 → .1877
+- First Stand 26: .1536 → .1885
+- MSI26: .2221 → .2279
+- Worlds26: .2167 → .2118
+
+The offsets fix the LCK under-rating at Worlds. At First Stand 2026 they over-correct: G2 beat Gen.G 3-0 with v2.2 at 5.5%. v2.2 stays in code (`variant="v2.2"`) for re-testing as more cross-region data arrives.
 
 ## Discord `/lol`
 

@@ -7,7 +7,7 @@ computes is written back anywhere.
 """
 import glob, json, math
 from datetime import datetime, timezone, timedelta
-from . import config, ratings, ratings_v2, schedule, patches
+from . import config, ratings, ratings_v2, schedule, patches, sim_r
 from .forecast import load_frozen, frozen_path
 
 OUT = lambda: config.DOCS_DIR / "data" / "sim_data.json"   # noqa: E731
@@ -47,11 +47,18 @@ def _team_table(now, params):
         return None, None
     rows = schedule.series_rows([e for e in json.loads(p.read_text()) if e["startTime"] >= config.HISTORY_START])
     cal = patches.load()
-    lam, ks = params.get("elo_patch_lambda", 1.0), params.get("elo_kscale", 1.0)
     now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    kil = params.get("elo_intl_k_leagues")   # v2.1 forecasts record it; v2 files predate it (-> v2 behaviour)
-    R, _, _ = ratings_v2.elo_pass([r for r in rows if r["start"] < now_iso], cal, lam, kscale=ks,
-                                  k_intl_leagues=frozenset(kil) if kil else None)
+    # Ratings for the browser sim always follow the CURRENT primary model, tuned walk-forward at `now` (not the
+    # params of whichever frozen file is newest: Oct 28-30 2026 are frozen on v2, whose lambda=0.8 fit was a bug).
+    from .forecast_v2 import PRIMARY, _RATINGS_VARIANT
+    var = _RATINGS_VARIANT[PRIMARY]
+    past = [r for r in rows if r["start"] < now_iso]
+    (lam, ks), _ = ratings_v2.tune_lambda(past, cal, now_iso, variant=var)
+    kil = ratings_v2.VARIANTS[var]["k_intl_leagues"]
+    R, pre, _ = ratings_v2.elo_pass(past, cal, lam, kscale=ks, k_intl_leagues=kil)
+    offs = (ratings_v2.fit_league_offsets(past, pre, R.home, now_iso)["offsets"]
+            if ratings_v2.VARIANTS[var].get("league_offsets") else {})
+    params.update({"_export_variant": PRIMARY, "_export_lambda": lam, "_export_kscale": ks})
     R1, _, _ = ratings.build(rows, now_iso)
     cur = cal.on(now.date().isoformat()); cord = cal.ord(cur)
     meta, maps = {}, {}
@@ -78,6 +85,7 @@ def _team_table(now, params):
             continue
         league = R.home.get(nm) or R1.home.get(nm)
         r2 = R.touch(nm, league, now, cord) if cal.dates else R.r[nm]   # patch-recency decay up to today's patch
+        r2 += ratings_v2.offset(nm, R.home, offs)                         # v2.2 only (0 otherwise)
         out.append({**m, "league": league or "", "elo_v2": round(r2, 1), "elo_v1": round(R1.r.get(nm, r2), 1),
                     "maps": maps.get(nm, 0), "roster": roster.get(nm, [])})
     out.sort(key=lambda t: -t["elo_v2"])
@@ -152,8 +160,8 @@ def export(dates, version="v2"):
     teams, patch = _team_table(now, params)
     if teams is None:   # cold cache: keep the previous ratings table rather than publishing nothing
         teams, patch = prev.get("teams", []), prev.get("patch")
-    o = params.get("outcome_model", {})
-    hs = params.get("hand_set", {})
+    from .forecast_v2 import PRIMARY, MODEL_VERSIONS
+    ratings_head = MODEL_VERSIONS[PRIMARY].startswith(("v2.1-ratings", "v2.2"))
     keep = sorted(slate)[-21:]
     slate = {d: slate[d] for d in keep}
     live = {m["match_id"] for d in keep for m in slate[d]}
@@ -161,10 +169,13 @@ def export(dates, version="v2"):
     out = {"generated_at_utc": now.isoformat(), "patch": patch, "latest_date": max(keep) if keep else None,
            "today_et": window.today_et(now),
            "label": "Ratings export for the in-browser sim (no market inputs). Odds are post-forecast snapshots for the edge comparison only.",
-           "params": {"elo_scale": ratings.SCALE, "rating_sd": hs.get("rating_sd", 0.35), "map_sd": hs.get("map_sd", 0.20),
-                      "side_blue_logit": o.get("side_blue", 0.0), "q_loser_blue": params.get("q_loser_blue", 0.5),
-                      "fee_coef": config.JUP_FEE_COEF, "fearless_extra_sd": 0.10,
-                      "elo_patch_lambda": params.get("elo_patch_lambda"), "elo_kscale": params.get("elo_kscale")},
+           # primary = ratings-only headline: the browser sim uses the same simulator (no side/draft/Fearless term)
+           "params": {"model_version": MODEL_VERSIONS[PRIMARY], "elo_scale": ratings.SCALE,
+                      "rating_sd": sim_r.RATING_SD, "map_sd": sim_r.MAP_SD,
+                      "side_blue_logit": 0.0 if ratings_head else params.get("outcome_model", {}).get("side_blue", 0.0),
+                      "q_loser_blue": params.get("q_loser_blue", 0.5),
+                      "fee_coef": config.JUP_FEE_COEF, "fearless_extra_sd": 0.0 if ratings_head else 0.10,
+                      "elo_patch_lambda": params.get("_export_lambda"), "elo_kscale": params.get("_export_kscale")},
            "teams": teams, "slate": slate, "odds": odds}
     path.write_text(json.dumps(out, separators=(",", ":")))
     return path

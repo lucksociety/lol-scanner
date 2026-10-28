@@ -24,6 +24,8 @@ KSCALE_GRID_V21 = (0.5, 0.6, 0.7, 0.8, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0)
 VARIANTS = {
     "v2": {"score_leagues": frozenset(ratings.INTL), "k_intl_leagues": frozenset(ratings.INTL), "kgrid": KSCALE_GRID},
     "v2.1": {"score_leagues": CROSS_REGION, "k_intl_leagues": CROSS_REGION, "kgrid": KSCALE_GRID_V21},
+    # v2.2 = v2.1 ratings + per-home-league offsets learned from cross-region results (see fit_league_offsets)
+    "v2.2": {"score_leagues": CROSS_REGION, "k_intl_leagues": CROSS_REGION, "kgrid": KSCALE_GRID_V21, "league_offsets": True},
 }
 DEFAULT_VARIANT = "v2.1"
 
@@ -94,3 +96,69 @@ def tune_lambda(rows, cal, cutoff_iso, variant=DEFAULT_VARIANT):
         return (1.0, 1.0), {"note": "no international history before cutoff; default (1.0, 1.0)"}
     best = min(scores, key=scores.get)
     return best, scores
+
+
+# ---- v2.2: results-only cross-region strength adjustment ------------------------------------------------------------
+# Audit finding: on cross-region maps the Elo under-rated LCK (LCK vs LPL 63.5% actual vs 49.9% expected). Elo only moves
+# league strength through the few international series, and patch decay pulls teams back toward hand-set league priors.
+# v2.2 adds a per-home-league offset (Elo points) fitted on PREQUENTIAL residuals of cross-region maps strictly before the
+# cutoff: P(A wins map) = p_map(ra + o[home A], rb + o[home B]), with each pre-series rating built only from earlier
+# results. Ridge prior o ~ N(0, LEAGUE_OFFSET_SD^2) shrinks thin leagues to 0. No market input.
+LEAGUE_OFFSET_SD = 50.0     # hand-set before the backtest (prior SD of a league offset, Elo points); sensitivity reported
+
+
+def fit_league_offsets(rows, pre, home, cutoff_iso, sd=LEAGUE_OFFSET_SD, leagues=CROSS_REGION, iters=50):
+    """MAP estimate of per-league offsets from cross-region series before cutoff_iso.
+    pre[match_id] = (ra, rb, patch) pre-series ratings; home: team -> home league. Same-league pairs carry no info."""
+    data = []
+    for r in rows:
+        if (r["league"] not in leagues or r["state"] != "completed" or r["a_w"] is None or r["a_w"] + r["b_w"] == 0
+                or r["start"] >= cutoff_iso or r["match_id"] not in pre):
+            continue
+        la, lb = home.get(r["a_name"]), home.get(r["b_name"])
+        if not la or not lb or la == lb:
+            continue
+        ra, rb, _ = pre[r["match_id"]]
+        data.append((la, lb, ra - rb, r["a_w"], r["b_w"]))
+    L = sorted({x for d in data for x in d[:2]})
+    if not data:
+        return {"offsets": {}, "n_series": 0, "n_maps": 0, "sd": sd}
+    ix = {l: i for i, l in enumerate(L)}
+    c = math.log(10) / ratings.SCALE
+    o = [0.0] * len(L)
+    for _ in range(iters):
+        g = [-oi / sd ** 2 for oi in o]
+        H = [[(1.0 / sd ** 2 if i == j else 0.0) for j in range(len(L))] for i in range(len(L))]
+        for la, lb, dr, aw, bw in data:
+            i, j = ix[la], ix[lb]
+            p = 1 / (1 + math.exp(-c * (dr + o[i] - o[j])))
+            gr = c * (aw - (aw + bw) * p); h = c * c * (aw + bw) * p * (1 - p)
+            g[i] += gr; g[j] -= gr
+            H[i][i] += h; H[j][j] += h; H[i][j] -= h; H[j][i] -= h
+        step = _solve(H, g)
+        o = [oi + si for oi, si in zip(o, step)]
+        if max(abs(si) for si in step) < 1e-6:
+            break
+    n_l = {l: 0 for l in L}
+    for la, lb, _, aw, bw in data:
+        n_l[la] += aw + bw; n_l[lb] += aw + bw
+    return {"offsets": {l: round(o[ix[l]], 2) for l in L}, "maps_by_league": n_l, "n_series": len(data),
+            "n_maps": sum(d[3] + d[4] for d in data), "sd": sd}
+
+
+def _solve(A, b):
+    n = len(b); M = [row[:] + [b[i]] for i, row in enumerate(A)]
+    for k in range(n):
+        piv = max(range(k, n), key=lambda r: abs(M[r][k])); M[k], M[piv] = M[piv], M[k]
+        for r in range(k + 1, n):
+            f = M[r][k] / M[k][k]
+            for cc in range(k, n + 1):
+                M[r][cc] -= f * M[k][cc]
+    x = [0.0] * n
+    for k in range(n - 1, -1, -1):
+        x[k] = (M[k][n] - sum(M[k][j] * x[j] for j in range(k + 1, n))) / M[k][k]
+    return x
+
+
+def offset(team, home, offsets):
+    return (offsets or {}).get(home.get(team), 0.0)
