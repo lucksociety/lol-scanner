@@ -34,6 +34,10 @@ jobs:
           path: .cache
           key: scanner-cache-${{ github.run_id }}
           restore-keys: scanner-cache-
+      - name: Seed parsed gol.gg games if the cache is cold (data/golgg_seed.tgz; crawl stays incremental)
+        run: |
+          mkdir -p .cache && tar xzf data/golgg_seed.tgz -C .cache --skip-old-files
+          echo "gol.gg games cached: $(ls .cache/golgg/games | wc -l)"
       - run: pip install -r requirements.txt
       - name: Incremental gol.gg corpus refresh
         timeout-minutes: 75

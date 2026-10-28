@@ -43,7 +43,7 @@ def build_payload(date):
     }
     embeds = [head]
     cards = fc["cards"]
-    if not cards:
+    if not cards and not fc.get("skipped"):
         head["description"] += "\n\nNo series on the official schedule for this date."
     for c in cards[:9]:   # Discord: max 10 embeds per message
         A, B, s = c["team_a"], c["team_b"], c["sim"]
@@ -69,6 +69,8 @@ def build_payload(date):
                 {"name": "💰 Best bet (Jupiter, post-forecast)", "value": bet[:1024], "inline": False},
             ],
         })
+    for sk in fc.get("skipped", [])[:5]:
+        head["description"] += f"\n⚪ {sk['series']}: not modeled ({sk['reason'][:120]})"
     if len(cards) > 9:
         head["description"] += f"\n\n+{len(cards) - 9} more series on the dashboard."
     embeds[-1]["footer"] = {"text": "Luck Society · zero-market forecast, Jupiter edge after the freeze · not financial advice"}

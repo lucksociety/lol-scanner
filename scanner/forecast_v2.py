@@ -27,6 +27,10 @@ def official_roster(teams, code, name):
     return [t for t in teams if t.get("code") == code and t.get("status") == "active"]
 
 
+class NoHistory(Exception):
+    """A team has no pro games in the corpus, so there is no lineup / draft-pool basis to simulate it."""
+
+
 def lineup_status(E, gname, roster, event_tournaments, before_date):
     """Per role: expected starter + status. CONFIRMED = on the official roster and started every game of this event
     in that role; PROBABLE = started the latest game but not every event game (or not matched to the roster);
@@ -47,6 +51,8 @@ def lineup_status(E, gname, roster, event_tournaments, before_date):
     seen = {golgg.norm(n) for n in names.values()}
     rosters = [{golgg.norm(p.get("summonerName", "")) for p in t.get("players", [])} for t in (roster or [])]
     roster_names = max(rosters, key=lambda rs: len(rs & seen), default=set())
+    if not seq or any(len(x) < 5 for x in seq[-1:]):
+        raise NoHistory(gname)
     out = []
     for r in range(5):
         latest = seq[-1][r]
@@ -188,7 +194,7 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True):
     except Exception as e:  # gol.gg unreachable -> corpus-only meta (disclosed on the card)
         meta_info = {"patch": live_patch, "error": f"gol.gg champion stats unavailable ({e}); meta from corpus games"}
     ev_trs = [t for names in corpus.EVENTS.values() for t in names if t.startswith("Worlds 2026")]
-    cards = []
+    cards, skipped = [], []
     for i, row in enumerate(slate):
         cutoff = min(row["start"], now.strftime("%Y-%m-%dT%H:%M:%SZ"))
         R1, _, _ = ratings.build(rows, cutoff)
@@ -196,8 +202,13 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True):
         ra, rb, P = E.pre[row["match_id"]]
         P = live_patch
         ga, gb = E.golgg_name(a), E.golgg_name(b)
-        sa = lineup_status(E, ga, official_roster(teams, row["a"], a), ev_trs, date)
-        sb = lineup_status(E, gb, official_roster(teams, row["b"], b), ev_trs, date)
+        try:
+            sa = lineup_status(E, ga, official_roster(teams, row["a"], a), ev_trs, date)
+            sb = lineup_status(E, gb, official_roster(teams, row["b"], b), ev_trs, date)
+        except NoHistory as e:  # not modeled -> no card, so no bet can be recommended on it
+            skipped.append({"match_id": row["match_id"], "series": f'{row["a"]} vs {row["b"]}', "start_utc": row["start"],
+                            "reason": f"no pro-game history in the gol.gg corpus for {row['a'] if (ga is None or str(e) == str(ga)) else row['b']} ({e or 'team not mapped to gol.gg'}); not modeled (PASS)"})
+            continue
         ca, cb = lineup_combos(sa), lineup_combos(sb)
         g1, g1_src = g1_side(row["match_id"], row["a"])
         elo_logit = (ra - rb) * v2.LN10_400
@@ -242,6 +253,8 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True):
                        "fearless_check": {k: v for k, v in E.fearless.items() if k.startswith("Worlds 2026")},
                        "meta": meta_info, "corpus_games": len(games), "corpus_series_joined": len(E.join)},
             "cards": cards}
+    if skipped:
+        body["skipped"] = skipped
     return body
 
 
