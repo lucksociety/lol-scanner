@@ -1,7 +1,7 @@
-from pathlib import Path
 """Static dashboard (GitHub Pages ready): docs/index.html (latest) + docs/<date>.html (archive).
 Forecast cards render from the frozen forecast; the edge panel renders separately and is labelled post-forecast."""
-import csv, html, json
+import csv, html, json, shutil
+from pathlib import Path
 from . import config
 from .forecast import load_frozen, frozen_path
 
@@ -57,9 +57,14 @@ def _drafts(c):
         margb = " · ".join(f'{E(r[:3])} {E(v[0]["champ"])} {_pct(v[0]["p"])}' for r, v in g["role_pick_marginals"][B].items())
         out.append(f'<details><summary>Game {g["game"]} · reached {_pct(g["p_reached"])} · {E(A)} win {_pct(g["p_win_a_sim"])} (sim) · '
                    f'{E(g["assumed_sides"])} on modal path · Fearless-locked before: {g["fearless_locked_before"]}</summary>'
-                   f'<table><tr><th>Draft</th><th>{E(A)} picks</th><th>{E(B)} picks</th><th>Seq. prob (bans+picks)</th><th>{E(A)} win</th></tr>{"".join(lines)}</table>'
+                   f'<div class="tw"><table><tr><th>Draft</th><th>{E(A)} picks</th><th>{E(B)} picks</th><th>Seq. prob (bans+picks)</th><th>{E(A)} win</th></tr>{"".join(lines)}</table></div>'
                    f'<p class="muted">Most likely pick per role in the sims - {E(A)}: {marg}<br>{E(B)}: {margb}</p></details>')
     return '<div class="form"><b>Top drafts per map (beam search on the fitted draft model; sims sample the same model)</b>' + "".join(out) + "</div>"
+
+
+def _img(u):
+    u = u or ""
+    return "https://" + u[len("http://"):] if u.startswith("http://") else u   # avoid mixed content on GitHub Pages
 
 
 def _card(c, edge_row, v1=None):
@@ -86,8 +91,8 @@ def _card(c, edge_row, v1=None):
 <section class="card">
  <div class="hdr"><span class="lg">{E(c['league'])} · {E(c['stage'])} · Bo{c['bo']}</span><span>{E(c['start_et'])}</span></div>
  <div class="teams">
-  <div class="t"><img src="{E(A['img'] or '')}" alt=""><div><b>{E(A['name'])}</b><small>{E(A['code'])} · Elo {A['elo']:.0f} · event {E(A['event_record'])}</small></div><em>{_pct(s['p_series_a'])}</em></div>
-  <div class="t"><img src="{E(B['img'] or '')}" alt=""><div><b>{E(B['name'])}</b><small>{E(B['code'])} · Elo {B['elo']:.0f} · event {E(B['event_record'])}</small></div><em>{_pct(1 - s['p_series_a'])}</em></div>
+  <div class="t"><img src="{E(_img(A['img']))}" alt="{E(A['code'])} logo"><div><b>{E(A['name'])}</b><small>{E(A['code'])} · Elo {A['elo']:.0f} · event {E(A['event_record'])}</small></div><em>{_pct(s['p_series_a'])}</em></div>
+  <div class="t"><img src="{E(_img(B['img']))}" alt="{E(B['code'])} logo"><div><b>{E(B['name'])}</b><small>{E(B['code'])} · Elo {B['elo']:.0f} · event {E(B['event_record'])}</small></div><em>{_pct(1 - s['p_series_a'])}</em></div>
  </div>
  <div class="lock">LOCKED EXACT SCORE: <b>{E(lock_team)} {max(la, lb)}-{min(la, lb)}</b> ({_pct(s['locked_score_prob'])}) · map win {A['code']} {_pct(c['model']['p_map_a'])} · E[maps] {s['e_maps']:.2f}</div>
  <div class="dist">{_bar(s['exact'], A['code'], B['code'])}</div>
@@ -137,27 +142,49 @@ def _edge_panel(c, r):
     ex = "" if r.get("exact_score_offered") else '<p class="muted">Exact-score market: not offered on Jupiter for this series.</p>'
     verdict_cls = "bet" if r["best_bet"] else "pass"
     return (head + f'<p class="{verdict_cls}">{E(r["verdict"])}</p>{warn}'
-            f'<table><tr><th>Market</th><th>Price</th><th>No-vig</th><th>Our</th><th>Edge pp</th><th>EV/$1</th><th>Cashes on lock</th><th>Vol</th></tr>'
-            + "".join(rows) + f'</table>{ex}<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
+            f'<div class="tw"><table><tr><th>Market</th><th>Price</th><th>No-vig</th><th>Our</th><th>Edge pp</th><th>EV/$1</th><th>Cashes on lock</th><th>Vol</th></tr>'
+            + "".join(rows) + f'</table></div>{ex}<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
 
 
 CSS = """
-:root{--bg:#0b0d12;--card:#141824;--ink:#e8ecf3;--mut:#8a93a6;--acc:#c9a227;--pos:#2ecc71;--neg:#e74c3c}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
-header{padding:22px 18px;border-bottom:1px solid #222a3b}h1{margin:0;font-size:22px;color:var(--acc)}header p{margin:6px 0 0;color:var(--mut)}
-main{max-width:980px;margin:auto;padding:14px}.card{background:var(--card);border:1px solid #232b3d;border-radius:14px;padding:16px;margin:16px 0}
-.hdr{display:flex;justify-content:space-between;color:var(--mut);font-size:13px}.teams{display:grid;gap:8px;margin:12px 0}
-.t{display:flex;align-items:center;gap:12px}.t img{width:38px;height:38px;object-fit:contain}.t div{flex:1}.t small{display:block;color:var(--mut)}
-.t em{font-style:normal;font-size:22px;font-weight:700}.lock{background:#1d2333;border-left:4px solid var(--acc);padding:8px 10px;border-radius:6px}
-.dist{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin:10px 0}.sc{position:relative;background:#1a2030;border-radius:6px;padding:6px 8px;overflow:hidden}
-.sc span{float:right}.sc i{position:absolute;left:0;bottom:0;height:3px;background:var(--acc)}.derived,.form{color:var(--mut);font-size:13px;margin:6px 0}
-.f{display:inline-block;padding:1px 6px;border-radius:4px;margin:1px;font-size:12px}.f.w{background:#173d2a}.f.l{background:#4a1d1d}.f.p{background:#3d3517}
-.integrity{font-size:12px;color:var(--mut);border-top:1px dashed #2a3347;margin-top:10px;padding-top:8px}
-.edge{margin-top:14px;border:1px dashed #3b4660;border-radius:10px;padding:10px;background:#10131b}.eh{font-size:12px;letter-spacing:.04em;color:#7fb3ff;font-weight:700}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}th,td{padding:4px 6px;text-align:right;border-bottom:1px solid #1f2637}th:first-child,td:first-child{text-align:left}
-tr.pos td{color:var(--pos)}tr.best td{background:#26301a;font-weight:700}.bet{color:var(--pos);font-weight:700}.pass{color:var(--acc);font-weight:700}
-.warn{color:#ffb86b;font-size:13px}.muted{color:var(--mut);font-size:12px}a{color:#7fb3ff}details{margin-top:6px;color:var(--mut);font-size:13px}
-footer{color:var(--mut);font-size:12px;padding:20px;text-align:center}
+/* Luck Society palette: k-means on the @lucksociety X avatar + banner (see brand/README.md) */
+:root{--bg:#01171a;--card:#052220;--card2:#0a2b27;--line:#1f341c;--ink:#efe6cc;--mut:#9fb3a8;
+--gold:#d79d07;--gold-hi:#f6d12b;--bronze:#a9700a;--clover:#036718;--clover-hi:#1b9625;--pos:#3fbf4f;--neg:#ff6b5b;--black:#040402}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.brand{position:relative;background:var(--black) url(assets/luck-society-banner.jpg) center/cover no-repeat;border-bottom:2px solid var(--gold)}
+.brand .ov{background:linear-gradient(90deg,rgba(1,23,26,.96) 0%,rgba(1,23,26,.82) 55%,rgba(1,23,26,.35) 100%);padding:22px 18px}
+.bi{max-width:980px;margin:auto;display:flex;gap:16px;align-items:center}
+.logo{width:72px;height:72px;border-radius:50%;border:2px solid var(--gold);flex:none;background:var(--black)}
+h1{margin:0;font:700 26px/1.15 Georgia,"Times New Roman",serif;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-hi)}
+.tag{margin:4px 0 0;color:var(--gold);font-size:13px;letter-spacing:.04em}.voice{margin:6px 0 0;color:var(--ink);font-size:14px}
+.meta{max-width:980px;margin:12px auto 0;color:var(--mut);font-size:13px}.meta p{margin:4px 0}.meta b{color:var(--gold-hi)}
+main{max-width:980px;margin:auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:14px;padding:16px;margin:16px 0}
+h2{font:700 16px/1.3 Georgia,"Times New Roman",serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 8px}
+.hdr{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:space-between;color:var(--mut);font-size:13px}
+.teams{display:grid;gap:8px;margin:12px 0}.t{display:flex;align-items:center;gap:12px}
+.t img{width:38px;height:38px;object-fit:contain}.t div{flex:1;min-width:0}.t small{display:block;color:var(--mut)}
+.t em{font-style:normal;font-size:24px;font-weight:700;color:var(--gold-hi);font-family:Georgia,serif}
+.lock{background:var(--card2);border-left:4px solid var(--gold);padding:8px 10px;border-radius:6px}.lock b{color:var(--gold-hi)}
+.dist{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;margin:10px 0}
+.sc{position:relative;background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:6px 8px;overflow:hidden}
+.sc span{float:right}.sc i{position:absolute;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--bronze),var(--gold-hi))}
+.derived,.form{color:var(--mut);font-size:13px;margin:6px 0}.form b{color:var(--ink)}
+.f{display:inline-block;padding:1px 6px;border-radius:4px;margin:2px 1px;font-size:12px;color:var(--ink)}
+.f.w{background:var(--clover)}.f.l{background:#5a1f1a}.f.p{background:#4a3a0c}
+.integrity{font-size:12px;color:var(--mut);border-top:1px dashed var(--line);margin-top:10px;padding-top:8px}.integrity b{color:var(--gold-hi)}
+.edge{margin-top:14px;border:1px dashed var(--bronze);border-radius:10px;padding:10px;background:#03191a}
+.eh{font-size:12px;letter-spacing:.05em;color:var(--gold-hi);font-weight:700}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+th,td{padding:5px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--gold);font-weight:600}
+th:first-child,td:first-child{text-align:left}
+tr.pos td{color:var(--pos)}tr.best td{background:#0d3a1a;font-weight:700}.bet{color:var(--pos);font-weight:700}.pass{color:var(--gold-hi);font-weight:700}
+.warn{color:#ffb86b;font-size:13px}.muted{color:var(--mut);font-size:12px}a{color:var(--gold-hi)}
+details{margin-top:6px;color:var(--mut);font-size:13px}summary{cursor:pointer;color:var(--ink)}
+footer{color:var(--mut);font-size:12px;padding:20px;text-align:center;border-top:1px solid var(--line)}
+@media (max-width:560px){.brand .ov{background:rgba(1,23,26,.9)}h1{font-size:20px}.logo{width:54px;height:54px}.t em{font-size:20px}.card{padding:12px;border-radius:10px}main{padding:8px}td,th{padding:4px}}
 """
 
 
@@ -193,15 +220,17 @@ def render(date, version=None):
                    "Patch+lineup ratings alone beat v1 on every metric; the draft layer worsens calibration.") \
             if b["v2"]["brier"] > b["v1"]["brier"] else "v2 full beats v1 on Brier."
         bt = (f'<section class="card"><h2>Walk-forward backtest v1 vs v2 ({b["v1"]["series"]} international series, same set)</h2>'
-              f'<table><tr><th>model</th><th>Brier</th><th>log loss</th><th>winner acc</th><th>exact-lock hit</th></tr>{trs}</table>'
+              f'<div class="tw"><table><tr><th>model</th><th>Brier</th><th>log loss</th><th>winner acc</th><th>exact-lock hit</th></tr>{trs}</table></div>'
               f'<p><b>{E(verdict)}</b></p></section>')
     edge_meta = (f"Odds snapshot {E(edge['odds_fetched_at_et'])} · coverage {E(edge['coverage'])}" if edge
                  else "Edge layer not run")
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LoL Scanner · {E(date)}</title><style>{CSS}</style></head><body>
-<header><h1>LoL Esports Scanner · {E(date)}</h1>
-<p>{E(fc.get('model_version', 'elo-map-v1'))} forecast frozen {E(fc['frozen_at_et'])} · sha256 {E(fc['sha256'][:16])}… · {E(fc['integrity']['protocol'])} · market inputs to forecast: <b>NONE</b></p>
-<p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p></header>
+<title>Luck Society · LoL Scanner · {E(date)}</title><meta name="theme-color" content="#01171a"><link rel="icon" href="assets/luck-society-avatar.jpg"><style>{CSS}</style></head><body>
+<header class="brand"><div class="ov"><div class="bi"><img class="logo" src="assets/luck-society-avatar.jpg" alt="Luck Society clover coin logo">
+<div><h1>Luck Society · LoL Scanner</h1><p class="tag">Sports Betting • Crypto • Stocks • Predictions 🍀</p>
+<p class="voice">{E(date)} slate 🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀</p></div></div>
+<div class="meta"><p>{E(fc.get('model_version', 'elo-map-v1'))} forecast frozen {E(fc['frozen_at_et'])} · sha256 {E(fc['sha256'][:16])}… · {E(fc['integrity']['protocol'])} · market inputs to forecast: <b>NONE</b></p>
+<p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p></div></div></header>
 <main>{cards}{bt}</main>
 <footer>Forecast: {"model v2 = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced), data: lolesports, gol.gg, Data Dragon" if is_v2 else "results-only map Elo + Monte Carlo series sim (lolesports data)"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '')}. BEST BET = highest +EV market that also cashes on the locked exact score; otherwise PASS. Not financial advice.</footer>
 </body></html>"""
@@ -209,4 +238,9 @@ def render(date, version=None):
     (config.DOCS_DIR / f"{date}.html").write_text(doc)
     (config.DOCS_DIR / "index.html").write_text(doc)
     (config.DOCS_DIR / ".nojekyll").write_text("")
+    src = Path(__file__).resolve().parent.parent / "brand"
+    (config.DOCS_DIR / "assets").mkdir(exist_ok=True)
+    for f in ("luck-society-avatar.jpg", "luck-society-banner.jpg"):
+        if (src / f).exists():
+            shutil.copyfile(src / f, config.DOCS_DIR / "assets" / f)
     return config.DOCS_DIR / "index.html"
