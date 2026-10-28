@@ -22,6 +22,93 @@ def _pct(x):
     return f"{100 * x:.1f}%"
 
 
+# Discord embed limits (https://discord.com/developers/docs/resources/message#embed-object-embed-limits)
+LIM_DESC, LIM_FIELDS, LIM_FIELD_NAME, LIM_FIELD_VAL, LIM_TOTAL = 4096, 25, 256, 1024, 6000
+TOTAL_BUDGET = 5800   # headroom under 6000
+FOOTER = "Luck Society · zero-market forecast, Jupiter edge after the freeze · not financial advice"
+
+
+def _cut(s, n):
+    return s if len(s) <= n else s[:n - 1] + "…"
+
+
+def _embed_chars(em):
+    return (len(em.get("title", "")) + len(em.get("description", "")) + len(em.get("footer", {}).get("text", ""))
+            + sum(len(f["name"]) + len(f["value"]) for f in em.get("fields", [])))
+
+
+def _series_field(c, row, have_edge, short=False):
+    """One embed field per series: teams · format · time / lock + prob · winner % / best bet + EV or PASS."""
+    A, B, s = c["team_a"], c["team_b"], c["sim"]
+    la, lb = map(int, s["locked_score"].split("-"))
+    lock = f"{A['code'] if la > lb else B['code']} {max(la, lb)}-{min(la, lb)}"
+    pa = s["p_series_a"]
+    fav, pf = (A["code"], pa) if pa >= 0.5 else (B["code"], 1 - pa)
+    when = str(c.get("start_et", "")).split(", ")[-1]      # "Wed Oct 28, 04:00 PM ET" -> "04:00 PM ET"
+    bs = ev.best_summary(row) if have_edge else {"pass": True, "reason": "edge layer not run"}
+    if bs["pass"]:
+        bet = f"💰 **PASS** · {bs['reason']}"
+        a = bs.get("best_any")
+        if a and not short:
+            bet += f"\n_ignores lock: {a['market']} · {a['side']} @ {a['ask']:.2f}, EV {a['ev_per_$1']:+.3f}/$1, dies on lock_"
+    else:
+        bet = f"💰 **{bs['market']} · {bs['side']} @ {bs['ask']:.2f}** · **EV {bs['ev_per_$1']:+.3f}/$1**"
+        if not short:
+            bet += f"\nour {_pct(bs['our_prob'])} vs no-vig {_pct(bs['fair_prob'])} · edge {bs['edge_pct']:+.1f} pp · cashes on lock ✅"
+    name = f"{A['code']} vs {B['code']} · Bo{c['bo']} · 🕓 {when}"
+    val = f"🔒 **{lock}** ({_pct(s['locked_score_prob'])}) · {fav} {_pct(pf)} to win\n{bet}"
+    return {"name": _cut(name, LIM_FIELD_NAME), "value": _cut(val, LIM_FIELD_VAL), "inline": False}, bs
+
+
+def render(date, fc, edge):
+    """Build the /lol message. ONE embed: header + one field per series (PASS and not-modeled included).
+
+    Why one embed: Discord merges consecutive embeds that share the same `url` into a single gallery card and shows
+    only the first one's text, so per-series embeds pointing at the dashboard were silently dropped."""
+    rows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
+    link = f"{PAGES}/{date}.html"
+    cards = fc.get("cards", [])
+    skipped = fc.get("skipped") or []
+    desc = ("🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀\n"
+            f"Forecast **{fc.get('model_version', 'v1')}** frozen {fc['frozen_at_et']} · market inputs to forecast: **NONE**\n"
+            + (f"POST-FORECAST Jupiter odds snapshot: {edge['odds_fetched_at_et']} (never fed back into the forecast)"
+               if edge else "Edge layer unavailable for this run: forecast only."))
+    if not cards and not skipped:
+        desc += "\n\nNo series on the official schedule for this date."
+    em = {"title": f"🍀 Luck Society · LoL Scanner · {date}", "url": link, "color": GOLD,
+          "thumbnail": {"url": LOGO}, "description": _cut(desc, LIM_DESC), "fields": [],
+          "footer": {"text": FOOTER}, "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+
+    def build(short):
+        fields, bets = [], 0
+        for c in cards:
+            f, bs = _series_field(c, rows.get(c["match_id"]), edge is not None, short)
+            fields.append(f); bets += not bs["pass"]
+        for sk in skipped:
+            fields.append({"name": _cut(f"{sk['series']} · not modeled", LIM_FIELD_NAME),
+                           "value": _cut(f"⚪ {sk.get('reason', 'no model')}", 200 if short else LIM_FIELD_VAL), "inline": False})
+        return fields, bets
+
+    fields, bets = build(short=False)
+    em["fields"] = fields
+    if len(fields) > LIM_FIELDS or _embed_chars(em) > TOTAL_BUDGET:
+        fields, bets = build(short=True)          # drop the secondary lines first
+    # still too much: keep as many series as fit, then one overflow field pointing to the dashboard
+    over = 0
+    while True:
+        keep = fields[:len(fields) - over]
+        extra = ([{"name": f"+{over} more series", "value": f"Full tables: {link}", "inline": False}] if over else [])
+        em["fields"] = keep + extra
+        if len(em["fields"]) <= LIM_FIELDS and _embed_chars(em) <= TOTAL_BUDGET:
+            break
+        over += 1
+    em["color"] = GREEN if bets else GOLD
+    n = len(cards) + len(skipped)
+    summary = f"{n} series · {bets} bet{'s' if bets != 1 else ''} · {n - bets} PASS/not modeled" if n else "no series"
+    return {"content": f"🍀 **/lol {date}** · {summary} · full tables: {link}", "embeds": [em],
+            "allowed_mentions": {"parse": []}}
+
+
 def build_payload(date):
     version = "v2" if frozen_path(date, "v2").exists() else None
     if not frozen_path(date, version).exists():
@@ -30,52 +117,19 @@ def build_payload(date):
     fc = load_frozen(date, version)
     ep = config.EDGE_DIR / f"{date}{'.v2' if version == 'v2' else ''}.json"
     edge = json.loads(ep.read_text()) if ep.exists() else None
-    rows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
-    link = f"{PAGES}/{date}.html"
-    head = {
-        "title": f"🍀 Luck Society · LoL Scanner · {date}",
-        "url": link, "color": GOLD,
-        "thumbnail": {"url": LOGO},
-        "description": ("🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀\n"
-                        f"Forecast **{fc.get('model_version', 'v1')}** frozen {fc['frozen_at_et']} · market inputs to forecast: **NONE**\n"
-                        + (f"POST-FORECAST Jupiter odds snapshot: {edge['odds_fetched_at_et']} (never fed back into the forecast)"
-                           if edge else "Edge layer unavailable for this run: forecast only.")),
-    }
-    embeds = [head]
-    cards = fc["cards"]
-    if not cards and not fc.get("skipped"):
-        head["description"] += "\n\nNo series on the official schedule for this date."
-    for c in cards[:9]:   # Discord: max 10 embeds per message
-        A, B, s = c["team_a"], c["team_b"], c["sim"]
-        la, lb = map(int, s["locked_score"].split("-"))
-        lock = f"{A['code'] if la > lb else B['code']} {max(la, lb)}-{min(la, lb)}"
-        bs = ev.best_summary(rows.get(c["match_id"])) if edge else {"pass": True, "reason": "edge layer not run"}
-        if bs["pass"]:
-            bet = f"**PASS** · {bs['reason']}"
-            a = bs.get("best_any")
-            if a:
-                bet += f"\n_secondary, ignores lock: {a['market']} · {a['side']} @ {a['ask']:.2f}, EV {a['ev_per_$1']:+.3f}/$1, dies on lock_"
-        else:
-            bet = (f"**{bs['market']} · {bs['side']} @ {bs['ask']:.2f}**\nour {_pct(bs['our_prob'])} vs no-vig {_pct(bs['fair_prob'])} · "
-                   f"edge {bs['edge_pct']:+.1f} pp · **EV {bs['ev_per_$1']:+.3f}/$1** · cashes on lock ✅")
-        embeds.append({
-            "title": f"{A['code']} vs {B['code']} · Bo{c['bo']}",
-            "url": link,
-            "color": GREEN if not bs["pass"] else GOLD_HI,
-            "description": f"🕓 {c['start_et']} · {c['league']} · {c.get('stage', '')}",
-            "fields": [
-                {"name": "🔒 Locked exact score", "value": f"**{lock}** ({_pct(s['locked_score_prob'])})", "inline": True},
-                {"name": "Series win", "value": f"{A['code']} {_pct(s['p_series_a'])} · {B['code']} {_pct(1 - s['p_series_a'])}", "inline": True},
-                {"name": "💰 Best bet (Jupiter, post-forecast)", "value": bet[:1024], "inline": False},
-            ],
-        })
-    for sk in fc.get("skipped", [])[:5]:
-        head["description"] += f"\n⚪ {sk['series']}: not modeled ({sk['reason'][:120]})"
-    if len(cards) > 9:
-        head["description"] += f"\n\n+{len(cards) - 9} more series on the dashboard."
-    embeds[-1]["footer"] = {"text": "Luck Society · zero-market forecast, Jupiter edge after the freeze · not financial advice"}
-    embeds[-1]["timestamp"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    return {"content": f"🍀 **/lol {date}** · full tables: {link}", "embeds": embeds, "allowed_mentions": {"parse": []}}
+    return render(date, fc, edge)
+
+
+def to_text(payload):
+    """Plain-text rendering of the payload (for --dry-run / logs)."""
+    out = [payload.get("content", "")]
+    for em in payload.get("embeds", []):
+        out += ["", em.get("title", ""), em.get("description", "")]
+        for f in em.get("fields", []):
+            out += ["", f"▸ {f['name']}", f["value"]]
+        if em.get("footer"):
+            out += ["", em["footer"]["text"]]
+    return "\n".join(out)
 
 
 def error_payload(date, msg):
@@ -153,6 +207,7 @@ def main(argv=None):
     payload = error_payload(a.date, a.error) if a.error else build_payload(a.date)
     if a.dry_run:
         print(json.dumps(payload, indent=1, ensure_ascii=False))
+        print("\n--- rendered ---\n" + to_text(payload))
         return 0
     return 0 if post(payload) else 1
 
