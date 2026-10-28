@@ -1,0 +1,551 @@
+{
+  "date": "2026-10-30",
+  "label": "POST-FORECAST EDGE LAYER (market data; not an input to the forecast)",
+  "forecast_model_version": "v2-patch-lineup-draft",
+  "forecast_file": "2026-10-30.v2.json",
+  "forecast_sha256": "21e76585fc37a54b8a6b9a1a4a5205de66d7644392dc2e7e2e6b7f485c4598a1",
+  "forecast_frozen_at_utc": "2026-10-28T15:27:53.005748Z",
+  "odds_fetched_at_utc": "2026-10-28T15:28:18.341973+00:00",
+  "odds_fetched_at_et": "2026-10-28 11:28:18 AM ET",
+  "snapshot_file": "odds_snapshots/2026-10-30/20261028T152818Z.json",
+  "endpoints": [
+    {
+      "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
+      "ok": true,
+      "n": 7
+    },
+    {
+      "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
+      "ok": true,
+      "n": 134
+    },
+    {
+      "endpoint": "GET /events/POLY-1262500/markets?includeAllMarkets=true (paged)",
+      "ok": true,
+      "n": 25
+    },
+    {
+      "endpoint": "GET /orderbook/{marketId}",
+      "ok": true,
+      "n": 10
+    }
+  ],
+  "endpoints_ok": [
+    "GET /events/POLY-1262500/markets?includeAllMarkets=true (paged)",
+    "GET /events?category=esports (paged, LoL by subcategory/title)",
+    "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
+    "GET /orderbook/{marketId}"
+  ],
+  "coverage": "1/1 series",
+  "jupiter_lol_events_listed": [
+    {
+      "id": "POLY-1262497",
+      "title": "LoL: Movistar KOI vs T1 (BO3) - Worlds Group Stage"
+    },
+    {
+      "id": "POLY-1262496",
+      "title": "LoL: Invictus Gaming vs LYON (BO3) - Worlds Group Stage"
+    },
+    {
+      "id": "POLY-1262495",
+      "title": "LoL: Top Esports vs Bilibili Gaming (BO3) - Worlds Group Stage"
+    },
+    {
+      "id": "POLY-1262500",
+      "title": "LoL: Hanwha Life Esports vs G2 Esports (BO3) - Worlds Group Stage"
+    },
+    {
+      "id": "POLY-1262498",
+      "title": "LoL: Karmine Corp vs CTBC Flying Oyster (BO3) - Worlds Group Stage"
+    },
+    {
+      "id": "POLY-1262499",
+      "title": "LoL: Team Liquid vs LOS (BO3) - Worlds Group Stage"
+    },
+    {
+      "id": "POLY-1270992",
+      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+    }
+  ],
+  "fee_model": "0.07 * p * (1-p) per $1 contract",
+  "series": [
+    {
+      "match_id": "115660540726095081",
+      "series": "G2 vs HLE",
+      "status": "ok",
+      "jupiter_event_id": "POLY-1262500",
+      "jupiter_title": "LoL: Hanwha Life Esports vs G2 Esports (BO3) - Worlds Group Stage",
+      "jupiter_url": "https://jup.ag/prediction/POLY-1262500",
+      "exact_score_offered": false,
+      "warnings": [],
+      "legs": [
+        {
+          "market_id": "POLY-6280278-1",
+          "pair_id": "POLY-6280278",
+          "label": "ML G2",
+          "type": "moneyline",
+          "game": null,
+          "line": null,
+          "ask": 0.21,
+          "bid": 0.2,
+          "volume": 92752,
+          "fee": 0.0116,
+          "cost": 0.2216,
+          "our_prob": 0.4326,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 44229.17,
+          "overround": 0.01,
+          "fair_prob": 0.2079,
+          "edge_pct": 22.47,
+          "ev_per_$1": 0.9522
+        },
+        {
+          "market_id": "POLY-6280278-0",
+          "pair_id": "POLY-6280278",
+          "label": "ML HLE",
+          "type": "moneyline",
+          "game": null,
+          "line": null,
+          "ask": 0.8,
+          "bid": 0.79,
+          "volume": 92752,
+          "fee": 0.0112,
+          "cost": 0.8112,
+          "our_prob": 0.5674,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 36009.28,
+          "overround": 0.01,
+          "fair_prob": 0.7921,
+          "edge_pct": -22.47,
+          "ev_per_$1": -0.3005
+        },
+        {
+          "market_id": "POLY-6280280-1",
+          "pair_id": "POLY-6280280",
+          "label": "G2 +1.5 maps",
+          "type": "map_handicap",
+          "game": null,
+          "line": 1.5,
+          "ask": 0.47,
+          "bid": 0.46,
+          "volume": 3489,
+          "fee": 0.0174,
+          "cost": 0.4874,
+          "our_prob": 0.7022,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 861.41,
+          "overround": 0.01,
+          "fair_prob": 0.4653,
+          "edge_pct": 23.69,
+          "ev_per_$1": 0.4407
+        },
+        {
+          "market_id": "POLY-6280280-0",
+          "pair_id": "POLY-6280280",
+          "label": "HLE -1.5 maps",
+          "type": "map_handicap",
+          "game": null,
+          "line": -1.5,
+          "ask": 0.54,
+          "bid": 0.53,
+          "volume": 3489,
+          "fee": 0.0174,
+          "cost": 0.5574,
+          "our_prob": 0.2978,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 1507.69,
+          "overround": 0.01,
+          "fair_prob": 0.5347,
+          "edge_pct": -23.69,
+          "ev_per_$1": -0.4657
+        },
+        {
+          "market_id": "POLY-6280279-0",
+          "pair_id": "POLY-6280279",
+          "label": "Over 2.5 maps",
+          "type": "totals_over",
+          "game": null,
+          "line": 2.5,
+          "ask": 0.4,
+          "bid": 0.39,
+          "volume": 390,
+          "fee": 0.0168,
+          "cost": 0.4168,
+          "our_prob": 0.48,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 555,
+          "overround": 0.01,
+          "fair_prob": 0.396,
+          "edge_pct": 8.4,
+          "ev_per_$1": 0.1516
+        },
+        {
+          "market_id": "POLY-6280279-1",
+          "pair_id": "POLY-6280279",
+          "label": "Under 2.5 maps",
+          "type": "totals_under",
+          "game": null,
+          "line": 2.5,
+          "ask": 0.61,
+          "bid": 0.6,
+          "volume": 390,
+          "fee": 0.0167,
+          "cost": 0.6267,
+          "our_prob": 0.52,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 868.2,
+          "overround": 0.01,
+          "fair_prob": 0.604,
+          "edge_pct": -8.4,
+          "ev_per_$1": -0.1703
+        },
+        {
+          "market_id": "POLY-6280276-1",
+          "pair_id": "POLY-6280276",
+          "label": "Game 1 G2",
+          "type": "game",
+          "game": 1,
+          "line": null,
+          "ask": 0.29,
+          "bid": 0.28,
+          "volume": 2961,
+          "fee": 0.0144,
+          "cost": 0.3044,
+          "our_prob": 0.4815,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 966.93,
+          "overround": 0.01,
+          "fair_prob": 0.2871,
+          "edge_pct": 19.44,
+          "ev_per_$1": 0.5818
+        },
+        {
+          "market_id": "POLY-6280276-0",
+          "pair_id": "POLY-6280276",
+          "label": "Game 1 HLE",
+          "type": "game",
+          "game": 1,
+          "line": null,
+          "ask": 0.72,
+          "bid": 0.71,
+          "volume": 2961,
+          "fee": 0.0141,
+          "cost": 0.7341,
+          "our_prob": 0.5185,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 419.01,
+          "overround": 0.01,
+          "fair_prob": 0.7129,
+          "edge_pct": -19.44,
+          "ev_per_$1": -0.2937
+        },
+        {
+          "market_id": "POLY-6280277-1",
+          "pair_id": "POLY-6280277",
+          "label": "Game 2 G2",
+          "type": "game",
+          "game": 2,
+          "line": null,
+          "ask": 0.26,
+          "bid": 0.25,
+          "volume": 6281,
+          "fee": 0.0135,
+          "cost": 0.2735,
+          "our_prob": 0.4428,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 335.68,
+          "overround": 0.01,
+          "fair_prob": 0.2574,
+          "edge_pct": 18.54,
+          "ev_per_$1": 0.619
+        },
+        {
+          "market_id": "POLY-6280277-0",
+          "pair_id": "POLY-6280277",
+          "label": "Game 2 HLE",
+          "type": "game",
+          "game": 2,
+          "line": null,
+          "ask": 0.75,
+          "bid": 0.74,
+          "volume": 6281,
+          "fee": 0.0131,
+          "cost": 0.7631,
+          "our_prob": 0.5572,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 664.42,
+          "overround": 0.01,
+          "fair_prob": 0.7426,
+          "edge_pct": -18.54,
+          "ev_per_$1": -0.2698
+        }
+      ],
+      "best_bet": null,
+      "best_ev_any": {
+        "market_id": "POLY-6280278-1",
+        "pair_id": "POLY-6280278",
+        "label": "ML G2",
+        "type": "moneyline",
+        "game": null,
+        "line": null,
+        "ask": 0.21,
+        "bid": 0.2,
+        "volume": 92752,
+        "fee": 0.0116,
+        "cost": 0.2216,
+        "our_prob": 0.4326,
+        "cashes_on_lock": false,
+        "contracts_at_ask": 44229.17,
+        "overround": 0.01,
+        "fair_prob": 0.2079,
+        "edge_pct": 22.47,
+        "ev_per_$1": 0.9522
+      },
+      "market_inventory": {
+        "child_moneyline": {
+          "markets": 4,
+          "lines": [],
+          "games": [
+            1,
+            2
+          ]
+        },
+        "lol_both_teams_baron": {
+          "markets": 3,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3
+          ]
+        },
+        "lol_both_teams_dragon": {
+          "markets": 3,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3
+          ]
+        },
+        "lol_both_teams_inhibitors": {
+          "markets": 3,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3
+          ]
+        },
+        "lol_penta_kill": {
+          "markets": 3,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3
+          ]
+        },
+        "lol_quadra_kill": {
+          "markets": 3,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3
+          ]
+        },
+        "map_handicap": {
+          "markets": 2,
+          "lines": [
+            "-1.5"
+          ],
+          "games": []
+        },
+        "moneyline": {
+          "markets": 2,
+          "lines": [],
+          "games": []
+        },
+        "totals": {
+          "markets": 2,
+          "lines": [
+            "2.5"
+          ],
+          "games": []
+        }
+      },
+      "n_markets": 25,
+      "n_priced_legs": 10,
+      "not_modeled": [
+        {
+          "market_id": "POLY-6280281",
+          "type": "lol_both_teams_baron",
+          "label": "Game 1 Both teams Baron",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280282",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 1 Both teams dragon",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280283",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 1 Both teams inhib",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280285",
+          "type": "lol_penta_kill",
+          "label": "Game 1 Any penta kill",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280284",
+          "type": "lol_quadra_kill",
+          "label": "Game 1 Any quadra kill",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280286",
+          "type": "lol_both_teams_baron",
+          "label": "Game 2 Both teams Baron",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280287",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 2 Both teams dragon",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280288",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 2 Both teams inhib",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280290",
+          "type": "lol_penta_kill",
+          "label": "Game 2 Any penta kill",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280289",
+          "type": "lol_quadra_kill",
+          "label": "Game 2 Any quadra kill",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280291",
+          "type": "lol_both_teams_baron",
+          "label": "Game 3 Both teams Baron",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280292",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 3 Both teams dragon",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280293",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 3 Both teams inhib",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280295",
+          "type": "lol_penta_kill",
+          "label": "Game 3 Any penta kill",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6280294",
+          "type": "lol_quadra_kill",
+          "label": "Game 3 Any quadra kill",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        }
+      ],
+      "unpriced": [],
+      "verdict": "PASS (no +EV market that cashes on the locked score)"
+    }
+  ]
+}

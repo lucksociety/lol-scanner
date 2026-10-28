@@ -16,14 +16,34 @@
   function B() { return teamBy($("#tb").value); }
   function code(t) { return t ? t.code : "?"; }
 
+  const etToday = () => new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+  let curDate = /^\d{4}-\d{2}-\d{2}$/.test(qs.get("date") || "") ? qs.get("date") : etToday();
+
   function fillTeams() {
     const opts = D.teams.map(t => `<option value="${E(t.name)}">${E(t.code)} · ${E(t.name)} · ${E(t.league || "–")} · Elo ${t.elo_v2.toFixed(0)}</option>`).join("");
     $("#ta").innerHTML = opts; $("#tb").innerHTML = opts;
-    const slate = [];
-    Object.keys(D.slate).sort().reverse().forEach(d => D.slate[d].forEach(m => slate.push({ d, m })));
-    $("#preset").innerHTML = '<option value="">— pick a slate series to preload —</option>' +
-      slate.map(({ d, m }) => `<option value="${E(m.match_id)}">${E(d)} · ${E(m.a)} vs ${E(m.b)} · Bo${m.bo} · ${E(m.start_et)}</option>`).join("");
+    fillSlate();
   }
+
+  function simmable(m) { return m.a !== "TBD" && m.b !== "TBD" && teamByCode(m.a, m.a_name) && teamByCode(m.b, m.b_name); }
+
+  // slate dropdown = every series of the selected date (ET); TBD rows are listed but cannot be loaded
+  function fillSlate() {
+    const ms = (D.slate[curDate] || []);
+    const nice = new Date(curDate + "T12:00:00Z").toLocaleDateString("en-US", { timeZone: "UTC", weekday: "short", month: "short", day: "numeric" });
+    $("#pdate").textContent = nice + (curDate === etToday() ? " (today)" : "");
+    const tag = m => m.modeled ? "🔒 lock " + (m.frozen ? m.frozen.locked_score : "") : (m.status || "not modeled");
+    $("#preset").innerHTML = (ms.length ? `<option value="">— ${ms.length} series on ${E(nice)}: pick one to preload —</option>` : `<option value="">— no LoL series on ${E(nice)} —</option>`) +
+      ms.map(m => `<option value="${E(m.match_id)}" ${simmable(m) ? "" : "disabled"}>${E(m.start_et.replace(/^\w+ \w+ \d+, /, ""))} · ${E(m.a)} vs ${E(m.b)} · Bo${m.bo} · ${E(m.league)} · ${E(tag(m))}</option>`).join("");
+    const nm = ms.filter(m => !m.modeled);
+    $("#pnote").textContent = nm.length ? `${nm.length} without a frozen protocol lock (${nm.map(m => m.a + " vs " + m.b + ": " + (m.status || "")).join("; ")}). Known teams can still be simmed on ratings; TBD rows cannot.` : "";
+  }
+
+  window.SimSetDate = d => {
+    curDate = d; if (!D) return; fillSlate();
+    const first = (D.slate[d] || []).find(simmable);
+    if (first) loadMatch(first.match_id); else { ctx.match = null; onTeams(); prefillOdds(); }
+  };
 
   function findMatch(id) {
     for (const d in D.slate) for (const m of D.slate[d]) if (m.match_id === id) return { d, m };
@@ -32,13 +52,18 @@
 
   function loadMatch(id) {
     const f = findMatch(id); if (!f) return false;
-    const m = f.m; ctx.match = m;
+    const m = f.m; ctx.match = m.frozen ? m : null;
+    if (f.d !== curDate) { curDate = f.d; fillSlate(); }
     const ta = teamByCode(m.a, m.a_name), tb = teamByCode(m.b, m.b_name);
     if (ta) $("#ta").value = ta.name; if (tb) $("#tb").value = tb.name;
     $("#bo").value = String(m.bo); $("#fearless").checked = !!m.fearless;
     $("#g1").value = m.g1_a_blue === true ? "A" : m.g1_a_blue === false ? "B" : "rand";
-    $("#preset").value = id; $("#ovr").value = ""; $("#ovrg").value = "";
-    onTeams(); prefillOdds(); return true;
+    $("#ovr").value = ""; $("#ovrg").value = "";
+    onTeams(); prefillOdds(); $("#preset").value = id; ctxNote(m); return true;
+  }
+
+  function ctxNote(m) {
+    if (!m.frozen) $("#frozen").innerHTML = `<span class="muted">${E(m.a)} vs ${E(m.b)} · <b>${E(m.status || "NOT MODELED")}</b>: ${E(m.reason || "no frozen protocol forecast")}. The sim below runs on ratings only.</span>`;
   }
 
   function baseP() {
@@ -221,6 +246,7 @@
     $("#ck").onchange = () => { const k = $("#ck").value; $("#cl").placeholder = k === "exact" ? "A-B e.g. 2-1" : k === "hcp" ? "-1.5" : "2.5"; };
     let ok = false;
     if (qs.get("match")) ok = loadMatch(qs.get("match"));
+    if (!ok && !qs.get("a")) { const first = (D.slate[curDate] || []).find(simmable); if (first) ok = loadMatch(first.match_id); }
     if (!ok) {
       const ta = teamByCode(qs.get("a") || d.teams[0].code), tb = teamByCode(qs.get("b") || d.teams[1].code);
       if (ta) $("#ta").value = ta.name; if (tb) $("#tb").value = tb.name;

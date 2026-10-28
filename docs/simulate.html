@@ -39,7 +39,18 @@ tr.pos td{color:var(--pos)}tr.neg td{color:var(--mut)}td.lk{font-weight:700}.bb{
 .warn{color:#ffb86b;font-size:13px}.muted{color:var(--mut);font-size:12px}a{color:var(--gold-hi)}
 details{margin-top:6px;color:var(--mut);font-size:13px}summary{cursor:pointer;color:var(--ink)}
 footer{color:var(--mut);font-size:12px;padding:20px;text-align:center;border-top:1px solid var(--line)}
-@media (max-width:560px){.brand .ov{background:rgba(1,23,26,.9)}h1{font-size:20px}.logo{width:54px;height:54px}.t em{font-size:20px}.card{padding:12px;border-radius:10px}main{padding:8px}td,th{padding:4px}}
+@media (max-width:560px){.brand .ov{background:rgba(1,23,26,.9)}h1{font-size:20px}.logo{width:54px;height:54px}.t em{font-size:20px}.card{padding:12px;border-radius:10px}main{padding:8px}td,th{padding:4px}.dchip{min-width:72px;padding:4px 7px}}
+
+.datenav{max-width:1200px;margin:12px auto 0;display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
+.dchip{display:flex;flex-direction:column;justify-content:center;min-width:86px;padding:5px 10px;border:1px solid var(--bronze);border-radius:8px;
+ background:rgba(5,34,32,.85);color:var(--ink)!important;text-decoration:none;font-size:12px;line-height:1.25}
+.dchip b{color:var(--gold-hi);font:700 13px/1.2 Georgia,serif;letter-spacing:.04em;text-transform:uppercase}.dchip small{color:var(--mut)}
+.dchip:hover{border-color:var(--gold-hi)}.dchip.on{background:var(--gold);border-color:var(--gold-hi)}.dchip.on b,.dchip.on small,.dchip.on span{color:var(--black)}
+.dchip.empty{opacity:.55}.dchip .n{color:var(--clover-hi);font-weight:700}.dchip.on .n{color:var(--clover)}
+.dpick{display:flex;flex-direction:column;justify-content:center;padding:4px 10px;border:1px solid var(--bronze);border-radius:8px;background:rgba(5,34,32,.85);font-size:12px;color:var(--gold)}
+.dpick input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:3px 6px;font:inherit;color-scheme:dark}
+#dmsg{flex-basis:100%;color:#ffb86b;font-size:12px;min-height:0}
+tr.nm td{color:var(--mut)}tr.nm td.pass{color:var(--gold)}
 
 .simgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
 .simgrid label{display:block;font-size:12px;color:var(--gold);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
@@ -59,11 +70,12 @@ button.ghost{background:transparent;color:var(--gold-hi);border:1px solid var(--
 <div><h1>Luck Society · LoL Simulator</h1><p class="tag">Sports Betting • Crypto • Stocks • Predictions 🍀</p>
 <p class="voice">Pick any two teams, sim the series, then put any price against it. Let's stay green 🍀</p></div></div>
 <div class="meta"><p><span class="badge">RATINGS-BASED SIM</span> Runs in your browser on the exported v2 patch-weighted map Elo. It is <b>separate from the frozen protocol lock</b> on the <a href="index.html">dashboard</a> (that one adds lineups + draft-path sims and is frozen before any price is read). <span id="gen"></span></p></div>
-<div class="nav"><a class="simbtn" href="index.html">← Dashboard</a></div></div></header>
+<nav class="datenav" id="datenav" data-date="2026-10-28" data-mode="sim" data-index="0" aria-label="Pick a slate date"><a class="dchip" data-d="2026-10-26" href="simulate.html?date=2026-10-26"><b>Mon</b><small>Oct 26 · <span class="n">4 series</span></small></a><a class="dchip empty" data-d="2026-10-27" href="simulate.html?date=2026-10-27"><b>Yesterday</b><small>Oct 27 · no games</small></a><a class="dchip on" data-d="2026-10-28" href="simulate.html?date=2026-10-28"><b>Today</b><small>Oct 28 · <span class="n">2 series</span></small></a><a class="dchip" data-d="2026-10-29" href="simulate.html?date=2026-10-29"><b>Tomorrow</b><small>Oct 29 · <span class="n">2 series</span></small></a><a class="dchip" data-d="2026-10-30" href="simulate.html?date=2026-10-30"><b>Fri</b><small>Oct 30 · <span class="n">2 series</span></small></a><a class="dchip" data-d="2026-10-31" href="simulate.html?date=2026-10-31"><b>Sat</b><small>Oct 31 · <span class="n">3 series</span></small></a><a class="dchip empty" data-d="2026-11-01" href="simulate.html?date=2026-11-01"><b>Sun</b><small>Nov 1 · no games</small></a><a class="dchip empty" data-d="2026-11-02" href="simulate.html?date=2026-11-02"><b>Mon</b><small>Nov 2 · no games</small></a><a class="dchip" data-d="2026-11-03" href="simulate.html?date=2026-11-03"><b>Tue</b><small>Nov 3 · <span class="n">1 series</span></small></a><a class="dchip" data-d="2026-11-04" href="simulate.html?date=2026-11-04"><b>Wed</b><small>Nov 4 · <span class="n">1 series</span></small></a><label class="dpick">📅 Any date<input type="date" id="dpick" value="2026-10-28" min="2026-10-26" max="2026-11-04"></label><span id="dmsg" role="status"></span></nav>
+<div class="nav"><a class="simbtn" id="dashlink" href="index.html">← Dashboard</a></div></div></header>
 <main>
 <section class="card"><h2>1 · Matchup</h2>
 <div class="simgrid">
- <div><label for="preset">Slate series</label><select id="preset"></select></div>
+ <div><label for="preset">Slate series · <span id="pdate">today</span></label><select id="preset"></select><small class="muted" id="pnote"></small></div>
  <div><label for="ta">Team A</label><select id="ta"></select></div>
  <div><label for="tb">Team B</label><select id="tb"></select></div>
  <div><label for="bo">Format</label><select id="bo"><option value="1">Bo1</option><option value="3" selected>Bo3</option><option value="5">Bo5</option></select>
@@ -98,4 +110,4 @@ button.ghost{background:transparent;color:var(--gold-hi);border:1px solid var(--
 <p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest +EV market that cashes on this sim's lock, otherwise PASS. Not financial advice.</p>
 </section></main>
 <footer>Luck Society · in-browser ratings sim (Web Worker) · data: lolesports results → v2 patch-recency Elo, official rosters · Jupiter prices are post-forecast snapshots, never inputs to any forecast.</footer>
-<script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script></body></html>
+<script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script><script src="assets/datenav.js"></script></body></html>
