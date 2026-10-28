@@ -91,7 +91,8 @@ def test_edge_refuses_without_frozen_forecast(tmp_path, monkeypatch):
 
 
 def test_forecast_modules_never_import_market_code():
-    for mod in ("forecast.py", "ratings.py", "sim.py", "schedule.py"):
+    for mod in ("forecast.py", "ratings.py", "sim.py", "schedule.py", "forecast_v2.py", "v2.py", "sim_v2.py",
+                "draftmodel.py", "ratings_v2.py", "golgg.py", "corpus.py", "patches.py", "champs.py", "backtest_v2.py"):
         tree = ast.parse((ROOT / "scanner" / mod).read_text())
         names = {a.name for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom)) for a in n.names}
         mods = {n.module for n in ast.walk(tree) if isinstance(n, ast.ImportFrom) and n.module}
@@ -105,3 +106,47 @@ def test_no_secrets_committed():
     for p in ROOT.rglob("*"):
         if p.is_file() and ".git" not in p.parts and ".cache" not in p.parts and p.suffix in {".py", ".yml", ".md", ".txt", ".json", ".html"}:
             assert not pat.search(p.read_text(errors="ignore")), p
+
+
+def _toy_spec(bo, fearless, C=12):
+    import numpy as np
+    rng = np.random.default_rng(0)
+    combo = {"w": 1.0, "U": rng.normal(0, 1, (2, 5, C)), "V": rng.normal(0, 1, (2, C)),
+             "D": np.zeros((2, 5, C)), "cont": np.zeros(2)}
+    # strongly prefer champions 0..9 so that, without Fearless, game 2 repeats game 1's picks
+    combo["U"][:, :, :10] += 6.0
+    return {"bo": bo, "fearless": fearless, "elo_logit": 0.3, "side_blue": 0.1, "rho": 0.0, "q_loser_blue": 0.5,
+            "g1_a_blue": True, "combos": [combo], "comp_coef": 0.0, "U_ap": np.zeros(C), "U_tank": np.ones(C)}
+
+
+@pytest.mark.parametrize("bo", [1, 3, 5])
+def test_sim_v2_exact_distribution(bo):
+    from scanner import sim_v2
+    s = sim_v2.simulate(_toy_spec(bo, bo > 1, C=60), sims=4000, seed=1)
+    assert abs(sum(s["exact"].values()) - 1) < 1e-9 and len(s["exact"]) == 2 * (bo // 2 + 1)
+    assert s["p_series_a"] > 0.5
+
+
+def test_sim_v2_fearless_blocks_repeat_picks():
+    import numpy as np
+    from scanner import sim_v2, v2
+    sp = _toy_spec(3, True, C=40)
+    bd1 = v2.beam_drafts(sp["combos"][0], True, set(), 0.0, sp["U_ap"], sp["U_tank"], 0.3, 0.1, 0.0)
+    used = set(bd1[0]["picks_a"]) | set(bd1[0]["picks_b"])
+    bd2 = v2.beam_drafts(sp["combos"][0], False, used, 0.0, sp["U_ap"], sp["U_tank"], 0.3, 0.1, 0.0)
+    assert not (set(bd2[0]["picks_a"]) | set(bd2[0]["picks_b"])) & used
+    s = sim_v2.simulate(sp, sims=2000, seed=2)
+    rm = np.array(s["role_marginals"])
+    # game 2 can never use the 10 champions game 1 used, so its picks spread to champions >= 10
+    assert rm[1][:, :, 10:].sum() > rm[0][:, :, 10:].sum() + 1.0
+
+
+def test_v2_freeze_does_not_touch_v1(tmp_path, monkeypatch):
+    monkeypatch.setattr(config, "FORECAST_DIR", tmp_path)
+    forecast.freeze({"date": "2099-03-03", "integrity": forecast.INTEGRITY, "model_version": "elo-map-v1", "cards": []})
+    h1 = (tmp_path / "2099-03-03.json").read_text()
+    forecast.freeze({"date": "2099-03-03", "integrity": forecast.INTEGRITY, "model_version": "v2-x", "cards": []})
+    assert (tmp_path / "2099-03-03.json").read_text() == h1 and (tmp_path / "2099-03-03.v2.json").exists()
+    assert forecast.load_frozen("2099-03-03", "v2")["model_version"] == "v2-x"
+    from scanner.forecast_v2 import INTEGRITY_V2
+    assert INTEGRITY_V2["market_inputs_to_forecast"] == "NONE" and INTEGRITY_V2["excluded"] == forecast.INTEGRITY["excluded"]

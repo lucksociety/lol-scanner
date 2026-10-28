@@ -1,0 +1,2460 @@
+{
+  "date": "2026-10-28",
+  "integrity": {
+    "protocol": "Zero-Market Influence Prediction Protocol v4.0",
+    "market_inputs_to_forecast": "NONE",
+    "data_sources": [
+      "lolesports.com persisted gateway: getSchedule (results + schedule), getTeams (official rosters), getEventDetails (game sides)",
+      "gol.gg: pro game pages (patch, bans/picks, lineups, KDA) and per-patch champion statistics",
+      "Riot Data Dragon: champion tags (AP/AD, tank)"
+    ],
+    "excluded": [
+      "sportsbook odds",
+      "prediction-market prices",
+      "betting sites/ads",
+      "tipster picks"
+    ]
+  },
+  "model_version": "v2-patch-lineup-draft",
+  "params": {
+    "elo_patch_lambda": 0.8,
+    "elo_kscale": 0.8,
+    "draft_model": {
+      "w_pick": [
+        0.7564805011708038,
+        0.6282291264095783,
+        0.28464891671982556
+      ],
+      "w_ban": [
+        0.16791819829935833,
+        0.5524293168395632,
+        0.9905037424716128
+      ],
+      "nll_pick": 3.420235924471249,
+      "nll_ban": 3.3379197168478973,
+      "n_pick_steps": 11978,
+      "n_ban_steps": 11999,
+      "uniform_nll_pick": 5.965600702121499,
+      "uniform_nll_ban": 5.042009141689491
+    },
+    "outcome_model": {
+      "side_blue": 0.17493516504351722,
+      "gamma": [
+        0.28030833171158404,
+        -0.016339451105806556,
+        -0.01081915451228502,
+        0.2317502207717703,
+        -0.15012170919780254
+      ],
+      "rho": -1.3899766744143423,
+      "train_logloss_elo_only": 0.6547241022783119,
+      "train_logloss_with_draft": 0.617754987779151,
+      "n_maps": 1857
+    },
+    "q_loser_blue": 0.4734789391575663,
+    "q_loser_blue_n": 1280,
+    "fitted": [
+      "elo_patch_lambda (tuned on grid)",
+      "elo_kscale (tuned on grid)",
+      "draft_model weights (MLE)",
+      "outcome_model side/draft/continuity coefficients (ridge MLE)",
+      "q_loser_blue (frequency)"
+    ],
+    "hand_set": {
+      "PREV_W": 0.6,
+      "POOL_ALPHA": 5.0,
+      "META_K": 20.0,
+      "PROF_K": 6.0,
+      "KDA_K": 4.0,
+      "TEAMBAN_BETA": 6.0,
+      "DRAFT_CAP": 0.45,
+      "RIDGE": 8.0,
+      "CONT_TAU": 8.0,
+      "TOPK_draft_sampling": 4,
+      "rating_sd": 0.35,
+      "map_sd": 0.2
+    },
+    "fearless_check": {
+      "Worlds 2026 Play-In": {
+        "multi_game_series": 6,
+        "series_with_repeat_picks": 0,
+        "fearless": true
+      },
+      "Worlds 2026 Main Event": {
+        "multi_game_series": 4,
+        "series_with_repeat_picks": 0,
+        "fearless": true
+      }
+    },
+    "meta": {
+      "patch": "16.20",
+      "prev_patch_blend": "16.17",
+      "prev_weight": 0.6,
+      "games_on_patch_golgg": 168.2,
+      "top_by_role": {
+        "TOP": [
+          {
+            "champ": "Rumble",
+            "games": 41.6,
+            "wr_shrunk": 0.471
+          },
+          {
+            "champ": "K'Sante",
+            "games": 37.6,
+            "wr_shrunk": 0.448
+          },
+          {
+            "champ": "Ambessa",
+            "games": 34.0,
+            "wr_shrunk": 0.567
+          },
+          {
+            "champ": "Olaf",
+            "games": 28.4,
+            "wr_shrunk": 0.475
+          },
+          {
+            "champ": "Jayce",
+            "games": 24.4,
+            "wr_shrunk": 0.396
+          }
+        ],
+        "JUNGLE": [
+          {
+            "champ": "Lee Sin",
+            "games": 35.8,
+            "wr_shrunk": 0.545
+          },
+          {
+            "champ": "Jarvan IV",
+            "games": 33.8,
+            "wr_shrunk": 0.498
+          },
+          {
+            "champ": "Qiyana",
+            "games": 30.8,
+            "wr_shrunk": 0.563
+          },
+          {
+            "champ": "Vi",
+            "games": 28.0,
+            "wr_shrunk": 0.479
+          },
+          {
+            "champ": "Wukong",
+            "games": 25.8,
+            "wr_shrunk": 0.528
+          }
+        ],
+        "MID": [
+          {
+            "champ": "Syndra",
+            "games": 35.6,
+            "wr_shrunk": 0.565
+          },
+          {
+            "champ": "Orianna",
+            "games": 35.2,
+            "wr_shrunk": 0.529
+          },
+          {
+            "champ": "Ryze",
+            "games": 30.4,
+            "wr_shrunk": 0.504
+          },
+          {
+            "champ": "Viktor",
+            "games": 29.6,
+            "wr_shrunk": 0.496
+          },
+          {
+            "champ": "Akali",
+            "games": 26.0,
+            "wr_shrunk": 0.448
+          }
+        ],
+        "BOT": [
+          {
+            "champ": "Ezreal",
+            "games": 40.6,
+            "wr_shrunk": 0.535
+          },
+          {
+            "champ": "Lucian",
+            "games": 34.0,
+            "wr_shrunk": 0.422
+          },
+          {
+            "champ": "Yunara",
+            "games": 33.8,
+            "wr_shrunk": 0.535
+          },
+          {
+            "champ": "Kalista",
+            "games": 33.6,
+            "wr_shrunk": 0.511
+          },
+          {
+            "champ": "Jhin",
+            "games": 28.6,
+            "wr_shrunk": 0.477
+          }
+        ],
+        "SUPPORT": [
+          {
+            "champ": "Lulu",
+            "games": 36.8,
+            "wr_shrunk": 0.553
+          },
+          {
+            "champ": "Renata Glasc",
+            "games": 32.6,
+            "wr_shrunk": 0.532
+          },
+          {
+            "champ": "Seraphine",
+            "games": 32.0,
+            "wr_shrunk": 0.592
+          },
+          {
+            "champ": "Karma",
+            "games": 31.0,
+            "wr_shrunk": 0.533
+          },
+          {
+            "champ": "Nautilus",
+            "games": 30.0,
+            "wr_shrunk": 0.488
+          }
+        ]
+      }
+    },
+    "corpus_games": 2013,
+    "corpus_series_joined": 668
+  },
+  "cards": [
+    {
+      "match_id": "115660540726095061",
+      "start_utc": "2026-10-28T20:00:00Z",
+      "start_et": "Wed Oct 28, 04:00 PM ET",
+      "league": "Worlds",
+      "stage": "Swiss",
+      "bo": 3,
+      "team_a": {
+        "code": "MKOI",
+        "name": "Movistar KOI",
+        "img": "http://static.lolesports.com/teams/1734012609283_MKOI_FullColor_Blue.png",
+        "elo_v2": 1584.3,
+        "elo_v1": 1635.7,
+        "home": "LEC",
+        "event_record": "2-1",
+        "form": [
+          {
+            "date": "2026-10-25",
+            "opp": "DK",
+            "score": "0-2",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "CFO",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "BLG",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-09-20",
+            "opp": "G2",
+            "score": "0-3",
+            "won": false,
+            "league": "LEC"
+          },
+          {
+            "date": "2026-09-19",
+            "opp": "KC",
+            "score": "3-0",
+            "won": true,
+            "league": "LEC"
+          },
+          {
+            "date": "2026-09-18",
+            "opp": "NAVI",
+            "score": "3-1",
+            "won": true,
+            "league": "LEC"
+          },
+          {
+            "date": "2026-09-12",
+            "opp": "VIT",
+            "score": "3-2",
+            "won": true,
+            "league": "LEC"
+          },
+          {
+            "date": "2026-08-30",
+            "opp": "TH",
+            "score": "2-0",
+            "won": true,
+            "league": "LEC"
+          }
+        ],
+        "lineup": [
+          {
+            "role": "TOP",
+            "pid": 4310,
+            "name": "Myrwn",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 4,
+            "starts_this_event": 4,
+            "alternatives": []
+          },
+          {
+            "role": "JUNGLE",
+            "pid": 2719,
+            "name": "Elyoya",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 4,
+            "starts_this_event": 4,
+            "alternatives": []
+          },
+          {
+            "role": "MID",
+            "pid": 3544,
+            "name": "jojopyun",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 4,
+            "starts_this_event": 4,
+            "alternatives": []
+          },
+          {
+            "role": "BOT",
+            "pid": 2717,
+            "name": "Supa",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 4,
+            "starts_this_event": 4,
+            "alternatives": []
+          },
+          {
+            "role": "SUPPORT",
+            "pid": 4634,
+            "name": "Alvaro",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 4,
+            "starts_this_event": 4,
+            "alternatives": []
+          }
+        ],
+        "golgg_name": "Movistar KOI"
+      },
+      "team_b": {
+        "code": "T1",
+        "name": "T1",
+        "img": "http://static.lolesports.com/teams/1726801573959_539px-T1_2019_full_allmode.png",
+        "elo_v2": 1657.5,
+        "elo_v1": 1745.5,
+        "home": "LCK",
+        "event_record": "2-1",
+        "form": [
+          {
+            "date": "2026-10-26",
+            "opp": "CFO",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "DK",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "LOS",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-09-12",
+            "opp": "HLE",
+            "score": "1-3",
+            "won": false,
+            "league": "LCK"
+          },
+          {
+            "date": "2026-09-06",
+            "opp": "DK",
+            "score": "3-1",
+            "won": true,
+            "league": "LCK"
+          },
+          {
+            "date": "2026-09-02",
+            "opp": "HLE",
+            "score": "2-3",
+            "won": false,
+            "league": "LCK"
+          },
+          {
+            "date": "2026-08-29",
+            "opp": "BFX",
+            "score": "3-2",
+            "won": true,
+            "league": "LCK"
+          },
+          {
+            "date": "2026-08-23",
+            "opp": "HLE",
+            "score": "0-2",
+            "won": false,
+            "league": "LCK"
+          }
+        ],
+        "lineup": [
+          {
+            "role": "TOP",
+            "pid": 1242,
+            "name": "Doran",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "JUNGLE",
+            "pid": 3741,
+            "name": "Oner",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "MID",
+            "pid": 48,
+            "name": "Faker",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "BOT",
+            "pid": 4247,
+            "name": "Peyz",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "SUPPORT",
+            "pid": 1258,
+            "name": "Keria",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          }
+        ],
+        "golgg_name": "T1"
+      },
+      "model": {
+        "p_map_a": 0.4491,
+        "p_map_a_elo_only": 0.3961,
+        "patch": "16.20",
+        "fearless": true,
+        "g1_a_blue": true,
+        "g1_side_source": "lolesports getEventDetails game 1 sides",
+        "lineup_combos": [
+          {
+            "w": 1.0,
+            "a": "expected five",
+            "b": "expected five",
+            "share_in_sims": 1.0
+          }
+        ],
+        "continuity_maps_together": {
+          "MKOI": 148,
+          "T1": 100
+        },
+        "history_cutoff_utc": "2026-10-28T07:47:33Z"
+      },
+      "sim": {
+        "bo": 3,
+        "sims": 100000,
+        "p_series_a": 0.3862,
+        "exact": {
+          "0-2": 0.33124,
+          "1-2": 0.28256,
+          "2-0": 0.19057,
+          "2-1": 0.19563
+        },
+        "locked_score": "0-2",
+        "locked_score_prob": 0.33124,
+        "e_maps": 2.47819,
+        "maps_dist": {
+          "2": 0.52181,
+          "3": 0.47819
+        },
+        "lineup_combo_share": [
+          1.0
+        ],
+        "p_map_a_by_game": [
+          0.4468,
+          0.4056,
+          0.3996
+        ],
+        "p_game_a": [
+          0.44913,
+          0.4102,
+          0.4091051674020787
+        ],
+        "p_game_reached": [
+          1.0,
+          1.0,
+          0.47819
+        ]
+      },
+      "drafts": [
+        {
+          "game": 1,
+          "p_reached": 1.0,
+          "p_win_a_sim": 0.4491,
+          "assumed_sides": "MKOI blue",
+          "fearless_locked_before": 0,
+          "top_drafts": [
+            {
+              "seq_prob": 8.441936026696577e-10,
+              "win_a": 0.4266,
+              "draft_delta_logit": -0.049,
+              "picks": {
+                "MKOI": [
+                  "Galio",
+                  "Qiyana",
+                  "Ryze",
+                  "Ezreal",
+                  "Seraphine"
+                ],
+                "T1": [
+                  "Jayce",
+                  "Lee Sin",
+                  "Akali",
+                  "Jhin",
+                  "Lulu"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Jarvan IV",
+                  "Rumble"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "Nautilus",
+                  "K'Sante"
+                ]
+              }
+            },
+            {
+              "seq_prob": 6.155968517985205e-10,
+              "win_a": 0.4447,
+              "draft_delta_logit": 0.025,
+              "picks": {
+                "MKOI": [
+                  "Galio",
+                  "Qiyana",
+                  "Ryze",
+                  "Ezreal",
+                  "Renata Glasc"
+                ],
+                "T1": [
+                  "Jayce",
+                  "Lee Sin",
+                  "Akali",
+                  "Jhin",
+                  "Lulu"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Jarvan IV",
+                  "Rumble"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "Nautilus",
+                  "K'Sante"
+                ]
+              }
+            },
+            {
+              "seq_prob": 4.777400339765094e-10,
+              "win_a": 0.4834,
+              "draft_delta_logit": 0.18,
+              "picks": {
+                "MKOI": [
+                  "Ambessa",
+                  "Qiyana",
+                  "Ryze",
+                  "Ezreal",
+                  "Seraphine"
+                ],
+                "T1": [
+                  "Jayce",
+                  "Lee Sin",
+                  "Galio",
+                  "Jhin",
+                  "Lulu"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Jarvan IV",
+                  "Rumble"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "Nautilus",
+                  "K'Sante"
+                ]
+              }
+            }
+          ],
+          "role_pick_marginals": {
+            "MKOI": {
+              "TOP": [
+                {
+                  "champ": "Ambessa",
+                  "p": 0.27
+                },
+                {
+                  "champ": "Galio",
+                  "p": 0.245
+                },
+                {
+                  "champ": "Renekton",
+                  "p": 0.226
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Lee Sin",
+                  "p": 0.359
+                },
+                {
+                  "champ": "Qiyana",
+                  "p": 0.296
+                },
+                {
+                  "champ": "Jarvan IV",
+                  "p": 0.237
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Ryze",
+                  "p": 0.624
+                },
+                {
+                  "champ": "Ahri",
+                  "p": 0.137
+                },
+                {
+                  "champ": "Viktor",
+                  "p": 0.085
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Ezreal",
+                  "p": 0.552
+                },
+                {
+                  "champ": "Kalista",
+                  "p": 0.225
+                },
+                {
+                  "champ": "Ashe",
+                  "p": 0.157
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Seraphine",
+                  "p": 0.303
+                },
+                {
+                  "champ": "Lulu",
+                  "p": 0.289
+                },
+                {
+                  "champ": "Renata Glasc",
+                  "p": 0.234
+                }
+              ]
+            },
+            "T1": {
+              "TOP": [
+                {
+                  "champ": "Jayce",
+                  "p": 0.657
+                },
+                {
+                  "champ": "Rumble",
+                  "p": 0.131
+                },
+                {
+                  "champ": "Ambessa",
+                  "p": 0.07
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Lee Sin",
+                  "p": 0.434
+                },
+                {
+                  "champ": "Skarner",
+                  "p": 0.113
+                },
+                {
+                  "champ": "Qiyana",
+                  "p": 0.109
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Galio",
+                  "p": 0.299
+                },
+                {
+                  "champ": "Orianna",
+                  "p": 0.287
+                },
+                {
+                  "champ": "Akali",
+                  "p": 0.191
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Jhin",
+                  "p": 0.522
+                },
+                {
+                  "champ": "Ezreal",
+                  "p": 0.255
+                },
+                {
+                  "champ": "Yunara",
+                  "p": 0.093
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Lulu",
+                  "p": 0.51
+                },
+                {
+                  "champ": "Renata Glasc",
+                  "p": 0.261
+                },
+                {
+                  "champ": "Alistar",
+                  "p": 0.162
+                }
+              ]
+            }
+          }
+        },
+        {
+          "game": 2,
+          "p_reached": 1.0,
+          "p_win_a_sim": 0.4102,
+          "assumed_sides": "T1 blue",
+          "fearless_locked_before": 10,
+          "top_drafts": [
+            {
+              "seq_prob": 1.4394664810059358e-09,
+              "win_a": 0.337,
+              "draft_delta_logit": -0.08,
+              "picks": {
+                "MKOI": [
+                  "Ambessa",
+                  "Jarvan IV",
+                  "Ahri",
+                  "Kalista",
+                  "Karma"
+                ],
+                "T1": [
+                  "Rumble",
+                  "Naafiri",
+                  "Anivia",
+                  "Lucian",
+                  "Renata Glasc"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Nautilus",
+                  "Skarner"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "K'Sante",
+                  "Poppy"
+                ]
+              }
+            },
+            {
+              "seq_prob": 9.422340998853946e-10,
+              "win_a": 0.3319,
+              "draft_delta_logit": -0.103,
+              "picks": {
+                "MKOI": [
+                  "Renekton",
+                  "Jarvan IV",
+                  "Ahri",
+                  "Kalista",
+                  "Karma"
+                ],
+                "T1": [
+                  "Rumble",
+                  "Naafiri",
+                  "Anivia",
+                  "Lucian",
+                  "Renata Glasc"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Nautilus",
+                  "Skarner"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "K'Sante",
+                  "Poppy"
+                ]
+              }
+            },
+            {
+              "seq_prob": 8.752381273059171e-10,
+              "win_a": 0.3529,
+              "draft_delta_logit": -0.01,
+              "picks": {
+                "MKOI": [
+                  "Ambessa",
+                  "Jarvan IV",
+                  "Ahri",
+                  "Kalista",
+                  "Karma"
+                ],
+                "T1": [
+                  "Rumble",
+                  "Skarner",
+                  "Anivia",
+                  "Yunara",
+                  "Renata Glasc"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Nautilus",
+                  "Lucian"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "K'Sante",
+                  "Caitlyn"
+                ]
+              }
+            }
+          ],
+          "role_pick_marginals": {
+            "MKOI": {
+              "TOP": [
+                {
+                  "champ": "Renekton",
+                  "p": 0.268
+                },
+                {
+                  "champ": "Ambessa",
+                  "p": 0.255
+                },
+                {
+                  "champ": "Galio",
+                  "p": 0.125
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Jarvan IV",
+                  "p": 0.234
+                },
+                {
+                  "champ": "Qiyana",
+                  "p": 0.204
+                },
+                {
+                  "champ": "Pantheon",
+                  "p": 0.109
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Ahri",
+                  "p": 0.291
+                },
+                {
+                  "champ": "Ryze",
+                  "p": 0.223
+                },
+                {
+                  "champ": "Viktor",
+                  "p": 0.143
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Kalista",
+                  "p": 0.377
+                },
+                {
+                  "champ": "Ashe",
+                  "p": 0.317
+                },
+                {
+                  "champ": "Yunara",
+                  "p": 0.199
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Karma",
+                  "p": 0.372
+                },
+                {
+                  "champ": "Seraphine",
+                  "p": 0.325
+                },
+                {
+                  "champ": "Renata Glasc",
+                  "p": 0.178
+                }
+              ]
+            },
+            "T1": {
+              "TOP": [
+                {
+                  "champ": "Rumble",
+                  "p": 0.321
+                },
+                {
+                  "champ": "Camille",
+                  "p": 0.14
+                },
+                {
+                  "champ": "Ambessa",
+                  "p": 0.107
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Skarner",
+                  "p": 0.199
+                },
+                {
+                  "champ": "Naafiri",
+                  "p": 0.192
+                },
+                {
+                  "champ": "Qiyana",
+                  "p": 0.154
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Akali",
+                  "p": 0.254
+                },
+                {
+                  "champ": "Galio",
+                  "p": 0.202
+                },
+                {
+                  "champ": "Orianna",
+                  "p": 0.151
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Jhin",
+                  "p": 0.326
+                },
+                {
+                  "champ": "Lucian",
+                  "p": 0.28
+                },
+                {
+                  "champ": "Yunara",
+                  "p": 0.214
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Alistar",
+                  "p": 0.457
+                },
+                {
+                  "champ": "Renata Glasc",
+                  "p": 0.209
+                },
+                {
+                  "champ": "Lulu",
+                  "p": 0.09
+                }
+              ]
+            }
+          }
+        },
+        {
+          "game": 3,
+          "p_reached": 0.4782,
+          "p_win_a_sim": 0.4091,
+          "assumed_sides": "T1 blue",
+          "fearless_locked_before": 20,
+          "top_drafts": [
+            {
+              "seq_prob": 3.826705058109916e-10,
+              "win_a": 0.3398,
+              "draft_delta_logit": -0.067,
+              "picks": {
+                "MKOI": [
+                  "Renekton",
+                  "Pantheon",
+                  "Yone",
+                  "Ashe",
+                  "Rakan"
+                ],
+                "T1": [
+                  "Camille",
+                  "Skarner",
+                  "Locke",
+                  "Yunara",
+                  "Alistar"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Nautilus",
+                  "Caitlyn"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "K'Sante",
+                  "Poppy"
+                ]
+              }
+            },
+            {
+              "seq_prob": 3.6091677492129504e-10,
+              "win_a": 0.3327,
+              "draft_delta_logit": -0.099,
+              "picks": {
+                "MKOI": [
+                  "Renekton",
+                  "Trundle",
+                  "Yone",
+                  "Ashe",
+                  "Rakan"
+                ],
+                "T1": [
+                  "Camille",
+                  "Skarner",
+                  "Locke",
+                  "Yunara",
+                  "Alistar"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Nautilus",
+                  "Caitlyn"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "K'Sante",
+                  "Poppy"
+                ]
+              }
+            },
+            {
+              "seq_prob": 3.509676357424294e-10,
+              "win_a": 0.3253,
+              "draft_delta_logit": -0.133,
+              "picks": {
+                "MKOI": [
+                  "Renekton",
+                  "Pantheon",
+                  "Viktor",
+                  "Ashe",
+                  "Rakan"
+                ],
+                "T1": [
+                  "Camille",
+                  "Skarner",
+                  "Locke",
+                  "Yunara",
+                  "Alistar"
+                ]
+              },
+              "bans": {
+                "MKOI": [
+                  "Vi",
+                  "Olaf",
+                  "Orianna",
+                  "Nautilus",
+                  "Caitlyn"
+                ],
+                "T1": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "K'Sante",
+                  "Poppy"
+                ]
+              }
+            }
+          ],
+          "role_pick_marginals": {
+            "MKOI": {
+              "TOP": [
+                {
+                  "champ": "Renekton",
+                  "p": 0.251
+                },
+                {
+                  "champ": "Gnar",
+                  "p": 0.193
+                },
+                {
+                  "champ": "K'Sante",
+                  "p": 0.151
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Trundle",
+                  "p": 0.215
+                },
+                {
+                  "champ": "Maokai",
+                  "p": 0.128
+                },
+                {
+                  "champ": "Jarvan IV",
+                  "p": 0.12
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Ahri",
+                  "p": 0.3
+                },
+                {
+                  "champ": "Viktor",
+                  "p": 0.147
+                },
+                {
+                  "champ": "Yone",
+                  "p": 0.114
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Ashe",
+                  "p": 0.35
+                },
+                {
+                  "champ": "Kalista",
+                  "p": 0.192
+                },
+                {
+                  "champ": "Yunara",
+                  "p": 0.192
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Rakan",
+                  "p": 0.262
+                },
+                {
+                  "champ": "Bard",
+                  "p": 0.25
+                },
+                {
+                  "champ": "Karma",
+                  "p": 0.211
+                }
+              ]
+            },
+            "T1": {
+              "TOP": [
+                {
+                  "champ": "Camille",
+                  "p": 0.225
+                },
+                {
+                  "champ": "K'Sante",
+                  "p": 0.157
+                },
+                {
+                  "champ": "Rumble",
+                  "p": 0.136
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Naafiri",
+                  "p": 0.258
+                },
+                {
+                  "champ": "Skarner",
+                  "p": 0.25
+                },
+                {
+                  "champ": "Pantheon",
+                  "p": 0.121
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Akali",
+                  "p": 0.197
+                },
+                {
+                  "champ": "Anivia",
+                  "p": 0.192
+                },
+                {
+                  "champ": "Locke",
+                  "p": 0.128
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Lucian",
+                  "p": 0.31
+                },
+                {
+                  "champ": "Yunara",
+                  "p": 0.179
+                },
+                {
+                  "champ": "Caitlyn",
+                  "p": 0.169
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Alistar",
+                  "p": 0.267
+                },
+                {
+                  "champ": "Rakan",
+                  "p": 0.25
+                },
+                {
+                  "champ": "Milio",
+                  "p": 0.159
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "adversarial_review": [
+        "Fearless: later-game drafts depend on earlier picks; G2/G3 draft trees are wide (top-draft probabilities are small)",
+        "Draft score is capped at +/-0.45 logit and regularised; drafts move map odds modestly by design",
+        "Lineups inferred from official roster + latest pro games (Leaguepedia unavailable/rate-limited)"
+      ]
+    },
+    {
+      "match_id": "115660540726095065",
+      "start_utc": "2026-10-28T23:00:00Z",
+      "start_et": "Wed Oct 28, 07:00 PM ET",
+      "league": "Worlds",
+      "stage": "Swiss",
+      "bo": 3,
+      "team_a": {
+        "code": "LYON",
+        "name": "LYON",
+        "img": "http://static.lolesports.com/teams/1743717443673_isotypelyon-03.png",
+        "elo_v2": 1591.1,
+        "elo_v1": 1713.9,
+        "home": "LTA North",
+        "event_record": "2-1",
+        "form": [
+          {
+            "date": "2026-10-25",
+            "opp": "GEN",
+            "score": "1-2",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "KC",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "TSW",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-04",
+            "opp": "TLAW",
+            "score": "1-3",
+            "won": false,
+            "league": "LCS"
+          },
+          {
+            "date": "2026-10-03",
+            "opp": "C9",
+            "score": "3-1",
+            "won": true,
+            "league": "LCS"
+          },
+          {
+            "date": "2026-09-26",
+            "opp": "SR",
+            "score": "3-1",
+            "won": true,
+            "league": "LCS"
+          },
+          {
+            "date": "2026-09-19",
+            "opp": "C9",
+            "score": "1-3",
+            "won": false,
+            "league": "LCS"
+          },
+          {
+            "date": "2026-09-06",
+            "opp": "DSG",
+            "score": "2-0",
+            "won": true,
+            "league": "LCS"
+          }
+        ],
+        "lineup": [
+          {
+            "role": "TOP",
+            "pid": 1135,
+            "name": "Dhokla",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 5,
+            "starts_this_event": 5,
+            "alternatives": []
+          },
+          {
+            "role": "JUNGLE",
+            "pid": 1501,
+            "name": "Inspired",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 5,
+            "starts_this_event": 5,
+            "alternatives": []
+          },
+          {
+            "role": "MID",
+            "pid": 5123,
+            "name": "Saint",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 5,
+            "starts_this_event": 5,
+            "alternatives": []
+          },
+          {
+            "role": "BOT",
+            "pid": 3322,
+            "name": "Berserker",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 5,
+            "starts_this_event": 5,
+            "alternatives": []
+          },
+          {
+            "role": "SUPPORT",
+            "pid": 2358,
+            "name": "Isles",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 5,
+            "starts_this_event": 5,
+            "alternatives": []
+          }
+        ],
+        "golgg_name": "LYON"
+      },
+      "team_b": {
+        "code": "IG",
+        "name": "Invictus Gaming",
+        "img": "http://static.lolesports.com/teams/1634762917340_300px-Invictus_Gaming_logo.png",
+        "elo_v2": 1677.2,
+        "elo_v1": 1728.8,
+        "home": "LPL",
+        "event_record": "2-1",
+        "form": [
+          {
+            "date": "2026-10-25",
+            "opp": "HLE",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "TSW",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "GEN",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-09-19",
+            "opp": "JDG",
+            "score": "3-1",
+            "won": true,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-09-17",
+            "opp": "TES",
+            "score": "1-3",
+            "won": false,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-09-12",
+            "opp": "AL",
+            "score": "2-3",
+            "won": false,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-09-08",
+            "opp": "LGD",
+            "score": "3-0",
+            "won": true,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-09-06",
+            "opp": "WE",
+            "score": "3-1",
+            "won": true,
+            "league": "LPL"
+          }
+        ],
+        "lineup": [
+          {
+            "role": "TOP",
+            "pid": 1075,
+            "name": "TheShy",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "JUNGLE",
+            "pid": 388,
+            "name": "Wei",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "MID",
+            "pid": 109,
+            "name": "RooKie",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "BOT",
+            "pid": 5939,
+            "name": "JiaQi",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          },
+          {
+            "role": "SUPPORT",
+            "pid": 386,
+            "name": "meiko",
+            "status": "CONFIRMED",
+            "on_official_roster": true,
+            "event_games": 3,
+            "starts_this_event": 3,
+            "alternatives": []
+          }
+        ],
+        "golgg_name": "Invictus Gaming"
+      },
+      "model": {
+        "p_map_a": 0.4047,
+        "p_map_a_elo_only": 0.3786,
+        "patch": "16.20",
+        "fearless": true,
+        "g1_a_blue": true,
+        "g1_side_source": "lolesports getEventDetails game 1 sides",
+        "lineup_combos": [
+          {
+            "w": 1.0,
+            "a": "expected five",
+            "b": "expected five",
+            "share_in_sims": 1.0
+          }
+        ],
+        "continuity_maps_together": {
+          "LYON": 105,
+          "IG": 36
+        },
+        "history_cutoff_utc": "2026-10-28T07:47:33Z"
+      },
+      "sim": {
+        "bo": 3,
+        "sims": 100000,
+        "p_series_a": 0.34325,
+        "exact": {
+          "0-2": 0.37639,
+          "1-2": 0.28036,
+          "2-0": 0.16164,
+          "2-1": 0.18161
+        },
+        "locked_score": "0-2",
+        "locked_score_prob": 0.37639,
+        "e_maps": 2.46197,
+        "maps_dist": {
+          "2": 0.53803,
+          "3": 0.46197
+        },
+        "lineup_combo_share": [
+          1.0
+        ],
+        "p_map_a_by_game": [
+          0.4002,
+          0.3773,
+          0.3839
+        ],
+        "p_game_a": [
+          0.40466,
+          0.38059,
+          0.39312076541766783
+        ],
+        "p_game_reached": [
+          1.0,
+          1.0,
+          0.46197
+        ]
+      },
+      "drafts": [
+        {
+          "game": 1,
+          "p_reached": 1.0,
+          "p_win_a_sim": 0.4047,
+          "assumed_sides": "LYON blue",
+          "fearless_locked_before": 0,
+          "top_drafts": [
+            {
+              "seq_prob": 1.1880163356947135e-09,
+              "win_a": 0.387,
+              "draft_delta_logit": -0.154,
+              "picks": {
+                "LYON": [
+                  "K'Sante",
+                  "Wukong",
+                  "Ryze",
+                  "Yunara",
+                  "Lulu"
+                ],
+                "IG": [
+                  "Rumble",
+                  "Naafiri",
+                  "Orianna",
+                  "Ashe",
+                  "Seraphine"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Vi",
+                  "Nocturne",
+                  "Syndra",
+                  "Lee Sin",
+                  "Qiyana"
+                ],
+                "IG": [
+                  "Cassiopeia",
+                  "Olaf",
+                  "Jarvan IV",
+                  "Akali",
+                  "Ezreal"
+                ]
+              }
+            },
+            {
+              "seq_prob": 8.081817526515524e-10,
+              "win_a": 0.4015,
+              "draft_delta_logit": -0.093,
+              "picks": {
+                "LYON": [
+                  "Gnar",
+                  "Wukong",
+                  "Syndra",
+                  "Yunara",
+                  "Lulu"
+                ],
+                "IG": [
+                  "K'Sante",
+                  "Naafiri",
+                  "Orianna",
+                  "Ezreal",
+                  "Seraphine"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Vi",
+                  "Nocturne",
+                  "Rumble",
+                  "Lee Sin",
+                  "Qiyana"
+                ],
+                "IG": [
+                  "Cassiopeia",
+                  "Olaf",
+                  "Jarvan IV",
+                  "Akali",
+                  "Nautilus"
+                ]
+              }
+            },
+            {
+              "seq_prob": 4.286293301112051e-10,
+              "win_a": 0.4019,
+              "draft_delta_logit": -0.092,
+              "picks": {
+                "LYON": [
+                  "Gnar",
+                  "Xin Zhao",
+                  "Syndra",
+                  "Yunara",
+                  "Lulu"
+                ],
+                "IG": [
+                  "K'Sante",
+                  "Naafiri",
+                  "Orianna",
+                  "Ezreal",
+                  "Seraphine"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Vi",
+                  "Nocturne",
+                  "Rumble",
+                  "Lee Sin",
+                  "Qiyana"
+                ],
+                "IG": [
+                  "Cassiopeia",
+                  "Olaf",
+                  "Jarvan IV",
+                  "Akali",
+                  "Nautilus"
+                ]
+              }
+            }
+          ],
+          "role_pick_marginals": {
+            "LYON": {
+              "TOP": [
+                {
+                  "champ": "K'Sante",
+                  "p": 0.607
+                },
+                {
+                  "champ": "Gnar",
+                  "p": 0.178
+                },
+                {
+                  "champ": "Renekton",
+                  "p": 0.08
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Wukong",
+                  "p": 0.416
+                },
+                {
+                  "champ": "Xin Zhao",
+                  "p": 0.262
+                },
+                {
+                  "champ": "Lee Sin",
+                  "p": 0.106
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Syndra",
+                  "p": 0.373
+                },
+                {
+                  "champ": "Ryze",
+                  "p": 0.266
+                },
+                {
+                  "champ": "Locke",
+                  "p": 0.154
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Yunara",
+                  "p": 0.551
+                },
+                {
+                  "champ": "Lucian",
+                  "p": 0.206
+                },
+                {
+                  "champ": "Ezreal",
+                  "p": 0.201
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Lulu",
+                  "p": 0.484
+                },
+                {
+                  "champ": "Renata Glasc",
+                  "p": 0.4
+                },
+                {
+                  "champ": "Alistar",
+                  "p": 0.096
+                }
+              ]
+            },
+            "IG": {
+              "TOP": [
+                {
+                  "champ": "Rumble",
+                  "p": 0.323
+                },
+                {
+                  "champ": "Gnar",
+                  "p": 0.24
+                },
+                {
+                  "champ": "Camille",
+                  "p": 0.181
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Jarvan IV",
+                  "p": 0.336
+                },
+                {
+                  "champ": "Lee Sin",
+                  "p": 0.246
+                },
+                {
+                  "champ": "Qiyana",
+                  "p": 0.12
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Orianna",
+                  "p": 0.706
+                },
+                {
+                  "champ": "Syndra",
+                  "p": 0.127
+                },
+                {
+                  "champ": "Viktor",
+                  "p": 0.069
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Ashe",
+                  "p": 0.473
+                },
+                {
+                  "champ": "Jhin",
+                  "p": 0.172
+                },
+                {
+                  "champ": "Ezreal",
+                  "p": 0.154
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Seraphine",
+                  "p": 0.571
+                },
+                {
+                  "champ": "Lulu",
+                  "p": 0.316
+                },
+                {
+                  "champ": "Alistar",
+                  "p": 0.054
+                }
+              ]
+            }
+          }
+        },
+        {
+          "game": 2,
+          "p_reached": 1.0,
+          "p_win_a_sim": 0.3806,
+          "assumed_sides": "IG blue",
+          "fearless_locked_before": 10,
+          "top_drafts": [
+            {
+              "seq_prob": 1.5356516625999911e-09,
+              "win_a": 0.3745,
+              "draft_delta_logit": 0.143,
+              "picks": {
+                "LYON": [
+                  "Gnar",
+                  "Xin Zhao",
+                  "Locke",
+                  "Ezreal",
+                  "Renata Glasc"
+                ],
+                "IG": [
+                  "Camille",
+                  "Jarvan IV",
+                  "Viktor",
+                  "Jhin",
+                  "Alistar"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "Lee Sin",
+                  "Qiyana"
+                ],
+                "IG": [
+                  "Vi",
+                  "Olaf",
+                  "Akali",
+                  "Nautilus",
+                  "Karma"
+                ]
+              }
+            },
+            {
+              "seq_prob": 6.749188820228283e-10,
+              "win_a": 0.3527,
+              "draft_delta_logit": 0.049,
+              "picks": {
+                "LYON": [
+                  "Gnar",
+                  "Xin Zhao",
+                  "Locke",
+                  "Lucian",
+                  "Renata Glasc"
+                ],
+                "IG": [
+                  "Camille",
+                  "Jarvan IV",
+                  "Viktor",
+                  "Ezreal",
+                  "Alistar"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "Lee Sin",
+                  "Qiyana"
+                ],
+                "IG": [
+                  "Vi",
+                  "Olaf",
+                  "Akali",
+                  "Nautilus",
+                  "Karma"
+                ]
+              }
+            },
+            {
+              "seq_prob": 6.690928878273572e-10,
+              "win_a": 0.3793,
+              "draft_delta_logit": 0.163,
+              "picks": {
+                "LYON": [
+                  "Renekton",
+                  "Xin Zhao",
+                  "Locke",
+                  "Ezreal",
+                  "Renata Glasc"
+                ],
+                "IG": [
+                  "Gnar",
+                  "Jarvan IV",
+                  "Viktor",
+                  "Jhin",
+                  "Alistar"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Syndra",
+                  "Lee Sin",
+                  "Qiyana"
+                ],
+                "IG": [
+                  "Vi",
+                  "Olaf",
+                  "Akali",
+                  "Nautilus",
+                  "Karma"
+                ]
+              }
+            }
+          ],
+          "role_pick_marginals": {
+            "LYON": {
+              "TOP": [
+                {
+                  "champ": "Renekton",
+                  "p": 0.272
+                },
+                {
+                  "champ": "Gnar",
+                  "p": 0.169
+                },
+                {
+                  "champ": "K'Sante",
+                  "p": 0.135
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Xin Zhao",
+                  "p": 0.325
+                },
+                {
+                  "champ": "Wukong",
+                  "p": 0.319
+                },
+                {
+                  "champ": "Lee Sin",
+                  "p": 0.103
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Ryze",
+                  "p": 0.293
+                },
+                {
+                  "champ": "Locke",
+                  "p": 0.154
+                },
+                {
+                  "champ": "Viktor",
+                  "p": 0.147
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Lucian",
+                  "p": 0.422
+                },
+                {
+                  "champ": "Kalista",
+                  "p": 0.212
+                },
+                {
+                  "champ": "Ezreal",
+                  "p": 0.157
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Alistar",
+                  "p": 0.375
+                },
+                {
+                  "champ": "Renata Glasc",
+                  "p": 0.347
+                },
+                {
+                  "champ": "Lulu",
+                  "p": 0.092
+                }
+              ]
+            },
+            "IG": {
+              "TOP": [
+                {
+                  "champ": "Camille",
+                  "p": 0.289
+                },
+                {
+                  "champ": "Gnar",
+                  "p": 0.221
+                },
+                {
+                  "champ": "Rumble",
+                  "p": 0.189
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Qiyana",
+                  "p": 0.31
+                },
+                {
+                  "champ": "Jarvan IV",
+                  "p": 0.179
+                },
+                {
+                  "champ": "Lee Sin",
+                  "p": 0.155
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Viktor",
+                  "p": 0.238
+                },
+                {
+                  "champ": "Orianna",
+                  "p": 0.218
+                },
+                {
+                  "champ": "Annie",
+                  "p": 0.155
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Jhin",
+                  "p": 0.304
+                },
+                {
+                  "champ": "Ashe",
+                  "p": 0.294
+                },
+                {
+                  "champ": "Ezreal",
+                  "p": 0.141
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Seraphine",
+                  "p": 0.27
+                },
+                {
+                  "champ": "Alistar",
+                  "p": 0.217
+                },
+                {
+                  "champ": "Karma",
+                  "p": 0.141
+                }
+              ]
+            }
+          }
+        },
+        {
+          "game": 3,
+          "p_reached": 0.462,
+          "p_win_a_sim": 0.3931,
+          "assumed_sides": "IG blue",
+          "fearless_locked_before": 20,
+          "top_drafts": [
+            {
+              "seq_prob": 1.5233648819693438e-09,
+              "win_a": 0.3063,
+              "draft_delta_logit": -0.162,
+              "picks": {
+                "LYON": [
+                  "Renekton",
+                  "Skarner",
+                  "Sylas",
+                  "Lucian",
+                  "Karma"
+                ],
+                "IG": [
+                  "Ambessa",
+                  "Qiyana",
+                  "Syndra",
+                  "Kalista",
+                  "Nautilus"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Lee Sin",
+                  "Galio",
+                  "Jayce"
+                ],
+                "IG": [
+                  "Vi",
+                  "Olaf",
+                  "Akali",
+                  "Pantheon",
+                  "Ahri"
+                ]
+              }
+            },
+            {
+              "seq_prob": 5.643664356665102e-10,
+              "win_a": 0.3074,
+              "draft_delta_logit": -0.157,
+              "picks": {
+                "LYON": [
+                  "Renekton",
+                  "Skarner",
+                  "Sylas",
+                  "Lucian",
+                  "Karma"
+                ],
+                "IG": [
+                  "Trundle",
+                  "Qiyana",
+                  "Syndra",
+                  "Kalista",
+                  "Nautilus"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Lee Sin",
+                  "Galio",
+                  "Jayce"
+                ],
+                "IG": [
+                  "Vi",
+                  "Olaf",
+                  "Akali",
+                  "Pantheon",
+                  "Ahri"
+                ]
+              }
+            },
+            {
+              "seq_prob": 5.376638455347254e-10,
+              "win_a": 0.31,
+              "draft_delta_logit": -0.145,
+              "picks": {
+                "LYON": [
+                  "Renekton",
+                  "Skarner",
+                  "Annie",
+                  "Lucian",
+                  "Karma"
+                ],
+                "IG": [
+                  "Ambessa",
+                  "Qiyana",
+                  "Syndra",
+                  "Kalista",
+                  "Nautilus"
+                ]
+              },
+              "bans": {
+                "LYON": [
+                  "Cassiopeia",
+                  "Nocturne",
+                  "Lee Sin",
+                  "Galio",
+                  "Jayce"
+                ],
+                "IG": [
+                  "Vi",
+                  "Olaf",
+                  "Akali",
+                  "Pantheon",
+                  "Ahri"
+                ]
+              }
+            }
+          ],
+          "role_pick_marginals": {
+            "LYON": {
+              "TOP": [
+                {
+                  "champ": "Renekton",
+                  "p": 0.32
+                },
+                {
+                  "champ": "Gwen",
+                  "p": 0.209
+                },
+                {
+                  "champ": "Galio",
+                  "p": 0.081
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Xin Zhao",
+                  "p": 0.265
+                },
+                {
+                  "champ": "Skarner",
+                  "p": 0.209
+                },
+                {
+                  "champ": "Wukong",
+                  "p": 0.16
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Ryze",
+                  "p": 0.203
+                },
+                {
+                  "champ": "Locke",
+                  "p": 0.189
+                },
+                {
+                  "champ": "Akali",
+                  "p": 0.138
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Kalista",
+                  "p": 0.372
+                },
+                {
+                  "champ": "Lucian",
+                  "p": 0.209
+                },
+                {
+                  "champ": "Caitlyn",
+                  "p": 0.097
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Milio",
+                  "p": 0.426
+                },
+                {
+                  "champ": "Karma",
+                  "p": 0.179
+                },
+                {
+                  "champ": "Renata Glasc",
+                  "p": 0.13
+                }
+              ]
+            },
+            "IG": {
+              "TOP": [
+                {
+                  "champ": "Camille",
+                  "p": 0.351
+                },
+                {
+                  "champ": "Jayce",
+                  "p": 0.162
+                },
+                {
+                  "champ": "Ambessa",
+                  "p": 0.093
+                }
+              ],
+              "JUNGLE": [
+                {
+                  "champ": "Naafiri",
+                  "p": 0.316
+                },
+                {
+                  "champ": "Maokai",
+                  "p": 0.196
+                },
+                {
+                  "champ": "Qiyana",
+                  "p": 0.186
+                }
+              ],
+              "MID": [
+                {
+                  "champ": "Annie",
+                  "p": 0.194
+                },
+                {
+                  "champ": "Viktor",
+                  "p": 0.175
+                },
+                {
+                  "champ": "Galio",
+                  "p": 0.162
+                }
+              ],
+              "BOT": [
+                {
+                  "champ": "Jhin",
+                  "p": 0.288
+                },
+                {
+                  "champ": "Caitlyn",
+                  "p": 0.182
+                },
+                {
+                  "champ": "Kalista",
+                  "p": 0.156
+                }
+              ],
+              "SUPPORT": [
+                {
+                  "champ": "Nautilus",
+                  "p": 0.246
+                },
+                {
+                  "champ": "Karma",
+                  "p": 0.242
+                },
+                {
+                  "champ": "Rakan",
+                  "p": 0.118
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "adversarial_review": [
+        "Fearless: later-game drafts depend on earlier picks; G2/G3 draft trees are wide (top-draft probabilities are small)",
+        "Draft score is capped at +/-0.45 logit and regularised; drafts move map odds modestly by design",
+        "Lineups inferred from official roster + latest pro games (Leaguepedia unavailable/rate-limited)"
+      ]
+    }
+  ],
+  "frozen_at_utc": "2026-10-28T07:50:13.941029Z",
+  "frozen_at_et": "2026-10-28 03:50:13 AM ET",
+  "sha256": "d9909518b5ffc31f8dbd258ab062a4845e8656b4e48ec3144408129aed43df11"
+}

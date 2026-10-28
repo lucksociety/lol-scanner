@@ -25,3 +25,5 @@ EDGE_DIR = ROOT / "edge_log"
 CACHE_DIR = ROOT / ".cache"
 DOCS_DIR = ROOT / "docs"
 CALIB_FILE = ROOT / "calibration" / "calibration_log.csv"
+
+MODEL_VERSION = os.environ.get("LOL_SCANNER_MODEL", "v2")   # primary model for edge/dashboard/grade ("v1" or "v2")

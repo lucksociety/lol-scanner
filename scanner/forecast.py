@@ -21,8 +21,21 @@ def canonical_hash(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-def frozen_path(date):
-    return config.FORECAST_DIR / f"{date}.json"
+VERSION_SUFFIX = {"v1": "", "v2": ".v2"}
+
+
+def version_of(body):
+    return "v2" if str(body.get("model_version", "")).startswith("v2") else "v1"
+
+
+def frozen_path(date, version=None):
+    """v1 -> forecast_log/<date>.json (unchanged); v2 -> forecast_log/<date>.v2.json.
+    version=None resolves to the primary model (config.MODEL_VERSION) if frozen, else the v1 file."""
+    if version is None:
+        v = config.MODEL_VERSION
+        p = config.FORECAST_DIR / f"{date}{VERSION_SUFFIX[v]}.json"
+        return p if p.exists() else config.FORECAST_DIR / f"{date}.json"
+    return config.FORECAST_DIR / f"{date}{VERSION_SUFFIX[version]}.json"
 
 
 def _et_date(iso):
@@ -108,7 +121,7 @@ def build_forecast(date, now=None, events=None):
 def freeze(body, now=None):
     """Write the forecast once. Refuses to overwrite an existing frozen file."""
     now = now or datetime.now(timezone.utc)
-    p = frozen_path(body["date"])
+    p = frozen_path(body["date"], version_of(body))
     if p.exists():
         raise FileExistsError(f"{p} already frozen; forecasts are immutable")
     config.FORECAST_DIR.mkdir(parents=True, exist_ok=True)
@@ -120,15 +133,16 @@ def freeze(body, now=None):
     with open(config.FORECAST_DIR / "forecast_log.jsonl", "a") as f:
         f.write(json.dumps({"event": "FROZEN", "date": body["date"], "frozen_at_utc": body["frozen_at_utc"],
                             "sha256": body["sha256"], "n_series": len(body["cards"]),
+                            "model_version": body.get("model_version"), "file": p.name,
                             "locks": {c["match_id"]: f'{c["team_a"]["code"]} vs {c["team_b"]["code"]} -> {c["sim"]["locked_score"]}'
                                       for c in body["cards"]},
                             "market_inputs_to_forecast": "NONE"}) + "\n")
     return body
 
 
-def load_frozen(date):
+def load_frozen(date, version=None):
     """Read-only loader with hash verification (used by edge.py and dashboard.py)."""
-    body = json.loads(frozen_path(date).read_text())
+    body = json.loads(frozen_path(date, version).read_text())
     want = body.get("sha256")
     got = canonical_hash({k: v for k, v in body.items() if k != "sha256"})
     if not body.get("frozen_at_utc") or want != got:

@@ -23,16 +23,24 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-latest
+    timeout-minutes: 120   # first run with a cold gol.gg cache crawls ~2k game pages; later runs are incremental
     env:
       LOLESPORTS_API_KEY: ${{ secrets.LOLESPORTS_API_KEY }}
       JUP_API_KEY: ${{ secrets.JUP_API_KEY }}
       TZ: America/New_York
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      # Node 24 action majors (Node 20 actions are deprecated on GitHub-hosted runners)
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
+      - name: Restore gol.gg / Data Dragon cache (model v2 corpus; never committed)
+        uses: actions/cache@v5
+        with:
+          path: .cache
+          key: scanner-cache-${{ github.run_id }}
+          restore-keys: scanner-cache-
       - run: pip install -r requirements.txt
       - name: Unit tests
         run: python -m pytest -q tests
@@ -42,10 +50,10 @@ jobs:
           D="${{ github.event.inputs.date }}"
           if [ -z "$D" ]; then D=$(TZ=America/New_York date +%F); fi
           echo "date=$D" >> "$GITHUB_OUTPUT"
-      - name: Grade yesterday + 1) FORECAST (frozen before any odds are fetched)
+      - name: Grade yesterday + 1) FORECAST (model v2 primary + v1 baseline; frozen before any odds are fetched)
         run: |
           python -m scanner --date "${{ steps.d.outputs.date }}" --stage grade
-          python -m scanner --date "${{ steps.d.outputs.date }}" --stage forecast
+          python -m scanner --date "${{ steps.d.outputs.date }}" --stage forecast --model v2
       - name: Commit frozen forecast first (timestamped in git history before odds exist)
         run: |
           git config user.name "lol-scanner-bot"
@@ -53,10 +61,10 @@ jobs:
           git add forecast_log calibration || true
           git diff --cached --quiet || git commit -m "forecast: freeze ${{ steps.d.outputs.date }}"
       - name: 2) POST-FORECAST edge layer (Jupiter odds)
-        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage edge
+        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage edge --model v2
         continue-on-error: true
       - name: 3) Dashboard
-        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage dashboard
+        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage dashboard --model v2
       - name: Commit odds snapshot + dashboard
         run: |
           git add odds_snapshots edge_log docs || true

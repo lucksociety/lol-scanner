@@ -196,7 +196,15 @@ def evaluate(card, ev, obs):
         label, kind, side_is_a, line, g = c
         f = outcome_fn(kind, side_is_a, line, g, bo)
         if kind == "game":
-            pa = game_prob(card["model"]["p_map_a"]); q = pa if side_is_a else 1 - pa
+            pg = (sim.get("p_game_a") or [None] * bo)[(g or 1) - 1] if g and g <= bo else None
+            reach = (sim.get("p_game_reached") or [1.0] * bo)[(g or 1) - 1] if g and g <= bo else 1.0
+            if pg is not None:
+                pa = pg   # v2: frozen per-game probability straight from the draft-path simulation
+                q = pa if side_is_a else 1 - pa
+                if reach < 1.0:
+                    q = q * reach   # game may not be played; treat as no-cash (conservative)
+            else:
+                pa = game_prob(card["model"]["p_map_a"]); q = pa if side_is_a else 1 - pa
         else:
             q = prob_from_exact(exact, f)
         cost = ask + fee(ask)
@@ -231,10 +239,13 @@ def evaluate(card, ev, obs):
     return legs, best, best_any
 
 
-def run(date):
-    if not frozen_path(date).exists():
+def run(date, version=None):
+    if version and not frozen_path(date, version).exists():
+        version = None
+    if not frozen_path(date, version).exists():
         raise SystemExit(f"edge.py: no frozen forecast for {date}; run the forecast stage first")
-    fc = load_frozen(date)  # hash-verified, read-only
+    fc = load_frozen(date, version)  # hash-verified, read-only
+    ver = "v2" if str(fc.get("model_version", "")).startswith("v2") else "v1"
     frozen_at = datetime.fromisoformat(fc["frozen_at_utc"].replace("Z", "+00:00"))
     fetched = datetime.now(timezone.utc)
     assert fetched > frozen_at, "odds fetch must happen strictly after the forecast freeze"
@@ -278,6 +289,7 @@ def run(date):
     snap_dir = config.ODDS_DIR / date; snap_dir.mkdir(parents=True, exist_ok=True)
     snap_file = snap_dir / f"{stamp}.json"
     snap_file.write_text(json.dumps({"fetched_at_utc": fetched.isoformat(), "forecast_sha256": fc["sha256"],
+                                     "forecast_model_version": fc.get("model_version"),
                                      "forecast_frozen_at_utc": fc["frozen_at_utc"], "source": config.JUP_BASE,
                                      "events": raw}, separators=(",", ":")))
     with open(config.ODDS_DIR / "odds_log.jsonl", "a") as f:
@@ -289,6 +301,7 @@ def run(date):
                                     "our_prob": l["our_prob"]}) + "\n")
     cov = f"{sum(r['status'] == 'ok' for r in rows)}/{len(rows)} series"
     out = {"date": date, "label": "POST-FORECAST EDGE LAYER (market data; not an input to the forecast)",
+           "forecast_model_version": fc.get("model_version"), "forecast_file": frozen_path(date, version).name,
            "forecast_sha256": fc["sha256"], "forecast_frozen_at_utc": fc["frozen_at_utc"],
            "odds_fetched_at_utc": fetched.isoformat(),
            "odds_fetched_at_et": fetched.astimezone(ET).strftime("%Y-%m-%d %I:%M:%S %p ET"),
@@ -297,6 +310,6 @@ def run(date):
            "jupiter_lol_events_listed": [{"id": e["eventId"], "title": e["metadata"].get("title")} for e in events],
            "fee_model": f"{config.JUP_FEE_COEF} * p * (1-p) per $1 contract", "series": rows}
     config.EDGE_DIR.mkdir(parents=True, exist_ok=True)
-    (config.EDGE_DIR / f"{date}.json").write_text(json.dumps(out, indent=2))
+    (config.EDGE_DIR / f"{date}{'.v2' if ver == 'v2' else ''}.json").write_text(json.dumps(out, indent=2))
     out["snapshot_file"] = str(snap_file.relative_to(config.ROOT))
     return out
