@@ -9,6 +9,14 @@
    The workflow freezes the forecast first, then fetches Jupiter odds (post-forecast), rebuilds the dashboard and
    PATCHes `webhooks/{app_id}/{token}/messages/@original`. Past Discord's 15-minute token window it posts to the channel with the bot token.
 
+Date picker: the `date` option uses Discord **autocomplete** (Discord has no native date picker). The Worker answers
+type-4 autocomplete requests with up to 25 type-8 choices computed in America/New_York: `Today · Wed Oct 28`,
+`Tomorrow · Thu Oct 29`, `Yesterday · Tue Oct 27`, the next 14 days, then the past 7 (value = `YYYY-MM-DD`).
+Typing filters by label (`tom`, `nov`, `fri`) or by date (`2026-11-05`, `11-05`, `12/25`; a valid date outside the window is
+still offered). A manually typed `YYYY-MM-DD` is still accepted; blank = today ET. Autocomplete from other servers or DMs
+gets an empty list. Choices are computed locally (no network), so they return well inside Discord's 3-second limit;
+series counts are not shown because the Worker has no cached schedule to read cheaply.
+
 Server lock: `/lol` is a **guild command** registered only in the Luck Society server (`780172495268610059`); there is no
 global command. The Worker also rejects any interaction whose `guild_id` is not `ALLOWED_GUILD_ID` (other servers and DMs
 get a private "only available in the Luck Society server" reply; it fails closed if the var is unset), and the workflow

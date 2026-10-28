@@ -3,8 +3,8 @@
 // 3) defers /lol (type 5) and dispatches the GitHub workflow that runs the scanner and edits the deferred reply.
 // Secrets: env.GITHUB_TOKEN (wrangler secret). Nothing secret lives in this file.
 
-const PING = 1, APPLICATION_COMMAND = 2;
-const PONG = 1, DEFERRED_CHANNEL_MESSAGE = 5, CHANNEL_MESSAGE = 4;
+const PING = 1, APPLICATION_COMMAND = 2, APPLICATION_COMMAND_AUTOCOMPLETE = 4;
+const PONG = 1, DEFERRED_CHANNEL_MESSAGE = 5, CHANNEL_MESSAGE = 4, AUTOCOMPLETE_RESULT = 8;
 const EPHEMERAL = 64;
 const MAX_SKEW_S = 300;
 
@@ -34,8 +34,47 @@ function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json" } });
 }
 
-function todayET() {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+export function todayET(now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
+}
+
+// Calendar-date helpers: a YYYY-MM-DD is treated as a plain date (UTC midnight) so adding days never hits DST edges.
+function addDays(ymd, n) {
+  const d = new Date(ymd + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+function pretty(ymd) {
+  return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", weekday: "short", month: "short", day: "numeric" })
+    .format(new Date(ymd + "T00:00:00Z")).replace(",", "");
+}
+export function validYMD(v) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
+  const d = new Date(v + "T00:00:00Z");
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === v;   // rejects 2026-02-30
+}
+
+// Autocomplete choices for the `date` option, computed in America/New_York. Max 25 (Discord limit).
+export function dateChoices(typed = "", now = new Date()) {
+  const t = todayET(now);
+  const all = [
+    { name: `Today · ${pretty(t)}`, value: t },
+    { name: `Tomorrow · ${pretty(addDays(t, 1))}`, value: addDays(t, 1) },
+    { name: `Yesterday · ${pretty(addDays(t, -1))}`, value: addDays(t, -1) },
+  ];
+  for (let i = 2; i <= 15; i++) all.push({ name: pretty(addDays(t, i)), value: addDays(t, i) });     // next 14 days
+  for (let i = 2; i <= 8; i++) all.push({ name: pretty(addDays(t, -i)), value: addDays(t, -i) });    // past 7 days
+  const q = String(typed || "").trim().toLowerCase();
+  if (!q) return all.slice(0, 25);
+  let exact = null;
+  if (validYMD(q)) exact = q;
+  else if (/^\d{1,2}[-/]\d{1,2}$/.test(q)) {                      // MM-DD or M/D -> this year in ET
+    const [m, d] = q.split(/[-/]/).map((x) => x.padStart(2, "0"));
+    const v = `${t.slice(0, 4)}-${m}-${d}`;
+    if (validYMD(v)) exact = v;
+  }
+  const hits = all.filter((c) => c.name.toLowerCase().includes(q) || c.value.includes(q) || c.value === exact);
+  if (exact && !hits.some((c) => c.value === exact)) hits.unshift({ name: `${pretty(exact)} ${exact.slice(0, 4)}`, value: exact });
+  return hits.slice(0, 25);
 }
 
 async function dispatch(env, inputs) {
@@ -72,6 +111,13 @@ export default {
     const it = JSON.parse(body);
     if (it.type === PING) return json({ type: PONG });
 
+    if (it.type === APPLICATION_COMMAND_AUTOCOMPLETE) {
+      if (!guildAllowed(env, it)) return json({ type: AUTOCOMPLETE_RESULT, data: { choices: [] } });
+      const focused = (it.data?.options || []).find((o) => o.focused);
+      const choices = focused?.name === "date" ? dateChoices(focused.value) : [];
+      return json({ type: AUTOCOMPLETE_RESULT, data: { choices } });
+    }
+
     if (it.type === APPLICATION_COMMAND && !guildAllowed(env, it)) {
       console.log(JSON.stringify({ level: "warn", msg: "rejected guild", guild: it.guild_id || "DM" }));
       return json({ type: CHANNEL_MESSAGE, data: { content: "🍀 /lol is only available in the Luck Society server.", flags: EPHEMERAL } });
@@ -80,7 +126,7 @@ export default {
     if (it.type === APPLICATION_COMMAND && it.data?.name === "lol") {
       const opt = (it.data.options || []).find((o) => o.name === "date");
       const date = (opt?.value || "").trim() || todayET();
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date + "T00:00:00Z")))
+      if (!validYMD(date))
         return json({ type: CHANNEL_MESSAGE, data: { content: "🍀 Date must be YYYY-MM-DD (America/New_York), e.g. 2026-10-28.", flags: EPHEMERAL } });
       const inputs = {
         date,
