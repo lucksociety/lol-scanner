@@ -1,0 +1,1158 @@
+{
+"POLY-1270992": [
+{
+"marketId": "POLY-6337341-0",
+"sportsMarketType": "moneyline",
+"title": "Ground Zero Gaming",
+"sportsLine": null,
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 560000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win the match against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win the match against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337342-1",
+"sportsMarketType": "totals",
+"title": "Under",
+"sportsLine": "3.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 250000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Over\" if Ground Zero Gaming and Frank Esports play 4 or more games in this series.\n\nIf fewer than 4 games are played, this market will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6337337-0",
+"sportsMarketType": "child_moneyline",
+"title": "Ground Zero Gaming",
+"sportsLine": "1",
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 1 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 1 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337337-1",
+"sportsMarketType": "child_moneyline",
+"title": "Frank Esports",
+"sportsLine": "1",
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 1 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 1 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337338-0",
+"sportsMarketType": "child_moneyline",
+"title": "Ground Zero Gaming",
+"sportsLine": "2",
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 2 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 2 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337338-1",
+"sportsMarketType": "child_moneyline",
+"title": "Frank Esports",
+"sportsLine": "2",
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 2 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 2 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337339-0",
+"sportsMarketType": "child_moneyline",
+"title": "Ground Zero Gaming",
+"sportsLine": "3",
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 3 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 3 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337339-1",
+"sportsMarketType": "child_moneyline",
+"title": "Frank Esports",
+"sportsLine": "3",
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 3 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 3 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337340-0",
+"sportsMarketType": "child_moneyline",
+"title": "Ground Zero Gaming",
+"sportsLine": "4",
+"gameNumber": 4,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 4 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 4 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337340-1",
+"sportsMarketType": "child_moneyline",
+"title": "Frank Esports",
+"sportsLine": "4",
+"gameNumber": 4,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win Game 4 against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win Game 4 against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337341-1",
+"sportsMarketType": "moneyline",
+"title": "Frank Esports",
+"sportsLine": null,
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 440000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming win the match against Frank Esports.\n\nThis market will resolve to \"Frank Esports\" if Frank Esports win the match against Ground Zero Gaming."
+},
+{
+"marketId": "POLY-6337342-0",
+"sportsMarketType": "totals",
+"title": "Over",
+"sportsLine": "3.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 750000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Over\" if Ground Zero Gaming and Frank Esports play 4 or more games in this series.\n\nIf fewer than 4 games are played, this market will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6337343-0",
+"sportsMarketType": "totals",
+"title": "Over",
+"sportsLine": "4.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Over\" if Ground Zero Gaming and Frank Esports play 5 or more games in this series.\n\nIf fewer than 5 games are played, this market will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6337343-1",
+"sportsMarketType": "totals",
+"title": "Under",
+"sportsLine": "4.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Over\" if Ground Zero Gaming and Frank Esports play 5 or more games in this series.\n\nIf fewer than 5 games are played, this market will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6337345-0",
+"sportsMarketType": "map_handicap",
+"title": "Ground Zero Gaming",
+"sportsLine": "-1.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming wins 2 or more games than Frank Esports in this match.\n\nOtherwise, this market will resolve to \"Frank Esports\". "
+},
+{
+"marketId": "POLY-6337345-1",
+"sportsMarketType": "map_handicap",
+"title": "Frank Esports",
+"sportsLine": "-1.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming wins 2 or more games than Frank Esports in this match.\n\nOtherwise, this market will resolve to \"Frank Esports\". "
+},
+{
+"marketId": "POLY-6337346-0",
+"sportsMarketType": "map_handicap",
+"title": "Ground Zero Gaming",
+"sportsLine": "-2.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming wins 3 or more games than Frank Esports in this match.\n\nOtherwise, this market will resolve to \"Frank Esports\". "
+},
+{
+"marketId": "POLY-6337346-1",
+"sportsMarketType": "map_handicap",
+"title": "Frank Esports",
+"sportsLine": "-2.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 960000,
+"sellYesPriceUsd": 40000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 0
+},
+"rulesPrimary": "This market refers to the LoL Regional Merit match between Ground Zero Gaming and Frank Esports in the LCP Promotion Playoffs, initially scheduled for November 11, 2026 at 4:00 AM ET.\n\nThis market will resolve to \"Ground Zero Gaming\" if Ground Zero Gaming wins 3 or more games than Frank Esports in this match.\n\nOtherwise, this market will resolve to \"Frank Esports\". "
+},
+{
+"marketId": "POLY-6337347",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 1. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay Baron Nashor at least once during Game 1. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 1.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337348",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 1. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay at least one elemental dragon during Game 1. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 1. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337349",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 1. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each destroy at least one enemy inhibitor during Game 1. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337352",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 2. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay Baron Nashor at least once during Game 2. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 2.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337353",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 2. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay at least one elemental dragon during Game 2. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 2. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337354",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 2. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each destroy at least one enemy inhibitor during Game 2. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337358",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 3. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay Baron Nashor at least once during Game 3. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 3.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337359",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 3. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay at least one elemental dragon during Game 3. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 3. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337360",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 3. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each destroy at least one enemy inhibitor during Game 3. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337363",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 4,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 4. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay Baron Nashor at least once during Game 4. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 4.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337364",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 4,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 4. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay at least one elemental dragon during Game 4. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 4. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337366",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 4,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 4. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each destroy at least one enemy inhibitor during Game 4. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337369",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 5,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 5. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay Baron Nashor at least once during Game 5. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 5.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337370",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 5,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 5. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each slay at least one elemental dragon during Game 5. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 5. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337371",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 5,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 970000,
+"sellYesPriceUsd": 30000,
+"sellNoPriceUsd": 30000,
+"buyNoPriceUsd": 970000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 5. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Ground Zero Gaming and Frank Esports each destroy at least one enemy inhibitor during Game 5. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337350",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 1. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 1. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337351",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 1. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 1. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337356",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 2. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 2. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337357",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 2. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 2. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337361",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 3. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 3. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337362",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 3. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 3. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337367",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 4,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 4. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 4. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337368",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 4,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 4. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 4. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337372",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 5,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 5. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 5. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6337373",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 5,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 980000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 20000,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 5. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 5. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+}
+],
+"POLY-1262496": [
+{
+"marketId": "POLY-6280198-0",
+"sportsMarketType": "moneyline",
+"title": "Invictus Gaming",
+"sportsLine": null,
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 670000,
+"sellYesPriceUsd": 660000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 273352
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming win the match against LYON.\n\nThis market will resolve to \"LYON\" if LYON win the match against Invictus Gaming."
+},
+{
+"marketId": "POLY-6280196-0",
+"sportsMarketType": "child_moneyline",
+"title": "Invictus Gaming",
+"sportsLine": "1",
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 620000,
+"sellYesPriceUsd": 610000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 2323
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming win Game 1 against LYON.\n\nThis market will resolve to \"LYON\" if LYON win Game 1 against Invictus Gaming."
+},
+{
+"marketId": "POLY-6280197-0",
+"sportsMarketType": "child_moneyline",
+"title": "Invictus Gaming",
+"sportsLine": "2",
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 620000,
+"sellYesPriceUsd": 610000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 7355
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming win Game 2 against LYON.\n\nThis market will resolve to \"LYON\" if LYON win Game 2 against Invictus Gaming."
+},
+{
+"marketId": "POLY-6280200-1",
+"sportsMarketType": "map_handicap",
+"title": "LYON",
+"sportsLine": "-1.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 620000,
+"sellYesPriceUsd": 610000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 28317
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming wins 2 or more games than LYON in this match.\n\nOtherwise, this market will resolve to \"LYON\". "
+},
+{
+"marketId": "POLY-6280199-1",
+"sportsMarketType": "totals",
+"title": "Under",
+"sportsLine": "2.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 540000,
+"sellYesPriceUsd": 530000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 9980
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Over\" if Invictus Gaming and LYON play 3 or more games in this series.\n\nIf fewer than 3 games are played, this market will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6326891-0",
+"sportsMarketType": "kill_over_under_game",
+"title": "Over",
+"sportsLine": "27.5",
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 540000,
+"sellYesPriceUsd": 520000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 58
+},
+"rulesPrimary": "In the upcoming Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET:\n\nThis market is about the total kills in Game 2.\n\nThis market will resolve to \"Over\" if the total kills in Game 2 is 28 or more. Otherwise, it will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6326890-1",
+"sportsMarketType": "kill_over_under_game",
+"title": "Under",
+"sportsLine": "27.5",
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 520000,
+"sellYesPriceUsd": 510000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 4925
+},
+"rulesPrimary": "In the upcoming Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET:\n\nThis market is about the total kills in Game 1.\n\nThis market will resolve to \"Over\" if the total kills in Game 1 is 28 or more. Otherwise, it will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6326890-0",
+"sportsMarketType": "kill_over_under_game",
+"title": "Over",
+"sportsLine": "27.5",
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 490000,
+"sellYesPriceUsd": 480000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 4925
+},
+"rulesPrimary": "In the upcoming Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET:\n\nThis market is about the total kills in Game 1.\n\nThis market will resolve to \"Over\" if the total kills in Game 1 is 28 or more. Otherwise, it will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6280199-0",
+"sportsMarketType": "totals",
+"title": "Over",
+"sportsLine": "2.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 470000,
+"sellYesPriceUsd": 460000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 9980
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Over\" if Invictus Gaming and LYON play 3 or more games in this series.\n\nIf fewer than 3 games are played, this market will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6326891-1",
+"sportsMarketType": "kill_over_under_game",
+"title": "Under",
+"sportsLine": "27.5",
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 480000,
+"sellYesPriceUsd": 460000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 58
+},
+"rulesPrimary": "In the upcoming Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET:\n\nThis market is about the total kills in Game 2.\n\nThis market will resolve to \"Over\" if the total kills in Game 2 is 28 or more. Otherwise, it will resolve to \"Under\"."
+},
+{
+"marketId": "POLY-6280196-1",
+"sportsMarketType": "child_moneyline",
+"title": "LYON",
+"sportsLine": "1",
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 390000,
+"sellYesPriceUsd": 380000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 2323
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming win Game 1 against LYON.\n\nThis market will resolve to \"LYON\" if LYON win Game 1 against Invictus Gaming."
+},
+{
+"marketId": "POLY-6280197-1",
+"sportsMarketType": "child_moneyline",
+"title": "LYON",
+"sportsLine": "2",
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 390000,
+"sellYesPriceUsd": 380000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 7355
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming win Game 2 against LYON.\n\nThis market will resolve to \"LYON\" if LYON win Game 2 against Invictus Gaming."
+},
+{
+"marketId": "POLY-6280200-0",
+"sportsMarketType": "map_handicap",
+"title": "Invictus Gaming",
+"sportsLine": "-1.5",
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 390000,
+"sellYesPriceUsd": 380000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 28317
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming wins 2 or more games than LYON in this match.\n\nOtherwise, this market will resolve to \"LYON\". "
+},
+{
+"marketId": "POLY-6280198-1",
+"sportsMarketType": "moneyline",
+"title": "LYON",
+"sportsLine": null,
+"gameNumber": null,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 340000,
+"sellYesPriceUsd": 330000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 0,
+"volume": 273352
+},
+"rulesPrimary": "This market refers to the LoL Round 4 match between Invictus Gaming and LYON in the Worlds Group Stage, initially scheduled for October 28, 2026 at 7:00 PM ET.\n\nThis market will resolve to \"Invictus Gaming\" if Invictus Gaming win the match against LYON.\n\nThis market will resolve to \"LYON\" if LYON win the match against Invictus Gaming."
+},
+{
+"marketId": "POLY-6280202",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 20000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 980000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 1. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each slay at least one elemental dragon during Game 1. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 1. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280207",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 10000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 990000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 2. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each slay at least one elemental dragon during Game 2. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 2. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280212",
+"sportsMarketType": "lol_both_teams_dragon",
+"title": "Both Teams Slay a Dragon",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 10000,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 990000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay at least one elemental dragon during Game 3. In League of Legends, elemental dragons (Infernal, Mountain, Ocean, Hextech, Chemtech, and Cloud) spawn in the dragon pit starting at 5:00 game time. After being slain, the next dragon spawns 5 minutes later. Once a team claims the Dragon Soul (by slaying four dragons), all subsequent dragon spawns become Elder Dragons.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each slay at least one elemental dragon during Game 3. This market will resolve to \"No\" if either team (or both teams) does not slay any elemental dragon during Game 3. Only elemental dragons count toward this market \u2014 Elder Dragon kills do not count.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280201",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 990000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 10000,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 1. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each slay Baron Nashor at least once during Game 1. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 1.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280203",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 990000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 10000,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 1. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each destroy at least one enemy inhibitor during Game 1. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280204",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 1. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 1. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280205",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 1,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 1. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 1. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280206",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 990000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 10000,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 2. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each slay Baron Nashor at least once during Game 2. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 2.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280208",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 990000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 10000,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 2. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each destroy at least one enemy inhibitor during Game 2. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280209",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 2. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 2. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280210",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 2,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 2. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 2. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280211",
+"sportsMarketType": "lol_both_teams_baron",
+"title": "Both Teams Slay Baron Nashor",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 990000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 10000,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams slay the Baron Nashor at least once during Game 3. Baron Nashor is a powerful neutral objective in League of Legends that first spawns at 20:00 game time and respawns 6 minutes after each death, granting the slaying team the Hand of Baron buff.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each slay Baron Nashor at least once during Game 3. This market will resolve to \"No\" if either team (or both teams) does not slay Baron Nashor during Game 3.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280213",
+"sportsMarketType": "lol_both_teams_inhibitors",
+"title": "Both Teams Destroy Inhibitors",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 990000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 10000,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether both teams destroy at least one enemy inhibitor during Game 3. In League of Legends, each team has three inhibitors (one in each lane), located behind the inner turrets.\n\nThis market will resolve to \"Yes\" if both Invictus Gaming and LYON each destroy at least one enemy inhibitor during Game 3. This market will resolve to \"No\" if either team (or both teams) do not destroy any enemy inhibitors.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280214",
+"sportsMarketType": "lol_quadra_kill",
+"title": "Any Player Quadra Kill",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Quadra Kill during Game 3. In League of Legends, a Quadra Kill occurs when a single player kills 4 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Quadra Kill during Game 3. This market will resolve to \"No\" if no player achieves a Quadra Kill. A Penta Kill (5 kills in rapid succession) also counts as a Quadra Kill having occurred for the purposes of this market.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+},
+{
+"marketId": "POLY-6280215",
+"sportsMarketType": "lol_penta_kill",
+"title": "Any Player Penta Kill",
+"sportsLine": null,
+"gameNumber": 3,
+"status": "open",
+"pricing": {
+"buyYesPriceUsd": 1000000,
+"sellYesPriceUsd": 0,
+"sellNoPriceUsd": 0,
+"buyNoPriceUsd": 1000000,
+"volume": 0
+},
+"rulesPrimary": "This market is about whether any player achieves a Penta Kill during Game 3. In League of Legends, a Penta Kill occurs when a single player kills all 5 enemy champions in rapid succession.\n\nThis market will resolve to \"Yes\" if any player on either team achieves a Penta Kill during Game 3. This market will resolve to \"No\" if no player achieves a Penta Kill.\n\nIf the match is canceled (not played at all), this market will resolve to 50-50."
+}
+]
+}

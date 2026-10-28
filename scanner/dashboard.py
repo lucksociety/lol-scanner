@@ -146,6 +146,7 @@ def _edge_panel(c, r, snap_et=""):
                     f'<td>{l["ev_per_$1"]:+.3f}</td><td class="lk">{lk}</td><td>{l["volume"] or 0:,}</td></tr>')
     warn = "".join(f'<p class="warn">⚠ {E(w)}</p>' for w in r.get("warnings", []))
     ex = "" if r.get("exact_score_offered") else '<p class="muted">Exact-score market: not offered on Jupiter for this series.</p>'
+    ex += _not_modeled(r)
     b, a = r.get("best_bet"), r.get("best_ev_any")
     if b:
         m, sd = ev.market_side(b)
@@ -166,6 +167,28 @@ def _edge_panel(c, r, snap_et=""):
             'Our sim = v2 draft-path exact-score distribution; Ratings-only = v2 patch+lineup Elo without the draft layer (comparison only). '
             f'BEST BET = top +EV market that also cashes on the locked score.</p>{ex}'
             f'<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
+
+
+def _not_modeled(r):
+    """Every Jupiter market the sim cannot price is listed (never silently dropped)."""
+    inv = r.get("market_inventory") or {}
+    out = ""
+    if inv:
+        parts = [f'{E(t)} ×{v["markets"]}' + (f' (lines {E(", ".join(v["lines"]))})' if v["lines"] else "")
+                 + (f' (games {", ".join(map(str, v["games"]))})' if v["games"] else "") for t, v in inv.items()]
+        out += (f'<p class="muted">Jupiter market inventory: {r.get("n_markets", 0)} markets · {r.get("n_priced_legs", 0)} legs priced from the sim · '
+                f'{len(r.get("not_modeled") or [])} not modeled · ' + " · ".join(parts) + '</p>')
+    nm = r.get("not_modeled") or []
+    if nm:
+        p = lambda x: "–" if not x else f"{x:.2f}"
+        rows = "".join(f'<tr><td>{E(x["label"])}</td><td>{E(x["type"])}</td><td>{p(x["yes_ask"])}</td><td>{p(x["no_ask"])}</td>'
+                       f'<td>{x.get("volume") or 0:,}</td><td>{E(x["reason"])}</td></tr>' for x in nm)
+        out += (f'<details><summary>Not modeled: {len(nm)} Jupiter prop markets (listed, not priced)</summary><div class="tw"><table class="mk">'
+                '<tr><th>Market</th><th>Type</th><th>Yes ask</th><th>No ask</th><th>Vol</th><th>Why not priced</th></tr>'
+                + rows + '</table></div></details>')
+    for u in r.get("unpriced") or []:
+        out += f'<p class="muted">Unpriced: {E(u["label"])} ({E(u["reason"])})</p>'
+    return out
 
 
 def _slate(fc, erows, edge):

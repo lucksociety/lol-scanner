@@ -29,6 +29,9 @@ def ev_per_dollar(q, ask):
 # ---------------------------------------------------------------- display parsing
 def market_side(leg):
     lab, t = leg["label"], leg["type"]
+    if lab.startswith("NOT "):   # NO side of a single-id Yes/No market
+        m, sd = market_side({**leg, "label": lab[4:]})
+        return m, f"NOT {sd}"
     if t == "moneyline":
         return "Series moneyline", lab.split(" ", 1)[1]
     if t == "map_handicap":
@@ -73,10 +76,16 @@ def ratings_only_prob(leg, card):
     bo = card["bo"]
     A, B = card["team_a"]["code"], card["team_b"]["code"]
     t = leg["type"]
+    neg = leg["label"].startswith("NOT ")
+    lab = leg["label"][4:] if neg else leg["label"]
     if t == "game":
-        side_a = leg["label"].endswith(" " + A)
+        side_a = lab.endswith(" " + A)
+        g = int(lab.split(" ")[1])
+        reach = sum(v for k, v in ratings_only_exact(p, bo).items() if sum(map(int, k.split("-"))) >= g)
         pa = _edge.game_prob(p)
-        return pa if side_a else 1 - pa       # games 1..need are always played
+        q = reach * (pa if side_a else 1 - pa) + (1 - reach) * 0.5   # unplayed game resolves 50-50
+        return 1 - q if neg else q
+    leg = {**leg, "label": lab}
     side_a = None
     line = None
     if t == "moneyline":
@@ -88,7 +97,8 @@ def ratings_only_prob(leg, card):
     elif t == "exact":
         return None
     f = _edge.outcome_fn(t, side_a, line, None, bo)
-    return _edge.prob_from_exact(ratings_only_exact(p, bo), f)
+    q = _edge.prob_from_exact(ratings_only_exact(p, bo), f)
+    return 1 - q if neg else q
 
 
 def enrich(row, card):

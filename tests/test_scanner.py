@@ -33,7 +33,7 @@ def test_bo3_mapping_and_lock_rule():
         _mk("H-0", "map_handicap", "Alpha", .30, "-1.5", 'resolve to "Alpha" if Alpha wins 2 or more games than Beta'),
         _mk("H-1", "map_handicap", "Beta", .72, "-1.5", 'resolve to "Alpha" if Alpha wins 2 or more games than Beta'),
         _mk("T-0", "totals", "Over", .40, "2.5"), _mk("T-1", "totals", "Under", .62, "2.5")]}
-    legs, best, _ = edge.evaluate(c, ev, {})
+    legs, best, *_ = edge.evaluate(c, ev, {})
     by = {l["label"]: l for l in legs}
     assert by["AAA -1.5 maps"]["our_prob"] == pytest.approx(.40)
     assert by["BBB +1.5 maps"]["our_prob"] == pytest.approx(.60)
@@ -50,7 +50,7 @@ def test_pass_when_only_anti_lock_markets_are_plus_ev():
     ex = {"2-0": .30, "2-1": .25, "1-2": .25, "0-2": .20}
     c = _card(3, "2-0", ex)
     ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .80), _mk("M-1", "moneyline", "Beta", .22)]}
-    legs, best, best_any = edge.evaluate(c, ev, {})
+    legs, best, best_any, *_ = edge.evaluate(c, ev, {})
     assert best is None and best_any["label"] == "ML BBB"
 
 
@@ -58,7 +58,7 @@ def test_bo1_ignores_handicap_and_totals():
     c = _card(1, "1-0", {"1-0": .6, "0-1": .4})
     ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .5), _mk("M-1", "moneyline", "Beta", .52),
                       _mk("H-0", "map_handicap", "Alpha", .3, "-1.5"), _mk("T-0", "totals", "Over", .4, "2.5")]}
-    legs, best, _ = edge.evaluate(c, ev, {})
+    legs, best, *_ = edge.evaluate(c, ev, {})
     assert {l["type"] for l in legs} == {"moneyline"}
     assert best["label"] == "ML AAA"
 

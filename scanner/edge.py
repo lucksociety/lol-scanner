@@ -38,26 +38,57 @@ def _get(path, **params):
     raise last
 
 
-def fetch_lol_events(log):
-    """Primary: /events?category=esports&subcategory=lol. Fallback: full esports category filtered to lol."""
-    try:
-        d = _get("/events", category="esports", subcategory="lol", includeMarkets="true",
-                 includeAllMarkets="true", start=0, end=100)
-        log.append({"endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true", "ok": True,
-                    "n": len(d.get("data", []))})
-        if d.get("data"):
-            return d["data"]
-    except Exception as e:  # noqa
-        log.append({"endpoint": "GET /events?category=esports&subcategory=lol", "ok": False, "error": str(e)[:200]})
+def _paged(path, log, label, cap=3000, **params):
+    """GET a paginated Jupiter list endpoint until pagination.hasNext is false (never stops at end=100)."""
     out, s = [], 0
-    while s < 2000:
-        d = _get("/events", category="esports", includeMarkets="true", includeAllMarkets="true", start=s, end=s + 100)
-        out += [e for e in d.get("data", []) if e.get("subcategory") == "lol"]
-        if not d.get("pagination", {}).get("hasNext"):
+    while s < cap:
+        d = _get(path, start=s, end=s + 100, **params)
+        data = d.get("data", []) if isinstance(d, dict) else d
+        out += data
+        pg = d.get("pagination", {}) if isinstance(d, dict) else {}
+        if not pg.get("hasNext") or not data:
             break
         s += 100
-    log.append({"endpoint": "GET /events?category=esports (paged, filtered lol)", "ok": True, "n": len(out)})
+    log.append({"endpoint": label, "ok": True, "n": len(out)})
     return out
+
+
+def _is_lol_title(t):
+    t = (t or "").lower()
+    return t.startswith("lol:") or "league of legends" in t
+
+
+def fetch_lol_events(log):
+    """All LoL events, paginated: /events?category=esports&subcategory=lol (paged), plus a paged scan of the whole
+    esports category for LoL events that are not tagged subcategory=lol. Deduplicated by eventId."""
+    seen = {}
+    try:
+        for e in _paged("/events", log, "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
+                        category="esports", subcategory="lol", includeMarkets="true", includeAllMarkets="true"):
+            seen[e["eventId"]] = e
+    except Exception as e:  # noqa
+        log.append({"endpoint": "GET /events?category=esports&subcategory=lol", "ok": False, "error": str(e)[:200]})
+    try:
+        for e in _paged("/events", log, "GET /events?category=esports (paged, LoL by subcategory/title)",
+                        category="esports", includeMarkets="true", includeAllMarkets="true"):
+            if e.get("subcategory") == "lol" or _is_lol_title(e.get("metadata", {}).get("title")):
+                seen.setdefault(e["eventId"], e)
+    except Exception as e:  # noqa
+        log.append({"endpoint": "GET /events?category=esports", "ok": False, "error": str(e)[:200]})
+    return list(seen.values())
+
+
+def fetch_event_markets(ev, log):
+    """The /events list endpoint omits per-game prop markets (baron/dragon/inhib/quadra/penta, sometimes kill totals).
+    /events/{id}/markets?includeAllMarkets=true returns every market; merge both by marketId."""
+    ms = {m["marketId"]: m for m in ev.get("markets", [])}
+    try:
+        for m in _paged(f"/events/{ev['eventId']}/markets", log, f"GET /events/{ev['eventId']}/markets?includeAllMarkets=true (paged)",
+                        includeAllMarkets="true"):
+            ms[m["marketId"]] = {**ms.get(m["marketId"], {}), **m}
+    except Exception as e:  # noqa
+        log.append({"endpoint": f"GET /events/{ev['eventId']}/markets", "ok": False, "error": str(e)[:200]})
+    return list(ms.values())
 
 
 def fetch_orderbook(mid, log):
@@ -128,11 +159,15 @@ def outcome_fn(kind, side_is_a, line, game_no, bo):
         return lambda a, b: (a, b) == ((x, y) if side_is_a else (y, x))
     if kind == "game":
         def f(a, b):
-            if (side_is_a and b == 0) or (not side_is_a and a == 0):
-                return True
-            if (side_is_a and a == 0) or (not side_is_a and b == 0):
-                return False
-            return None  # depends on game order
+            n = a + b
+            if game_no > n:
+                return False     # game not played -> Jupiter resolves 50-50 (half payout), not a cash
+            a_won = a > b
+            if game_no == n:     # the deciding game is always won by the series winner
+                return a_won == bool(side_is_a)
+            if min(a, b) == 0:   # sweep: the winner took every game
+                return a_won == bool(side_is_a)
+            return None          # depends on game order
         return f
     return lambda a, b: None
 
@@ -144,6 +179,33 @@ def prob_from_exact(exact, f):
         if f(a, b):
             p += v
     return p
+
+
+NOT_MODELED_REASON = {
+    "lol_both_teams_baron": "in-game objective prop (both teams Baron); the sim models map winners only",
+    "lol_both_teams_dragon": "in-game objective prop (both teams dragon); the sim models map winners only",
+    "lol_both_teams_inhibitors": "in-game objective prop (both teams inhibitor); the sim models map winners only",
+    "lol_quadra_kill": "player multikill prop; the sim models map winners only",
+    "lol_penta_kill": "player multikill prop; the sim models map winners only",
+    "kill_over_under_game": "per-game total kills; the sim does not output kills",
+    "kill_handicap_game": "per-game kill handicap; the sim does not output kills",
+}
+_PROP_TITLES = {"lol_both_teams_baron": "Both teams Baron", "lol_both_teams_dragon": "Both teams dragon",
+                "lol_both_teams_inhibitors": "Both teams inhib", "lol_quadra_kill": "Any quadra kill",
+                "lol_penta_kill": "Any penta kill", "kill_over_under_game": "Kills"}
+
+
+def not_modeled_entry(m):
+    t = m.get("sportsMarketType") or "unknown"
+    pr = m.get("pricing") or {}
+    g = m.get("gameNumber")
+    name = _PROP_TITLES.get(t, m.get("title") or t)
+    side = m.get("title", "") if t == "kill_over_under_game" else ""
+    label = " ".join(x for x in [f"Game {g}" if g else "", name, side] if x)
+    return {"market_id": m["marketId"], "type": t, "label": label, "game": g, "status": m.get("status"),
+            "yes_ask": (pr.get("buyYesPriceUsd") or 0) / 1e6 or None, "no_ask": (pr.get("buyNoPriceUsd") or 0) / 1e6 or None,
+            "volume": pr.get("volume"),
+            "reason": NOT_MODELED_REASON.get(t, f"market type '{t}' is not derivable from the series/map simulation")}
 
 
 def classify(m, card):
@@ -172,7 +234,7 @@ def classify(m, card):
             return (f"Under {L} maps", "totals_under", None, L, None)
     if t == "child_moneyline" and (is_a or is_b):
         g = m.get("gameNumber") or int(line or 0)
-        if g and g <= bo // 2 + 1:  # always-played games only
+        if g and g <= bo:  # every listed game; unplayed games resolve 50-50 (priced as expected payout)
             return (f"Game {g} {A['code'] if is_a else B['code']}", "game", is_a, None, g)
     if t in ("correct_score", "exact_score", "series_score"):
         s = re.search(r"(\d)\s*[-:]\s*(\d)", title)
@@ -183,42 +245,72 @@ def classify(m, card):
     return None
 
 
-def evaluate(card, ev, obs):
+def _game_q(sim, card, g, side_is_a, bo):
+    """Expected payout of a Game-g winner contract. Jupiter resolves an unplayed game 50-50, so
+    q = P(reached) * P(side wins | reached) + (1 - P(reached)) * 0.5."""
+    pg = (sim.get("p_game_a") or [None] * bo)[g - 1]
+    reach = (sim.get("p_game_reached") or [None] * bo)[g - 1]
+    if reach is None:   # v1 forecast: reach from the exact-score distribution
+        reach = sum(v for k, v in sim["exact"].items() if sum(map(int, k.split("-"))) >= g)
+    if pg is None:
+        pg = game_prob(card["model"]["p_map_a"])
+    win = pg if side_is_a else 1 - pg
+    return reach * win + (1 - reach) * 0.5
+
+
+def _legs_for_market(m, c):
+    """A Jupiter market can be one side of a -0/-1 pair (buyYes only) or a single Yes/No market (buyYes + buyNo).
+    Returns [(leg_suffix, ask, bid, label, side_is_a_or_flip)] for each buyable side."""
+    pr = m.get("pricing") or {}
+    yes = (pr.get("buyYesPriceUsd") or 0) / 1e6
+    no = (pr.get("buyNoPriceUsd") or 0) / 1e6
+    out = []
+    if yes and yes < 1:
+        out.append(("", yes, (pr.get("sellYesPriceUsd") or 0) / 1e6, False))
+    if no and no < 1 and not re.search(r"-[01]$", m["marketId"]):
+        out.append((":NO", no, (pr.get("sellNoPriceUsd") or 0) / 1e6, True))
+    return out
+
+
+def evaluate(card, ev, obs, markets=None):
+    """Price every Jupiter market derivable from the frozen sim. Returns (legs, best, best_any, not_modeled, unpriced)."""
     sim = card["sim"]; exact = sim["exact"]; bo = card["bo"]
     la, lb = map(int, sim["locked_score"].split("-"))
-    legs = []
-    for m in ev.get("markets", []):
+    legs, not_modeled, unpriced = [], [], []
+    for m in (markets if markets is not None else ev.get("markets", [])):
         c = classify(m, card)
-        pr = m.get("pricing") or {}
-        ask = (pr.get("buyYesPriceUsd") or 0) / 1e6
-        if not c or not ask or ask >= 1 or m.get("status") != "open":
+        if not c:
+            not_modeled.append(not_modeled_entry(m))
             continue
-        label, kind, side_is_a, line, g = c
-        f = outcome_fn(kind, side_is_a, line, g, bo)
-        if kind == "game":
-            pg = (sim.get("p_game_a") or [None] * bo)[(g or 1) - 1] if g and g <= bo else None
-            reach = (sim.get("p_game_reached") or [1.0] * bo)[(g or 1) - 1] if g and g <= bo else 1.0
-            if pg is not None:
-                pa = pg   # v2: frozen per-game probability straight from the draft-path simulation
-                q = pa if side_is_a else 1 - pa
-                if reach < 1.0:
-                    q = q * reach   # game may not be played; treat as no-cash (conservative)
+        sides = _legs_for_market(m, c)
+        if m.get("status") != "open" or not sides:
+            unpriced.append({"market_id": m["marketId"], "label": c[0], "status": m.get("status"),
+                             "reason": "closed" if m.get("status") != "open" else "no ask on the book"})
+            continue
+        for suffix, ask, bid, flip in sides:
+            label, kind, side_is_a, line, g = c
+            if flip:   # buying NO on a single-id market = the complementary outcome
+                f0 = outcome_fn(kind, side_is_a, line, g, bo)
+                f = (lambda f0: (lambda a, b: (None if f0(a, b) is None else not f0(a, b))))(f0)
+                q = (1 - _game_q(sim, card, g, side_is_a, bo)) if kind == "game" else 1 - prob_from_exact(exact, f0)
+                label = f"NOT {label}"
             else:
-                pa = game_prob(card["model"]["p_map_a"]); q = pa if side_is_a else 1 - pa
-        else:
-            q = prob_from_exact(exact, f)
-        cost = ask + fee(ask)
-        on_lock = f(la, lb)
-        ob = obs.get(m["marketId"])
-        depth = None
-        if ob and ob.get("no"):
-            best_no = max(ob["no"], key=lambda x: x[0])
-            if abs((100 - best_no[0]) / 100 - ask) < 0.006:
-                depth = round(best_no[1], 2)
-        legs.append({"market_id": m["marketId"], "pair_id": m["marketId"].rsplit("-", 1)[0], "label": label,
-                     "type": kind, "ask": ask, "bid": (pr.get("sellYesPriceUsd") or 0) / 1e6,
-                     "volume": pr.get("volume"), "fee": round(fee(ask), 4), "cost": round(cost, 4),
-                     "our_prob": round(q, 4), "cashes_on_lock": on_lock, "contracts_at_ask": depth})
+                f = outcome_fn(kind, side_is_a, line, g, bo)
+                q = _game_q(sim, card, g, side_is_a, bo) if kind == "game" else prob_from_exact(exact, f)
+            cost = ask + fee(ask)
+            ob = obs.get(m["marketId"])
+            depth = None
+            book = (ob or {}).get("yes" if flip else "no")
+            if book:
+                best_opp = max(book, key=lambda x: x[0])
+                if abs((100 - best_opp[0]) / 100 - ask) < 0.006:
+                    depth = round(best_opp[1], 2)
+            pid = m["marketId"].rsplit("-", 1)[0] if re.search(r"-[01]$", m["marketId"]) else m["marketId"]
+            legs.append({"market_id": m["marketId"] + suffix, "pair_id": pid, "label": label, "type": kind,
+                         "game": g, "line": line if not isinstance(line, tuple) else list(line),
+                         "ask": ask, "bid": bid, "volume": (m.get("pricing") or {}).get("volume"),
+                         "fee": round(fee(ask), 4), "cost": round(cost, 4), "our_prob": round(q, 4),
+                         "cashes_on_lock": f(la, lb), "contracts_at_ask": depth})
     # de-vig per binary pair (proportional normalisation of the two asks)
     pairs = {}
     for l in legs:
@@ -232,11 +324,25 @@ def evaluate(card, ev, obs):
             x["ev_per_$1"] = round(x["our_prob"] / x["cost"] - 1, 4)
     order = {"moneyline": 0, "map_handicap": 1, "totals_over": 2, "totals_under": 2, "exact": 3, "game": 4}
     legs.sort(key=lambda x: (order.get(x["type"], 9), x["label"]))
+    not_modeled.sort(key=lambda x: (x["game"] or 0, x["type"], x["label"]))
     plus = [x for x in legs if x["ev_per_$1"] > 0]
     compat = [x for x in plus if x["cashes_on_lock"] is True]
     best = max(compat, key=lambda x: x["ev_per_$1"]) if compat else None
     best_any = max(plus, key=lambda x: x["ev_per_$1"]) if plus else None
-    return legs, best, best_any
+    return legs, best, best_any, not_modeled, unpriced
+
+
+def inventory(markets):
+    inv = {}
+    for m in markets:
+        t = m.get("sportsMarketType") or "unknown"
+        x = inv.setdefault(t, {"markets": 0, "lines": set(), "games": set()})
+        x["markets"] += 1
+        if m.get("sportsLine") not in (None, "") and t not in ("child_moneyline",):
+            x["lines"].add(str(m["sportsLine"]))
+        if m.get("gameNumber"):
+            x["games"].add(m["gameNumber"])
+    return {t: {"markets": v["markets"], "lines": sorted(v["lines"]), "games": sorted(v["games"])} for t, v in sorted(inv.items())}
 
 
 def run(date, version=None):
@@ -259,14 +365,15 @@ def run(date, version=None):
             rows.append({"match_id": card["match_id"], "series": f'{card["team_a"]["code"]} vs {card["team_b"]["code"]}',
                          "status": "no Jupiter market", "legs": [], "best_bet": None, "verdict": "no Jupiter market"})
             continue
+        markets = fetch_event_markets(ev, log)
+        ev = {**ev, "markets": markets}
         obs = {}
-        for m in ev.get("markets", []):
-            if m.get("sportsMarketType") in ("moneyline", "map_handicap", "totals", "child_moneyline",
-                                             "correct_score", "exact_score", "series_score"):
+        for m in markets:
+            if classify(m, card) and m.get("status") == "open":
                 ob = fetch_orderbook(m["marketId"], log)
                 if ob:
                     obs[m["marketId"]] = ob; obs_ok += 1
-        legs, best, best_any = evaluate(card, ev, obs)
+        legs, best, best_any, not_modeled, unpriced = evaluate(card, ev, obs, markets)
         rules = next((m.get("rulesPrimary", "") for m in ev.get("markets", []) if m.get("sportsMarketType") == "moneyline"), "")
         sched = re.search(r"initially scheduled for ([^.]*?ET)", rules)
         warn = []
@@ -281,6 +388,8 @@ def run(date, version=None):
                      "jupiter_url": f"https://jup.ag/prediction/{ev['eventId']}",
                      "exact_score_offered": "exact" in offered, "warnings": warn, "legs": legs,
                      "best_bet": best, "best_ev_any": best_any,
+                     "market_inventory": inventory(markets), "n_markets": len(markets), "n_priced_legs": len(legs),
+                     "not_modeled": not_modeled, "unpriced": unpriced,
                      "verdict": (f"BEST BET: {best['label']} @ {best['ask']:.2f} (EV {best['ev_per_$1']:+.3f}/$1, cashes on lock "
                                  f"{card['sim']['locked_score']})") if best else "PASS (no +EV market that cashes on the locked score)"})
         raw[ev["eventId"]] = {"event": ev, "orderbooks": obs}

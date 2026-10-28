@@ -56,6 +56,9 @@ def _series_field(c, row, have_edge, short=False):
         if not short:
             bet += f"\nour {_pct(bs['our_prob'])} vs no-vig {_pct(bs['fair_prob'])} · edge {bs['edge_pct']:+.1f} pp · cashes on lock ✅"
     name = f"{A['code']} vs {B['code']} · Bo{c['bo']} · 🕓 {when}"
+    if row and row.get("status") == "ok" and not short:
+        nm = len(row.get("not_modeled") or [])
+        bet += f"\n📊 {row.get('n_priced_legs', len(row.get('legs', [])))} Jupiter lines priced" + (f" · {nm} props not modeled" if nm else "")
     val = f"🔒 **{lock}** ({_pct(s['locked_score_prob'])}) · {fav} {_pct(pf)} to win\n{bet}"
     return {"name": _cut(name, LIM_FIELD_NAME), "value": _cut(val, LIM_FIELD_VAL), "inline": False}, bs
 
