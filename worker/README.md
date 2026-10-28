@@ -8,6 +8,11 @@
    (inputs: date, interaction_token, application_id, channel_id, requested_at) and edits the reply to "🍀 Scanning…".
    The workflow freezes the forecast first, then fetches Jupiter odds (post-forecast), rebuilds the dashboard and
    PATCHes `webhooks/{app_id}/{token}/messages/@original`. Past Discord's 15-minute token window it posts to the channel with the bot token.
+   If the dispatch returns anything but 204 (or the GITHUB_TOKEN secret is missing) the Worker edits the reply to
+   "🍀 Luck Society scanner could not start (GitHub dispatch HTTP …)". The workflow always answers: when the date has no
+   frozen forecast yet it first edits the reply to say it is building one from scratch (this is the slow path: gol.gg refresh,
+   draft-model fit, 100k sims), and on any failure, step timeout (forecast 45 min) or cancellation it posts a red error embed.
+   The gol.gg / Data Dragon cache is saved after every run so the next fresh build is incremental.
 
 Date picker: the `date` option uses Discord **autocomplete** (Discord has no native date picker). The Worker answers
 type-4 autocomplete requests with up to 25 type-8 choices computed in America/New_York: `Today · Wed Oct 28`,

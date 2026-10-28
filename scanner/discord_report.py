@@ -79,7 +79,24 @@ def build_payload(date):
 def error_payload(date, msg):
     return {"content": "", "allowed_mentions": {"parse": []},
             "embeds": [{"title": f"🍀 Luck Society · LoL Scanner · {date}", "color": RED, "thumbnail": {"url": LOGO},
-                        "description": f"⚠️ The scan did not finish: {msg[:500]}\nNo bet is posted. Try `/lol` again in a few minutes."}]}
+                        "description": f"⚠️ The scan did not finish: {msg[:500]}\nNo bet is posted."}]}
+
+
+def progress_payload(date, msg):
+    return {"content": f"🍀 Scanning {date}… {msg[:400]}", "embeds": [], "allowed_mentions": {"parse": []}}
+
+
+def edit_progress(payload):
+    """Interim status: only edits the deferred reply (never posts a new channel message)."""
+    app = os.environ.get("DISCORD_APPLICATION_ID", "")
+    itok = os.environ.get("DISCORD_INTERACTION_TOKEN", "")
+    req_at = int(os.environ.get("DISCORD_REQUESTED_AT") or 0)
+    if not (itok and app) or (req_at and time.time() - req_at >= TOKEN_SAFE_S):
+        print("[discord] progress: no live interaction token; skipped")
+        return True
+    st, body = _send("PATCH", f"{API}/webhooks/{app}/{itok}/messages/@original", payload)
+    print(f"[discord] progress edit @original -> HTTP {st}")
+    return 200 <= st < 300
 
 
 def _send(method, url, payload, auth=None):
@@ -123,8 +140,14 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", required=True)
     ap.add_argument("--error", default=None)
+    ap.add_argument("--progress", default=None, help="interim status line (edits the deferred reply only)")
     ap.add_argument("--dry-run", action="store_true", help="build and print the payload; post nothing")
     a = ap.parse_args(argv)
+    if a.progress:
+        payload = progress_payload(a.date, a.progress)
+        if a.dry_run:
+            print(json.dumps(payload, indent=1, ensure_ascii=False)); return 0
+        return 0 if edit_progress(payload) else 1
     payload = error_payload(a.date, a.error) if a.error else build_payload(a.date)
     if a.dry_run:
         print(json.dumps(payload, indent=1, ensure_ascii=False))

@@ -92,9 +92,28 @@ async function dispatch(env, inputs) {
 }
 
 async function editOriginal(env, token, content) {
-  await fetch(`https://discord.com/api/v10/webhooks/${env.DISCORD_APP_ID}/${token}/messages/@original`, {
-    method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ content }),
+  const r = await fetch(`https://discord.com/api/v10/webhooks/${env.DISCORD_APP_ID}/${token}/messages/@original`, {
+    method: "PATCH", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ content, allowed_mentions: { parse: [] } }),
   });
+  if (!r.ok) console.log(JSON.stringify({ level: "error", msg: "edit @original failed", status: r.status }));
+  return r.ok;
+}
+
+// Runs after the deferred (type 5) reply. Any dispatch result other than 204 (or a network error / missing secret)
+// is shown to the user by editing the deferred reply; it never silently stops at "thinking…".
+export async function startScan(env, token, date, inputs, doDispatch = dispatch, doEdit = editOriginal) {
+  try {
+    if (!env.GITHUB_TOKEN) throw new Error("GITHUB_TOKEN secret is not set on the Worker");
+    await doDispatch(env, inputs);
+  } catch (e) {
+    console.log(JSON.stringify({ level: "error", msg: "dispatch failed", date, error: String(e).slice(0, 300) }));
+    await doEdit(env, token, `🍀 Luck Society scanner could not start (${String(e).slice(0, 160)}). Nothing was run; try /lol again.`);
+    return false;
+  }
+  console.log(JSON.stringify({ level: "info", msg: "lol dispatched", date, status: 204 }));
+  await doEdit(env, token, `🍀 Scanning ${date}… locking scores before we look at a single price 🔒`);
+  return true;
 }
 
 export default {
@@ -136,13 +155,7 @@ export default {
         channel_id: it.channel_id || it.channel?.id || "",
         requested_at: String(Math.floor(Date.now() / 1000)),
       };
-      ctx.waitUntil(dispatch(env, inputs).then(() =>
-        editOriginal(env, it.token, `🍀 Scanning ${date}… locking scores before we look at a single price 🔒`)
-      ).catch(async (e) => {
-        console.log(JSON.stringify({ level: "error", msg: "dispatch failed", error: String(e) }));
-        await editOriginal(env, it.token, `🍀 Luck Society scanner could not start: ${String(e).slice(0, 180)}`);
-      }));
-      console.log(JSON.stringify({ level: "info", msg: "lol dispatched", date, guild: it.guild_id || null }));
+      ctx.waitUntil(startScan(env, it.token, date, inputs));
       return json({ type: DEFERRED_CHANNEL_MESSAGE });
     }
     return json({ type: CHANNEL_MESSAGE, data: { content: "Unknown command.", flags: EPHEMERAL } });

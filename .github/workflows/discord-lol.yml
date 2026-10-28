@@ -68,19 +68,23 @@ jobs:
         if: ${{ !inputs.dry_run }}
         run: |
           if [ "$DISCORD_GUILD_ID" != "$ALLOWED_GUILD_ID" ]; then echo "rejected: guild '${DISCORD_GUILD_ID:0:20}' is not the allowed server"; exit 78; fi
-          if [ -n "$DISCORD_CHANNEL_ID" ] && ! [[ "$DISCORD_CHANNEL_ID" =~ ^[0-9]{17,20}$ ]]; then echo "rejected: bad channel id"; exit 78; fi
-          if [ -n "$DISCORD_CHANNEL_ID" ] && [ -n "$DISCORD_BOT_TOKEN" ]; then
-            G=$(curl -sf -H "Authorization: Bot $DISCORD_BOT_TOKEN" -H "User-Agent: DiscordBot (https://github.com/lucksociety/lol-scanner, 1.0)" \
-                "https://discord.com/api/v10/channels/$DISCORD_CHANNEL_ID" | python3 -c "import sys,json;print(json.load(sys.stdin).get('guild_id',''))" || true)
-            if [ "$G" != "$ALLOWED_GUILD_ID" ]; then echo "rejected: channel is not in the allowed server"; exit 78; fi
-          fi
           echo "GUILD_OK=1" >> "$GITHUB_ENV"
+          # The channel id only feeds the bot-token fallback post. If it is malformed, outside the server, or cannot be
+          # checked, drop the fallback (the reply still lands via the interaction token, which is bound to this server).
+          if [ -n "$DISCORD_CHANNEL_ID" ]; then
+            G=""
+            if [[ "$DISCORD_CHANNEL_ID" =~ ^[0-9]{17,20}$ ]] && [ -n "$DISCORD_BOT_TOKEN" ]; then
+              G=$(curl -sf --max-time 15 -H "Authorization: Bot $DISCORD_BOT_TOKEN" -H "User-Agent: DiscordBot (https://github.com/lucksociety/lol-scanner, 1.0)" \
+                  "https://discord.com/api/v10/channels/$DISCORD_CHANNEL_ID" | python3 -c "import sys,json;print(json.load(sys.stdin).get('guild_id',''))" || true)
+            fi
+            if [ "$G" != "$ALLOWED_GUILD_ID" ]; then echo "channel not verified in the allowed server: channel fallback disabled"; echo "DISCORD_CHANNEL_ID=" >> "$GITHUB_ENV"; fi
+          fi
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
-      - name: Restore gol.gg / Data Dragon cache
+      - name: Restore gol.gg / Data Dragon cache (latest saved by daily-scan or /lol)
         uses: actions/cache/restore@v5
         with:
           path: .cache
@@ -95,8 +99,24 @@ jobs:
             echo "bad date: $D"; echo "date=$(date +%F)" >> "$GITHUB_OUTPUT"; echo "BAD_DATE=1" >> "$GITHUB_ENV"; exit 1
           fi
           echo "date=$D" >> "$GITHUB_OUTPUT"
+      - name: Tell Discord when the forecast has to be built from scratch
+        run: |
+          D="${{ steps.d.outputs.date }}"
+          if [ -f "forecast_log/$D.v2.json" ]; then echo "forecast for $D already frozen"; exit 0; fi
+          echo "FRESH=1" >> "$GITHUB_ENV"
+          MSG="no frozen forecast for $D yet, so I'm building it now (refresh gol.gg + lineups, fit the draft model, 100k draft-path sims) before looking at any price 🔒. This can take a while on a cold cache; the report lands here, or as a new message in this channel if it takes longer than 15 min."
+          if [ "$DRY_RUN" = "true" ]; then python -m scanner.discord_report --date "$D" --progress "$MSG" --dry-run
+          else python -m scanner.discord_report --date "$D" --progress "$MSG" || true; fi
       - name: 1) FORECAST freeze (no-op if already frozen; never recomputed)
+        id: fc
+        timeout-minutes: 45
         run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage forecast --model v2
+      - name: Save gol.gg / Data Dragon cache (even if a later step fails or the run is cancelled)
+        if: ${{ always() && steps.d.outcome == 'success' }}
+        uses: actions/cache/save@v5
+        with:
+          path: .cache
+          key: scanner-cache-${{ github.run_id }}
       - name: Commit frozen forecast first
         run: |
           git config user.name "lol-scanner-bot"
@@ -115,12 +135,22 @@ jobs:
           git diff --cached --quiet || git commit -m "edge+dashboard: ${{ steps.d.outputs.date }} (/lol)"
           for i in 1 2 3; do git pull --rebase --autostash && git push && break; sleep 5; done
       - name: 4) Discord report (dry run = print payload only)
+        id: post
         run: |
           if [ "$DRY_RUN" = "true" ]; then python -m scanner.discord_report --date "${{ steps.d.outputs.date }}" --dry-run
           else python -m scanner.discord_report --date "${{ steps.d.outputs.date }}"; fi
-      - name: Report failure to Discord
-        if: ${{ failure() && !inputs.dry_run && env.GUILD_OK == '1' }}
+      - name: Report failure / cancellation to Discord (always answer the user)
+        if: ${{ (failure() || cancelled()) && !inputs.dry_run && env.GUILD_OK == '1' }}
+        env:
+          FC: ${{ steps.fc.outcome }}
+          POST: ${{ steps.post.outcome }}
+          JOB_STATUS: ${{ job.status }}
         run: |
-          MSG="workflow step failed (run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+          RUN="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          MSG="a workflow step failed (run $RUN). Try /lol again."
+          [ "$FC" = "failure" ] && MSG="building the forecast failed or hit the 45-min limit (run $RUN). Try /lol again later; the gol.gg cache is saved, so the next try is faster."
+          [ "$POST" = "failure" ] && MSG="the report was built but could not be posted (run $RUN)."
+          [ "$JOB_STATUS" = "cancelled" ] && MSG="the scan was cancelled or hit the 60-min job limit (run $RUN). Try /lol again later."
           [ -n "$BAD_DATE" ] && MSG="date must be YYYY-MM-DD, got '${IN_DATE:0:20}'"
-          python -m scanner.discord_report --date "${{ steps.d.outputs.date || 'today' }}" --error "$MSG" || true
+          D="${{ steps.d.outputs.date }}"; [ -z "$D" ] && D=$(date +%F)
+          python3 -m scanner.discord_report --date "$D" --error "$MSG" || echo "could not post the error to Discord"
