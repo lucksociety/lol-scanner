@@ -90,7 +90,7 @@ def _card(c, edge_row, v1=None, snap_et=""):
     flags = "".join(f"<li>{E(f)}</li>" for f in c["adversarial_review"])
     out = f"""
 <section class="card">
- <div class="hdr"><span class="lg">{E(c['league'])} · {E(c['stage'])} · Bo{c['bo']}</span><span>{E(c['start_et'])}</span></div>
+ <div class="hdr"><span class="lg">{E(c['league'])} · {E(c['stage'])} · Bo{c['bo']}</span><span>{E(c['start_et'])} {_simbtn(c, c.get('_date', ''))}</span></div>
  <div class="teams">
   <div class="t"><img src="{E(_img(A['img']))}" alt="{E(A['code'])} logo"><div><b>{E(A['name'])}</b><small>{E(A['code'])} · Elo {A['elo']:.0f} · event {E(A['event_record'])}</small></div><em>{_pct(s['p_series_a'])}</em></div>
   <div class="t"><img src="{E(_img(B['img']))}" alt="{E(B['code'])} logo"><div><b>{E(B['name'])}</b><small>{E(B['code'])} · Elo {B['elo']:.0f} · event {E(B['event_record'])}</small></div><em>{_pct(1 - s['p_series_a'])}</em></div>
@@ -191,6 +191,11 @@ def _not_modeled(r):
     return out
 
 
+def _simbtn(c, date):
+    return (f'<a class="simbtn" href="simulate.html?match={E(c["match_id"])}&amp;date={E(date)}" '
+            f'title="Open the in-browser ratings sim + edge finder preloaded with this series">Simulate</a>')
+
+
 def _slate(fc, erows, edge):
     trs = []
     for c in fc["cards"]:
@@ -205,12 +210,13 @@ def _slate(fc, erows, edge):
             bet = (f'<td class="bet">{E(bs["market"])} · {E(bs["side"])}</td><td>{bs["ask"]:.2f}</td><td>{_pct(bs["our_prob"])}</td>'
                    f'<td>{_pct(bs["fair_prob"])}</td><td>{bs["edge_pct"]:+.1f}</td><td>{bs["ev_per_$1"]:+.3f}</td>')
         trs.append(f'<tr><td>{E(c["start_et"])}</td><td>{E(c["league"])}</td><td>{E(A["code"])} vs {E(B["code"])} <span class="bo">Bo{c["bo"]}</span></td>'
-                   f'<td><b>{E(lock)}</b> ({_pct(s["locked_score_prob"])})</td><td>{win}</td>{bet}</tr>')
+                   f'<td><b>{E(lock)}</b> ({_pct(s["locked_score_prob"])})</td><td>{win}</td>{bet}'
+                   f'<td>{_simbtn(c, fc.get("date", ""))}</td></tr>')
     snap = f' · odds snapshot <b>{E(edge["odds_fetched_at_et"])}</b>' if edge else ""
     return ('<section class="card slate"><h2>Slate · locked score + Jupiter best bet</h2>'
             f'<p class="eh">POST-FORECAST: Jupiter prices read only after the forecast froze; they never feed back into it{snap}</p>'
             '<div class="tw"><table><tr><th>Time (ET)</th><th>League</th><th>Matchup</th><th>Lock (exact %)</th><th>Series win</th>'
-            '<th>Best bet (market · side)</th><th>Jupiter price</th><th>Our prob</th><th>No-vig mkt</th><th>Edge pp</th><th>EV/$1</th></tr>'
+            '<th>Best bet (market · side)</th><th>Jupiter price</th><th>Our prob</th><th>No-vig mkt</th><th>Edge pp</th><th>EV/$1</th><th>Sim</th></tr>'
             + "".join(trs) + '</table></div><p class="muted">PASS = no Jupiter market that cashes on the locked exact score has +EV after fees.</p></section>')
 
 
@@ -249,6 +255,8 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
 th,td{padding:5px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--gold);font-weight:600}
 th:first-child,td:first-child{text-align:left}
 tr.pos td{color:var(--pos)}tr.neg td{color:var(--mut)}td.lk{font-weight:700}.bb{background:var(--gold);color:var(--black);border-radius:4px;padding:0 5px;font-size:11px;margin-left:4px}.nl{border:1px solid var(--bronze);color:var(--gold);border-radius:4px;padding:0 5px;font-size:11px;margin-left:4px}.bo{background:var(--clover);color:var(--ink);border-radius:4px;padding:0 5px;font-size:11px}.verdict{margin:8px 0;padding:8px 10px;border-radius:6px;background:var(--card2);border-left:4px solid var(--gold)}.verdict.bet{border-left-color:var(--pos)}.secondary{color:var(--mut);font-size:12px;font-style:italic}.slate td.pass{font-size:15px}tr.best td{background:#0d3a1a;font-weight:700}.bet{color:var(--pos);font-weight:700}.pass{color:var(--gold-hi);font-weight:700}
+.simbtn{display:inline-block;background:var(--gold);color:var(--black)!important;font-weight:700;text-decoration:none;border-radius:6px;padding:2px 10px;font-size:12px;margin-left:6px}.simbtn:hover{background:var(--gold-hi)}
+.nav{max-width:1200px;margin:10px auto 0}.nav a{margin-right:8px}
 .warn{color:#ffb86b;font-size:13px}.muted{color:var(--mut);font-size:12px}a{color:var(--gold-hi)}
 details{margin-top:6px;color:var(--mut);font-size:13px}summary{cursor:pointer;color:var(--ink)}
 footer{color:var(--mut);font-size:12px;padding:20px;text-align:center;border-top:1px solid var(--line)}
@@ -270,6 +278,8 @@ def render(date, version=None):
     edge = json.loads(ep.read_text()) if ep.exists() else None
     erows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
     snap = edge["odds_fetched_at_et"] if edge else ""
+    for c in fc["cards"]:
+        c["_date"] = date
     cards = "".join(_card(c, erows.get(c["match_id"]) if edge else None, v1.get(c["match_id"]), snap) for c in fc["cards"]) or \
         '<section class="card"><p>No series on the official schedule for this date.</p></section>'
     calib = ""
@@ -299,7 +309,8 @@ def render(date, version=None):
 <div><h1>Luck Society · LoL Scanner</h1><p class="tag">Sports Betting • Crypto • Stocks • Predictions 🍀</p>
 <p class="voice">{E(date)} slate 🔒 Score locked before we look at a single price. We only back a bet that cashes on the lock. Let's stay green 🍀</p></div></div>
 <div class="meta"><p>{E(fc.get('model_version', 'elo-map-v1'))} forecast frozen {E(fc['frozen_at_et'])} · sha256 {E(fc['sha256'][:16])}… · {E(fc['integrity']['protocol'])} · market inputs to forecast: <b>NONE</b></p>
-<p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p></div></div></header>
+<p>{edge_meta}. Edge panels are post-forecast and labelled as such. {E(calib)}</p></div>
+<div class="nav"><a class="simbtn" href="simulate.html">🎲 Simulate: ratings sim + edge finder</a></div></div></header>
 <main>{_slate(fc, erows, edge) if fc['cards'] else ''}{cards}{bt}</main>
 <footer>Forecast: {"model v2 = patch-recency map Elo + roster continuity + draft-path Monte Carlo (Fearless enforced), data: lolesports, gol.gg, Data Dragon" if is_v2 else "results-only map Elo + Monte Carlo series sim (lolesports data)"}. Edge: Jupiter asks, de-vigged proportionally per binary pair, fee {E(edge['fee_model'] if edge else '')}. BEST BET = highest +EV market that also cashes on the locked exact score; otherwise PASS. Not financial advice.</footer>
 </body></html>"""
@@ -314,4 +325,83 @@ def render(date, version=None):
     for f in ("luck-society-avatar.jpg", "luck-society-banner.jpg"):
         if (src / f).exists():
             shutil.copyfile(src / f, config.DOCS_DIR / "assets" / f)
+    write_simulate_page()
+    try:
+        from . import simexport
+        simexport.export(date, version or "v2")
+    except Exception as e:  # the forecast dashboard must never fail because of the optional sim export
+        print(f"[dashboard] sim export skipped: {e}")
     return config.DOCS_DIR / "index.html"
+
+
+SIM_CSS = """
+.simgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.simgrid label{display:block;font-size:12px;color:var(--gold);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+select,input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 8px;font:inherit;width:100%}
+input[type=checkbox]{width:auto;accent-color:var(--clover-hi)}
+.chk{display:flex;gap:6px;align-items:center;color:var(--ink);font-size:13px;margin:4px 0}
+button{background:var(--gold);color:var(--black);border:0;border-radius:8px;padding:10px 18px;font:700 15px/1 Georgia,serif;letter-spacing:.08em;cursor:pointer}
+button:hover{background:var(--gold-hi)}button:disabled{opacity:.5;cursor:wait}
+button.ghost{background:transparent;color:var(--gold-hi);border:1px solid var(--bronze);padding:3px 8px;font:12px/1.2 inherit;letter-spacing:0}
+.bar{height:6px;background:var(--card2);border-radius:3px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--clover),var(--gold-hi));transition:width .15s}
+.badge{display:inline-block;background:var(--clover);color:var(--ink);border-radius:4px;padding:1px 7px;font-size:11px;letter-spacing:.06em;font-weight:700}
+.sc.lk{border-color:var(--gold-hi)}
+#mk input{width:80px;padding:4px 6px}#mk input[type=checkbox]{width:auto}#mk td small.src{display:block;color:var(--mut);font-size:10px}
+.addrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;align-items:end;margin-top:8px}
+"""
+
+
+def write_simulate_page():
+    """Static Simulate page (GitHub Pages). JS lives in web/ and is copied to docs/assets/."""
+    web = Path(__file__).resolve().parent.parent / "web"
+    (config.DOCS_DIR / "assets").mkdir(parents=True, exist_ok=True)
+    for f in ("sim-core.js", "sim-worker.js", "simulate.js"):
+        if (web / f).exists():
+            shutil.copyfile(web / f, config.DOCS_DIR / "assets" / f)
+    doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luck Society · LoL Simulator + Edge Finder</title><meta name="theme-color" content="#01171a"><link rel="icon" href="assets/luck-society-avatar.jpg"><style>{CSS}{SIM_CSS}</style></head><body>
+<header class="brand"><div class="ov"><div class="bi"><img class="logo" src="assets/luck-society-avatar.jpg" alt="Luck Society clover coin logo">
+<div><h1>Luck Society · LoL Simulator</h1><p class="tag">Sports Betting • Crypto • Stocks • Predictions 🍀</p>
+<p class="voice">Pick any two teams, sim the series, then put any price against it. Let's stay green 🍀</p></div></div>
+<div class="meta"><p><span class="badge">RATINGS-BASED SIM</span> Runs in your browser on the exported v2 patch-weighted map Elo. It is <b>separate from the frozen protocol lock</b> on the <a href="index.html">dashboard</a> (that one adds lineups + draft-path sims and is frozen before any price is read). <span id="gen"></span></p></div>
+<div class="nav"><a class="simbtn" href="index.html">← Dashboard</a></div></div></header>
+<main>
+<section class="card"><h2>1 · Matchup</h2>
+<div class="simgrid">
+ <div><label for="preset">Slate series</label><select id="preset"></select></div>
+ <div><label for="ta">Team A</label><select id="ta"></select></div>
+ <div><label for="tb">Team B</label><select id="tb"></select></div>
+ <div><label for="bo">Format</label><select id="bo"><option value="1">Bo1</option><option value="3" selected>Bo3</option><option value="5">Bo5</option></select>
+  <label class="chk"><input type="checkbox" id="fearless" checked> Fearless draft</label></div>
+</div>
+<p class="derived" id="base"></p><div class="form" id="roster"></div><div class="lock" id="frozen"></div>
+<p><button class="ghost" id="swap">swap A ⇄ B</button></p>
+<details><summary>Overrides + sim settings</summary><div class="simgrid">
+ <div><label for="ovr">Map win % for <span id="sa">A</span> (neutral side, blank = ratings)</label><input id="ovr" placeholder="e.g. 58" inputmode="decimal"></div>
+ <div><label for="ovrg">Per-game map win % (comma list, overrides the above)</label><input id="ovrg" placeholder="e.g. 60,55,50"></div>
+ <div><label for="g1">Game 1 blue side</label><select id="g1"><option value="rand">unknown (50/50)</option><option value="A">Team A blue</option><option value="B">Team B blue</option></select>
+  <label class="chk"><input type="checkbox" id="side" checked> blue-side edge (fitted)</label></div>
+ <div><label for="n">Simulations</label><input id="n" value="100000" inputmode="numeric"><label for="seed">Seed</label><input id="seed" value="20261028" inputmode="numeric"></div>
+ <div><label for="fx">Fearless extra map sd per later game</label><input id="fx" value="0.10" inputmode="decimal">
+  <label class="chk"><input type="checkbox" id="unc" checked> rating + map uncertainty</label></div>
+</div><p class="muted">Later games: the loser picks side (fitted blue rate). Fearless widens later-map variance (draft pools deplete) by the value above; this is a ratings-level approximation, not the dashboard's draft model.</p></details>
+<p><button id="go">🎲 SIMULATE</button> <span class="muted" id="status"></span></p><div class="bar"><i id="prog"></i></div>
+</section>
+<section class="card"><h2>2 · Results <span class="badge">RATINGS-BASED</span></h2><div id="res"><p class="muted">Run SIMULATE.</p></div></section>
+<section class="card"><h2>3 · Edge finder · Jupiter or any price</h2>
+<p class="muted" id="oddsnote"></p><div id="verdict"></div>
+<div class="tw"><table class="mk" id="mk"></table></div>
+<div class="addrow">
+ <div><label class="muted" for="ck">Add market</label><select id="ck"><option value="ml">Series ML</option><option value="hcp">Map handicap</option><option value="total">Total maps</option><option value="game">Game N winner</option><option value="exact">Exact score</option></select></div>
+ <div><label class="muted" for="cs">Side</label><select id="cs"><option value="A" class="lblA">A</option><option value="B" class="lblB">B</option></select></div>
+ <div><label class="muted" for="cl">Line / score</label><input id="cl" placeholder="-1.5"></div>
+ <div><label class="muted" for="cg">Game #</label><input id="cg" placeholder="1" inputmode="numeric"></div>
+ <div><label class="muted" for="cp">Price</label><input id="cp" placeholder="0.62 or -150"></div>
+ <div><label class="muted" for="co">Opp. price (opt)</label><input id="co" placeholder="0.40 or +130"></div>
+ <div><button class="ghost" id="add">+ add</button></div>
+</div>
+<p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest +EV market that cashes on this sim's lock, otherwise PASS. Not financial advice.</p>
+</section></main>
+<footer>Luck Society · in-browser ratings sim (Web Worker) · data: lolesports results → v2 patch-recency Elo, official rosters · Jupiter prices are post-forecast snapshots, never inputs to any forecast.</footer>
+<script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script></body></html>"""
+    (config.DOCS_DIR / "simulate.html").write_text(doc)

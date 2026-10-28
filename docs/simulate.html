@@ -1,0 +1,101 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luck Society · LoL Simulator + Edge Finder</title><meta name="theme-color" content="#01171a"><link rel="icon" href="assets/luck-society-avatar.jpg"><style>
+/* Luck Society palette: k-means on the @lucksociety X avatar + banner (see brand/README.md) */
+:root{--bg:#01171a;--card:#052220;--card2:#0a2b27;--line:#1f341c;--ink:#efe6cc;--mut:#9fb3a8;
+--gold:#d79d07;--gold-hi:#f6d12b;--bronze:#a9700a;--clover:#036718;--clover-hi:#1b9625;--pos:#3fbf4f;--neg:#ff6b5b;--black:#040402}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.brand{position:relative;background:var(--black) url(assets/luck-society-banner.jpg) center/cover no-repeat;border-bottom:2px solid var(--gold)}
+.brand .ov{background:linear-gradient(90deg,rgba(1,23,26,.96) 0%,rgba(1,23,26,.82) 55%,rgba(1,23,26,.35) 100%);padding:22px 18px}
+.bi{max-width:1200px;margin:auto;display:flex;gap:16px;align-items:center}
+.logo{width:72px;height:72px;border-radius:50%;border:2px solid var(--gold);flex:none;background:var(--black)}
+h1{margin:0;font:700 26px/1.15 Georgia,"Times New Roman",serif;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-hi)}
+.tag{margin:4px 0 0;color:var(--gold);font-size:13px;letter-spacing:.04em}.voice{margin:6px 0 0;color:var(--ink);font-size:14px}
+.meta{max-width:1200px;margin:12px auto 0;color:var(--mut);font-size:13px}.meta p{margin:4px 0}.meta b{color:var(--gold-hi)}
+main{max-width:1200px;margin:auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:14px;padding:16px;margin:16px 0}
+h2{font:700 16px/1.3 Georgia,"Times New Roman",serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 8px}
+.hdr{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:space-between;color:var(--mut);font-size:13px}
+.teams{display:grid;gap:8px;margin:12px 0}.t{display:flex;align-items:center;gap:12px}
+.t img{width:38px;height:38px;object-fit:contain}.t div{flex:1;min-width:0}.t small{display:block;color:var(--mut)}
+.t em{font-style:normal;font-size:24px;font-weight:700;color:var(--gold-hi);font-family:Georgia,serif}
+.lock{background:var(--card2);border-left:4px solid var(--gold);padding:8px 10px;border-radius:6px}.lock b{color:var(--gold-hi)}
+.dist{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;margin:10px 0}
+.sc{position:relative;background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:6px 8px;overflow:hidden}
+.sc span{float:right}.sc i{position:absolute;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--bronze),var(--gold-hi))}
+.derived,.form{color:var(--mut);font-size:13px;margin:6px 0}.form b{color:var(--ink)}
+.f{display:inline-block;padding:1px 6px;border-radius:4px;margin:2px 1px;font-size:12px;color:var(--ink)}
+.f.w{background:var(--clover)}.f.l{background:#5a1f1a}.f.p{background:#4a3a0c}
+.integrity{font-size:12px;color:var(--mut);border-top:1px dashed var(--line);margin-top:10px;padding-top:8px}.integrity b{color:var(--gold-hi)}
+.edge{margin-top:14px;border:1px dashed var(--bronze);border-radius:10px;padding:10px;background:#03191a}
+.eh{font-size:12px;letter-spacing:.05em;color:var(--gold-hi);font-weight:700}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+th,td{padding:5px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--gold);font-weight:600}
+th:first-child,td:first-child{text-align:left}
+tr.pos td{color:var(--pos)}tr.neg td{color:var(--mut)}td.lk{font-weight:700}.bb{background:var(--gold);color:var(--black);border-radius:4px;padding:0 5px;font-size:11px;margin-left:4px}.nl{border:1px solid var(--bronze);color:var(--gold);border-radius:4px;padding:0 5px;font-size:11px;margin-left:4px}.bo{background:var(--clover);color:var(--ink);border-radius:4px;padding:0 5px;font-size:11px}.verdict{margin:8px 0;padding:8px 10px;border-radius:6px;background:var(--card2);border-left:4px solid var(--gold)}.verdict.bet{border-left-color:var(--pos)}.secondary{color:var(--mut);font-size:12px;font-style:italic}.slate td.pass{font-size:15px}tr.best td{background:#0d3a1a;font-weight:700}.bet{color:var(--pos);font-weight:700}.pass{color:var(--gold-hi);font-weight:700}
+.simbtn{display:inline-block;background:var(--gold);color:var(--black)!important;font-weight:700;text-decoration:none;border-radius:6px;padding:2px 10px;font-size:12px;margin-left:6px}.simbtn:hover{background:var(--gold-hi)}
+.nav{max-width:1200px;margin:10px auto 0}.nav a{margin-right:8px}
+.warn{color:#ffb86b;font-size:13px}.muted{color:var(--mut);font-size:12px}a{color:var(--gold-hi)}
+details{margin-top:6px;color:var(--mut);font-size:13px}summary{cursor:pointer;color:var(--ink)}
+footer{color:var(--mut);font-size:12px;padding:20px;text-align:center;border-top:1px solid var(--line)}
+@media (max-width:560px){.brand .ov{background:rgba(1,23,26,.9)}h1{font-size:20px}.logo{width:54px;height:54px}.t em{font-size:20px}.card{padding:12px;border-radius:10px}main{padding:8px}td,th{padding:4px}}
+
+.simgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.simgrid label{display:block;font-size:12px;color:var(--gold);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+select,input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 8px;font:inherit;width:100%}
+input[type=checkbox]{width:auto;accent-color:var(--clover-hi)}
+.chk{display:flex;gap:6px;align-items:center;color:var(--ink);font-size:13px;margin:4px 0}
+button{background:var(--gold);color:var(--black);border:0;border-radius:8px;padding:10px 18px;font:700 15px/1 Georgia,serif;letter-spacing:.08em;cursor:pointer}
+button:hover{background:var(--gold-hi)}button:disabled{opacity:.5;cursor:wait}
+button.ghost{background:transparent;color:var(--gold-hi);border:1px solid var(--bronze);padding:3px 8px;font:12px/1.2 inherit;letter-spacing:0}
+.bar{height:6px;background:var(--card2);border-radius:3px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--clover),var(--gold-hi));transition:width .15s}
+.badge{display:inline-block;background:var(--clover);color:var(--ink);border-radius:4px;padding:1px 7px;font-size:11px;letter-spacing:.06em;font-weight:700}
+.sc.lk{border-color:var(--gold-hi)}
+#mk input{width:80px;padding:4px 6px}#mk input[type=checkbox]{width:auto}#mk td small.src{display:block;color:var(--mut);font-size:10px}
+.addrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;align-items:end;margin-top:8px}
+</style></head><body>
+<header class="brand"><div class="ov"><div class="bi"><img class="logo" src="assets/luck-society-avatar.jpg" alt="Luck Society clover coin logo">
+<div><h1>Luck Society · LoL Simulator</h1><p class="tag">Sports Betting • Crypto • Stocks • Predictions 🍀</p>
+<p class="voice">Pick any two teams, sim the series, then put any price against it. Let's stay green 🍀</p></div></div>
+<div class="meta"><p><span class="badge">RATINGS-BASED SIM</span> Runs in your browser on the exported v2 patch-weighted map Elo. It is <b>separate from the frozen protocol lock</b> on the <a href="index.html">dashboard</a> (that one adds lineups + draft-path sims and is frozen before any price is read). <span id="gen"></span></p></div>
+<div class="nav"><a class="simbtn" href="index.html">← Dashboard</a></div></div></header>
+<main>
+<section class="card"><h2>1 · Matchup</h2>
+<div class="simgrid">
+ <div><label for="preset">Slate series</label><select id="preset"></select></div>
+ <div><label for="ta">Team A</label><select id="ta"></select></div>
+ <div><label for="tb">Team B</label><select id="tb"></select></div>
+ <div><label for="bo">Format</label><select id="bo"><option value="1">Bo1</option><option value="3" selected>Bo3</option><option value="5">Bo5</option></select>
+  <label class="chk"><input type="checkbox" id="fearless" checked> Fearless draft</label></div>
+</div>
+<p class="derived" id="base"></p><div class="form" id="roster"></div><div class="lock" id="frozen"></div>
+<p><button class="ghost" id="swap">swap A ⇄ B</button></p>
+<details><summary>Overrides + sim settings</summary><div class="simgrid">
+ <div><label for="ovr">Map win % for <span id="sa">A</span> (neutral side, blank = ratings)</label><input id="ovr" placeholder="e.g. 58" inputmode="decimal"></div>
+ <div><label for="ovrg">Per-game map win % (comma list, overrides the above)</label><input id="ovrg" placeholder="e.g. 60,55,50"></div>
+ <div><label for="g1">Game 1 blue side</label><select id="g1"><option value="rand">unknown (50/50)</option><option value="A">Team A blue</option><option value="B">Team B blue</option></select>
+  <label class="chk"><input type="checkbox" id="side" checked> blue-side edge (fitted)</label></div>
+ <div><label for="n">Simulations</label><input id="n" value="100000" inputmode="numeric"><label for="seed">Seed</label><input id="seed" value="20261028" inputmode="numeric"></div>
+ <div><label for="fx">Fearless extra map sd per later game</label><input id="fx" value="0.10" inputmode="decimal">
+  <label class="chk"><input type="checkbox" id="unc" checked> rating + map uncertainty</label></div>
+</div><p class="muted">Later games: the loser picks side (fitted blue rate). Fearless widens later-map variance (draft pools deplete) by the value above; this is a ratings-level approximation, not the dashboard's draft model.</p></details>
+<p><button id="go">🎲 SIMULATE</button> <span class="muted" id="status"></span></p><div class="bar"><i id="prog"></i></div>
+</section>
+<section class="card"><h2>2 · Results <span class="badge">RATINGS-BASED</span></h2><div id="res"><p class="muted">Run SIMULATE.</p></div></section>
+<section class="card"><h2>3 · Edge finder · Jupiter or any price</h2>
+<p class="muted" id="oddsnote"></p><div id="verdict"></div>
+<div class="tw"><table class="mk" id="mk"></table></div>
+<div class="addrow">
+ <div><label class="muted" for="ck">Add market</label><select id="ck"><option value="ml">Series ML</option><option value="hcp">Map handicap</option><option value="total">Total maps</option><option value="game">Game N winner</option><option value="exact">Exact score</option></select></div>
+ <div><label class="muted" for="cs">Side</label><select id="cs"><option value="A" class="lblA">A</option><option value="B" class="lblB">B</option></select></div>
+ <div><label class="muted" for="cl">Line / score</label><input id="cl" placeholder="-1.5"></div>
+ <div><label class="muted" for="cg">Game #</label><input id="cg" placeholder="1" inputmode="numeric"></div>
+ <div><label class="muted" for="cp">Price</label><input id="cp" placeholder="0.62 or -150"></div>
+ <div><label class="muted" for="co">Opp. price (opt)</label><input id="co" placeholder="0.40 or +130"></div>
+ <div><button class="ghost" id="add">+ add</button></div>
+</div>
+<p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest +EV market that cashes on this sim's lock, otherwise PASS. Not financial advice.</p>
+</section></main>
+<footer>Luck Society · in-browser ratings sim (Web Worker) · data: lolesports results → v2 patch-recency Elo, official rosters · Jupiter prices are post-forecast snapshots, never inputs to any forecast.</footer>
+<script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script></body></html>
