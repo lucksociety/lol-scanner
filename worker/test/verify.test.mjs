@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { webcrypto } from "node:crypto";
 globalThis.crypto ??= webcrypto;
-const { verifyDiscord } = await import("../src/index.js");
+const { verifyDiscord, guildAllowed } = await import("../src/index.js");
 const kp = await crypto.subtle.generateKey({ name: "Ed25519" }, true, ["sign", "verify"]);
 const pkHex = Buffer.from(await crypto.subtle.exportKey("raw", kp.publicKey)).toString("hex");
 const ts = String(Math.floor(Date.now() / 1000)), body = '{"type":1}';
@@ -13,4 +13,9 @@ assert.equal(await verifyDiscord(pkHex, sig.replace(/^../, "00"), ts, body), fal
 assert.equal(await verifyDiscord(pkHex, sig, String(Number(ts) - 3600), body), false, "stale timestamp rejected");
 assert.equal(await verifyDiscord(pkHex, "zz", ts, body), false, "malformed hex rejected");
 assert.equal(await verifyDiscord(pkHex, null, ts, body), false, "missing header rejected");
-console.log("worker signature tests: 6/6 passed");
+const env = { ALLOWED_GUILD_ID: "780172495268610059" };
+assert.equal(guildAllowed(env, { guild_id: "780172495268610059" }), true, "own server allowed");
+assert.equal(guildAllowed(env, { guild_id: "123" }), false, "other server rejected");
+assert.equal(guildAllowed(env, { user: { id: "1" } }), false, "DM rejected");
+assert.equal(guildAllowed({}, { guild_id: "780172495268610059" }), false, "fails closed without ALLOWED_GUILD_ID");
+console.log("worker tests: 10/10 passed (6 signature, 4 guild allowlist)");

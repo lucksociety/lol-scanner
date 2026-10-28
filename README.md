@@ -115,7 +115,7 @@ Integrity: the zero-market firewall and integrity declaration are unchanged. The
 
 ## Discord `/lol`
 
-`/lol [date:YYYY-MM-DD]` in Discord runs the scanner for that slate (default: today ET) and posts a Luck Society report:
+`/lol [date:YYYY-MM-DD]` in the Luck Society Discord server (guild-locked: guild-only command + Worker and workflow allowlist) runs the scanner for that slate (default: today ET) and posts a Luck Society report:
 time (ET), league, matchup, Bo, locked exact score and %, series win %, and the Jupiter best bet with EV, or PASS.
 Flow: Discord → Cloudflare Worker (`worker/`, Ed25519-verified) → `workflow_dispatch` of `discord-lol.yml` → forecast freeze →
 post-forecast Jupiter edge → dashboard → Discord follow-up. Invite: https://discord.com/oauth2/authorize?client_id=1564914230837248060&scope=bot%20applications.commands&permissions=18432

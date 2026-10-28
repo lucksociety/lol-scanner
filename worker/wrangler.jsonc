@@ -8,6 +8,7 @@
   // Public, non-secret values only. Secrets (GITHUB_TOKEN) are set with `wrangler secret put`, never committed.
   "vars": {
     "DISCORD_APP_ID": "1564914230837248060",
+    "ALLOWED_GUILD_ID": "780172495268610059",   // Luck Society server; /lol is rejected everywhere else (incl. DMs)
     "DISCORD_PUBLIC_KEY": "cdd4aedcccf8cc1a167d4a18dd52690da9c75f6bb4c1bb4428125ff4e6bf19ce",
     "GITHUB_REPO": "lucksociety/lol-scanner",
     "WORKFLOW_FILE": "discord-lol.yml",

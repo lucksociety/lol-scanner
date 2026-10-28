@@ -18,6 +18,10 @@ on:
         description: "Discord application id"
         required: false
         default: "1564914230837248060"
+      guild_id:
+        description: "Discord server the command came from (must be the allowed server)"
+        required: false
+        default: ""
       channel_id:
         description: "Channel for the bot-token fallback post"
         required: false
@@ -53,11 +57,24 @@ jobs:
       DISCORD_INTERACTION_TOKEN: ${{ inputs.interaction_token }}
       DISCORD_APPLICATION_ID: ${{ inputs.application_id }}
       DISCORD_CHANNEL_ID: ${{ inputs.channel_id }}
+      DISCORD_GUILD_ID: ${{ inputs.guild_id }}
+      ALLOWED_GUILD_ID: "780172495268610059"   # Luck Society server only
       DISCORD_REQUESTED_AT: ${{ inputs.requested_at }}
       DRY_RUN: ${{ inputs.dry_run }}
     steps:
       - name: Mask interaction token
         run: '[ -n "$DISCORD_INTERACTION_TOKEN" ] && echo "::add-mask::$DISCORD_INTERACTION_TOKEN" || true'
+      - name: Guild / channel allowlist (defense in depth; the Worker already enforces it)
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if [ "$DISCORD_GUILD_ID" != "$ALLOWED_GUILD_ID" ]; then echo "rejected: guild '${DISCORD_GUILD_ID:0:20}' is not the allowed server"; exit 78; fi
+          if [ -n "$DISCORD_CHANNEL_ID" ] && ! [[ "$DISCORD_CHANNEL_ID" =~ ^[0-9]{17,20}$ ]]; then echo "rejected: bad channel id"; exit 78; fi
+          if [ -n "$DISCORD_CHANNEL_ID" ] && [ -n "$DISCORD_BOT_TOKEN" ]; then
+            G=$(curl -sf -H "Authorization: Bot $DISCORD_BOT_TOKEN" -H "User-Agent: DiscordBot (https://github.com/lucksociety/lol-scanner, 1.0)" \
+                "https://discord.com/api/v10/channels/$DISCORD_CHANNEL_ID" | python3 -c "import sys,json;print(json.load(sys.stdin).get('guild_id',''))" || true)
+            if [ "$G" != "$ALLOWED_GUILD_ID" ]; then echo "rejected: channel is not in the allowed server"; exit 78; fi
+          fi
+          echo "GUILD_OK=1" >> "$GITHUB_ENV"
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
@@ -102,7 +119,7 @@ jobs:
           if [ "$DRY_RUN" = "true" ]; then python -m scanner.discord_report --date "${{ steps.d.outputs.date }}" --dry-run
           else python -m scanner.discord_report --date "${{ steps.d.outputs.date }}"; fi
       - name: Report failure to Discord
-        if: ${{ failure() && !inputs.dry_run }}
+        if: ${{ failure() && !inputs.dry_run && env.GUILD_OK == '1' }}
         run: |
           MSG="workflow step failed (run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
           [ -n "$BAD_DATE" ] && MSG="date must be YYYY-MM-DD, got '${IN_DATE:0:20}'"

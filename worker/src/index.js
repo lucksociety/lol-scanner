@@ -25,6 +25,11 @@ export async function verifyDiscord(publicKeyHex, signatureHex, timestamp, body)
   return crypto.subtle.verify("Ed25519", key, sig, new TextEncoder().encode(timestamp + body));
 }
 
+export function guildAllowed(env, it) {
+  // Fail closed: no ALLOWED_GUILD_ID configured -> nothing is allowed. DMs have no guild_id -> rejected.
+  return Boolean(env.ALLOWED_GUILD_ID) && typeof it.guild_id === "string" && it.guild_id === env.ALLOWED_GUILD_ID;
+}
+
 function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json" } });
 }
@@ -67,6 +72,11 @@ export default {
     const it = JSON.parse(body);
     if (it.type === PING) return json({ type: PONG });
 
+    if (it.type === APPLICATION_COMMAND && !guildAllowed(env, it)) {
+      console.log(JSON.stringify({ level: "warn", msg: "rejected guild", guild: it.guild_id || "DM" }));
+      return json({ type: CHANNEL_MESSAGE, data: { content: "🍀 /lol is only available in the Luck Society server.", flags: EPHEMERAL } });
+    }
+
     if (it.type === APPLICATION_COMMAND && it.data?.name === "lol") {
       const opt = (it.data.options || []).find((o) => o.name === "date");
       const date = (opt?.value || "").trim() || todayET();
@@ -76,6 +86,7 @@ export default {
         date,
         interaction_token: it.token,
         application_id: it.application_id || env.DISCORD_APP_ID,
+        guild_id: it.guild_id,
         channel_id: it.channel_id || it.channel?.id || "",
         requested_at: String(Math.floor(Date.now() / 1000)),
       };
