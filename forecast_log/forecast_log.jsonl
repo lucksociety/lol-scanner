@@ -1,0 +1,1 @@
+{"event": "FROZEN", "date": "2026-10-28", "frozen_at_utc": "2026-10-28T06:46:19.900876Z", "sha256": "831bbd2b1d4509274032d6c0bc047ffc7c9d3a40c55fb0b33f1fb4c6ca8d8688", "n_series": 2, "locks": {"115660540726095061": "MKOI vs T1 -> 0-2", "115660540726095065": "LYON vs IG -> 0-2"}, "market_inputs_to_forecast": "NONE"}
