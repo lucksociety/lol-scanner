@@ -1,0 +1,361 @@
+{
+  "date": "2026-10-29",
+  "integrity": {
+    "protocol": "Zero-Market Influence Prediction Protocol v4.0",
+    "market_inputs_to_forecast": "NONE",
+    "data_sources": [
+      "lolesports.com persisted gateway: getSchedule (results + schedule)"
+    ],
+    "excluded": [
+      "sportsbook odds",
+      "prediction-market prices",
+      "betting sites/ads",
+      "tipster picks"
+    ]
+  },
+  "model_version": "elo-map-v1",
+  "cards": [
+    {
+      "match_id": "115660540726095073",
+      "start_utc": "2026-10-29T20:00:00Z",
+      "start_et": "Thu Oct 29, 04:00 PM ET",
+      "league": "Worlds",
+      "stage": "Swiss",
+      "bo": 3,
+      "team_a": {
+        "code": "CFO",
+        "name": "CTBC Flying Oyster",
+        "img": "http://static.lolesports.com/teams/1656307849320_CFO_Logo.png",
+        "elo": 1534.4,
+        "home": "LCP",
+        "event_record": "1-2",
+        "form": [
+          {
+            "date": "2026-10-26",
+            "opp": "T1",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "MKOI",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "TLAW",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-08-30",
+            "opp": "TSW",
+            "score": "0-3",
+            "won": false,
+            "league": "LCP"
+          },
+          {
+            "date": "2026-08-29",
+            "opp": "MVK",
+            "score": "3-1",
+            "won": true,
+            "league": "LCP"
+          },
+          {
+            "date": "2026-08-23",
+            "opp": "TSW",
+            "score": "0-3",
+            "won": false,
+            "league": "LCP"
+          },
+          {
+            "date": "2026-08-20",
+            "opp": "MVK",
+            "score": "3-0",
+            "won": true,
+            "league": "LCP"
+          },
+          {
+            "date": "2026-08-16",
+            "opp": "TSW",
+            "score": "3-2",
+            "won": true,
+            "league": "LCP"
+          }
+        ]
+      },
+      "team_b": {
+        "code": "KC",
+        "name": "Karmine Corp",
+        "img": "http://static.lolesports.com/teams/1704714951336_KC.png",
+        "elo": 1726.7,
+        "home": "LEC",
+        "event_record": "1-2",
+        "form": [
+          {
+            "date": "2026-10-26",
+            "opp": "BLG",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "LYON",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "AL",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-18",
+            "opp": "MVK",
+            "score": "3-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-16",
+            "opp": "MVK",
+            "score": "3-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-15",
+            "opp": "C9",
+            "score": "3-2",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-09-19",
+            "opp": "MKOI",
+            "score": "0-3",
+            "won": false,
+            "league": "LEC"
+          },
+          {
+            "date": "2026-09-06",
+            "opp": "G2",
+            "score": "1-3",
+            "won": false,
+            "league": "LEC"
+          }
+        ]
+      },
+      "model": {
+        "p_map_a": 0.2484,
+        "elo_diff": -192.3,
+        "train_maps": 14201,
+        "train_logloss": 0.6516,
+        "history_cutoff_utc": "2026-10-28T08:39:15Z"
+      },
+      "sim": {
+        "bo": 3,
+        "sims": 100000,
+        "p_map_a": 0.24839424757124498,
+        "p_series_a": 0.17064,
+        "exact": {
+          "0-2": 0.55727,
+          "1-2": 0.27209,
+          "2-0": 0.07126,
+          "2-1": 0.09938
+        },
+        "e_maps": 2.37147,
+        "maps_dist": {
+          "2": 0.62853,
+          "3": 0.37147
+        },
+        "locked_score": "0-2",
+        "locked_score_prob": 0.55727
+      },
+      "adversarial_review": [
+        "Cross-region matchup (LCP vs LEC): largest source of Elo error",
+        "Model is results-only Elo: no draft/patch/roster-news adjustment (disclosed limitation)"
+      ]
+    },
+    {
+      "match_id": "115660540726095069",
+      "start_utc": "2026-10-29T23:00:00Z",
+      "start_et": "Thu Oct 29, 07:00 PM ET",
+      "league": "Worlds",
+      "stage": "Swiss",
+      "bo": 3,
+      "team_a": {
+        "code": "BLG",
+        "name": "BILIBILI GAMING",
+        "img": "http://static.lolesports.com/teams/1682322954525_Bilibili_Gaming_logo_20211.png",
+        "elo": 1847.8,
+        "home": "LPL",
+        "event_record": "2-1",
+        "form": [
+          {
+            "date": "2026-10-26",
+            "opp": "KC",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "TLAW",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "MKOI",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-09-13",
+            "opp": "AL",
+            "score": "1-3",
+            "won": false,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-09-07",
+            "opp": "AL",
+            "score": "3-0",
+            "won": true,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-09-03",
+            "opp": "WE",
+            "score": "3-1",
+            "won": true,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-08-23",
+            "opp": "AL",
+            "score": "2-1",
+            "won": true,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-08-21",
+            "opp": "TES",
+            "score": "2-0",
+            "won": true,
+            "league": "LPL"
+          }
+        ]
+      },
+      "team_b": {
+        "code": "TES",
+        "name": "TOP ESPORTS",
+        "img": "http://static.lolesports.com/teams/1592592064571_TopEsportsTES-01-FullonDark.png",
+        "elo": 1722.7,
+        "home": "LPL",
+        "event_record": "2-1",
+        "form": [
+          {
+            "date": "2026-10-25",
+            "opp": "G2",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-24",
+            "opp": "AL",
+            "score": "1-0",
+            "won": true,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-10-23",
+            "opp": "HLE",
+            "score": "0-1",
+            "won": false,
+            "league": "Worlds"
+          },
+          {
+            "date": "2026-09-17",
+            "opp": "IG",
+            "score": "3-1",
+            "won": true,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-09-05",
+            "opp": "IG",
+            "score": "2-3",
+            "won": false,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-08-29",
+            "opp": "LGD",
+            "score": "2-3",
+            "won": false,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-08-22",
+            "opp": "JDG",
+            "score": "0-2",
+            "won": false,
+            "league": "LPL"
+          },
+          {
+            "date": "2026-08-21",
+            "opp": "BLG",
+            "score": "0-2",
+            "won": false,
+            "league": "LPL"
+          }
+        ]
+      },
+      "model": {
+        "p_map_a": 0.6727,
+        "elo_diff": 125.1,
+        "train_maps": 14201,
+        "train_logloss": 0.6516,
+        "history_cutoff_utc": "2026-10-28T08:39:15Z"
+      },
+      "sim": {
+        "bo": 3,
+        "sims": 100000,
+        "p_map_a": 0.6726665852609033,
+        "p_series_a": 0.73339,
+        "exact": {
+          "0-2": 0.1187,
+          "1-2": 0.14791,
+          "2-0": 0.44797,
+          "2-1": 0.28542
+        },
+        "e_maps": 2.43333,
+        "maps_dist": {
+          "2": 0.56667,
+          "3": 0.43333
+        },
+        "locked_score": "2-0",
+        "locked_score_prob": 0.44797
+      },
+      "adversarial_review": [
+        "Model is results-only Elo: no draft/patch/roster-news adjustment (disclosed limitation)"
+      ]
+    }
+  ],
+  "frozen_at_utc": "2026-10-28T08:39:15.654941Z",
+  "frozen_at_et": "2026-10-28 04:39:15 AM ET",
+  "sha256": "f103fca85d1c0018b7a5bae10405537d4b468d5d2fc5fe06f7b86da5b068dc97"
+}
