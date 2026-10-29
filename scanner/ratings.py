@@ -27,6 +27,7 @@ def p_map(ra, rb):
 class Ratings:
     def __init__(self):
         self.r, self.home, self.last, self.n = {}, {}, {}, defaultdict(int)
+        self._gap_shrunk = {}
 
     def get(self, team, league=None, when=None):
         if team not in self.r:
@@ -35,9 +36,10 @@ class Ratings:
                 self.home[team] = league
         elif when and team in self.last:
             gap = (when - self.last[team]).days
-            if gap > 45:
+            if gap > 45 and self._gap_shrunk.get(team) != self.last[team]:
                 prior = LEAGUE_PRIOR.get(self.home.get(team), DEFAULT_PRIOR)
                 self.r[team] += OFFSEASON_SHRINK * (prior - self.r[team])
+                self._gap_shrunk[team] = self.last[team]
         if league and league not in INTL and team not in self.home:
             self.home[team] = league
         return self.r[team]
