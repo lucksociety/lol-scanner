@@ -1,6 +1,12 @@
 name: daily-scan
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - scanner/grade.py
+      - scanner/__main__.py
+      - .github/workflows/daily-scan.yml
   schedule:
     # 12:00 UTC = 08:00 EDT (07:00 EST in winter). GitHub cron is UTC-only and may start a few minutes late.
     - cron: "0 12 * * *"

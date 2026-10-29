@@ -1,0 +1,4 @@
+{
+  "project": "lol-scanner",
+  "refresh_workflow": "daily-scan.yml"
+}

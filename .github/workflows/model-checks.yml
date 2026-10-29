@@ -22,3 +22,7 @@ jobs:
         run: |
           python -m pytest -q tests
           node --test worker/test/*.test.mjs
+      - name: Prospective evaluation regressions
+        run: python3 -m unittest discover -s scripts -p test_model_learning.py
+      - name: Evergreen data and reconciliation regressions
+        run: python3 -m unittest discover -s scripts -p test_evergreen.py

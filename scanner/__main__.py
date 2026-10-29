@@ -26,7 +26,7 @@ def main(argv=None):
         from . import window
         events = schedule.fetch_all_events()
         today = window.today_et()
-        for d in window.window_dates(today, a.back, 0):
+        for d in grade.frozen_dates():
             for v in ("v1", "v2"):
                 for g in grade.grade(d, events, version=v):
                     print(f"[grade {v}] {g['series']}: locked {g['locked']} actual {g['actual']} brier {g['brier']}")
@@ -36,7 +36,7 @@ def main(argv=None):
     if a.stage in ("all", "grade"):
         events = schedule.fetch_all_events()
         prev = (datetime.fromisoformat(date) - timedelta(days=1)).date().isoformat()
-        for d in (prev, date):
+        for d in sorted(set(grade.frozen_dates()) | {prev, date}):
             for v in ("v1", "v2"):
                 for g in grade.grade(d, events, version=v):
                     print(f"[grade {v}] {g['series']}: locked {g['locked']} actual {g['actual']} brier {g['brier']}")
