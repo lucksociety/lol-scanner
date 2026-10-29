@@ -153,6 +153,14 @@ jobs:
             sleep $((RANDOM % 5 + 3))
           done
           exit 1
+      - name: Preserve pre-game forecasts for prospective evaluation
+        run: python3 scripts/model_learning.py --capture-only
+      - uses: actions/upload-artifact@v4
+        with:
+          name: learning-${{ github.run_id }}
+          path: learning/inbox.jsonl
+          retention-days: 90
+          if-no-files-found: error
       - name: 4) Discord report (dry run = print payload only)
         id: post
         run: |

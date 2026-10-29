@@ -37,3 +37,9 @@ def grade(date, events=None, version=None):
                 w.writeheader()
             w.writerows(new)
     return new
+
+
+def frozen_dates():
+    """All persisted slate dates, including old unresolved games after a missed daily run."""
+    import re
+    return sorted({p.name[:10] for p in config.FORECAST_DIR.glob('*.json') if re.match(r'^\d{4}-\d{2}-\d{2}',p.name)})
