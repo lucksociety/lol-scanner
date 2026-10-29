@@ -1,0 +1,34 @@
+{
+  "calibration_proposals": {
+    "elo-map-v1": {
+      "minimum_days": 30,
+      "minimum_games": 500,
+      "status": "insufficient_forward_sample"
+    },
+    "v2-patch-lineup-draft": {
+      "minimum_days": 30,
+      "minimum_games": 500,
+      "status": "insufficient_forward_sample"
+    }
+  },
+  "forecast_policy": "Last pre-game freeze per event per model version. No retrospectively generated forecast is graded.",
+  "forecasts": 11,
+  "generated_at": "2026-10-29T19:41:13.976191+00:00",
+  "last_successful_refresh": "2026-10-29T18:08:21+00:00",
+  "project": "lol-scanner",
+  "settled_by_version": {
+    "elo-map-v1": {
+      "brier_multiclass_sum": 0.7214416563999999,
+      "log_loss": 0.9322439646731017,
+      "n": 2,
+      "winner_accuracy": 0.5
+    },
+    "v2-patch-lineup-draft": {
+      "brier_multiclass_sum": 0.4945710025,
+      "log_loss": 0.6859258797021055,
+      "n": 2,
+      "winner_accuracy": 0.5
+    }
+  },
+  "warnings": []
+}
