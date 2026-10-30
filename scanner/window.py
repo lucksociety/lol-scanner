@@ -68,7 +68,7 @@ def pending_ids(rows, now):
     return {r["match_id"] for r in rows if r["a"] != "TBD" and r["b"] != "TBD" and r["state"] == "unstarted" and r["start"] > now_iso}
 
 
-def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None):
+def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None, clock=None):
     """Freeze the pending series of one date (base or addendum). Returns a log list."""
     from . import forecast, forecast_v2
     log = []
@@ -94,7 +94,15 @@ def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None):
                                               refresh_corpus=refresh.pop() if refresh else False)
         if not body["cards"] and not body.get("skipped"):
             continue
-        body = freeze(body, now=now) if not frozen_path(date, v).exists() else freeze_addendum(body, now=now, revision=bool(revise))
+        # Fitting can take minutes. Stamp the completed forecast, and recheck start
+        # times at publication instead of treating the earlier build time as a lock.
+        written_at = clock() if clock else datetime.now(timezone.utc)
+        eligible = pending_ids(rows, written_at)
+        body["cards"] = [c for c in body["cards"] if c["match_id"] in eligible]
+        body["skipped"] = [s for s in body.get("skipped", []) if s["match_id"] in eligible]
+        if not body["cards"] and not body["skipped"]:
+            continue
+        body = freeze(body, now=written_at) if not frozen_path(date, v).exists() else freeze_addendum(body, now=written_at, revision=bool(revise))
         log.append(f"[forecast {v}] FROZEN {date}{' addendum ' + str(body.get('addendum')) if body.get('addendum') else ''} "
                    f"at {body['frozen_at_et']} | {len(body['cards'])} series + {len(body.get('skipped', []))} not modeled")
         for c in body["cards"]:
