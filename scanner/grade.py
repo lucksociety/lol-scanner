@@ -19,6 +19,7 @@ def grade(date, events=None, version=None):
     by_key = {(row["match_id"], row.get("model_version") or "elo-map-v1"): row for row in existing}
     new = []
     for c in body["cards"]:
+        mv = c.get("model_version", body.get("model_version", "elo-map-v1"))
         r = res.get(c["match_id"])
         if not r or r["state"] != "completed" or r["a_w"] is None or not c.get("sim"):
             continue

@@ -58,9 +58,21 @@ def attach_series_context(games, fearless):
     return ser
 
 
+# Verified identity: Riot's LOS (also styled LØS) is gol.gg's Los Grandes.
+# https://gol.gg/tournament/tournament-ranking/Worlds%202026%20Main%20Event/
+TEAM_ALIASES = {"los": "losgrandes"}
+
+
+def team_key(name):
+    key = golgg.norm((name or "").replace("Ø", "O").replace("ø", "o"))
+    return TEAM_ALIASES.get(key, key)
+
+
 def _sim(a, b):
-    a, b = golgg.norm(a), golgg.norm(b)
+    a, b = team_key(a), team_key(b)
     if not a or not b:
+        return 0.0
+    if (a in TEAM_ALIASES.values() or b in TEAM_ALIASES.values()) and a != b:
         return 0.0
     if a == b or (len(a) > 3 and a in b) or (len(b) > 3 and b in a):
         return 1.0
@@ -200,16 +212,16 @@ class Engine:
         'Hanwha Life Esports' 2026, 'Gen.G eSports' vs 'Gen.G', 'DRX' vs 'Kiwoom DRX', ...). Bug fixed in the 2026-10-28
         audit: the first-seen (oldest) gol.gg name used to win, so HLE was simulated with its 2025 five (Peanut/Viper) and
         2025 draft pools. Now the alias with the most recent game before `before_date` wins (walk-forward safe)."""
-        cands = [gn for gn, ln in self.names.items() if ln == ls_name]
+        last = {}
+        for g in self.games:
+            if before_date is None or g["date"] < before_date:
+                for t in (g["blue"], g["red"]):
+                    last[t] = max(last.get(t, ""), g["date"])
+        cands = [gn for gn in last if self.names.get(gn) == ls_name or team_key(gn) == team_key(ls_name)]
         if cands:
-            last = {}
-            for g in self.games:
-                if before_date is None or g["date"] < before_date:
-                    for t in (g["blue"], g["red"]):
-                        if t in cands:
-                            last[t] = g["date"]
-            return max(cands, key=lambda gn: (last.get(gn, ""), gn))
-        best = max(self.names, key=lambda gn: _sim(gn, ls_name), default=None)
+            return max(cands, key=lambda gn: (last[gn], gn))
+        # Fuzzy fallback is restricted to joined identities with actual pre-cutoff history.
+        best = max((gn for gn in self.names if gn in last), key=lambda gn: _sim(gn, ls_name), default=None)
         return best if best and _sim(best, ls_name) >= 0.6 else None
 
 
