@@ -1,9 +1,17 @@
 {
  "115660540726095061": {
-  "label": "A",
+  "label": "B",
   "source": "calibration/calibration_log.csv"
  },
  "115660540726095065": {
+  "label": "B",
+  "source": "calibration/calibration_log.csv"
+ },
+ "115660540726095069": {
+  "label": "B",
+  "source": "calibration/calibration_log.csv"
+ },
+ "115660540726095073": {
   "label": "B",
   "source": "calibration/calibration_log.csv"
  }
