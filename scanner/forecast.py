@@ -158,9 +158,9 @@ def freeze(body, now=None):
     return body
 
 
-def freeze_addendum(body, now=None):
+def freeze_addendum(body, now=None, revision=False):
     """Freeze series that were not on the date's original frozen slate. Never touches the base file or earlier
-    addenda; refuses any series that is already frozen for that date."""
+    addenda; duplicate series require an explicit, pre-start-only revision."""
     now = now or datetime.now(timezone.utc)
     ver = version_of(body)
     base = frozen_path(body["date"], ver)
@@ -168,8 +168,16 @@ def freeze_addendum(body, now=None):
         raise FileNotFoundError(f"{base} missing: freeze the base slate first")
     have = load_frozen(body["date"], ver)
     dup = {c["match_id"] for c in body["cards"]} & {c["match_id"] for c in have["cards"]}
-    if dup:
+    if dup and not revision:
         raise FileExistsError(f"series {sorted(dup)} already frozen for {body['date']}; forecasts are immutable")
+    if revision:
+        # An append-only replacement is only legal before the series starts.
+        for c in body["cards"] + body.get("skipped", []):
+            start = datetime.fromisoformat(c["start_utc"].replace("Z", "+00:00"))
+            cutoff = c.get("model", {}).get("history_cutoff_utc")
+            if start <= now or (cutoff and datetime.fromisoformat(cutoff.replace("Z", "+00:00")) > now):
+                raise ValueError("forecast revisions must be frozen before start using only available history")
+        body = {**body, "revision": "pre-start primary/data-day upgrade or missing-history retry", "supersedes_sha256": (have.get("addenda") or [{"sha256": have["sha256"]}])[-1]["sha256"]}
     n = len(addendum_paths(body["date"], ver)) + 1
     p = base.with_name(f"{base.name[:-5]}.add{n}.json")
     body = _stamp({**body, "addendum": n}, now)
@@ -190,24 +198,32 @@ def _verified(p, date):
 def load_frozen(date, version=None):
     """Read-only loader with hash verification (used by edge.py and dashboard.py). Addenda (series frozen later
     for the same date) are verified one by one and merged in; each card keeps its own freeze time."""
-    body = _verified(frozen_path(date, version), date)
-    for c in body["cards"]:
-        c.setdefault("frozen_at_et", body["frozen_at_et"])
-    adds = addendum_paths(date, version)
-    if adds:
-        body["addenda"] = []
-        seen = {c["match_id"] for c in body["cards"]}
-        for q in adds:
-            a = _verified(q, date)
-            body["addenda"].append({"file": q.name, "frozen_at_utc": a["frozen_at_utc"], "frozen_at_et": a["frozen_at_et"],
-                                    "sha256": a["sha256"], "n_series": len(a["cards"])})
-            for c in a["cards"]:
-                if c["match_id"] not in seen:
-                    seen.add(c["match_id"]); body["cards"].append({**c, "frozen_at_et": a["frozen_at_et"]})
-            if a.get("skipped"):
-                body.setdefault("skipped", []).extend(a["skipped"])
-        body["cards"].sort(key=lambda c: c.get("start_utc", ""))
-    body["frozen_at_utc_latest"] = max([body["frozen_at_utc"]] + [x["frozen_at_utc"] for x in body.get("addenda", [])])
+    snapshots = [(frozen_path(date, version), _verified(frozen_path(date, version), date))]
+    snapshots += [(p, _verified(p, date)) for p in addendum_paths(date, version)]
+    body = dict(snapshots[0][1])
+    cards, skipped = {}, {}
+    body["addenda"] = []
+    for i, (path, snap) in enumerate(snapshots):
+        if i:
+            body["addenda"].append({"file": path.name, "frozen_at_utc": snap["frozen_at_utc"],
+                "frozen_at_et": snap["frozen_at_et"], "sha256": snap["sha256"], "n_series": len(snap["cards"])})
+        for card in snap["cards"]:
+            mid = card["match_id"]
+            if mid not in cards or snap.get("revision"):
+                cards[mid] = {**card, "model_version": snap["model_version"],
+                    "frozen_at_et": snap["frozen_at_et"], "frozen_at_utc": snap["frozen_at_utc"]}
+                skipped.pop(mid, None)
+        for skip in snap.get("skipped", []):
+            if skip["match_id"] not in cards:
+                skipped[skip["match_id"]] = {**skip, "model_version": snap["model_version"], "frozen_at_utc": snap["frozen_at_utc"]}
+    body["view_sha256"] = canonical_hash([snap["sha256"] for _, snap in snapshots])
+    body["cards"] = sorted(cards.values(), key=lambda c: c.get("start_utc", ""))
+    body["skipped"] = list(skipped.values())
+    latest = snapshots[-1][1]
+    body["frozen_at_utc_latest"] = latest["frozen_at_utc"]
+    # Individual cards retain their source timestamp/version, including mixed slates.
+    if latest.get("revision"):
+        body.update({k: latest[k] for k in ("model_version", "frozen_at_utc", "frozen_at_et", "params") if k in latest})
     return body
 
 

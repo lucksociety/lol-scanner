@@ -476,7 +476,7 @@ def run(date, version=None, jup_events=None, jup_log=None):
     cov = f"{sum(r['status'] == 'ok' for r in rows)}/{len(rows)} series"
     out = {"date": date, "label": "POST-FORECAST EDGE LAYER (market data; not an input to the forecast)",
            "forecast_model_version": fc.get("model_version"), "forecast_file": frozen_path(date, version).name,
-           "forecast_sha256": fc["sha256"], "forecast_frozen_at_utc": fc["frozen_at_utc"],
+           "forecast_sha256": fc["sha256"], "forecast_view_sha256": fc.get("view_sha256"), "forecast_frozen_at_utc": fc["frozen_at_utc"],
            "odds_fetched_at_utc": fetched.isoformat(),
            "odds_fetched_at_et": fetched.astimezone(ET).strftime("%Y-%m-%d %I:%M:%S %p ET"),
            "snapshot_file": str(snap_file.relative_to(config.ROOT)), "endpoints": log,

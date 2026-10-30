@@ -111,3 +111,51 @@ def test_dashboard_lists_every_series_and_index_is_today(tmp_repo, monkeypatch):
     sd = json.loads((tmp_repo / "docs" / "data" / "sim_data.json").read_text())
     assert [(m["a"], m["modeled"]) for m in sd["slate"]["2026-10-28"]] == [("MKOI", True), ("NEW", False)]
     assert sd["slate"]["2026-10-31"][0]["status"] == "TEAMS TBD" and sd["today_et"]
+
+
+def test_prestart_revision_preserves_original_and_recovers_skip(tmp_repo):
+    t0 = datetime(2026, 10, 28, 8, tzinfo=timezone.utc)
+    card = _card("m1", "G2", "HLE", "2026-10-30T23:00:00Z")
+    card["model"]["history_cutoff_utc"] = "2026-10-28T08:00:00Z"
+    forecast.freeze({"date": "2026-10-30", "model_version": "v2-old", "cards": [card],
+                     "skipped": [{"match_id": "m2", "series": "TL vs LOS", "start_utc": "2026-10-30T20:00:00Z"}]}, now=t0)
+    base = forecast.frozen_path("2026-10-30", "v2").read_bytes()
+    recovered = _card("m2", "TL", "LOS", "2026-10-30T20:00:00Z")
+    recovered["model"]["history_cutoff_utc"] = "2026-10-30T10:00:00Z"
+    card["sim"]["p_series_a"] = .37
+    new = {"date": "2026-10-30", "model_version": "v2.1-ratings-patch", "cards": [card, recovered]}
+    now = datetime(2026, 10, 30, 11, tzinfo=timezone.utc)
+    forecast.freeze_addendum(new, now=now, revision=True)
+    loaded = forecast.load_frozen("2026-10-30", "v2")
+    assert forecast.frozen_path("2026-10-30", "v2").read_bytes() == base
+    assert loaded["model_version"] == "v2.1-ratings-patch"
+    assert len(loaded["cards"]) == 2 and not loaded["skipped"]
+    assert loaded["cards"][1]["sim"]["p_series_a"] == .37
+    assert loaded["cards"][1]["frozen_at_utc"].startswith("2026-10-30T11")
+    with pytest.raises(ValueError):
+        forecast.freeze_addendum(new, now=datetime(2026, 10, 30, 23, tzinfo=timezone.utc), revision=True)
+    recovered["model"]["history_cutoff_utc"] = "2026-10-30T12:00:00Z"
+    with pytest.raises(ValueError):
+        forecast.freeze_addendum(new, now=now, revision=True)
+
+
+def test_window_upgrades_only_pending_and_is_idempotent(tmp_repo, monkeypatch):
+    from scanner import forecast_v2
+    old = {"date": "2026-10-30", "model_version": "v2-old", "cards": [
+        _card("future", "A", "B", "2026-10-30T23:00:00Z"),
+        _card("started", "C", "D", "2026-10-30T09:00:00Z")]}
+    for c in old["cards"]: c["model"]["history_cutoff_utc"] = "2026-10-28T08:00:00Z"
+    forecast.freeze(old, now=datetime(2026, 10, 28, 8, tzinfo=timezone.utc))
+    now = datetime(2026, 10, 30, 11, tzinfo=timezone.utc)
+    calls = []
+    def build(date, **kw):
+        calls.append(kw["only"])
+        return {**old, "model_version": forecast_v2.MODEL_VERSION, "cards": [old["cards"][0]]}
+    monkeypatch.setattr(forecast_v2, "build_forecast", build)
+    rows = [{"match_id": c["match_id"], "a": "A", "b": "B", "state": "unstarted", "start": c["start_utc"]} for c in old["cards"]]
+    window.freeze_date("2026-10-30", [], rows, now, models=("v2",))
+    window.freeze_date("2026-10-30", [], rows, now, models=("v2",))
+    assert calls == [{"future"}]
+    cards = {c["match_id"]: c for c in forecast.load_frozen("2026-10-30", "v2")["cards"]}
+    assert cards["started"]["model_version"] == "v2-old"
+    assert cards["future"]["model_version"] == forecast_v2.MODEL_VERSION

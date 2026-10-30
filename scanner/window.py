@@ -4,7 +4,7 @@ simulator slate, so the site always has Yesterday / Today / Tomorrow / next week
 Order per run (same integrity rule as the single-date path):
   1) schedule snapshot (lolesports, market-free)
   2) FORECAST: freeze every not-yet-frozen, not-yet-started series of every date in the window (base file, or an
-     addendum when the date was frozen earlier and new series appeared, e.g. TBD -> teams set). Never recomputes.
+     addendum when the date was frozen earlier and new series appeared, e.g. TBD -> teams set). Pre-start model upgrades and missing-history retries create immutable revisions.
   3) only then the POST-FORECAST Jupiter edge layer, once per date that still has unstarted frozen series
   4) dashboards for every date + docs/data/dates.json manifest + index.html = today ET + simulator export
 """
@@ -75,6 +75,16 @@ def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None):
     want = pending_ids(rows, now)
     for v in models:
         new = want - frozen_ids(date, v)
+        revise = set()
+        if v == "v2" and frozen_path(date, v).exists():
+            current = load_frozen(date, v)
+            primary = forecast_v2.MODEL_VERSION
+            revise = {c["match_id"] for c in current["cards"] if c.get("model_version") != primary
+                      or c.get("frozen_at_utc", "")[:10] < now.date().isoformat()} & want
+            # Missing history is recoverable: retry on a model upgrade or the next UTC data day.
+            revise |= {s["match_id"] for s in current.get("skipped", [])
+                       if s.get("model_version") != primary or s.get("frozen_at_utc", "")[:10] < now.date().isoformat()} & want
+        new |= revise
         if not new:
             continue
         if v == "v1":
@@ -84,7 +94,7 @@ def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None):
                                               refresh_corpus=refresh.pop() if refresh else False)
         if not body["cards"] and not body.get("skipped"):
             continue
-        body = freeze(body) if not frozen_path(date, v).exists() else freeze_addendum(body)
+        body = freeze(body, now=now) if not frozen_path(date, v).exists() else freeze_addendum(body, now=now, revision=bool(revise))
         log.append(f"[forecast {v}] FROZEN {date}{' addendum ' + str(body.get('addendum')) if body.get('addendum') else ''} "
                    f"at {body['frozen_at_et']} | {len(body['cards'])} series + {len(body.get('skipped', []))} not modeled")
         for c in body["cards"]:
