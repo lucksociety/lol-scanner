@@ -66,3 +66,16 @@ def test_real_oct28_payload_lists_both_series():
     assert "MKOI vs T1 · Bo3" in txt and "LYON vs IG · Bo3" in txt
     assert "**T1 2-0** (33.1%)" in txt and "T1 61.4% to win" in txt
     assert "**IG 2-0** (37.6%)" in txt and "IG 65.7% to win" in txt
+
+
+def test_superseded_edge_is_never_recommended(tmp_path, monkeypatch):
+    from scanner import config
+    monkeypatch.setattr(config, "EDGE_DIR", tmp_path)
+    (tmp_path / "2026-10-30.v2.json").write_text(json.dumps({**EDGE, "series": [_row(1, True)],
+        "forecast_model_version": "v2-old", "odds_fetched_at_utc": "2026-10-30T10:00:00Z"}))
+    monkeypatch.setattr(dr, "frozen_path", lambda *a: tmp_path)
+    monkeypatch.setattr(dr, "load_frozen", lambda *a: {**FC, "cards": [_card(1)],
+        "frozen_at_utc": "2026-10-30T11:00:00Z", "frozen_at_utc_latest": "2026-10-30T11:00:00Z"})
+    payload = dr.build_payload("2026-10-30")
+    assert "0 bets" in payload["content"]
+    assert "edge layer not run" in payload["embeds"][0]["fields"][0]["value"]

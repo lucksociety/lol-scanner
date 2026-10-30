@@ -117,6 +117,10 @@ def build_payload(date):
     fc = load_frozen(date, version)
     ep = config.EDGE_DIR / f"{date}{'.v2' if version == 'v2' else ''}.json"
     edge = json.loads(ep.read_text()) if ep.exists() else None
+    if edge and (edge.get("forecast_model_version") != fc.get("model_version")
+                 or (edge.get("forecast_view_sha256") and edge["forecast_view_sha256"] != fc.get("view_sha256"))
+                 or edge.get("odds_fetched_at_utc", "") <= fc.get("frozen_at_utc_latest", fc["frozen_at_utc"])):
+        edge = None  # A failed edge refresh must not recommend bets priced from a superseded forecast.
     return render(date, fc, edge)
 
 

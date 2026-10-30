@@ -216,6 +216,7 @@ def load_frozen(date, version=None):
         for skip in snap.get("skipped", []):
             if skip["match_id"] not in cards:
                 skipped[skip["match_id"]] = {**skip, "model_version": snap["model_version"], "frozen_at_utc": snap["frozen_at_utc"]}
+    body["view_sha256"] = canonical_hash([snap["sha256"] for _, snap in snapshots])
     body["cards"] = sorted(cards.values(), key=lambda c: c.get("start_utc", ""))
     body["skipped"] = list(skipped.values())
     latest = snapshots[-1][1]
