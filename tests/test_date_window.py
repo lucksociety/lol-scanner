@@ -153,9 +153,23 @@ def test_window_upgrades_only_pending_and_is_idempotent(tmp_repo, monkeypatch):
         return {**old, "model_version": forecast_v2.MODEL_VERSION, "cards": [old["cards"][0]]}
     monkeypatch.setattr(forecast_v2, "build_forecast", build)
     rows = [{"match_id": c["match_id"], "a": "A", "b": "B", "state": "unstarted", "start": c["start_utc"]} for c in old["cards"]]
-    window.freeze_date("2026-10-30", [], rows, now, models=("v2",))
-    window.freeze_date("2026-10-30", [], rows, now, models=("v2",))
+    window.freeze_date("2026-10-30", [], rows, now, models=("v2",), clock=lambda: now)
+    window.freeze_date("2026-10-30", [], rows, now, models=("v2",), clock=lambda: now)
     assert calls == [{"future"}]
     cards = {c["match_id"]: c for c in forecast.load_frozen("2026-10-30", "v2")["cards"]}
     assert cards["started"]["model_version"] == "v2-old"
     assert cards["future"]["model_version"] == forecast_v2.MODEL_VERSION
+
+
+def test_slow_build_never_publishes_a_revision_after_start(tmp_repo, monkeypatch):
+    from scanner import forecast_v2
+    card = _card("m", "A", "B", "2026-10-30T12:00:00Z")
+    card["model"]["history_cutoff_utc"] = "2026-10-28T08:00:00Z"
+    old = {"date": "2026-10-30", "model_version": "v2-old", "cards": [card]}
+    forecast.freeze(old, now=datetime(2026, 10, 28, 8, tzinfo=timezone.utc))
+    monkeypatch.setattr(forecast_v2, "build_forecast", lambda *a, **kw: {**old, "model_version": forecast_v2.MODEL_VERSION})
+    row = {"match_id": "m", "a": "A", "b": "B", "state": "unstarted", "start": card["start_utc"]}
+    logs = window.freeze_date("2026-10-30", [], [row], datetime(2026, 10, 30, 11, 59, tzinfo=timezone.utc),
+                              models=("v2",), clock=lambda: datetime(2026, 10, 30, 12, 1, tzinfo=timezone.utc))
+    assert logs == [] and not forecast.addendum_paths("2026-10-30", "v2")
+    assert forecast.load_frozen("2026-10-30", "v2")["model_version"] == "v2-old"
