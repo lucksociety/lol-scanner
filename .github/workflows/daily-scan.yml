@@ -65,5 +65,22 @@ jobs:
         run: |
           git add forecast_log calibration odds_snapshots edge_log docs || true
           git diff --cached --quiet || git commit -m "edge+dashboard: window $(TZ=America/New_York date +%F)"
-          git pull --rebase --autostash || true
-          git push
+          for i in 1 2 3 4; do
+            if git pull --rebase --autostash; then
+              git push && exit 0
+            else
+              # A /lol or another writer saved a forecast first. Preserve its immutable
+              # snapshot, then rebuild any still-missing forecasts before fetching odds.
+              git rebase --abort || true
+              git reset -q --hard origin/main
+              python -m scanner --stage window --model v2 --no-odds
+              git add forecast_log calibration
+              git diff --cached --quiet || git commit -m "forecast: reconcile window after concurrent writer"
+              python -m scanner --stage window --model v2
+              git add forecast_log calibration odds_snapshots edge_log docs
+              git diff --cached --quiet || git commit -m "edge+dashboard: reconcile window after concurrent writer"
+            fi
+            sleep $((RANDOM % 5 + 3))
+          done
+          echo "Unable to save the daily scan after four concurrent-writer retries"
+          exit 1
