@@ -17,25 +17,28 @@
     }
   },
   "forecast_policy": "Last pre-game freeze per event per model version. No retrospectively generated forecast is graded.",
-  "forecasts": 15,
-  "generated_at": "2026-11-01T17:13:58.856854+00:00",
-  "last_successful_refresh": "2026-10-30T22:44:45+00:00",
+  "forecasts": 23,
+  "generated_at": "2026-11-01T17:26:57.676432+00:00",
+  "last_successful_refresh": "2026-11-01T17:26:50+00:00",
   "project": "lol-scanner",
   "settled_by_version": {
     "elo-map-v1": {
-      "brier_multiclass_sum": 0.43611027904999994,
-      "log_loss": 0.6218458007698671,
-      "n": 4,
-      "winner_accuracy": 0.75
+      "brier_multiclass_sum": 0.4949378719714286,
+      "log_loss": 0.6876683443401129,
+      "n": 7,
+      "winner_accuracy": 0.7142857142857143
     },
     "v2-patch-lineup-draft": {
-      "brier_multiclass_sum": 0.5469910155,
-      "log_loss": 0.8149120570990759,
-      "n": 4,
-      "winner_accuracy": 0.75
+      "brier_multiclass_sum": 0.5124429949599999,
+      "log_loss": 0.7652607474245929,
+      "n": 5,
+      "winner_accuracy": 0.8
     },
     "v2.1-ratings-patch": {
-      "n": 0
+      "brier_multiclass_sum": 0.5506526040666666,
+      "log_loss": 0.7516454930428713,
+      "n": 3,
+      "winner_accuracy": 0.6666666666666666
     }
   },
   "warnings": []
