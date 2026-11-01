@@ -6,9 +6,9 @@
   "forecast_sha256": "29d0614d800b2c2555312b7356659ef12648ea324df14978c94abc1f706570ac",
   "forecast_view_sha256": "15758147529893e4c35d2d23d798315b236b7456dfa5f08a4522627ef7b443f4",
   "forecast_frozen_at_utc": "2026-11-01T17:20:47.554383Z",
-  "odds_fetched_at_utc": "2026-11-01T17:26:24.996965+00:00",
-  "odds_fetched_at_et": "2026-11-01 12:26:24 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-04/20261101T172624Z.json",
+  "odds_fetched_at_utc": "2026-11-01T17:42:47.528236+00:00",
+  "odds_fetched_at_et": "2026-11-01 12:42:47 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-04/20261101T174247Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 101
+      "n": 100
     },
     {
       "endpoint": "GET /events/POLY-1291726/markets?includeAllMarkets=true (paged)",
@@ -115,7 +115,7 @@
           "cost": 0.0957,
           "our_prob": 0.1716,
           "cashes_on_lock": false,
-          "contracts_at_ask": 49949.33,
+          "contracts_at_ask": 50069.33,
           "overround": 0.01,
           "fair_prob": 0.0891,
           "edge_pct": 8.25,
@@ -355,7 +355,7 @@
           "cost": 0.2216,
           "our_prob": 0.2954,
           "cashes_on_lock": false,
-          "contracts_at_ask": 1091.77,
+          "contracts_at_ask": 1082.24,
           "overround": 0.02,
           "fair_prob": 0.2059,
           "edge_pct": 8.95,
@@ -403,7 +403,7 @@
           "cost": 0.232,
           "our_prob": 0.2974,
           "cashes_on_lock": false,
-          "contracts_at_ask": 321.75,
+          "contracts_at_ask": 312.65,
           "overround": 0.02,
           "fair_prob": 0.2157,
           "edge_pct": 8.17,

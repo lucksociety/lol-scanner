@@ -6,9 +6,9 @@
   "forecast_sha256": "bae236c1033f8a82e36609965e41cc1f5789ddde60f4118204f07e40162f1f85",
   "forecast_view_sha256": "eadea3860a23ef0bb546e1e20b36a96f1d0afe21d97669455890b31995660fd8",
   "forecast_frozen_at_utc": "2026-11-01T17:23:26.653698Z",
-  "odds_fetched_at_utc": "2026-11-01T17:26:29.615443+00:00",
-  "odds_fetched_at_et": "2026-11-01 12:26:29 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-05/20261101T172629Z.json",
+  "odds_fetched_at_utc": "2026-11-01T17:42:50.904356+00:00",
+  "odds_fetched_at_et": "2026-11-01 12:42:50 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-05/20261101T174250Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 101
+      "n": 100
     },
     {
       "endpoint": "GET /events/POLY-1291724/markets?includeAllMarkets=true (paged)",
@@ -91,7 +91,7 @@
           "cost": 0.6069,
           "our_prob": 0.6278,
           "cashes_on_lock": true,
-          "contracts_at_ask": 2383.93,
+          "contracts_at_ask": 2842.02,
           "overround": 0.01,
           "fair_prob": 0.5842,
           "edge_pct": 4.36,
@@ -115,7 +115,7 @@
           "cost": 0.4371,
           "our_prob": 0.3722,
           "cashes_on_lock": false,
-          "contracts_at_ask": 23133.07,
+          "contracts_at_ask": 23384.97,
           "overround": 0.01,
           "fair_prob": 0.4158,
           "edge_pct": -4.36,
@@ -235,7 +235,7 @@
           "cost": 0.7631,
           "our_prob": 0.7124,
           "cashes_on_lock": true,
-          "contracts_at_ask": 2976.39,
+          "contracts_at_ask": 2949.72,
           "overround": 0.02,
           "fair_prob": 0.7353,
           "edge_pct": -2.29,
@@ -524,7 +524,7 @@
         "cost": 0.6069,
         "our_prob": 0.6278,
         "cashes_on_lock": true,
-        "contracts_at_ask": 2383.93,
+        "contracts_at_ask": 2842.02,
         "overround": 0.01,
         "fair_prob": 0.5842,
         "edge_pct": 4.36,
@@ -548,7 +548,7 @@
         "cost": 0.6069,
         "our_prob": 0.6278,
         "cashes_on_lock": true,
-        "contracts_at_ask": 2383.93,
+        "contracts_at_ask": 2842.02,
         "overround": 0.01,
         "fair_prob": 0.5842,
         "edge_pct": 4.36,
