@@ -13,6 +13,18 @@ from . import config
 from .forecast import load_frozen, frozen_path
 
 ET = ZoneInfo(config.TZ)
+
+def pregame_reason(card, event=None, now=None):
+    now = now or datetime.now(timezone.utc)
+    try:
+        start = datetime.fromisoformat(card.get('start_utc', '').replace('Z', '+00:00'))
+        if start.tzinfo is None:
+            return 'official start unavailable — no pregame bet'
+    except (ValueError, TypeError):
+        return 'official start unavailable — no pregame bet'
+    if now >= start or (event or {}).get('isLive'):
+        return 'series started or market live — no pregame bet'
+    return None
 UA = "Mozilla/5.0 (lol-scanner edge layer)"
 ALIASES = {  # lolesports name -> extra tokens Jupiter/Polymarket may use
     "team liquid alienware": ["team liquid"], "los": ["los grandes"], "ctbc flying oyster": ["cfo"],
@@ -429,6 +441,11 @@ def run(date, version=None, jup_events=None, jup_log=None):
         if not ev:
             rows.append({"match_id": card["match_id"], "series": f'{card["team_a"]["code"]} vs {card["team_b"]["code"]}',
                          "status": "no Jupiter market", "legs": [], "best_bet": None, "verdict": "no Jupiter market"})
+            continue
+        reason = pregame_reason(card, ev)
+        if reason:
+            rows.append({'match_id': card['match_id'], 'series': f'{card["team_a"]["code"]} vs {card["team_b"]["code"]}',
+                         'status': 'not_prematch', 'reason': reason, 'legs': [], 'best_bet': None, 'verdict': f'NO BET ({reason})'})
             continue
         markets = fetch_event_markets(ev, log)
         ev = {**ev, "markets": markets}

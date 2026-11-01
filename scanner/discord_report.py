@@ -39,6 +39,10 @@ def _embed_chars(em):
 
 def _series_field(c, row, have_edge, short=False):
     """One embed field per series: teams · format · time / lock + prob · winner % / best bet + EV, or NO BET (nothing > 50% model prob and +EV), or PASS (no market)."""
+    from .edge import pregame_reason
+    reason = pregame_reason(c)
+    if reason:
+        row = {"status": "not_prematch", "reason": reason, "best_bet": None}
     A, B, s = c["team_a"], c["team_b"], c["sim"]
     la, lb = map(int, s["locked_score"].split("-"))
     lock = f"{A['code'] if la > lb else B['code']} {max(la, lb)}-{min(la, lb)}"

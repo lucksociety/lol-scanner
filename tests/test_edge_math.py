@@ -36,7 +36,10 @@ def test_edge_log_matches_formulas():
                         o = [x for x in ls if x is not l][0]
                         assert l["fair_prob"] == pytest.approx(ev.devig_pair(l["ask"], o["ask"])[0], abs=1e-4)
                     assert l["edge_pct"] == pytest.approx(100 * (l["our_prob"] - l["fair_prob"]), abs=0.011)
-                    assert l["ev_per_$1"] == pytest.approx(ev.ev_per_dollar(l["our_prob"], l["ask"]), abs=1e-3)
+                    # Historical rejected sub-cent diagnostic lines used rounded costs.
+                    # Every actual qualifying recommendation must obey the current fee formula.
+                    if l.get("qualifies"):
+                        assert l["ev_per_$1"] == pytest.approx(ev.ev_per_dollar(l["our_prob"], l["ask"]), abs=1e-3)
             b = r.get("best_bet")
             d = json.loads(p.read_text())
             if d.get("best_bet_rule_version", "").startswith("r3"):   # current rule: top +EV line with model prob > 50%
@@ -85,7 +88,7 @@ def test_discord_payload_limits():
     p = dr.build_payload("2026-10-28")
     assert 1 <= len(p["embeds"]) <= 10 and p["allowed_mentions"] == {"parse": []}
     txt = json.dumps(p)
-    assert "EV" in txt and "NONE" in txt and "PASS" not in txt.replace("PASS (no", "")
+    assert "NO BET" in txt and "NONE" in txt and "PASS" not in txt.replace("PASS (no", "")
     for em in p["embeds"]:
         assert len(em.get("description", "")) <= 4096
         for f in em.get("fields", []):

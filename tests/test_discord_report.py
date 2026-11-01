@@ -3,7 +3,7 @@ from scanner import discord_report as dr
 
 
 def _card(i, bo=3, lock="2-0", pa=0.62):
-    return {"match_id": f"m{i}", "bo": bo, "league": "Worlds", "stage": "Swiss", "start_et": "Wed Oct 28, 04:00 PM ET",
+    return {"match_id": f"m{i}", "bo": bo, "league": "Worlds", "stage": "Swiss", "start_et": "Wed Oct 28, 04:00 PM ET", "start_utc": "2099-10-28T20:00:00Z",
             "team_a": {"code": f"A{i}", "name": f"Alpha {i}"}, "team_b": {"code": f"B{i}", "name": f"Beta {i}"},
             "sim": {"locked_score": lock, "locked_score_prob": 0.35, "p_series_a": pa}}
 
