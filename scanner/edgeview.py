@@ -119,6 +119,8 @@ def best_summary(row):
     NO BET. 'verdict' is the display word: NO BET when Jupiter priced the series but nothing qualifies; PASS only
     when there is no Jupiter market / edge layer at all."""
     if not row or row.get("status") != "ok":
+        if row and row.get("status") == "not_prematch":
+            return {"pass": True, "verdict": "NO BET", "reason": row.get("reason") or "not pregame"}
         return {"pass": True, "verdict": "PASS", "reason": (row or {}).get("status") or "no Jupiter market"}
     b = row.get("best_bet")
     if not b:
