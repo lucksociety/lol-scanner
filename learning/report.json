@@ -17,8 +17,8 @@
     }
   },
   "forecast_policy": "Last pre-game freeze per event per model version. No retrospectively generated forecast is graded.",
-  "forecasts": 23,
-  "generated_at": "2026-11-01T22:33:54.297831+00:00",
+  "forecasts": 24,
+  "generated_at": "2026-11-02T20:52:54.456476+00:00",
   "last_successful_refresh": "2026-11-01T22:33:46+00:00",
   "project": "lol-scanner",
   "settled_by_version": {
