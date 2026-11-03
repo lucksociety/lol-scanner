@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-10",
+  "label": "POST-FORECAST EDGE LAYER (market data; not an input to the forecast)",
+  "forecast_model_version": "v2.1-ratings-patch",
+  "forecast_file": "2026-11-10.v2.json",
+  "forecast_sha256": "15bd6d07019a81175cf3cb229bed3afb3afed8905efe6f636816912acd98de90",
+  "forecast_view_sha256": "ac4d4f12cecd28281f887d276876d25a5cdb782e28ff93041492b4c9a5acb879",
+  "forecast_frozen_at_utc": "2026-11-03T19:12:36.932639Z",
+  "odds_fetched_at_utc": "2026-11-03T19:13:18.514900+00:00",
+  "odds_fetched_at_et": "2026-11-03 02:13:18 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-10/20261103T191318Z.json",
+  "endpoints": [
+    {
+      "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
+      "ok": true,
+      "n": 5
+    },
+    {
+      "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
+      "ok": true,
+      "n": 139
+    },
+    {
+      "endpoint": "GET /orderbook/{marketId}",
+      "ok": false,
+      "n": 0
+    }
+  ],
+  "endpoints_ok": [
+    "GET /events?category=esports (paged, LoL by subcategory/title)",
+    "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)"
+  ],
+  "coverage": "0/1 series",
+  "jupiter_lol_events_listed": [
+    {
+      "id": "POLY-1291728",
+      "title": "LoL: Top Esports vs Invictus Gaming (BO5) - Worlds Playoffs"
+    },
+    {
+      "id": "POLY-1291726",
+      "title": "LoL: Gen.G vs LYON (BO5) - Worlds Playoffs"
+    },
+    {
+      "id": "POLY-1291724",
+      "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
+    },
+    {
+      "id": "POLY-1291725",
+      "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
+    },
+    {
+      "id": "POLY-1270992",
+      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+    }
+  ],
+  "fee_model": "0.07 * p * (1-p) per $1 contract",
+  "best_bet_rule": "prob>50%+max-EV: highest-EV Jupiter line among lines with model probability > 50% AND EV > 0 (any market/side); skip ask < 0.03 or > 0.97 or no volume and no orderbook; none qualifies -> NO BET; cashes_on_lock is info only",
+  "best_bet_rule_version": "r3-2026-10-28-prob50-maxEV",
+  "min_model_prob": 0.5,
+  "series": [
+    {
+      "match_id": "117393592614464336",
+      "series": "FL vs NTH",
+      "status": "no Jupiter market",
+      "legs": [],
+      "best_bet": null,
+      "verdict": "no Jupiter market"
+    }
+  ]
+}
