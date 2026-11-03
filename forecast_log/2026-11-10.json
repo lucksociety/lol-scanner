@@ -1,0 +1,268 @@
+{
+  "date": "2026-11-10",
+  "integrity": {
+    "protocol": "Zero-Market Influence Prediction Protocol v4.0",
+    "market_inputs_to_forecast": "NONE",
+    "data_sources": [
+      "lolesports.com persisted gateway: getSchedule (results + schedule)"
+    ],
+    "excluded": [
+      "sportsbook odds",
+      "prediction-market prices",
+      "betting sites/ads",
+      "tipster picks"
+    ]
+  },
+  "model_version": "elo-map-v1",
+  "cards": [
+    {
+      "match_id": "117393592614464336",
+      "start_utc": "2026-11-10T05:00:00Z",
+      "start_et": "Tue Nov 10, 12:00 AM ET",
+      "league": "LCP P&R",
+      "stage": "Regional Qualifier",
+      "bo": 5,
+      "team_a": {
+        "code": "FL",
+        "name": "FENNEL",
+        "img": "http://static.lolesports.com/teams/1673413831349_fl.png",
+        "elo": 1546.2,
+        "home": "LJL",
+        "event_record": "0-0",
+        "form": [
+          {
+            "date": "2026-09-25",
+            "opp": "DK",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-25",
+            "opp": "VKS",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-23",
+            "opp": "CPD",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-23",
+            "opp": "DK",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-21",
+            "opp": "VKS",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-21",
+            "opp": "CPD",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-06",
+            "opp": "NM",
+            "score": "3-2",
+            "won": true,
+            "league": "LJL"
+          },
+          {
+            "date": "2026-08-05",
+            "opp": "NM",
+            "score": "3-0",
+            "won": true,
+            "league": "LJL"
+          }
+        ]
+      },
+      "team_b": {
+        "code": "NTH",
+        "name": "Nothin'Here",
+        "img": "http://static.lolesports.com/teams/1792576868179_NTH-LogoColoredwithTeamName.png",
+        "elo": 1380.0,
+        "home": "LCP P&R",
+        "event_record": "0-0",
+        "form": []
+      },
+      "model": {
+        "p_map_a": 0.7225,
+        "elo_diff": 166.2,
+        "train_maps": 14223,
+        "train_logloss": 0.6504,
+        "history_cutoff_utc": "2026-11-03T19:10:30Z"
+      },
+      "sim": {
+        "bo": 5,
+        "sims": 100000,
+        "p_map_a": 0.7224977100732912,
+        "p_series_a": 0.84341,
+        "exact": {
+          "0-3": 0.02794,
+          "1-3": 0.05487,
+          "2-3": 0.07378,
+          "3-0": 0.3784,
+          "3-1": 0.29696,
+          "3-2": 0.16805
+        },
+        "e_maps": 3.83549,
+        "maps_dist": {
+          "3": 0.40634,
+          "4": 0.35183,
+          "5": 0.24183
+        },
+        "locked_score": "3-0",
+        "locked_score_prob": 0.3784
+      },
+      "adversarial_review": [
+        "FENNEL: no recent international series; cross-region strength is inferred",
+        "Nothin'Here: thin sample (0 maps in history) -> rating prior-dominated",
+        "Cross-region matchup (LJL vs LCP P&R): largest source of Elo error",
+        "Model is results-only Elo: no draft/patch/roster-news adjustment (disclosed limitation)"
+      ]
+    },
+    {
+      "match_id": "117393592614464342",
+      "start_utc": "2026-11-10T09:00:00Z",
+      "start_et": "Tue Nov 10, 04:00 AM ET",
+      "league": "LCP P&R",
+      "stage": "Regional Qualifier",
+      "bo": 5,
+      "team_a": {
+        "code": "SGW",
+        "name": "Saigon Warrior",
+        "img": "http://static.lolesports.com/teams/1771230875226_logo_SW-removebg-preview.png",
+        "elo": 1536.0,
+        "home": "VCS",
+        "event_record": "0-0",
+        "form": [
+          {
+            "date": "2026-10-11",
+            "opp": "MVKA",
+            "score": "0-3",
+            "won": false,
+            "league": "VCS"
+          },
+          {
+            "date": "2026-09-25",
+            "opp": "SLY",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-25",
+            "opp": "MVKA",
+            "score": "3-1",
+            "won": true,
+            "league": "VCS"
+          },
+          {
+            "date": "2026-09-25",
+            "opp": "ZSK",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-24",
+            "opp": "9G",
+            "score": "2-1",
+            "won": true,
+            "league": "VCS"
+          },
+          {
+            "date": "2026-09-23",
+            "opp": "GL",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-23",
+            "opp": "SLY",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-21",
+            "opp": "ZSK",
+            "score": "1-0",
+            "won": true,
+            "league": "WSCI"
+          }
+        ]
+      },
+      "team_b": {
+        "code": "TGM",
+        "name": "Team Gromp ",
+        "img": "http://static.lolesports.com/teams/1791284516294_TeamGromp.png",
+        "elo": 1388.2,
+        "home": "FLS",
+        "event_record": "0-0",
+        "form": [
+          {
+            "date": "2026-09-05",
+            "opp": "OTP",
+            "score": "3-2",
+            "won": true,
+            "league": "FLS"
+          }
+        ]
+      },
+      "model": {
+        "p_map_a": 0.7007,
+        "elo_diff": 147.8,
+        "train_maps": 14223,
+        "train_logloss": 0.6504,
+        "history_cutoff_utc": "2026-11-03T19:10:30Z"
+      },
+      "sim": {
+        "bo": 5,
+        "sims": 100000,
+        "p_map_a": 0.7007417643615479,
+        "p_series_a": 0.81657,
+        "exact": {
+          "0-3": 0.03357,
+          "1-3": 0.0639,
+          "2-3": 0.08596,
+          "3-0": 0.34237,
+          "3-1": 0.29444,
+          "3-2": 0.17976
+        },
+        "e_maps": 3.88978,
+        "maps_dist": {
+          "3": 0.37594,
+          "4": 0.35834,
+          "5": 0.26572
+        },
+        "locked_score": "3-0",
+        "locked_score_prob": 0.34237
+      },
+      "adversarial_review": [
+        "Saigon Warrior: no recent international series; cross-region strength is inferred",
+        "Team Gromp : thin sample (5 maps in history) -> rating prior-dominated",
+        "Team Gromp : no recent international series; cross-region strength is inferred",
+        "Cross-region matchup (VCS vs FLS): largest source of Elo error",
+        "Model is results-only Elo: no draft/patch/roster-news adjustment (disclosed limitation)"
+      ]
+    }
+  ],
+  "skipped": [],
+  "frozen_at_utc": "2026-11-03T19:10:30.625882Z",
+  "frozen_at_et": "2026-11-03 02:10:30 PM ET",
+  "sha256": "e98196b1b6e1c78f2818b510edd928f2e89668779c22101173cf0d062a5b422b"
+}
