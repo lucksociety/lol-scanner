@@ -74,7 +74,7 @@ def test_exactly_50pct_does_not_qualify():
     assert edge.qualifies({"skip_reason": None, "our_prob": 0.5001, "ev_per_$1": 0.0001})
     assert not edge.qualifies({"skip_reason": "price < 0.03", "our_prob": 0.9, "ev_per_$1": 0.5})
     assert not edge.qualifies({"skip_reason": None, "our_prob": 0.9, "ev_per_$1": 0})
-    assert edge.BEST_BET_RULE_VERSION.startswith("r3") and "50%" in edge.BEST_BET_RULE and "NO BET" in edge.BEST_BET_RULE
+    assert edge.BEST_BET_RULE_VERSION.startswith("r4") and "50%" in edge.BEST_BET_RULE and "NO BET" in edge.BEST_BET_RULE
 
 
 def test_pass_when_nothing_plus_ev():

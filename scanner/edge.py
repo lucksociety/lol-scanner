@@ -317,6 +317,13 @@ def _legs_for_market(m, c):
     return out
 
 
+def winner_disagreement(card):
+    """Flag opposite series favorites in the frozen ratings and draft forecasts."""
+    ratings = card["sim"].get("p_series_a")
+    draft = (card.get("draft_sim") or {}).get("p_series_a")
+    return ratings is not None and draft is not None and (ratings - 0.5) * (draft - 0.5) < 0
+
+
 def evaluate(card, ev, obs, markets=None):
     """Price every Jupiter market derivable from the frozen sim. Returns (legs, best, best_any, not_modeled, unpriced)."""
     sim = card["sim"]; exact = sim["exact"]; bo = card["bo"]
@@ -370,9 +377,10 @@ def evaluate(card, ev, obs, markets=None):
     order = {"moneyline": 0, "map_handicap": 1, "totals_over": 2, "totals_under": 2, "exact": 3, "game": 4}
     legs.sort(key=lambda x: (order.get(x["type"], 9), x["label"]))
     not_modeled.sort(key=lambda x: (x["game"] or 0, x["type"], x["label"]))
+    disagreement = winner_disagreement(card)
     for x in legs:
         x["has_book"] = bool(obs.get(x["market_id"].replace(":NO", "")))
-        x["skip_reason"] = sanity_skip(x)
+        x["skip_reason"] = "ratings and draft disagree on series winner" if disagreement else sanity_skip(x)
         x["eligible"] = x["skip_reason"] is None
         x["qualifies"] = qualifies(x)
     # BEST BET (rule BEST_BET_RULE_VERSION): highest-EV Jupiter line among lines with model probability > 50% AND
@@ -390,10 +398,10 @@ def qualifies(leg):
 
 
 MIN_MODEL_PROB = 0.50
-BEST_BET_RULE_VERSION = "r3-2026-10-28-prob50-maxEV"   # r2 (624ca75) = pure max-EV; r1 = had to cash on the lock
+BEST_BET_RULE_VERSION = "r4-prob50-model-agreement"   # r2 (624ca75) = pure max-EV; r1 = had to cash on the lock
 BEST_BET_RULE = (f"prob>50%+max-EV: highest-EV Jupiter line among lines with model probability > {MIN_MODEL_PROB:.0%} AND EV > 0 "
                  f"(any market/side); skip ask < {config.MIN_ASK} or > {config.MAX_ASK} or no volume and no orderbook; "
-                 f"none qualifies -> NO BET; cashes_on_lock is info only")
+                 "ratings/draft winner disagreement -> NO BET; none qualifies -> NO BET; cashes_on_lock is info only")
 NO_BET_REASON = f"no Jupiter line has model probability > {MIN_MODEL_PROB:.0%} and +EV after fees"
 
 

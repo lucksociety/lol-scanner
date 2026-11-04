@@ -39,7 +39,7 @@ def _embed_chars(em):
 
 def _series_field(c, row, have_edge, short=False):
     """One embed field per series: teams · format · time / lock + prob · winner % / best bet + EV, or NO BET (nothing > 50% model prob and +EV), or PASS (no market)."""
-    from .edge import pregame_reason
+    from .edge import pregame_reason, winner_disagreement
     reason = pregame_reason(c)
     if reason:
         row = {"status": "not_prematch", "reason": reason, "best_bet": None}
@@ -50,6 +50,9 @@ def _series_field(c, row, have_edge, short=False):
     fav, pf = (A["code"], pa) if pa >= 0.5 else (B["code"], 1 - pa)
     when = str(c.get("start_et", "")).split(", ")[-1]      # "Wed Oct 28, 04:00 PM ET" -> "04:00 PM ET"
     bs = ev.best_summary(row) if have_edge else {"pass": True, "reason": "edge layer not run"}
+    disagreement = winner_disagreement(c)
+    if disagreement and not reason:
+        bs = {"pass": True, "verdict": "NO BET", "reason": "ratings and draft disagree on the series winner"}
     if bs["pass"]:
         bet = f"💰 **{bs.get('verdict', 'PASS')}** · {bs['reason']}"
     else:
@@ -60,7 +63,12 @@ def _series_field(c, row, have_edge, short=False):
     if row and row.get("status") == "ok" and not short:
         nm = len(row.get("not_modeled") or [])
         bet += f"\n📊 {row.get('n_priced_legs', len(row.get('legs', [])))} Jupiter lines priced" + (f" · {nm} props not modeled" if nm else "")
-    val = f"🔒 **{lock}** ({_pct(s['locked_score_prob'])}) · {fav} {_pct(pf)} to win\n{bet}"
+    forecast = f"Ratings: {fav} {_pct(pf)} to win · most likely exact score **{lock}** ({_pct(s['locked_score_prob'])})"
+    if disagreement:
+        draft_fav = B["code"] if pa > 0.5 else A["code"]
+        draft_p = c["draft_sim"]["p_series_a"]
+        forecast = f"⚖️ **Split forecast** · Ratings: {fav} {_pct(pf)} · Draft: {draft_fav} {_pct(max(draft_p, 1 - draft_p))}"
+    val = f"{forecast}\n{bet}"
     return {"name": _cut(name, LIM_FIELD_NAME), "value": _cut(val, LIM_FIELD_VAL), "inline": False}, bs
 
 
@@ -73,7 +81,7 @@ def render(date, fc, edge):
     link = f"{PAGES}/{date}.html"
     cards = fc.get("cards", [])
     skipped = fc.get("skipped") or []
-    desc = ("🔒 Score locked before we look at a single price. Then we hunt the biggest edge on the board. Let's stay green 🍀\n"
+    desc = ("🔒 Forecast locked before market prices. Split forecasts do not qualify for a bet.\n"
             f"Forecast **{fc.get('model_version', 'v1')}** frozen {fc['frozen_at_et']} · market inputs to forecast: **NONE**\n"
             + (f"POST-FORECAST Jupiter odds snapshot: {edge['odds_fetched_at_et']} (never fed back into the forecast)"
                if edge else "Edge layer unavailable for this run: forecast only."))

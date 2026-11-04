@@ -79,3 +79,12 @@ def test_superseded_edge_is_never_recommended(tmp_path, monkeypatch):
     payload = dr.build_payload("2026-10-30")
     assert "0 bets" in payload["content"]
     assert "edge layer not run" in payload["embeds"][0]["fields"][0]["value"]
+
+
+def test_split_forecast_suppresses_existing_bet():
+    card = {**_card(1, bo=5, lock="3-1", pa=0.51867),
+            "draft_sim": {"p_series_a": 0.47904}}
+    payload = dr.render("2026-10-28", {**FC, "cards": [card]}, {**EDGE, "series": [_row(1, True)]})
+    value = payload["embeds"][0]["fields"][0]["value"]
+    assert "Split forecast" in value and "A1 51.9%" in value and "B1 52.1%" in value
+    assert "**NO BET**" in value and "3-1" not in value
