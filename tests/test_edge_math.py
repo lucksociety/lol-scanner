@@ -42,7 +42,7 @@ def test_edge_log_matches_formulas():
                         assert l["ev_per_$1"] == pytest.approx(ev.ev_per_dollar(l["our_prob"], l["ask"]), abs=1e-3)
             b = r.get("best_bet")
             d = json.loads(p.read_text())
-            if d.get("best_bet_rule_version", "").startswith("r3"):   # current rule: top +EV line with model prob > 50%
+            if d.get("best_bet_rule_version", "").startswith(("r3", "r4")) and r.get("status") == "ok":
                 ok = [l for l in r["legs"] if l.get("eligible") and l["ev_per_$1"] > 0 and l["our_prob"] > 0.5]
                 assert r.get("best_bet_rule_version") == d["best_bet_rule_version"]
                 if b:

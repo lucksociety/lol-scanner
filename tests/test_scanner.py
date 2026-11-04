@@ -198,3 +198,13 @@ def test_v2_freeze_does_not_touch_v1(tmp_path, monkeypatch):
     assert forecast.load_frozen("2099-03-03", "v2")["model_version"] == "v2-x"
     from scanner.forecast_v2 import INTEGRITY_V2
     assert INTEGRITY_V2["market_inputs_to_forecast"] == "NONE" and INTEGRITY_V2["excluded"] == forecast.INTEGRITY["excluded"]
+
+
+def test_split_forecast_blocks_otherwise_eligible_market():
+    card = _card(3, "2-0", {"2-0": .40, "2-1": .25, "1-2": .20, "0-2": .15})
+    card["sim"]["p_series_a"] = .65
+    event = {"markets": [_mk("M-0", "moneyline", "Alpha", .55)]}
+    assert edge.evaluate(card, event, {})[1] is not None
+    card["draft_sim"] = {"p_series_a": .48}
+    legs, best, *_ = edge.evaluate(card, event, {})
+    assert best is None and legs and all(not leg["qualifies"] for leg in legs)
