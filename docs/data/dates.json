@@ -100,6 +100,12 @@
    "n_series": 2,
    "n_locked": 1,
    "n_bets": 0
+  },
+  {
+   "date": "2026-11-11",
+   "n_series": 1,
+   "n_locked": 1,
+   "n_bets": 1
   }
  ]
 }

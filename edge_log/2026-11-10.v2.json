@@ -6,19 +6,19 @@
   "forecast_sha256": "15bd6d07019a81175cf3cb229bed3afb3afed8905efe6f636816912acd98de90",
   "forecast_view_sha256": "9cfd536e8ee927d5529bcd2cb3cd8930cce61240a60442f4e9342d95c69534cc",
   "forecast_frozen_at_utc": "2026-11-04T04:07:07.818870Z",
-  "odds_fetched_at_utc": "2026-11-04T04:07:45.610064+00:00",
-  "odds_fetched_at_et": "2026-11-03 11:07:45 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-10/20261104T040745Z.json",
+  "odds_fetched_at_utc": "2026-11-04T19:29:49.708781+00:00",
+  "odds_fetched_at_et": "2026-11-04 02:29:49 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-10/20261104T192949Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
       "ok": true,
-      "n": 4
+      "n": 38
     },
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 145
+      "n": 260
     },
     {
       "endpoint": "GET /orderbook/{marketId}",
@@ -37,6 +37,14 @@
       "title": "LoL: Gen.G vs LYON (BO5) - Worlds Playoffs"
     },
     {
+      "id": "POLY-991810",
+      "title": "Worlds 2026: Winner"
+    },
+    {
+      "id": "POLY-131447",
+      "title": "Worlds 2026 Winning Region"
+    },
+    {
       "id": "POLY-1291724",
       "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
     },
@@ -45,8 +53,136 @@
       "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
     },
     {
+      "id": "POLY-991832",
+      "title": "Worlds 2026: Team to Make Grand Finals"
+    },
+    {
+      "id": "POLY-991821",
+      "title": "Worlds 2026: Finals MVP"
+    },
+    {
+      "id": "POLY-1120939",
+      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+    },
+    {
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
+    },
+    {
+      "id": "POLY-775290",
+      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
+    },
+    {
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-1195015",
+      "title": "Most Banned Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-1120918",
+      "title": "Most Kills at Worlds 2026"
+    },
+    {
+      "id": "POLY-244347",
+      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
+    },
+    {
+      "id": "POLY-1001461",
+      "title": "Will a Western team win Worlds 2026?"
+    },
+    {
+      "id": "POLY-1186060",
+      "title": "LoL Offseason: Diable Next Team"
+    },
+    {
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
+    },
+    {
+      "id": "POLY-1186057",
+      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+    },
+    {
+      "id": "POLY-1186059",
+      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
+    },
+    {
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
+    },
+    {
+      "id": "POLY-1120940",
+      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
+    },
+    {
       "id": "POLY-1270992",
       "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-927473",
+      "title": "Joe Marsh out as T1 CEO by December 31?"
+    },
+    {
+      "id": "POLY-796849",
+      "title": "Will Caedrel Reach Challenger Before the End of the Year?"
+    },
+    {
+      "id": "POLY-796527",
+      "title": "Will Faker become president of South Korea by the end of the year?"
+    },
+    {
+      "id": "POLY-630355",
+      "title": "Will a Player Pick Teemo in a Tier 1 League/Event this Year?"
+    },
+    {
+      "id": "POLY-613770",
+      "title": "Will Faker Win an International Title in 2026?"
+    },
+    {
+      "id": "POLY-1302616",
+      "title": "Which teams will qualify for LCP 2027?"
+    },
+    {
+      "id": "POLY-1302598",
+      "title": "Will a Western team win a game in the Worlds 2026 Knockout Stage?"
+    },
+    {
+      "id": "POLY-1186058",
+      "title": "Will T1 win a fourth straight Worlds title?"
+    },
+    {
+      "id": "POLY-1186056",
+      "title": "Worlds 2026: Grand Final Series Score"
+    },
+    {
+      "id": "POLY-1186055",
+      "title": "Worlds 2026: Grand Final Region Matchup"
+    },
+    {
+      "id": "POLY-1120943",
+      "title": "Will Humzh's subathon end by...?"
+    },
+    {
+      "id": "POLY-1120919",
+      "title": "How many Pentakills will there be at Worlds 2026?"
+    },
+    {
+      "id": "POLY-1070185",
+      "title": "Will Chovy leave Gen.G in 2026?"
+    },
+    {
+      "id": "POLY-1070055",
+      "title": "LoL Offseason: Deft Next Team"
+    },
+    {
+      "id": "POLY-1069543",
+      "title": "Will Dardo be named Fnatic LoL General Manager by...?"
+    },
+    {
+      "id": "POLY-1000989",
+      "title": "Will G2 Caps Get a Hair Transplant in 2026?"
     }
   ],
   "fee_model": "0.07 * p * (1-p) per $1 contract",
