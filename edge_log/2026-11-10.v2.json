@@ -6,79 +6,70 @@
   "forecast_sha256": "15bd6d07019a81175cf3cb229bed3afb3afed8905efe6f636816912acd98de90",
   "forecast_view_sha256": "a8a1a80ccbea46bf6c41c5b8f3b73ab84ebdc4b3e4c358328657d72f8f0d3ea8",
   "forecast_frozen_at_utc": "2026-11-05T00:09:34.177674Z",
-  "odds_fetched_at_utc": "2026-11-05T00:12:09.672710+00:00",
-  "odds_fetched_at_et": "2026-11-04 07:12:09 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-10/20261105T001209Z.json",
+  "odds_fetched_at_utc": "2026-11-05T19:40:05.700701+00:00",
+  "odds_fetched_at_et": "2026-11-05 02:40:05 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-10/20261105T194005Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
       "ok": true,
-      "n": 38
+      "n": 40
     },
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 274
+      "n": 275
+    },
+    {
+      "endpoint": "GET /events/POLY-1319953/markets?includeAllMarkets=true (paged)",
+      "ok": true,
+      "n": 43
     },
     {
       "endpoint": "GET /orderbook/{marketId}",
-      "ok": false,
-      "n": 0
+      "ok": true,
+      "n": 18
     }
   ],
   "endpoints_ok": [
+    "GET /events/POLY-1319953/markets?includeAllMarkets=true (paged)",
     "GET /events?category=esports (paged, LoL by subcategory/title)",
-    "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)"
+    "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
+    "GET /orderbook/{marketId}"
   ],
-  "coverage": "0/1 series",
+  "coverage": "1/1 series",
   "jupiter_lol_events_listed": [
     {
-      "id": "POLY-1291726",
-      "title": "LoL: Gen.G vs LYON (BO5) - Worlds Playoffs"
+      "id": "POLY-1291724",
+      "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-991810",
       "title": "Worlds 2026: Winner"
     },
     {
-      "id": "POLY-131447",
-      "title": "Worlds 2026 Winning Region"
-    },
-    {
       "id": "POLY-1291725",
       "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
     },
     {
-      "id": "POLY-1291724",
-      "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
+      "id": "POLY-131447",
+      "title": "Worlds 2026 Winning Region"
     },
     {
-      "id": "POLY-991832",
-      "title": "Worlds 2026: Team to Make Grand Finals"
+      "id": "POLY-1317036",
+      "title": "LoL: Invictus Gaming vs Gen.G (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-991821",
       "title": "Worlds 2026: Finals MVP"
     },
     {
-      "id": "POLY-1120939",
-      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+      "id": "POLY-1001461",
+      "title": "Will a Western team win Worlds 2026?"
     },
     {
-      "id": "POLY-1070134",
-      "title": "Total Unique Champions Played at Worlds 2026"
-    },
-    {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
-    },
-    {
-      "id": "POLY-775290",
-      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
-    },
-    {
-      "id": "POLY-1195015",
-      "title": "Most Banned Champion at Worlds 2026"
+      "id": "POLY-991832",
+      "title": "Worlds 2026: Team to Make Grand Finals"
     },
     {
       "id": "POLY-1120918",
@@ -89,44 +80,64 @@
       "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
+      "id": "POLY-775290",
+      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
+    },
+    {
       "id": "POLY-1120940",
       "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
-      "id": "POLY-1261303",
-      "title": "Worlds 2026: Peak Viewership"
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
     },
     {
-      "id": "POLY-1001461",
-      "title": "Will a Western team win Worlds 2026?"
+      "id": "POLY-1120939",
+      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+    },
+    {
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
+    },
+    {
+      "id": "POLY-1195015",
+      "title": "Most Banned Champion at Worlds 2026"
     },
     {
       "id": "POLY-1186060",
       "title": "LoL Offseason: Diable Next Team"
     },
     {
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
+    },
+    {
       "id": "POLY-1186057",
       "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
     },
     {
-      "id": "POLY-1186059",
-      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
-    },
-    {
-      "id": "POLY-806410",
-      "title": "Which Teams Will Make a Roster Change Before December?"
-    },
-    {
-      "id": "POLY-1270992",
-      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+      "id": "POLY-1186058",
+      "title": "Will T1 win a fourth straight Worlds title?"
     },
     {
       "id": "POLY-1120919",
       "title": "How many Pentakills will there be at Worlds 2026?"
     },
     {
-      "id": "POLY-1186058",
-      "title": "Will T1 win a fourth straight Worlds title?"
+      "id": "POLY-1186055",
+      "title": "Worlds 2026: Grand Final Region Matchup"
+    },
+    {
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
+    },
+    {
+      "id": "POLY-1186059",
+      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
+    },
+    {
+      "id": "POLY-1270992",
+      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
     },
     {
       "id": "POLY-927473",
@@ -149,6 +160,14 @@
       "title": "Will Faker Win an International Title in 2026?"
     },
     {
+      "id": "POLY-1319954",
+      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-1319953",
+      "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
+    },
+    {
       "id": "POLY-1302616",
       "title": "Which teams will qualify for LCP 2027?"
     },
@@ -159,10 +178,6 @@
     {
       "id": "POLY-1186056",
       "title": "Worlds 2026: Grand Final Series Score"
-    },
-    {
-      "id": "POLY-1186055",
-      "title": "Worlds 2026: Grand Final Region Matchup"
     },
     {
       "id": "POLY-1120943",
@@ -193,10 +208,818 @@
     {
       "match_id": "117393592614464336",
       "series": "FL vs NTH",
-      "status": "no Jupiter market",
-      "legs": [],
+      "status": "ok",
+      "jupiter_event_id": "POLY-1319953",
+      "jupiter_title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs",
+      "jupiter_url": "https://jup.ag/prediction/POLY-1319953",
+      "exact_score_offered": false,
+      "warnings": [],
+      "legs": [
+        {
+          "market_id": "POLY-6711874-0",
+          "pair_id": "POLY-6711874",
+          "label": "ML FL",
+          "type": "moneyline",
+          "game": null,
+          "line": null,
+          "ask": 0.95,
+          "bid": 0.07,
+          "volume": 0,
+          "fee": 0.0033,
+          "cost": 0.9533,
+          "our_prob": 0.7359,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 9.35,
+          "overround": 0.88,
+          "fair_prob": 0.5053,
+          "edge_pct": 23.06,
+          "ev_per_$1": -0.228,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711874-1",
+          "pair_id": "POLY-6711874",
+          "label": "ML NTH",
+          "type": "moneyline",
+          "game": null,
+          "line": null,
+          "ask": 0.93,
+          "bid": 0.05,
+          "volume": 0,
+          "fee": 0.0046,
+          "cost": 0.9346,
+          "our_prob": 0.2641,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 5.74,
+          "overround": 0.88,
+          "fair_prob": 0.4947,
+          "edge_pct": -23.06,
+          "ev_per_$1": -0.7174,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711877-0",
+          "pair_id": "POLY-6711877",
+          "label": "FL -1.5 maps",
+          "type": "map_handicap",
+          "game": null,
+          "line": -1.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.547,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 7.49,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 4.7,
+          "ev_per_$1": -0.4318,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711878-0",
+          "pair_id": "POLY-6711878",
+          "label": "FL -2.5 maps",
+          "type": "map_handicap",
+          "game": null,
+          "line": -2.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.2756,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 7.49,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -22.44,
+          "ev_per_$1": -0.7137,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711877-1",
+          "pair_id": "POLY-6711877",
+          "label": "NTH +1.5 maps",
+          "type": "map_handicap",
+          "game": null,
+          "line": 1.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.453,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 9.97,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -4.7,
+          "ev_per_$1": -0.5294,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711878-1",
+          "pair_id": "POLY-6711878",
+          "label": "NTH +2.5 maps",
+          "type": "map_handicap",
+          "game": null,
+          "line": 2.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.7244,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 7.49,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 22.44,
+          "ev_per_$1": -0.2475,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711875-0",
+          "pair_id": "POLY-6711875",
+          "label": "Over 3.5 maps",
+          "type": "totals_over",
+          "game": null,
+          "line": 3.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.6702,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 7.5,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 17.02,
+          "ev_per_$1": -0.3038,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711876-0",
+          "pair_id": "POLY-6711876",
+          "label": "Over 4.5 maps",
+          "type": "totals_over",
+          "game": null,
+          "line": 4.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.3033,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 7.5,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -19.67,
+          "ev_per_$1": -0.6849,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711875-1",
+          "pair_id": "POLY-6711875",
+          "label": "Under 3.5 maps",
+          "type": "totals_under",
+          "game": null,
+          "line": 3.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.3298,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 7.49,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -17.02,
+          "ev_per_$1": -0.6574,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711876-1",
+          "pair_id": "POLY-6711876",
+          "label": "Under 4.5 maps",
+          "type": "totals_under",
+          "game": null,
+          "line": 4.5,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.6967,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 7.49,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 19.67,
+          "ev_per_$1": -0.2763,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711870-0",
+          "pair_id": "POLY-6711870",
+          "label": "Game 1 FL",
+          "type": "game",
+          "game": 1,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.641,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 14.81,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 14.1,
+          "ev_per_$1": -0.3342,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711870-1",
+          "pair_id": "POLY-6711870",
+          "label": "Game 1 NTH",
+          "type": "game",
+          "game": 1,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.359,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 15.36,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -14.1,
+          "ev_per_$1": -0.6271,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711871-0",
+          "pair_id": "POLY-6711871",
+          "label": "Game 2 FL",
+          "type": "game",
+          "game": 2,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.6388,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 14.32,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 13.88,
+          "ev_per_$1": -0.3364,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711871-1",
+          "pair_id": "POLY-6711871",
+          "label": "Game 2 NTH",
+          "type": "game",
+          "game": 2,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.3612,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 14.41,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -13.88,
+          "ev_per_$1": -0.6248,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711872-0",
+          "pair_id": "POLY-6711872",
+          "label": "Game 3 FL",
+          "type": "game",
+          "game": 3,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.6405,
+          "cashes_on_lock": true,
+          "contracts_at_ask": 17.32,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 14.05,
+          "ev_per_$1": -0.3347,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711872-1",
+          "pair_id": "POLY-6711872",
+          "label": "Game 3 NTH",
+          "type": "game",
+          "game": 3,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.3595,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 17.06,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -14.05,
+          "ev_per_$1": -0.6266,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711873-0",
+          "pair_id": "POLY-6711873",
+          "label": "Game 4 FL",
+          "type": "game",
+          "game": 4,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.5877,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 15,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 8.77,
+          "ev_per_$1": -0.3895,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        },
+        {
+          "market_id": "POLY-6711873-1",
+          "pair_id": "POLY-6711873",
+          "label": "Game 4 NTH",
+          "type": "game",
+          "game": 4,
+          "line": null,
+          "ask": 0.96,
+          "bid": 0.04,
+          "volume": 0,
+          "fee": 0.0027,
+          "cost": 0.9627,
+          "our_prob": 0.4123,
+          "cashes_on_lock": false,
+          "contracts_at_ask": 15.62,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -8.77,
+          "ev_per_$1": -0.5717,
+          "has_book": true,
+          "skip_reason": null,
+          "eligible": true,
+          "qualifies": false
+        }
+      ],
       "best_bet": null,
-      "verdict": "no Jupiter market"
+      "best_ev_any": null,
+      "best_bet_rule_version": "r4-prob50-model-agreement",
+      "market_inventory": {
+        "child_moneyline": {
+          "markets": 8,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "lol_both_teams_baron": {
+          "markets": 5,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "lol_both_teams_dragon": {
+          "markets": 5,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "lol_both_teams_inhibitors": {
+          "markets": 5,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "lol_penta_kill": {
+          "markets": 5,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "lol_quadra_kill": {
+          "markets": 5,
+          "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "map_handicap": {
+          "markets": 4,
+          "lines": [
+            "-1.5",
+            "-2.5"
+          ],
+          "games": []
+        },
+        "moneyline": {
+          "markets": 2,
+          "lines": [],
+          "games": []
+        },
+        "totals": {
+          "markets": 4,
+          "lines": [
+            "3.5",
+            "4.5"
+          ],
+          "games": []
+        }
+      },
+      "n_markets": 43,
+      "n_priced_legs": 18,
+      "not_modeled": [
+        {
+          "market_id": "POLY-6711879",
+          "type": "lol_both_teams_baron",
+          "label": "Game 1 Both teams Baron",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711880",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 1 Both teams dragon",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711881",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 1 Both teams inhib",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711883",
+          "type": "lol_penta_kill",
+          "label": "Game 1 Any penta kill",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711882",
+          "type": "lol_quadra_kill",
+          "label": "Game 1 Any quadra kill",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711884",
+          "type": "lol_both_teams_baron",
+          "label": "Game 2 Both teams Baron",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711885",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 2 Both teams dragon",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711886",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 2 Both teams inhib",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711888",
+          "type": "lol_penta_kill",
+          "label": "Game 2 Any penta kill",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711887",
+          "type": "lol_quadra_kill",
+          "label": "Game 2 Any quadra kill",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711889",
+          "type": "lol_both_teams_baron",
+          "label": "Game 3 Both teams Baron",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711890",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 3 Both teams dragon",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711891",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 3 Both teams inhib",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711893",
+          "type": "lol_penta_kill",
+          "label": "Game 3 Any penta kill",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711892",
+          "type": "lol_quadra_kill",
+          "label": "Game 3 Any quadra kill",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711894",
+          "type": "lol_both_teams_baron",
+          "label": "Game 4 Both teams Baron",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711895",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 4 Both teams dragon",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711896",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 4 Both teams inhib",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711898",
+          "type": "lol_penta_kill",
+          "label": "Game 4 Any penta kill",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711897",
+          "type": "lol_quadra_kill",
+          "label": "Game 4 Any quadra kill",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711899",
+          "type": "lol_both_teams_baron",
+          "label": "Game 5 Both teams Baron",
+          "game": 5,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711900",
+          "type": "lol_both_teams_dragon",
+          "label": "Game 5 Both teams dragon",
+          "game": 5,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711901",
+          "type": "lol_both_teams_inhibitors",
+          "label": "Game 5 Both teams inhib",
+          "game": 5,
+          "status": "open",
+          "yes_ask": 0.97,
+          "no_ask": 0.97,
+          "volume": 0,
+          "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711903",
+          "type": "lol_penta_kill",
+          "label": "Game 5 Any penta kill",
+          "game": 5,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6711902",
+          "type": "lol_quadra_kill",
+          "label": "Game 5 Any quadra kill",
+          "game": 5,
+          "status": "open",
+          "yes_ask": 0.98,
+          "no_ask": 0.98,
+          "volume": 0,
+          "reason": "player multikill prop; the sim models map winners only"
+        }
+      ],
+      "unpriced": [],
+      "verdict": "NO BET (no Jupiter line has model probability > 50% and +EV after fees)"
     }
   ]
 }

@@ -6,19 +6,19 @@
   "forecast_sha256": "bc5790a60e0d84e50d4ed114e236de6a400beaae99b5b52742635d2cd7d01a14",
   "forecast_view_sha256": "3ba23f5ecb006a5e83b06edf5ec6fb2e25b00652f699689990137669baf9d970",
   "forecast_frozen_at_utc": "2026-11-05T00:11:29.401157Z",
-  "odds_fetched_at_utc": "2026-11-05T00:12:09.677197+00:00",
-  "odds_fetched_at_et": "2026-11-04 07:12:09 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-11/20261105T001209Z.json",
+  "odds_fetched_at_utc": "2026-11-05T19:40:11.234202+00:00",
+  "odds_fetched_at_et": "2026-11-05 02:40:11 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-11/20261105T194011Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
       "ok": true,
-      "n": 38
+      "n": 40
     },
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 274
+      "n": 275
     },
     {
       "endpoint": "GET /events/POLY-1270992/markets?includeAllMarkets=true (paged)",
@@ -40,52 +40,36 @@
   "coverage": "1/1 series",
   "jupiter_lol_events_listed": [
     {
-      "id": "POLY-1291726",
-      "title": "LoL: Gen.G vs LYON (BO5) - Worlds Playoffs"
+      "id": "POLY-1291724",
+      "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-991810",
       "title": "Worlds 2026: Winner"
     },
     {
-      "id": "POLY-131447",
-      "title": "Worlds 2026 Winning Region"
-    },
-    {
       "id": "POLY-1291725",
       "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
     },
     {
-      "id": "POLY-1291724",
-      "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
+      "id": "POLY-131447",
+      "title": "Worlds 2026 Winning Region"
     },
     {
-      "id": "POLY-991832",
-      "title": "Worlds 2026: Team to Make Grand Finals"
+      "id": "POLY-1317036",
+      "title": "LoL: Invictus Gaming vs Gen.G (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-991821",
       "title": "Worlds 2026: Finals MVP"
     },
     {
-      "id": "POLY-1120939",
-      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+      "id": "POLY-1001461",
+      "title": "Will a Western team win Worlds 2026?"
     },
     {
-      "id": "POLY-1070134",
-      "title": "Total Unique Champions Played at Worlds 2026"
-    },
-    {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
-    },
-    {
-      "id": "POLY-775290",
-      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
-    },
-    {
-      "id": "POLY-1195015",
-      "title": "Most Banned Champion at Worlds 2026"
+      "id": "POLY-991832",
+      "title": "Worlds 2026: Team to Make Grand Finals"
     },
     {
       "id": "POLY-1120918",
@@ -96,44 +80,64 @@
       "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
+      "id": "POLY-775290",
+      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
+    },
+    {
       "id": "POLY-1120940",
       "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
-      "id": "POLY-1261303",
-      "title": "Worlds 2026: Peak Viewership"
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
     },
     {
-      "id": "POLY-1001461",
-      "title": "Will a Western team win Worlds 2026?"
+      "id": "POLY-1120939",
+      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+    },
+    {
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
+    },
+    {
+      "id": "POLY-1195015",
+      "title": "Most Banned Champion at Worlds 2026"
     },
     {
       "id": "POLY-1186060",
       "title": "LoL Offseason: Diable Next Team"
     },
     {
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
+    },
+    {
       "id": "POLY-1186057",
       "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
     },
     {
-      "id": "POLY-1186059",
-      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
-    },
-    {
-      "id": "POLY-806410",
-      "title": "Which Teams Will Make a Roster Change Before December?"
-    },
-    {
-      "id": "POLY-1270992",
-      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+      "id": "POLY-1186058",
+      "title": "Will T1 win a fourth straight Worlds title?"
     },
     {
       "id": "POLY-1120919",
       "title": "How many Pentakills will there be at Worlds 2026?"
     },
     {
-      "id": "POLY-1186058",
-      "title": "Will T1 win a fourth straight Worlds title?"
+      "id": "POLY-1186055",
+      "title": "Worlds 2026: Grand Final Region Matchup"
+    },
+    {
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
+    },
+    {
+      "id": "POLY-1186059",
+      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
+    },
+    {
+      "id": "POLY-1270992",
+      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
     },
     {
       "id": "POLY-927473",
@@ -156,6 +160,14 @@
       "title": "Will Faker Win an International Title in 2026?"
     },
     {
+      "id": "POLY-1319954",
+      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-1319953",
+      "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
+    },
+    {
       "id": "POLY-1302616",
       "title": "Which teams will qualify for LCP 2027?"
     },
@@ -166,10 +178,6 @@
     {
       "id": "POLY-1186056",
       "title": "Worlds 2026: Grand Final Series Score"
-    },
-    {
-      "id": "POLY-1186055",
-      "title": "Worlds 2026: Grand Final Region Matchup"
     },
     {
       "id": "POLY-1120943",
@@ -214,18 +222,18 @@
           "type": "moneyline",
           "game": null,
           "line": null,
-          "ask": 0.41,
+          "ask": 0.38,
           "bid": 0.06,
-          "volume": 1054,
-          "fee": 0.0169,
-          "cost": 0.4269,
+          "volume": 1056,
+          "fee": 0.0165,
+          "cost": 0.3965,
           "our_prob": 0.5895,
           "cashes_on_lock": true,
-          "contracts_at_ask": 47.56,
-          "overround": 0.35,
-          "fair_prob": 0.3037,
-          "edge_pct": 28.58,
-          "ev_per_$1": 0.3809,
+          "contracts_at_ask": null,
+          "overround": 0.32,
+          "fair_prob": 0.2879,
+          "edge_pct": 30.16,
+          "ev_per_$1": 0.4868,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -239,16 +247,16 @@
           "game": null,
           "line": null,
           "ask": 0.94,
-          "bid": 0.59,
-          "volume": 1054,
+          "bid": 0.62,
+          "volume": 1056,
           "fee": 0.0039,
           "cost": 0.9439,
           "our_prob": 0.4105,
           "cashes_on_lock": false,
-          "contracts_at_ask": 40,
-          "overround": 0.35,
-          "fair_prob": 0.6963,
-          "edge_pct": -28.58,
+          "contracts_at_ask": null,
+          "overround": 0.32,
+          "fair_prob": 0.7121,
+          "edge_pct": -30.16,
           "ev_per_$1": -0.5651,
           "has_book": true,
           "skip_reason": null,
@@ -358,18 +366,18 @@
           "type": "totals_over",
           "game": null,
           "line": 3.5,
-          "ask": 0.75,
+          "ask": 0.74,
           "bid": 0.04,
           "volume": 0,
-          "fee": 0.0131,
-          "cost": 0.7631,
+          "fee": 0.0135,
+          "cost": 0.7535,
           "our_prob": 0.7198,
           "cashes_on_lock": true,
-          "contracts_at_ask": 10,
-          "overround": 0.71,
-          "fair_prob": 0.4386,
-          "edge_pct": 28.12,
-          "ev_per_$1": -0.0567,
+          "contracts_at_ask": 19.23,
+          "overround": 0.7,
+          "fair_prob": 0.4353,
+          "edge_pct": 28.45,
+          "ev_per_$1": -0.0447,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -407,16 +415,16 @@
           "game": null,
           "line": 3.5,
           "ask": 0.96,
-          "bid": 0.25,
+          "bid": 0.26,
           "volume": 0,
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.2802,
           "cashes_on_lock": false,
           "contracts_at_ask": 7.49,
-          "overround": 0.71,
-          "fair_prob": 0.5614,
-          "edge_pct": -28.12,
+          "overround": 0.7,
+          "fair_prob": 0.5647,
+          "edge_pct": -28.45,
           "ev_per_$1": -0.7089,
           "has_book": true,
           "skip_reason": null,
@@ -502,18 +510,18 @@
           "type": "game",
           "game": 2,
           "line": null,
-          "ask": 0.8,
+          "ask": 0.79,
           "bid": 0.04,
           "volume": 0,
-          "fee": 0.0112,
-          "cost": 0.8112,
+          "fee": 0.0116,
+          "cost": 0.8016,
           "our_prob": 0.5513,
           "cashes_on_lock": null,
-          "contracts_at_ask": 90,
-          "overround": 0.76,
-          "fair_prob": 0.4545,
-          "edge_pct": 9.68,
-          "ev_per_$1": -0.3204,
+          "contracts_at_ask": 23.8,
+          "overround": 0.75,
+          "fair_prob": 0.4514,
+          "edge_pct": 9.99,
+          "ev_per_$1": -0.3123,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -527,16 +535,16 @@
           "game": 2,
           "line": null,
           "ask": 0.96,
-          "bid": 0.2,
+          "bid": 0.21,
           "volume": 0,
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.4487,
           "cashes_on_lock": null,
-          "contracts_at_ask": 14.5,
-          "overround": 0.76,
-          "fair_prob": 0.5455,
-          "edge_pct": -9.68,
+          "contracts_at_ask": 13.24,
+          "overround": 0.75,
+          "fair_prob": 0.5486,
+          "edge_pct": -9.99,
           "ev_per_$1": -0.5339,
           "has_book": true,
           "skip_reason": null,
@@ -647,18 +655,18 @@
         "type": "moneyline",
         "game": null,
         "line": null,
-        "ask": 0.41,
+        "ask": 0.38,
         "bid": 0.06,
-        "volume": 1054,
-        "fee": 0.0169,
-        "cost": 0.4269,
+        "volume": 1056,
+        "fee": 0.0165,
+        "cost": 0.3965,
         "our_prob": 0.5895,
         "cashes_on_lock": true,
-        "contracts_at_ask": 47.56,
-        "overround": 0.35,
-        "fair_prob": 0.3037,
-        "edge_pct": 28.58,
-        "ev_per_$1": 0.3809,
+        "contracts_at_ask": null,
+        "overround": 0.32,
+        "fair_prob": 0.2879,
+        "edge_pct": 30.16,
+        "ev_per_$1": 0.4868,
         "has_book": true,
         "skip_reason": null,
         "eligible": true,
@@ -671,18 +679,18 @@
         "type": "moneyline",
         "game": null,
         "line": null,
-        "ask": 0.41,
+        "ask": 0.38,
         "bid": 0.06,
-        "volume": 1054,
-        "fee": 0.0169,
-        "cost": 0.4269,
+        "volume": 1056,
+        "fee": 0.0165,
+        "cost": 0.3965,
         "our_prob": 0.5895,
         "cashes_on_lock": true,
-        "contracts_at_ask": 47.56,
-        "overround": 0.35,
-        "fair_prob": 0.3037,
-        "edge_pct": 28.58,
-        "ev_per_$1": 0.3809,
+        "contracts_at_ask": null,
+        "overround": 0.32,
+        "fair_prob": 0.2879,
+        "edge_pct": 30.16,
+        "ev_per_$1": 0.4868,
         "has_book": true,
         "skip_reason": null,
         "eligible": true,
@@ -1057,7 +1065,7 @@
         }
       ],
       "unpriced": [],
-      "verdict": "BEST BET: ML FAK @ 0.41 (EV +0.381/$1, model 59.0% vs no-vig 30.4%)"
+      "verdict": "BEST BET: ML FAK @ 0.38 (EV +0.487/$1, model 59.0% vs no-vig 28.8%)"
     }
   ]
 }

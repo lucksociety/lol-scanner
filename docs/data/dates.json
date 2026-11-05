@@ -80,8 +80,8 @@
   {
    "date": "2026-11-07",
    "n_series": 1,
-   "n_locked": 0,
-   "n_bets": 0
+   "n_locked": 1,
+   "n_bets": 1
   },
   {
    "date": "2026-11-08",
@@ -106,6 +106,12 @@
    "n_series": 1,
    "n_locked": 1,
    "n_bets": 1
+  },
+  {
+   "date": "2026-11-12",
+   "n_series": 1,
+   "n_locked": 0,
+   "n_bets": 0
   }
  ]
 }
