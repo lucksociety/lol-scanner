@@ -6,9 +6,9 @@
   "forecast_sha256": "bc5790a60e0d84e50d4ed114e236de6a400beaae99b5b52742635d2cd7d01a14",
   "forecast_view_sha256": "3ba23f5ecb006a5e83b06edf5ec6fb2e25b00652f699689990137669baf9d970",
   "forecast_frozen_at_utc": "2026-11-05T00:11:29.401157Z",
-  "odds_fetched_at_utc": "2026-11-05T19:40:11.234202+00:00",
-  "odds_fetched_at_et": "2026-11-05 02:40:11 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-11/20261105T194011Z.json",
+  "odds_fetched_at_utc": "2026-11-05T23:54:13.541155+00:00",
+  "odds_fetched_at_et": "2026-11-05 06:54:13 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-11/20261105T235413Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 275
+      "n": 258
     },
     {
       "endpoint": "GET /events/POLY-1270992/markets?includeAllMarkets=true (paged)",
@@ -52,12 +52,12 @@
       "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
     },
     {
-      "id": "POLY-131447",
-      "title": "Worlds 2026 Winning Region"
-    },
-    {
       "id": "POLY-1317036",
       "title": "LoL: Invictus Gaming vs Gen.G (BO5) - Worlds Playoffs"
+    },
+    {
+      "id": "POLY-131447",
+      "title": "Worlds 2026 Winning Region"
     },
     {
       "id": "POLY-991821",
@@ -76,32 +76,32 @@
       "title": "Most Kills at Worlds 2026"
     },
     {
-      "id": "POLY-244347",
-      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
     },
     {
       "id": "POLY-775290",
       "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
     },
     {
-      "id": "POLY-1120940",
-      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
+      "id": "POLY-244347",
+      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
+      "id": "POLY-1120940",
+      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
       "id": "POLY-1120939",
       "title": "Will a Western team reach the Worlds 2026 Grand Final?"
     },
     {
-      "id": "POLY-1070134",
-      "title": "Total Unique Champions Played at Worlds 2026"
-    },
-    {
       "id": "POLY-1195015",
       "title": "Most Banned Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
     },
     {
       "id": "POLY-1186060",
@@ -229,7 +229,7 @@
           "cost": 0.3965,
           "our_prob": 0.5895,
           "cashes_on_lock": true,
-          "contracts_at_ask": null,
+          "contracts_at_ask": 24.19,
           "overround": 0.32,
           "fair_prob": 0.2879,
           "edge_pct": 30.16,
@@ -253,7 +253,7 @@
           "cost": 0.9439,
           "our_prob": 0.4105,
           "cashes_on_lock": false,
-          "contracts_at_ask": null,
+          "contracts_at_ask": 40,
           "overround": 0.32,
           "fair_prob": 0.7121,
           "edge_pct": -30.16,
@@ -662,7 +662,7 @@
         "cost": 0.3965,
         "our_prob": 0.5895,
         "cashes_on_lock": true,
-        "contracts_at_ask": null,
+        "contracts_at_ask": 24.19,
         "overround": 0.32,
         "fair_prob": 0.2879,
         "edge_pct": 30.16,
@@ -686,7 +686,7 @@
         "cost": 0.3965,
         "our_prob": 0.5895,
         "cashes_on_lock": true,
-        "contracts_at_ask": null,
+        "contracts_at_ask": 24.19,
         "overround": 0.32,
         "fair_prob": 0.2879,
         "edge_pct": 30.16,

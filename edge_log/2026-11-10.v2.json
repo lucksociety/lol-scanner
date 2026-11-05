@@ -6,9 +6,9 @@
   "forecast_sha256": "15bd6d07019a81175cf3cb229bed3afb3afed8905efe6f636816912acd98de90",
   "forecast_view_sha256": "a8a1a80ccbea46bf6c41c5b8f3b73ab84ebdc4b3e4c358328657d72f8f0d3ea8",
   "forecast_frozen_at_utc": "2026-11-05T00:09:34.177674Z",
-  "odds_fetched_at_utc": "2026-11-05T19:40:05.700701+00:00",
-  "odds_fetched_at_et": "2026-11-05 02:40:05 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-10/20261105T194005Z.json",
+  "odds_fetched_at_utc": "2026-11-05T23:54:08.412946+00:00",
+  "odds_fetched_at_et": "2026-11-05 06:54:08 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-10/20261105T235408Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 275
+      "n": 258
     },
     {
       "endpoint": "GET /events/POLY-1319953/markets?includeAllMarkets=true (paged)",
@@ -52,12 +52,12 @@
       "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
     },
     {
-      "id": "POLY-131447",
-      "title": "Worlds 2026 Winning Region"
-    },
-    {
       "id": "POLY-1317036",
       "title": "LoL: Invictus Gaming vs Gen.G (BO5) - Worlds Playoffs"
+    },
+    {
+      "id": "POLY-131447",
+      "title": "Worlds 2026 Winning Region"
     },
     {
       "id": "POLY-991821",
@@ -76,32 +76,32 @@
       "title": "Most Kills at Worlds 2026"
     },
     {
-      "id": "POLY-244347",
-      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
     },
     {
       "id": "POLY-775290",
       "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
     },
     {
-      "id": "POLY-1120940",
-      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
+      "id": "POLY-244347",
+      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
+      "id": "POLY-1120940",
+      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
       "id": "POLY-1120939",
       "title": "Will a Western team reach the Worlds 2026 Grand Final?"
     },
     {
-      "id": "POLY-1070134",
-      "title": "Total Unique Champions Played at Worlds 2026"
-    },
-    {
       "id": "POLY-1195015",
       "title": "Most Banned Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
     },
     {
       "id": "POLY-1186060",
@@ -222,18 +222,18 @@
           "type": "moneyline",
           "game": null,
           "line": null,
-          "ask": 0.95,
-          "bid": 0.07,
+          "ask": 0.94,
+          "bid": 0.24,
           "volume": 0,
-          "fee": 0.0033,
-          "cost": 0.9533,
+          "fee": 0.0039,
+          "cost": 0.9439,
           "our_prob": 0.7359,
           "cashes_on_lock": true,
-          "contracts_at_ask": 9.35,
-          "overround": 0.88,
-          "fair_prob": 0.5053,
-          "edge_pct": 23.06,
-          "ev_per_$1": -0.228,
+          "contracts_at_ask": 6.82,
+          "overround": 0.7,
+          "fair_prob": 0.5529,
+          "edge_pct": 18.3,
+          "ev_per_$1": -0.2204,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -246,18 +246,18 @@
           "type": "moneyline",
           "game": null,
           "line": null,
-          "ask": 0.93,
-          "bid": 0.05,
+          "ask": 0.76,
+          "bid": 0.06,
           "volume": 0,
-          "fee": 0.0046,
-          "cost": 0.9346,
+          "fee": 0.0128,
+          "cost": 0.7728,
           "our_prob": 0.2641,
           "cashes_on_lock": false,
-          "contracts_at_ask": 5.74,
-          "overround": 0.88,
-          "fair_prob": 0.4947,
-          "edge_pct": -23.06,
-          "ev_per_$1": -0.7174,
+          "contracts_at_ask": null,
+          "overround": 0.7,
+          "fair_prob": 0.4471,
+          "edge_pct": -18.3,
+          "ev_per_$1": -0.6583,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
