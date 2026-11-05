@@ -4,11 +4,11 @@
   "forecast_model_version": "v2.1-ratings-patch",
   "forecast_file": "2026-11-10.v2.json",
   "forecast_sha256": "15bd6d07019a81175cf3cb229bed3afb3afed8905efe6f636816912acd98de90",
-  "forecast_view_sha256": "9cfd536e8ee927d5529bcd2cb3cd8930cce61240a60442f4e9342d95c69534cc",
-  "forecast_frozen_at_utc": "2026-11-04T04:07:07.818870Z",
-  "odds_fetched_at_utc": "2026-11-04T19:29:49.708781+00:00",
-  "odds_fetched_at_et": "2026-11-04 02:29:49 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-10/20261104T192949Z.json",
+  "forecast_view_sha256": "a8a1a80ccbea46bf6c41c5b8f3b73ab84ebdc4b3e4c358328657d72f8f0d3ea8",
+  "forecast_frozen_at_utc": "2026-11-05T00:09:34.177674Z",
+  "odds_fetched_at_utc": "2026-11-05T00:12:09.672710+00:00",
+  "odds_fetched_at_et": "2026-11-04 07:12:09 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-10/20261105T001209Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 260
+      "n": 274
     },
     {
       "endpoint": "GET /orderbook/{marketId}",
@@ -45,12 +45,12 @@
       "title": "Worlds 2026 Winning Region"
     },
     {
-      "id": "POLY-1291724",
-      "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
-    },
-    {
       "id": "POLY-1291725",
       "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
+    },
+    {
+      "id": "POLY-1291724",
+      "title": "LoL: Dplus KIA vs Bilibili Gaming (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-991832",
@@ -69,12 +69,12 @@
       "title": "Total Unique Champions Played at Worlds 2026"
     },
     {
-      "id": "POLY-775290",
-      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
-    },
-    {
       "id": "POLY-1120926",
       "title": "Most Played Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-775290",
+      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
     },
     {
       "id": "POLY-1195015",
@@ -89,16 +89,20 @@
       "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
+      "id": "POLY-1120940",
+      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
+    },
+    {
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
+    },
+    {
       "id": "POLY-1001461",
       "title": "Will a Western team win Worlds 2026?"
     },
     {
       "id": "POLY-1186060",
       "title": "LoL Offseason: Diable Next Team"
-    },
-    {
-      "id": "POLY-1261303",
-      "title": "Worlds 2026: Peak Viewership"
     },
     {
       "id": "POLY-1186057",
@@ -113,12 +117,16 @@
       "title": "Which Teams Will Make a Roster Change Before December?"
     },
     {
-      "id": "POLY-1120940",
-      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
-    },
-    {
       "id": "POLY-1270992",
       "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-1120919",
+      "title": "How many Pentakills will there be at Worlds 2026?"
+    },
+    {
+      "id": "POLY-1186058",
+      "title": "Will T1 win a fourth straight Worlds title?"
     },
     {
       "id": "POLY-927473",
@@ -149,10 +157,6 @@
       "title": "Will a Western team win a game in the Worlds 2026 Knockout Stage?"
     },
     {
-      "id": "POLY-1186058",
-      "title": "Will T1 win a fourth straight Worlds title?"
-    },
-    {
       "id": "POLY-1186056",
       "title": "Worlds 2026: Grand Final Series Score"
     },
@@ -163,10 +167,6 @@
     {
       "id": "POLY-1120943",
       "title": "Will Humzh's subathon end by...?"
-    },
-    {
-      "id": "POLY-1120919",
-      "title": "How many Pentakills will there be at Worlds 2026?"
     },
     {
       "id": "POLY-1070185",
