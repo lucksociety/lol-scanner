@@ -6,9 +6,9 @@
   "forecast_sha256": "15bd6d07019a81175cf3cb229bed3afb3afed8905efe6f636816912acd98de90",
   "forecast_view_sha256": "d6107236cf040a01cde8ea3e8ff77577d817825a2a0d8756c7f61e3eb54bcda4",
   "forecast_frozen_at_utc": "2026-11-06T19:02:02.798453Z",
-  "odds_fetched_at_utc": "2026-11-06T19:03:56.273923+00:00",
-  "odds_fetched_at_et": "2026-11-06 02:03:56 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-10/20261106T190356Z.json",
+  "odds_fetched_at_utc": "2026-11-06T23:36:57.099278+00:00",
+  "odds_fetched_at_et": "2026-11-06 06:36:57 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-10/20261106T233657Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 247
+      "n": 252
     },
     {
       "endpoint": "GET /events/POLY-1319953/markets?includeAllMarkets=true (paged)",
@@ -60,16 +60,16 @@
       "title": "Worlds 2026: Finals MVP"
     },
     {
-      "id": "POLY-1120939",
-      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
-    },
-    {
       "id": "POLY-991832",
       "title": "Worlds 2026: Team to Make Grand Finals"
     },
     {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
+      "id": "POLY-1120939",
+      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+    },
+    {
+      "id": "POLY-1001461",
+      "title": "Will a Western team win Worlds 2026?"
     },
     {
       "id": "POLY-775290",
@@ -84,20 +84,20 @@
       "title": "Most Banned Champion at Worlds 2026"
     },
     {
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
+    },
+    {
       "id": "POLY-1120940",
       "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
       "id": "POLY-796849",
       "title": "Will Caedrel Reach Challenger Before the End of the Year?"
-    },
-    {
-      "id": "POLY-1186060",
-      "title": "LoL Offseason: Diable Next Team"
-    },
-    {
-      "id": "POLY-806410",
-      "title": "Which Teams Will Make a Roster Change Before December?"
     },
     {
       "id": "POLY-1120919",
@@ -108,6 +108,10 @@
       "title": "Worlds 2026: Grand Final Region Matchup"
     },
     {
+      "id": "POLY-1186057",
+      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+    },
+    {
       "id": "POLY-1070055",
       "title": "LoL Offseason: Deft Next Team"
     },
@@ -116,12 +120,12 @@
       "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
-      "id": "POLY-1186057",
-      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+      "id": "POLY-613770",
+      "title": "Will Faker Win an International Title in 2026?"
     },
     {
-      "id": "POLY-1261303",
-      "title": "Worlds 2026: Peak Viewership"
+      "id": "POLY-1186060",
+      "title": "LoL Offseason: Diable Next Team"
     },
     {
       "id": "POLY-1070134",
@@ -132,8 +136,8 @@
       "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
     },
     {
-      "id": "POLY-613770",
-      "title": "Will Faker Win an International Title in 2026?"
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
     },
     {
       "id": "POLY-1270992",
@@ -188,10 +192,6 @@
       "title": "Will Dardo be named Fnatic LoL General Manager by...?"
     },
     {
-      "id": "POLY-1001461",
-      "title": "Will a Western team win Worlds 2026?"
-    },
-    {
       "id": "POLY-1000989",
       "title": "Will G2 Caps Get a Hair Transplant in 2026?"
     }
@@ -218,18 +218,18 @@
           "type": "moneyline",
           "game": null,
           "line": null,
-          "ask": 0.95,
-          "bid": 0.51,
+          "ask": 0.94,
+          "bid": 0.63,
           "volume": 0,
-          "fee": 0.0033,
-          "cost": 0.9533,
+          "fee": 0.0039,
+          "cost": 0.9439,
           "our_prob": 0.7359,
           "cashes_on_lock": true,
-          "contracts_at_ask": null,
-          "overround": 0.44,
-          "fair_prob": 0.6597,
-          "edge_pct": 7.62,
-          "ev_per_$1": -0.228,
+          "contracts_at_ask": 55.61,
+          "overround": 0.31,
+          "fair_prob": 0.7176,
+          "edge_pct": 1.83,
+          "ev_per_$1": -0.2204,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -242,18 +242,18 @@
           "type": "moneyline",
           "game": null,
           "line": null,
-          "ask": 0.49,
-          "bid": 0.05,
+          "ask": 0.37,
+          "bid": 0.06,
           "volume": 0,
-          "fee": 0.0175,
-          "cost": 0.5075,
+          "fee": 0.0163,
+          "cost": 0.3863,
           "our_prob": 0.2641,
           "cashes_on_lock": false,
           "contracts_at_ask": 10,
-          "overround": 0.44,
-          "fair_prob": 0.3403,
-          "edge_pct": -7.62,
-          "ev_per_$1": -0.4796,
+          "overround": 0.31,
+          "fair_prob": 0.2824,
+          "edge_pct": -1.83,
+          "ev_per_$1": -0.3163,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -362,18 +362,18 @@
           "type": "totals_over",
           "game": null,
           "line": 3.5,
-          "ask": 0.75,
+          "ask": 0.74,
           "bid": 0.04,
           "volume": 0,
-          "fee": 0.0131,
-          "cost": 0.7631,
+          "fee": 0.0135,
+          "cost": 0.7535,
           "our_prob": 0.6702,
           "cashes_on_lock": false,
-          "contracts_at_ask": 10,
-          "overround": 0.71,
-          "fair_prob": 0.4386,
-          "edge_pct": 23.16,
-          "ev_per_$1": -0.1217,
+          "contracts_at_ask": 19.23,
+          "overround": 0.7,
+          "fair_prob": 0.4353,
+          "edge_pct": 23.49,
+          "ev_per_$1": -0.1106,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -386,18 +386,18 @@
           "type": "totals_over",
           "game": null,
           "line": 4.5,
-          "ask": 0.93,
+          "ask": 0.96,
           "bid": 0.04,
           "volume": 0,
-          "fee": 0.0046,
-          "cost": 0.9346,
+          "fee": 0.0027,
+          "cost": 0.9627,
           "our_prob": 0.3033,
           "cashes_on_lock": false,
-          "contracts_at_ask": 10,
-          "overround": 0.89,
-          "fair_prob": 0.4921,
-          "edge_pct": -18.88,
-          "ev_per_$1": -0.6755,
+          "contracts_at_ask": 6.52,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": -19.67,
+          "ev_per_$1": -0.6849,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -411,16 +411,16 @@
           "game": null,
           "line": 3.5,
           "ask": 0.96,
-          "bid": 0.25,
+          "bid": 0.26,
           "volume": 0,
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.3298,
           "cashes_on_lock": true,
           "contracts_at_ask": 7.49,
-          "overround": 0.71,
-          "fair_prob": 0.5614,
-          "edge_pct": -23.16,
+          "overround": 0.7,
+          "fair_prob": 0.5647,
+          "edge_pct": -23.49,
           "ev_per_$1": -0.6574,
           "has_book": true,
           "skip_reason": null,
@@ -435,16 +435,16 @@
           "game": null,
           "line": 4.5,
           "ask": 0.96,
-          "bid": 0.07,
+          "bid": 0.04,
           "volume": 0,
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.6967,
           "cashes_on_lock": true,
           "contracts_at_ask": 7.49,
-          "overround": 0.89,
-          "fair_prob": 0.5079,
-          "edge_pct": 18.88,
+          "overround": 0.92,
+          "fair_prob": 0.5,
+          "edge_pct": 19.67,
           "ev_per_$1": -0.2763,
           "has_book": true,
           "skip_reason": null,

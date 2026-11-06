@@ -6,9 +6,9 @@
   "forecast_sha256": "ec1f5e3a27b068d8ede117fad41fd078fe90b00e732a6413028abb4952ee495e",
   "forecast_view_sha256": "1ab1e4588f893b6455d882202dc27f7756e026d1b863bac0d5b71f94d45de956",
   "forecast_frozen_at_utc": "2026-11-06T19:00:54.839168Z",
-  "odds_fetched_at_utc": "2026-11-06T19:03:50.639323+00:00",
-  "odds_fetched_at_et": "2026-11-06 02:03:50 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-07/20261106T190350Z.json",
+  "odds_fetched_at_utc": "2026-11-06T23:36:50.260513+00:00",
+  "odds_fetched_at_et": "2026-11-06 06:36:50 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-07/20261106T233650Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,12 +18,12 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 247
+      "n": 252
     },
     {
       "endpoint": "GET /events/POLY-1317036/markets?includeAllMarkets=true (paged)",
       "ok": true,
-      "n": 43
+      "n": 61
     },
     {
       "endpoint": "GET /orderbook/{marketId}",
@@ -60,16 +60,16 @@
       "title": "Worlds 2026: Finals MVP"
     },
     {
-      "id": "POLY-1120939",
-      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
-    },
-    {
       "id": "POLY-991832",
       "title": "Worlds 2026: Team to Make Grand Finals"
     },
     {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
+      "id": "POLY-1120939",
+      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+    },
+    {
+      "id": "POLY-1001461",
+      "title": "Will a Western team win Worlds 2026?"
     },
     {
       "id": "POLY-775290",
@@ -84,20 +84,20 @@
       "title": "Most Banned Champion at Worlds 2026"
     },
     {
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
+    },
+    {
       "id": "POLY-1120940",
       "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
       "id": "POLY-796849",
       "title": "Will Caedrel Reach Challenger Before the End of the Year?"
-    },
-    {
-      "id": "POLY-1186060",
-      "title": "LoL Offseason: Diable Next Team"
-    },
-    {
-      "id": "POLY-806410",
-      "title": "Which Teams Will Make a Roster Change Before December?"
     },
     {
       "id": "POLY-1120919",
@@ -108,6 +108,10 @@
       "title": "Worlds 2026: Grand Final Region Matchup"
     },
     {
+      "id": "POLY-1186057",
+      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+    },
+    {
       "id": "POLY-1070055",
       "title": "LoL Offseason: Deft Next Team"
     },
@@ -116,12 +120,12 @@
       "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
-      "id": "POLY-1186057",
-      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+      "id": "POLY-613770",
+      "title": "Will Faker Win an International Title in 2026?"
     },
     {
-      "id": "POLY-1261303",
-      "title": "Worlds 2026: Peak Viewership"
+      "id": "POLY-1186060",
+      "title": "LoL Offseason: Diable Next Team"
     },
     {
       "id": "POLY-1070134",
@@ -132,8 +136,8 @@
       "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
     },
     {
-      "id": "POLY-613770",
-      "title": "Will Faker Win an International Title in 2026?"
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
     },
     {
       "id": "POLY-1270992",
@@ -188,10 +192,6 @@
       "title": "Will Dardo be named Fnatic LoL General Manager by...?"
     },
     {
-      "id": "POLY-1001461",
-      "title": "Will a Western team win Worlds 2026?"
-    },
-    {
       "id": "POLY-1000989",
       "title": "Will G2 Caps Get a Hair Transplant in 2026?"
     }
@@ -220,12 +220,12 @@
           "line": null,
           "ask": 0.81,
           "bid": 0.8,
-          "volume": 211010,
+          "volume": 217462,
           "fee": 0.0108,
           "cost": 0.8208,
           "our_prob": 0.7097,
           "cashes_on_lock": true,
-          "contracts_at_ask": 122611.1,
+          "contracts_at_ask": 125394.08,
           "overround": 0.01,
           "fair_prob": 0.802,
           "edge_pct": -9.23,
@@ -244,12 +244,12 @@
           "line": null,
           "ask": 0.2,
           "bid": 0.19,
-          "volume": 211010,
+          "volume": 217462,
           "fee": 0.0112,
           "cost": 0.2112,
           "our_prob": 0.2903,
           "cashes_on_lock": false,
-          "contracts_at_ask": 212639.35,
+          "contracts_at_ask": 214809.52,
           "overround": 0.01,
           "fair_prob": 0.198,
           "edge_pct": 9.23,
@@ -267,16 +267,16 @@
           "game": null,
           "line": -1.5,
           "ask": 0.67,
-          "bid": 0.65,
-          "volume": 25452,
+          "bid": 0.66,
+          "volume": 26169,
           "fee": 0.0155,
           "cost": 0.6855,
           "our_prob": 0.5191,
           "cashes_on_lock": true,
-          "contracts_at_ask": 1246.07,
-          "overround": 0.02,
-          "fair_prob": 0.6569,
-          "edge_pct": -13.78,
+          "contracts_at_ask": 1553.31,
+          "overround": 0.01,
+          "fair_prob": 0.6634,
+          "edge_pct": -14.43,
           "ev_per_$1": -0.2427,
           "has_book": true,
           "skip_reason": null,
@@ -290,18 +290,18 @@
           "type": "map_handicap",
           "game": null,
           "line": -2.5,
-          "ask": 0.37,
-          "bid": 0.36,
-          "volume": 13380,
-          "fee": 0.0163,
-          "cost": 0.3863,
+          "ask": 0.38,
+          "bid": 0.37,
+          "volume": 20175,
+          "fee": 0.0165,
+          "cost": 0.3965,
           "our_prob": 0.2555,
           "cashes_on_lock": false,
-          "contracts_at_ask": 1552.98,
+          "contracts_at_ask": 892.6,
           "overround": 0.01,
-          "fair_prob": 0.3663,
-          "edge_pct": -11.08,
-          "ev_per_$1": -0.3386,
+          "fair_prob": 0.3762,
+          "edge_pct": -12.07,
+          "ev_per_$1": -0.3556,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -314,18 +314,18 @@
           "type": "map_handicap",
           "game": null,
           "line": 1.5,
-          "ask": 0.35,
+          "ask": 0.34,
           "bid": 0.33,
-          "volume": 25452,
-          "fee": 0.0159,
-          "cost": 0.3659,
+          "volume": 26169,
+          "fee": 0.0157,
+          "cost": 0.3557,
           "our_prob": 0.4809,
           "cashes_on_lock": false,
-          "contracts_at_ask": 45061.14,
-          "overround": 0.02,
-          "fair_prob": 0.3431,
-          "edge_pct": 13.78,
-          "ev_per_$1": 0.3143,
+          "contracts_at_ask": 310.54,
+          "overround": 0.01,
+          "fair_prob": 0.3366,
+          "edge_pct": 14.43,
+          "ev_per_$1": 0.352,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -338,18 +338,18 @@
           "type": "map_handicap",
           "game": null,
           "line": 2.5,
-          "ask": 0.64,
-          "bid": 0.63,
-          "volume": 13380,
-          "fee": 0.0161,
-          "cost": 0.6561,
+          "ask": 0.63,
+          "bid": 0.62,
+          "volume": 20175,
+          "fee": 0.0163,
+          "cost": 0.6463,
           "our_prob": 0.7446,
           "cashes_on_lock": true,
-          "contracts_at_ask": 6550,
+          "contracts_at_ask": 311.19,
           "overround": 0.01,
-          "fair_prob": 0.6337,
-          "edge_pct": 11.09,
-          "ev_per_$1": 0.1349,
+          "fair_prob": 0.6238,
+          "edge_pct": 12.08,
+          "ev_per_$1": 0.1521,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -362,18 +362,18 @@
           "type": "totals_over",
           "game": null,
           "line": 3.5,
-          "ask": 0.62,
-          "bid": 0.61,
-          "volume": 1023,
-          "fee": 0.0165,
-          "cost": 0.6365,
+          "ask": 0.61,
+          "bid": 0.6,
+          "volume": 1028,
+          "fee": 0.0167,
+          "cost": 0.6267,
           "our_prob": 0.6837,
           "cashes_on_lock": true,
-          "contracts_at_ask": 19999.35,
+          "contracts_at_ask": 562,
           "overround": 0.01,
-          "fair_prob": 0.6139,
-          "edge_pct": 6.98,
-          "ev_per_$1": 0.0742,
+          "fair_prob": 0.604,
+          "edge_pct": 7.97,
+          "ev_per_$1": 0.091,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -388,12 +388,12 @@
           "line": 4.5,
           "ask": 0.26,
           "bid": 0.25,
-          "volume": 1463,
+          "volume": 1510,
           "fee": 0.0135,
           "cost": 0.2735,
           "our_prob": 0.3144,
           "cashes_on_lock": false,
-          "contracts_at_ask": 19706.84,
+          "contracts_at_ask": 20452.84,
           "overround": 0.01,
           "fair_prob": 0.2574,
           "edge_pct": 5.7,
@@ -410,18 +410,18 @@
           "type": "totals_under",
           "game": null,
           "line": 3.5,
-          "ask": 0.39,
-          "bid": 0.38,
-          "volume": 1023,
-          "fee": 0.0167,
-          "cost": 0.4067,
+          "ask": 0.4,
+          "bid": 0.39,
+          "volume": 1028,
+          "fee": 0.0168,
+          "cost": 0.4168,
           "our_prob": 0.3163,
           "cashes_on_lock": false,
-          "contracts_at_ask": 156.87,
+          "contracts_at_ask": 162,
           "overround": 0.01,
-          "fair_prob": 0.3861,
-          "edge_pct": -6.98,
-          "ev_per_$1": -0.2223,
+          "fair_prob": 0.396,
+          "edge_pct": -7.97,
+          "ev_per_$1": -0.2411,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -436,12 +436,12 @@
           "line": 4.5,
           "ask": 0.75,
           "bid": 0.74,
-          "volume": 1463,
+          "volume": 1510,
           "fee": 0.0131,
           "cost": 0.7631,
           "our_prob": 0.6856,
           "cashes_on_lock": true,
-          "contracts_at_ask": 207.66,
+          "contracts_at_ask": 202.66,
           "overround": 0.01,
           "fair_prob": 0.7426,
           "edge_pct": -5.7,
@@ -460,12 +460,12 @@
           "line": null,
           "ask": 0.72,
           "bid": 0.71,
-          "volume": 3434,
+          "volume": 3622,
           "fee": 0.0141,
           "cost": 0.7341,
           "our_prob": 0.6247,
           "cashes_on_lock": null,
-          "contracts_at_ask": 40237.41,
+          "contracts_at_ask": 40277.02,
           "overround": 0.01,
           "fair_prob": 0.7129,
           "edge_pct": -8.82,
@@ -484,12 +484,12 @@
           "line": null,
           "ask": 0.29,
           "bid": 0.28,
-          "volume": 3434,
+          "volume": 3622,
           "fee": 0.0144,
           "cost": 0.3044,
           "our_prob": 0.3753,
           "cashes_on_lock": null,
-          "contracts_at_ask": 776.98,
+          "contracts_at_ask": 8328.7,
           "overround": 0.01,
           "fair_prob": 0.2871,
           "edge_pct": 8.82,
@@ -508,12 +508,12 @@
           "line": null,
           "ask": 0.73,
           "bid": 0.72,
-          "volume": 1239,
+          "volume": 1740,
           "fee": 0.0138,
           "cost": 0.7438,
           "our_prob": 0.6224,
           "cashes_on_lock": null,
-          "contracts_at_ask": 618.44,
+          "contracts_at_ask": 1472.42,
           "overround": 0.01,
           "fair_prob": 0.7228,
           "edge_pct": -10.04,
@@ -532,12 +532,12 @@
           "line": null,
           "ask": 0.28,
           "bid": 0.27,
-          "volume": 1239,
+          "volume": 1740,
           "fee": 0.0141,
           "cost": 0.2941,
           "our_prob": 0.3776,
           "cashes_on_lock": null,
-          "contracts_at_ask": 872.37,
+          "contracts_at_ask": 10828.74,
           "overround": 0.01,
           "fair_prob": 0.2772,
           "edge_pct": 10.04,
@@ -556,12 +556,12 @@
           "line": null,
           "ask": 0.73,
           "bid": 0.72,
-          "volume": 4543,
+          "volume": 4616,
           "fee": 0.0138,
           "cost": 0.7438,
           "our_prob": 0.6241,
           "cashes_on_lock": null,
-          "contracts_at_ask": 251.72,
+          "contracts_at_ask": 784.22,
           "overround": 0.01,
           "fair_prob": 0.7228,
           "edge_pct": -9.87,
@@ -580,12 +580,12 @@
           "line": null,
           "ask": 0.28,
           "bid": 0.27,
-          "volume": 4543,
+          "volume": 4616,
           "fee": 0.0141,
           "cost": 0.2941,
           "our_prob": 0.3759,
           "cashes_on_lock": null,
-          "contracts_at_ask": 1.42,
+          "contracts_at_ask": 10524.13,
           "overround": 0.01,
           "fair_prob": 0.2772,
           "edge_pct": 9.87,
@@ -602,18 +602,18 @@
           "type": "game",
           "game": 4,
           "line": null,
-          "ask": 0.68,
-          "bid": 0.61,
-          "volume": 153,
-          "fee": 0.0152,
-          "cost": 0.6952,
+          "ask": 0.64,
+          "bid": 0.62,
+          "volume": 172,
+          "fee": 0.0161,
+          "cost": 0.6561,
           "our_prob": 0.5787,
           "cashes_on_lock": true,
-          "contracts_at_ask": 15.62,
-          "overround": 0.07,
-          "fair_prob": 0.6355,
-          "edge_pct": -5.68,
-          "ev_per_$1": -0.1676,
+          "contracts_at_ask": 308,
+          "overround": 0.02,
+          "fair_prob": 0.6275,
+          "edge_pct": -4.88,
+          "ev_per_$1": -0.118,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -626,18 +626,18 @@
           "type": "game",
           "game": 4,
           "line": null,
-          "ask": 0.39,
-          "bid": 0.32,
-          "volume": 153,
-          "fee": 0.0167,
-          "cost": 0.4067,
+          "ask": 0.38,
+          "bid": 0.36,
+          "volume": 172,
+          "fee": 0.0165,
+          "cost": 0.3965,
           "our_prob": 0.4213,
           "cashes_on_lock": false,
-          "contracts_at_ask": 20,
-          "overround": 0.07,
-          "fair_prob": 0.3645,
-          "edge_pct": 5.68,
-          "ev_per_$1": 0.0359,
+          "contracts_at_ask": 5,
+          "overround": 0.02,
+          "fair_prob": 0.3725,
+          "edge_pct": 4.88,
+          "ev_per_$1": 0.0625,
           "has_book": true,
           "skip_reason": null,
           "eligible": true,
@@ -651,18 +651,18 @@
         "type": "map_handicap",
         "game": null,
         "line": 2.5,
-        "ask": 0.64,
-        "bid": 0.63,
-        "volume": 13380,
-        "fee": 0.0161,
-        "cost": 0.6561,
+        "ask": 0.63,
+        "bid": 0.62,
+        "volume": 20175,
+        "fee": 0.0163,
+        "cost": 0.6463,
         "our_prob": 0.7446,
         "cashes_on_lock": true,
-        "contracts_at_ask": 6550,
+        "contracts_at_ask": 311.19,
         "overround": 0.01,
-        "fair_prob": 0.6337,
-        "edge_pct": 11.09,
-        "ev_per_$1": 0.1349,
+        "fair_prob": 0.6238,
+        "edge_pct": 12.08,
+        "ev_per_$1": 0.1521,
         "has_book": true,
         "skip_reason": null,
         "eligible": true,
@@ -677,12 +677,12 @@
         "line": null,
         "ask": 0.2,
         "bid": 0.19,
-        "volume": 211010,
+        "volume": 217462,
         "fee": 0.0112,
         "cost": 0.2112,
         "our_prob": 0.2903,
         "cashes_on_lock": false,
-        "contracts_at_ask": 212639.35,
+        "contracts_at_ask": 214809.52,
         "overround": 0.01,
         "fair_prob": 0.198,
         "edge_pct": 9.23,
@@ -697,6 +697,18 @@
         "child_moneyline": {
           "markets": 8,
           "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "kill_over_under_game": {
+          "markets": 8,
+          "lines": [
+            "27.5"
+          ],
           "games": [
             1,
             2,
@@ -729,6 +741,19 @@
         "lol_both_teams_inhibitors": {
           "markets": 5,
           "lines": [],
+          "games": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "lol_game_duration": {
+          "markets": 10,
+          "lines": [
+            "31.5"
+          ],
           "games": [
             1,
             2,
@@ -781,9 +806,31 @@
           "games": []
         }
       },
-      "n_markets": 43,
+      "n_markets": 61,
       "n_priced_legs": 18,
       "not_modeled": [
+        {
+          "market_id": "POLY-6762813-0",
+          "type": "kill_over_under_game",
+          "label": "Game 1 Kills Over",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.77,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
+        },
+        {
+          "market_id": "POLY-6762813-1",
+          "type": "kill_over_under_game",
+          "label": "Game 1 Kills Under",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
+        },
         {
           "market_id": "POLY-6702341",
           "type": "lol_both_teams_baron",
@@ -818,6 +865,28 @@
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
         {
+          "market_id": "POLY-6762817-0",
+          "type": "lol_game_duration",
+          "label": "Game 1 Over",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
+          "market_id": "POLY-6762817-1",
+          "type": "lol_game_duration",
+          "label": "Game 1 Under",
+          "game": 1,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
           "market_id": "POLY-6702347",
           "type": "lol_penta_kill",
           "label": "Game 1 Any penta kill",
@@ -838,6 +907,28 @@
           "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6762814-0",
+          "type": "kill_over_under_game",
+          "label": "Game 2 Kills Over",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
+        },
+        {
+          "market_id": "POLY-6762814-1",
+          "type": "kill_over_under_game",
+          "label": "Game 2 Kills Under",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
         },
         {
           "market_id": "POLY-6702349",
@@ -873,6 +964,28 @@
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
         {
+          "market_id": "POLY-6762818-0",
+          "type": "lol_game_duration",
+          "label": "Game 2 Over",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
+          "market_id": "POLY-6762818-1",
+          "type": "lol_game_duration",
+          "label": "Game 2 Under",
+          "game": 2,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
           "market_id": "POLY-6702357",
           "type": "lol_penta_kill",
           "label": "Game 2 Any penta kill",
@@ -893,6 +1006,28 @@
           "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6762815-0",
+          "type": "kill_over_under_game",
+          "label": "Game 3 Kills Over",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
+        },
+        {
+          "market_id": "POLY-6762815-1",
+          "type": "kill_over_under_game",
+          "label": "Game 3 Kills Under",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
         },
         {
           "market_id": "POLY-6702359",
@@ -928,6 +1063,28 @@
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
         {
+          "market_id": "POLY-6762819-0",
+          "type": "lol_game_duration",
+          "label": "Game 3 Over",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
+          "market_id": "POLY-6762819-1",
+          "type": "lol_game_duration",
+          "label": "Game 3 Under",
+          "game": 3,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
           "market_id": "POLY-6702367",
           "type": "lol_penta_kill",
           "label": "Game 3 Any penta kill",
@@ -948,6 +1105,28 @@
           "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6762816-0",
+          "type": "kill_over_under_game",
+          "label": "Game 4 Kills Over",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
+        },
+        {
+          "market_id": "POLY-6762816-1",
+          "type": "kill_over_under_game",
+          "label": "Game 4 Kills Under",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "per-game total kills; the sim does not output kills"
         },
         {
           "market_id": "POLY-6702369",
@@ -981,6 +1160,28 @@
           "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
+        },
+        {
+          "market_id": "POLY-6762820-0",
+          "type": "lol_game_duration",
+          "label": "Game 4 Over",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
+          "market_id": "POLY-6762820-1",
+          "type": "lol_game_duration",
+          "label": "Game 4 Under",
+          "game": 4,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
         },
         {
           "market_id": "POLY-6702376",
@@ -1038,6 +1239,28 @@
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
         {
+          "market_id": "POLY-6762821-0",
+          "type": "lol_game_duration",
+          "label": "Game 5 Over",
+          "game": 5,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
+          "market_id": "POLY-6762821-1",
+          "type": "lol_game_duration",
+          "label": "Game 5 Under",
+          "game": 5,
+          "status": "open",
+          "yes_ask": 0.78,
+          "no_ask": null,
+          "volume": 0,
+          "reason": "market type 'lol_game_duration' is not derivable from the series/map simulation"
+        },
+        {
           "market_id": "POLY-6702381",
           "type": "lol_penta_kill",
           "label": "Game 5 Any penta kill",
@@ -1061,7 +1284,7 @@
         }
       ],
       "unpriced": [],
-      "verdict": "BEST BET: IG +2.5 maps @ 0.64 (EV +0.135/$1, model 74.5% vs no-vig 63.4%)"
+      "verdict": "BEST BET: IG +2.5 maps @ 0.63 (EV +0.152/$1, model 74.5% vs no-vig 62.4%)"
     }
   ]
 }
