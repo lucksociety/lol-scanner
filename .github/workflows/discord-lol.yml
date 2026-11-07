@@ -41,7 +41,7 @@ permissions:
 
 # No concurrency group on purpose: GitHub silently cancels a *pending* run when a newer one joins the same group,
 # which left those /lol replies stuck on "Scanning…". Every /lol gets its own run and its own answer; the push
-# step below makes simultaneous freezes of the same date safe (the first frozen forecast wins, never recomputed).
+# step below makes simultaneous freezes of the same date safe (each request keeps its own immutable pre-start revision).
 
 jobs:
   lol:
@@ -52,6 +52,7 @@ jobs:
       JUP_API_KEY: ${{ secrets.JUP_API_KEY }}
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
       TZ: America/New_York
+      LIVE_REFRESH: "1"
       # inputs go through env (never interpolated into scripts) so they cannot inject shell
       IN_DATE: ${{ inputs.date }}
       DISCORD_INTERACTION_TOKEN: ${{ inputs.interaction_token }}
@@ -106,16 +107,16 @@ jobs:
       - name: Tell Discord when the forecast has to be built from scratch
         run: |
           D="${{ steps.d.outputs.date }}"
-          if [ -f "forecast_log/$D.v2.json" ]; then echo "forecast for $D already frozen"; exit 0; fi
+          echo "refreshing pending forecasts for $D (prior snapshots retained)"
           echo "FRESH=1" >> "$GITHUB_ENV"
           if [ -f .cache/golgg/corpus.json ] && [ "$(ls .cache/golgg/games 2>/dev/null | wc -l)" -gt 1000 ]; then EST="~3 min"; else EST="~15 min (gol.gg cache is cold)"; fi
           MSG="building a fresh forecast for $D, $EST: refresh gol.gg + lineups, fit the draft model, 100k draft-path sims, all before looking at any price 🔒. The report lands here, or as a new message in this channel if it takes longer than 15 min."
           if [ "$DRY_RUN" = "true" ]; then python -m scanner.discord_report --date "$D" --progress "$MSG" --dry-run
           else python -m scanner.discord_report --date "$D" --progress "$MSG" || true; fi
-      - name: 1) FORECAST freeze (no-op if already frozen; never recomputed)
+      - name: 1) FORECAST fresh pre-start revision (original snapshots retained)
         id: fc
         timeout-minutes: 45
-        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage forecast --model v2
+        run: python -m scanner --date "${{ steps.d.outputs.date }}" --stage forecast --model v2 --refresh
       - name: Save gol.gg / Data Dragon cache (even if a later step fails or the run is cancelled)
         if: ${{ always() && steps.d.outcome == 'success' }}
         uses: actions/cache/save@v5
@@ -141,9 +142,12 @@ jobs:
           git diff --cached --quiet || git commit -m "edge+dashboard: $D (/lol)"
           for i in 1 2 3 4; do
             if git pull --rebase --autostash; then git push && exit 0; else
-              # another /lol froze the same date first: keep main's frozen forecast (never recomputed) and redo edge + dashboard on it
+              # Another run published first: rebuild a fresh pre-start revision on main, then reprice it.
               git rebase --abort || true
               git reset -q --hard origin/main
+              python -m scanner --date "$D" --stage forecast --model v2 --refresh
+              git add forecast_log
+              git diff --cached --quiet || git commit -m "forecast: refresh $D after concurrent update (/lol)"
               python -m scanner --date "$D" --stage edge --model v2 || true
               python -m scanner --date "$D" --stage dashboard --model v2
               git add odds_snapshots edge_log docs || true

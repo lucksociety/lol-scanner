@@ -16,6 +16,8 @@ ET = ZoneInfo(config.TZ)
 
 def pregame_reason(card, event=None, now=None):
     now = now or datetime.now(timezone.utc)
+    if (card.get("availability") or {}).get("block_reason"):
+        return card["availability"]["block_reason"]
     try:
         start = datetime.fromisoformat(card.get('start_utc', '').replace('Z', '+00:00'))
         if start.tzinfo is None:

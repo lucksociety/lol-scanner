@@ -68,7 +68,7 @@ def pending_ids(rows, now):
     return {r["match_id"] for r in rows if r["a"] != "TBD" and r["b"] != "TBD" and r["state"] == "unstarted" and r["start"] > now_iso}
 
 
-def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None, clock=None):
+def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None, clock=None, rerun=False):
     """Freeze the pending series of one date (base or addendum). Returns a log list."""
     from . import forecast, forecast_v2
     log = []
@@ -84,6 +84,8 @@ def freeze_date(date, events, rows, now, models=("v1", "v2"), refresh=None, cloc
             # Missing history is recoverable: retry on a model upgrade or the next UTC data day.
             revise |= {s["match_id"] for s in current.get("skipped", [])
                        if s.get("model_version") != primary or s.get("frozen_at_utc", "")[:10] < now.date().isoformat()} & want
+        if rerun and v == "v2":
+            revise |= want & frozen_ids(date, v)
         new |= revise
         if not new:
             continue

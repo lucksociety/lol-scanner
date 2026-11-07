@@ -9,7 +9,7 @@ def _get(path, **params):
     if not config.LOLESPORTS_API_KEY:
         raise SystemExit("LOLESPORTS_API_KEY is not set (see README: Configuration)")
     url = f"{config.LOLESPORTS_BASE}/{path}?" + urllib.parse.urlencode({"hl": "en-US", **params})
-    req = urllib.request.Request(url, headers={"x-api-key": config.LOLESPORTS_API_KEY, "User-Agent": UA})
+    req = urllib.request.Request(url, headers={"x-api-key": config.LOLESPORTS_API_KEY, "User-Agent": UA, "Cache-Control": "no-cache"})
     last = None
     for i in range(4):
         try:
