@@ -367,7 +367,7 @@ def evaluate(card, ev, obs, markets=None):
                     depth = round(best_opp[1], 2)
             pid = m["marketId"].rsplit("-", 1)[0] if re.search(r"-[01]$", m["marketId"]) else m["marketId"]
             legs.append({"market_id": m["marketId"] + suffix, "pair_id": pid, "label": label, "type": kind,
-                         "game": g, "line": line if not isinstance(line, tuple) else list(line),
+                         "side_is_a": side_is_a, "game": g, "line": line if not isinstance(line, tuple) else list(line),
                          "ask": ask, "bid": bid, "volume": (m.get("pricing") or {}).get("volume"),
                          "fee": round(fee(ask), 4), "cost": round(cost, 4), "our_prob": round(q, 4),
                          "sensitivity_min": min(qs), "sensitivity_lower": lower, "sensitivity_ev": lower / cost - 1,
@@ -389,17 +389,46 @@ def evaluate(card, ev, obs, markets=None):
     not_modeled.sort(key=lambda x: (x["game"] or 0, x["type"], x["label"]))
     disagreement = winner_disagreement(card)
     for x in legs:
+        x["score_consistent"] = score_supports(x, card)
         x["has_book"] = bool(obs.get(x["market_id"].replace(":NO", "")))
-        x["skip_reason"] = "ratings and draft disagree on series winner" if disagreement else sanity_skip(x)
+        x["skip_reason"] = "ratings and draft disagree on series winner" if disagreement else (sanity_skip(x) if x["score_consistent"] else "bet does not win at displayed predicted score (or map order unknown)")
         x["eligible"] = x["skip_reason"] is None
         x["qualifies"] = qualifies(x)
-    # BEST BET (rule BEST_BET_RULE_VERSION): highest-EV Jupiter line among lines with model probability > 50% AND
-    # EV > 0 that pass the price/liquidity guard. None qualifies -> NO BET. The lock is the headline prediction only;
-    # cashes_on_lock is informational and never filters the pick. best_any = top +EV guarded line at any
-    # probability, recorded for transparency only (it is never the bet).
+    # Every recommended line must win at the displayed lock and survive the risk/quote guards.
+    # best_any is diagnostic only; recommendations still require >50% and positive EV.
     best = max((x for x in legs if x["qualifies"]), key=lambda x: (x["sensitivity_lower"], x["ev_per_$1"]), default=None)
     best_any = max((x for x in legs if x["eligible"] and x["ev_per_$1"] > 0), key=lambda x: x["ev_per_$1"], default=None)
     return legs, best, best_any, not_modeled, unpriced
+
+
+def score_supports(leg, card):
+    try:
+        a, b = map(int, card['sim']['locked_score'].split('-'))
+        A, B = card['team_a']['code'], card['team_b']['code']
+        if min(a,b) < 0 or max(a,b) != card['bo']//2+1 or a == b: return False
+        lab = leg['label']; neg = lab.startswith('NOT '); lab = lab[4:] if neg else lab
+        t = leg['type']; words = lab.split(); line = leg.get('line'); game = leg.get('game')
+        side_a = words[1] == A if t == 'moneyline' else words[2] == A if t == 'game' else words[0] == A
+        if t == 'game':
+            game = int(words[1])
+            if game > a+b: return False
+        if 'side_is_a' in leg: side_a = leg['side_is_a']
+        if t == 'exact':
+            import re
+            m = re.search(r'(\d+)-(\d+)', lab)
+            if not m: return False
+            line = tuple(leg.get('line') or map(int, m.groups()))
+            if 'side_is_a' not in leg:
+                prefix = lab[6:].split(m.group(0))[0].strip()
+                if not prefix: return False
+                side_a = _same(card['team_a'], prefix)
+                if not side_a and not _same(card['team_b'], prefix): return False
+        if t in ('totals_over','totals_under') and a+b == line: return False
+        if t == 'map_handicap' and (a-b if side_a else b-a)+line == 0: return False
+        result = outcome_fn(t, side_a, line, game, card['bo'])(a,b)
+        return (not result if neg else result) if result is not None else False
+    except (KeyError, TypeError, ValueError, IndexError):
+        return False
 
 
 def qualifies(leg):
@@ -423,9 +452,9 @@ def rating_stress(card):
 
 
 MIN_MODEL_PROB = 0.50
-BEST_BET_RULE_VERSION = "r5-prob50-rating-sensitivity"   # r2 (624ca75) = pure max-EV; r1 = had to cash on the lock
+BEST_BET_RULE_VERSION = "r6-score-consistent-rating-sensitivity"   # r2 (624ca75) = pure max-EV; r1 = had to cash on the lock
 BEST_BET_RULE = ("model >50% and positive EV after fees across +/- one rating-SD sensitivity scenarios; "
-                 "highest sensitivity probability first, EV breaks ties; verified two-sided quotes; "
+                 "must win at displayed predicted score; highest sensitivity probability first, EV breaks ties; verified two-sided quotes; "
                  "ratings/draft winner disagreement or conditional unplayed-game payout -> NO BET. "
                  "Sensitivity scenarios are stress tests, not confidence intervals or proven calibration.")
 NO_BET_REASON = f"no verified line stays > {MIN_MODEL_PROB:.0%} with positive EV across rating sensitivity scenarios"
@@ -433,6 +462,8 @@ NO_BET_REASON = f"no verified line stays > {MIN_MODEL_PROB:.0%} with positive EV
 
 def sanity_skip(leg):
     """Liquidity / price guard so dead or pinned lines can't win the best bet. Returns a reason or None."""
+    if leg.get("cashes_on_lock") is not True:
+        return "bet does not win at displayed predicted score (or map order unknown)"
     bid, ask = leg.get("bid"), leg.get("ask")
     if not isinstance(bid, (int, float)) or not math.isfinite(bid) or not 0 < bid <= ask or ask - bid > 0.10 + 1e-9:
         return "missing, crossed, or wider than 10c two-sided quote"

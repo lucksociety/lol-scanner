@@ -46,7 +46,7 @@ def test_bo3_mapping_and_max_ev_rule():
     assert by["Over 2.5 maps"]["our_prob"] == pytest.approx(.45)
     assert by["BBB +1.5 maps"]["cashes_on_lock"] is False      # dies on locked 2-0
     assert by["AAA -1.5 maps"]["cashes_on_lock"] is True
-    plus = [l for l in legs if l["ev_per_$1"] > 0 and l["our_prob"] > 0.5]
+    plus = [l for l in legs if l["qualifies"]]
     assert best is not None and best["ev_per_$1"] == max(l["ev_per_$1"] for l in plus)
     # rule r3: AAA -1.5 @0.30 (40% shot) is the top raw EV but model prob <= 50%, so it is NOT the bet;
     # ML AAA (65% @0.55) is the top-EV line above 50%. best_any keeps the excluded line for transparency.
@@ -57,12 +57,13 @@ def test_bo3_mapping_and_max_ev_rule():
         assert sum(l["fair_prob"] for l in ls) == pytest.approx(1, abs=1e-3)
 
 
-def test_anti_lock_market_can_be_best_bet():
+def test_anti_lock_market_cannot_be_best_bet():
     ex = {"2-0": .35, "2-1": .10, "1-2": .30, "0-2": .25}     # lock 2-0 but Beta wins the series 55%
     c = _card(3, "2-0", ex)
     ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .57), _mk("M-1", "moneyline", "Beta", .45)]}
     legs, best, best_any, *_ = edge.evaluate(c, ev, {})
-    assert best["label"] == "ML BBB" and best["cashes_on_lock"] is False and best_any is best
+    assert best is None and best_any is None
+    assert not any(l["qualifies"] for l in legs)
 
 
 def test_no_bet_when_only_plus_ev_lines_are_under_50pct():
@@ -71,7 +72,7 @@ def test_no_bet_when_only_plus_ev_lines_are_under_50pct():
     # Beta ML @0.30 is hugely +EV (45% shot) but under 50%; Alpha @0.72 (55%) is -EV -> NO BET
     ev = {"markets": [_mk("M-0", "moneyline", "Alpha", .72), _mk("M-1", "moneyline", "Beta", .30)]}
     legs, best, best_any, *_ = edge.evaluate(c, ev, {})
-    assert best is None and best_any["label"] == "ML BBB" and best_any["ev_per_$1"] > 0 and best_any["our_prob"] < 0.5
+    assert best is None and best_any is None
     assert not any(l["qualifies"] for l in legs)
 
 
@@ -80,7 +81,7 @@ def test_exactly_50pct_does_not_qualify():
     assert edge.qualifies({"skip_reason": None, "our_prob": 0.5001, "ev_per_$1": 0.0001, "cost": 0.4})
     assert not edge.qualifies({"skip_reason": "price < 0.03", "our_prob": 0.9, "ev_per_$1": 0.5})
     assert not edge.qualifies({"skip_reason": None, "our_prob": 0.9, "ev_per_$1": 0})
-    assert edge.BEST_BET_RULE_VERSION.startswith("r5") and "50%" in edge.BEST_BET_RULE and "NO BET" in edge.BEST_BET_RULE
+    assert edge.BEST_BET_RULE_VERSION.startswith("r6") and "50%" in edge.BEST_BET_RULE and "NO BET" in edge.BEST_BET_RULE
 
 
 def test_pass_when_nothing_plus_ev():
@@ -99,13 +100,13 @@ def test_sanity_guard_skips_pinned_and_dead_lines():
     legs, best, *_ = edge.evaluate(c, ev, {})
     by = {l["label"]: l for l in legs}
     assert by["ML BBB"]["ev_per_$1"] > by["ML AAA"]["ev_per_$1"] > 0
-    assert by["ML BBB"]["eligible"] is False and "0.03" in by["ML BBB"]["skip_reason"]
+    assert by["ML BBB"]["eligible"] is False and "predicted score" in by["ML BBB"]["skip_reason"]
     assert best["label"] == "ML AAA"
     # a 0.98 line is skipped too
-    assert edge.sanity_skip({"bid": .49, "ask": .98, "volume": 10}) and edge.sanity_skip({"bid": .49, "ask": .5, "volume": 10}) is None
+    assert edge.sanity_skip({"cashes_on_lock": True, "bid": .49, "ask": .98, "volume": 10}) and edge.sanity_skip({"cashes_on_lock": True, "bid": .49, "ask": .5, "volume": 10}) is None
     # no volume and no orderbook -> skipped; volume or a book -> fine
-    assert edge.sanity_skip({"bid": .49, "ask": .5, "volume": 0, "has_book": False}) == "no volume and no orderbook"
-    assert edge.sanity_skip({"bid": .49, "ask": .5, "volume": 0, "has_book": True}) is None
+    assert edge.sanity_skip({"cashes_on_lock": True, "bid": .49, "ask": .5, "volume": 0, "has_book": False}) == "no volume and no orderbook"
+    assert edge.sanity_skip({"cashes_on_lock": True, "bid": .49, "ask": .5, "volume": 0, "has_book": True}) is None
 
 
 def test_bo1_ignores_handicap_and_totals():

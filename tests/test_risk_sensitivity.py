@@ -13,6 +13,6 @@ def test_kc_handicap_edge_is_not_robust_to_existing_rating_uncertainty():
 
 def test_invalid_quotes_and_half_payout_are_not_recommendations():
     for bid in [None,0,float('nan'),.6,.2]:
-        assert edge.sanity_skip({'ask':.5,'bid':bid,'volume':100})
-    assert edge.sanity_skip({'ask':.5,'bid':.49,'volume':100}) is None
+        assert edge.sanity_skip({'ask':.5,'bid':bid,'volume':100,'cashes_on_lock':True})
+    assert edge.sanity_skip({'ask':.5,'bid':.49,'volume':100,'cashes_on_lock':True}) is None
     assert edge.sanity_skip({'ask':.5,'bid':.49,'volume':100,'conditional_game':True})

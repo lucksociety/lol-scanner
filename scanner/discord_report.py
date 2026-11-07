@@ -39,7 +39,7 @@ def _embed_chars(em):
 
 def _series_field(c, row, have_edge, short=False):
     """One embed field per series: teams · format · time / lock + prob · winner % / best bet + EV, or NO BET (nothing > 50% model prob and +EV), or PASS (no market)."""
-    from .edge import pregame_reason, winner_disagreement
+    from .edge import pregame_reason, winner_disagreement, score_supports
     reason = pregame_reason(c)
     if reason:
         row = {"status": "not_prematch", "reason": reason, "best_bet": None}
@@ -50,6 +50,8 @@ def _series_field(c, row, have_edge, short=False):
     fav, pf = (A["code"], pa) if pa >= 0.5 else (B["code"], 1 - pa)
     when = str(c.get("start_et", "")).split(", ")[-1]      # "Wed Oct 28, 04:00 PM ET" -> "04:00 PM ET"
     bs = ev.best_summary(row) if have_edge else {"pass": True, "reason": "edge layer not run"}
+    if not bs['pass'] and not score_supports(bs, c):
+        bs = {'pass': True, 'verdict': 'NO BET', 'reason': 'bet does not win at displayed predicted score or map order unknown'}
     disagreement = winner_disagreement(c)
     if disagreement and not reason:
         bs = {"pass": True, "verdict": "NO BET", "reason": "ratings and draft disagree on the series winner"}
