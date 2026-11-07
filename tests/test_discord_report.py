@@ -9,7 +9,7 @@ def _card(i, bo=3, lock="2-0", pa=0.62):
 
 
 def _row(i, bet):
-    leg = {"label": f"Game 2 A{i}", "type": "game", "ask": 0.60, "our_prob": 0.62, "fair_prob": 0.594,
+    leg = {"label": f"ML B{i}", "type": "moneyline", "ask": 0.60, "our_prob": 0.62, "fair_prob": 0.594,
            "edge_pct": 2.5, "ev_per_$1": 0.004, "cashes_on_lock": True}
     return {"match_id": f"m{i}", "status": "ok", "best_bet": leg if bet else None, "best_ev_any": None if bet else leg}
 
