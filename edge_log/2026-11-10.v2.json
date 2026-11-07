@@ -4,21 +4,21 @@
   "forecast_model_version": "v2.1-ratings-patch",
   "forecast_file": "2026-11-10.v2.json",
   "forecast_sha256": "15bd6d07019a81175cf3cb229bed3afb3afed8905efe6f636816912acd98de90",
-  "forecast_view_sha256": "d6107236cf040a01cde8ea3e8ff77577d817825a2a0d8756c7f61e3eb54bcda4",
-  "forecast_frozen_at_utc": "2026-11-06T19:02:02.798453Z",
-  "odds_fetched_at_utc": "2026-11-06T23:36:57.099278+00:00",
-  "odds_fetched_at_et": "2026-11-06 06:36:57 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-10/20261106T233657Z.json",
+  "forecast_view_sha256": "6a3df416fc0ae0149ea3153ba32319fd8e262f8e22e3b32cebc50d43f0e850ab",
+  "forecast_frozen_at_utc": "2026-11-07T12:02:23.955967Z",
+  "odds_fetched_at_utc": "2026-11-07T12:04:58.951282+00:00",
+  "odds_fetched_at_et": "2026-11-07 07:04:58 AM ET",
+  "snapshot_file": "odds_snapshots/2026-11-10/20261107T120458Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
       "ok": true,
-      "n": 39
+      "n": 36
     },
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 252
+      "n": 278
     },
     {
       "endpoint": "GET /events/POLY-1319953/markets?includeAllMarkets=true (paged)",
@@ -40,64 +40,60 @@
   "coverage": "1/1 series",
   "jupiter_lol_events_listed": [
     {
-      "id": "POLY-1291725",
-      "title": "LoL: Karmine Corp vs T1 (BO5) - Worlds Playoffs"
+      "id": "POLY-1317036",
+      "title": "LoL: Invictus Gaming vs Gen.G (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-991810",
       "title": "Worlds 2026: Winner"
     },
     {
-      "id": "POLY-1317036",
-      "title": "LoL: Invictus Gaming vs Gen.G (BO5) - Worlds Playoffs"
+      "id": "POLY-1328861",
+      "title": "LoL: Bilibili Gaming vs T1 (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-131447",
       "title": "Worlds 2026 Winning Region"
     },
     {
-      "id": "POLY-991821",
-      "title": "Worlds 2026: Finals MVP"
-    },
-    {
       "id": "POLY-991832",
       "title": "Worlds 2026: Team to Make Grand Finals"
     },
     {
-      "id": "POLY-1120939",
-      "title": "Will a Western team reach the Worlds 2026 Grand Final?"
+      "id": "POLY-991821",
+      "title": "Worlds 2026: Finals MVP"
     },
     {
-      "id": "POLY-1001461",
-      "title": "Will a Western team win Worlds 2026?"
-    },
-    {
-      "id": "POLY-775290",
-      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
+      "id": "POLY-244347",
+      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
       "id": "POLY-1120918",
       "title": "Most Kills at Worlds 2026"
     },
     {
-      "id": "POLY-1195015",
-      "title": "Most Banned Champion at Worlds 2026"
-    },
-    {
       "id": "POLY-1120926",
       "title": "Most Played Champion at Worlds 2026"
+    },
+    {
+      "id": "POLY-775290",
+      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
+    },
+    {
+      "id": "POLY-1195015",
+      "title": "Most Banned Champion at Worlds 2026"
     },
     {
       "id": "POLY-806410",
       "title": "Which Teams Will Make a Roster Change Before December?"
     },
     {
-      "id": "POLY-1120940",
-      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
-    },
-    {
       "id": "POLY-796849",
       "title": "Will Caedrel Reach Challenger Before the End of the Year?"
+    },
+    {
+      "id": "POLY-1120940",
+      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
       "id": "POLY-1120919",
@@ -108,44 +104,44 @@
       "title": "Worlds 2026: Grand Final Region Matchup"
     },
     {
-      "id": "POLY-1186057",
-      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
-    },
-    {
-      "id": "POLY-1070055",
-      "title": "LoL Offseason: Deft Next Team"
-    },
-    {
-      "id": "POLY-244347",
-      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
-    },
-    {
-      "id": "POLY-613770",
-      "title": "Will Faker Win an International Title in 2026?"
-    },
-    {
-      "id": "POLY-1186060",
-      "title": "LoL Offseason: Diable Next Team"
-    },
-    {
-      "id": "POLY-1070134",
-      "title": "Total Unique Champions Played at Worlds 2026"
-    },
-    {
-      "id": "POLY-1319953",
-      "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
+      "id": "POLY-1186058",
+      "title": "Will T1 win a fourth straight Worlds title?"
     },
     {
       "id": "POLY-1261303",
       "title": "Worlds 2026: Peak Viewership"
     },
     {
-      "id": "POLY-1270992",
-      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+      "id": "POLY-1186059",
+      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
     },
     {
-      "id": "POLY-1186058",
-      "title": "Will T1 win a fourth straight Worlds title?"
+      "id": "POLY-1319954",
+      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-1186057",
+      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+    },
+    {
+      "id": "POLY-613770",
+      "title": "Will Faker Win an International Title in 2026?"
+    },
+    {
+      "id": "POLY-1319953",
+      "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
+    },
+    {
+      "id": "POLY-1070055",
+      "title": "LoL Offseason: Deft Next Team"
+    },
+    {
+      "id": "POLY-1270992",
+      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
     },
     {
       "id": "POLY-927473",
@@ -160,20 +156,12 @@
       "title": "Will a Player Pick Teemo in a Tier 1 League/Event this Year?"
     },
     {
-      "id": "POLY-1319954",
-      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
-    },
-    {
       "id": "POLY-1302616",
       "title": "Which teams will qualify for LCP 2027?"
     },
     {
-      "id": "POLY-1302598",
-      "title": "Will a Western team win a game in the Worlds 2026 Knockout Stage?"
-    },
-    {
-      "id": "POLY-1186059",
-      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
+      "id": "POLY-1186060",
+      "title": "LoL Offseason: Diable Next Team"
     },
     {
       "id": "POLY-1186056",
@@ -197,8 +185,8 @@
     }
   ],
   "fee_model": "0.07 * p * (1-p) per $1 contract",
-  "best_bet_rule": "prob>50%+max-EV: highest-EV Jupiter line among lines with model probability > 50% AND EV > 0 (any market/side); skip ask < 0.03 or > 0.97 or no volume and no orderbook; ratings/draft winner disagreement -> NO BET; none qualifies -> NO BET; cashes_on_lock is info only",
-  "best_bet_rule_version": "r4-prob50-model-agreement",
+  "best_bet_rule": "model >50% and positive EV after fees across +/- one rating-SD sensitivity scenarios; highest sensitivity probability first, EV breaks ties; verified two-sided quotes; ratings/draft winner disagreement or conditional unplayed-game payout -> NO BET. Sensitivity scenarios are stress tests, not confidence intervals or proven calibration.",
+  "best_bet_rule_version": "r5-prob50-rating-sensitivity",
   "min_model_prob": 0.5,
   "series": [
     {
@@ -218,21 +206,26 @@
           "type": "moneyline",
           "game": null,
           "line": null,
-          "ask": 0.94,
-          "bid": 0.63,
+          "ask": 0.92,
+          "bid": 0.5,
           "volume": 0,
-          "fee": 0.0039,
-          "cost": 0.9439,
+          "fee": 0.0052,
+          "cost": 0.9252,
           "our_prob": 0.7359,
+          "sensitivity_min": 0.60401,
+          "sensitivity_lower": 0.6009787605447807,
+          "sensitivity_ev": -0.3503999769283527,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 55.61,
-          "overround": 0.31,
-          "fair_prob": 0.7176,
-          "edge_pct": 1.83,
-          "ev_per_$1": -0.2204,
+          "contracts_at_ask": 50,
+          "overround": 0.42,
+          "fair_prob": 0.6479,
+          "edge_pct": 8.8,
+          "ev_per_$1": -0.2046,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -242,21 +235,26 @@
           "type": "moneyline",
           "game": null,
           "line": null,
-          "ask": 0.37,
-          "bid": 0.06,
+          "ask": 0.5,
+          "bid": 0.08,
           "volume": 0,
-          "fee": 0.0163,
-          "cost": 0.3863,
+          "fee": 0.0175,
+          "cost": 0.5175,
           "our_prob": 0.2641,
+          "sensitivity_min": 0.15932000000000002,
+          "sensitivity_lower": 0.1570516682169397,
+          "sensitivity_ev": -0.6965185155228218,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 10,
-          "overround": 0.31,
-          "fair_prob": 0.2824,
-          "edge_pct": -1.83,
-          "ev_per_$1": -0.3163,
+          "contracts_at_ask": 11,
+          "overround": 0.42,
+          "fair_prob": 0.3521,
+          "edge_pct": -8.8,
+          "ev_per_$1": -0.4897,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -267,20 +265,25 @@
           "game": null,
           "line": -1.5,
           "ask": 0.96,
-          "bid": 0.15,
+          "bid": 0.6,
           "volume": 20,
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.547,
+          "sensitivity_min": 0.41497,
+          "sensitivity_lower": 0.4119161092940602,
+          "sensitivity_ev": -0.5721187868820841,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
           "contracts_at_ask": 7.66,
-          "overround": 0.81,
-          "fair_prob": 0.5304,
-          "edge_pct": 1.66,
+          "overround": 0.36,
+          "fair_prob": 0.7059,
+          "edge_pct": -15.89,
           "ev_per_$1": -0.4318,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -296,6 +299,11 @@
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.2756,
+          "sensitivity_min": 0.18848,
+          "sensitivity_lower": 0.18605596815093664,
+          "sensitivity_ev": -0.8067328478687419,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
           "contracts_at_ask": 7.49,
           "overround": 0.92,
@@ -303,8 +311,8 @@
           "edge_pct": -22.44,
           "ev_per_$1": -0.7137,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -314,21 +322,26 @@
           "type": "map_handicap",
           "game": null,
           "line": 1.5,
-          "ask": 0.85,
+          "ask": 0.4,
           "bid": 0.04,
           "volume": 20,
-          "fee": 0.0089,
-          "cost": 0.8589,
+          "fee": 0.0168,
+          "cost": 0.4168,
           "our_prob": 0.453,
+          "sensitivity_min": 0.32824,
+          "sensitivity_lower": 0.32532955837230865,
+          "sensitivity_ev": -0.21945883307987368,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 12,
-          "overround": 0.81,
-          "fair_prob": 0.4696,
-          "edge_pct": -1.66,
-          "ev_per_$1": -0.4726,
+          "contracts_at_ask": 250,
+          "overround": 0.36,
+          "fair_prob": 0.2941,
+          "edge_pct": 15.89,
+          "ev_per_$1": 0.0869,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -344,6 +357,11 @@
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.7244,
+          "sensitivity_min": 0.62495,
+          "sensitivity_lower": 0.6219492950654955,
+          "sensitivity_ev": -0.35394510468033724,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
           "contracts_at_ask": 7.49,
           "overround": 0.92,
@@ -351,8 +369,8 @@
           "edge_pct": 22.44,
           "ev_per_$1": -0.2475,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -363,20 +381,25 @@
           "game": null,
           "line": 3.5,
           "ask": 0.74,
-          "bid": 0.04,
+          "bid": 0.14,
           "volume": 0,
           "fee": 0.0135,
           "cost": 0.7535,
           "our_prob": 0.6702,
+          "sensitivity_min": 0.59646,
+          "sensitivity_lower": 0.5934191847944911,
+          "sensitivity_ev": -0.2124162077294709,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
           "contracts_at_ask": 19.23,
-          "overround": 0.7,
-          "fair_prob": 0.4353,
-          "edge_pct": 23.49,
+          "overround": 0.6,
+          "fair_prob": 0.4625,
+          "edge_pct": 20.77,
           "ev_per_$1": -0.1106,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -386,21 +409,26 @@
           "type": "totals_over",
           "game": null,
           "line": 4.5,
-          "ask": 0.96,
+          "ask": 0.4,
           "bid": 0.04,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0168,
+          "cost": 0.4168,
           "our_prob": 0.3033,
+          "sensitivity_min": 0.24383,
+          "sensitivity_lower": 0.24116860484235475,
+          "sensitivity_ev": -0.4213805066162314,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 6.52,
-          "overround": 0.92,
-          "fair_prob": 0.5,
-          "edge_pct": -19.67,
-          "ev_per_$1": -0.6849,
+          "contracts_at_ask": 250,
+          "overround": 0.36,
+          "fair_prob": 0.2941,
+          "edge_pct": 0.92,
+          "ev_per_$1": -0.2723,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -410,21 +438,26 @@
           "type": "totals_under",
           "game": null,
           "line": 3.5,
-          "ask": 0.96,
+          "ask": 0.86,
           "bid": 0.26,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0084,
+          "cost": 0.8684,
           "our_prob": 0.3298,
+          "sensitivity_min": 0.28275,
+          "sensitivity_lower": 0.27995878907300076,
+          "sensitivity_ev": -0.6776257915762726,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 7.49,
-          "overround": 0.7,
-          "fair_prob": 0.5647,
-          "edge_pct": -23.49,
-          "ev_per_$1": -0.6574,
+          "contracts_at_ask": 5,
+          "overround": 0.6,
+          "fair_prob": 0.5375,
+          "edge_pct": -20.77,
+          "ev_per_$1": -0.6202,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -435,20 +468,25 @@
           "game": null,
           "line": 4.5,
           "ask": 0.96,
-          "bid": 0.04,
+          "bid": 0.6,
           "volume": 0,
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.6967,
+          "sensitivity_min": 0.65586,
+          "sensitivity_lower": 0.6529153802483297,
+          "sensitivity_ev": -0.3217788315130865,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
           "contracts_at_ask": 7.49,
-          "overround": 0.92,
-          "fair_prob": 0.5,
-          "edge_pct": 19.67,
+          "overround": 0.36,
+          "fair_prob": 0.7059,
+          "edge_pct": -0.92,
           "ev_per_$1": -0.2763,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -458,21 +496,26 @@
           "type": "game",
           "game": 1,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.641,
+          "sensitivity_min": 0.56125,
+          "sensitivity_lower": 0.5581743082119628,
+          "sensitivity_ev": -0.4027391499801909,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 14.81,
-          "overround": 0.92,
+          "contracts_at_ask": 30.78,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": 14.1,
-          "ev_per_$1": -0.3342,
+          "ev_per_$1": -0.3141,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -482,21 +525,26 @@
           "type": "game",
           "game": 1,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.359,
+          "sensitivity_min": 0.28603,
+          "sensitivity_lower": 0.2832290726373457,
+          "sensitivity_ev": -0.6969376157501943,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 15.36,
-          "overround": 0.92,
+          "contracts_at_ask": 30.78,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": -14.1,
-          "ev_per_$1": -0.6271,
+          "ev_per_$1": -0.6159,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -506,21 +554,26 @@
           "type": "game",
           "game": 2,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.6388,
+          "sensitivity_min": 0.55855,
+          "sensitivity_lower": 0.5554722888351309,
+          "sensitivity_ev": -0.40563038013183694,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 14.32,
-          "overround": 0.92,
+          "contracts_at_ask": 30.78,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": 13.88,
-          "ev_per_$1": -0.3364,
+          "ev_per_$1": -0.3165,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -530,21 +583,26 @@
           "type": "game",
           "game": 2,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.3612,
+          "sensitivity_min": 0.28793,
+          "sensitivity_lower": 0.28512352696059956,
+          "sensitivity_ev": -0.6949105009532863,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 14.41,
-          "overround": 0.92,
+          "contracts_at_ask": 30.78,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": -13.88,
-          "ev_per_$1": -0.6248,
+          "ev_per_$1": -0.6135,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -554,21 +612,26 @@
           "type": "game",
           "game": 3,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.6405,
+          "sensitivity_min": 0.56108,
+          "sensitivity_lower": 0.5580041783409994,
+          "sensitivity_ev": -0.40292119331298215,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 17.32,
-          "overround": 0.92,
+          "contracts_at_ask": 80.79,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": 14.05,
-          "ev_per_$1": -0.3347,
+          "ev_per_$1": -0.3147,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -578,21 +641,26 @@
           "type": "game",
           "game": 3,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.3595,
+          "sensitivity_min": 0.28630999999999995,
+          "sensitivity_lower": 0.2835082515803337,
+          "sensitivity_ev": -0.6966388871087225,
+          "conditional_game": false,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 17.06,
-          "overround": 0.92,
+          "contracts_at_ask": 56.29,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": -14.05,
-          "ev_per_$1": -0.6266,
+          "ev_per_$1": -0.6153,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -608,6 +676,11 @@
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.5877,
+          "sensitivity_min": 0.540305,
+          "sensitivity_lower": 0.5372160530150306,
+          "sensitivity_ev": -0.44196244991624434,
+          "conditional_game": true,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
           "contracts_at_ask": 15,
           "overround": 0.92,
@@ -615,8 +688,8 @@
           "edge_pct": 8.77,
           "ev_per_$1": -0.3895,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         },
         {
@@ -632,6 +705,11 @@
           "fee": 0.0027,
           "cost": 0.9627,
           "our_prob": 0.4123,
+          "sensitivity_min": 0.3791,
+          "sensitivity_lower": 0.3760929282304807,
+          "sensitivity_ev": -0.6093304079509865,
+          "conditional_game": true,
+          "sensitivity_available": true,
           "cashes_on_lock": false,
           "contracts_at_ask": 15.62,
           "overround": 0.92,
@@ -639,14 +717,14 @@
           "edge_pct": -8.77,
           "ev_per_$1": -0.5717,
           "has_book": true,
-          "skip_reason": null,
-          "eligible": true,
+          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
+          "eligible": false,
           "qualifies": false
         }
       ],
       "best_bet": null,
       "best_ev_any": null,
-      "best_bet_rule_version": "r4-prob50-model-agreement",
+      "best_bet_rule_version": "r5-prob50-rating-sensitivity",
       "market_inventory": {
         "child_moneyline": {
           "markets": 8,
@@ -1015,7 +1093,7 @@
         }
       ],
       "unpriced": [],
-      "verdict": "NO BET (no Jupiter line has model probability > 50% and +EV after fees)"
+      "verdict": "NO BET (no verified line stays > 50% with positive EV across rating sensitivity scenarios)"
     }
   ]
 }
