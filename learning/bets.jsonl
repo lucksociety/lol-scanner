@@ -1,0 +1,1 @@
+{"bet": null, "event_id": "115660540726095127", "key": "ced32cf7d4d3a3b3a0a757a494d5a1a86eea5f3afd868d0240d00ae90f165f9d", "model": "v2.1-ratings-patch", "posted_at": "2026-11-07T13:26:36.537618+00:00", "selection_policy": "sensitivity-confidence-v1", "source": "github-run:42376914261", "start": "2026-11-07T22:00:00+00:00"}
