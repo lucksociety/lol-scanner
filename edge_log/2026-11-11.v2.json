@@ -6,9 +6,9 @@
   "forecast_sha256": "bc5790a60e0d84e50d4ed114e236de6a400beaae99b5b52742635d2cd7d01a14",
   "forecast_view_sha256": "9e2c21c1597e3e2b5db1e4a7e0a44b294f83f6dea7f03620ef9a8b6bee02069b",
   "forecast_frozen_at_utc": "2026-11-07T12:04:16.234661Z",
-  "odds_fetched_at_utc": "2026-11-07T20:57:17.422668+00:00",
-  "odds_fetched_at_et": "2026-11-07 03:57:17 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-11/20261107T205717Z.json",
+  "odds_fetched_at_utc": "2026-11-07T22:27:00.973210+00:00",
+  "odds_fetched_at_et": "2026-11-07 05:27:00 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-11/20261107T222700Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 239
+      "n": 235
     },
     {
       "endpoint": "GET /events/POLY-1270992/markets?includeAllMarkets=true (paged)",
@@ -76,20 +76,20 @@
       "title": "Most Kills at Worlds 2026"
     },
     {
-      "id": "POLY-775290",
-      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
+      "id": "POLY-1120919",
+      "title": "How many Pentakills will there be at Worlds 2026?"
     },
     {
-      "id": "POLY-806410",
-      "title": "Which Teams Will Make a Roster Change Before December?"
+      "id": "POLY-775290",
+      "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
     },
     {
       "id": "POLY-1195015",
       "title": "Most Banned Champion at Worlds 2026"
     },
     {
-      "id": "POLY-1120919",
-      "title": "How many Pentakills will there be at Worlds 2026?"
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
     },
     {
       "id": "POLY-1186055",
@@ -128,10 +128,6 @@
       "title": "Will Caedrel Reach Challenger Before the End of the Year?"
     },
     {
-      "id": "POLY-613770",
-      "title": "Will Faker Win an International Title in 2026?"
-    },
-    {
       "id": "POLY-1070055",
       "title": "LoL Offseason: Deft Next Team"
     },
@@ -146,6 +142,10 @@
     {
       "id": "POLY-630355",
       "title": "Will a Player Pick Teemo in a Tier 1 League/Event this Year?"
+    },
+    {
+      "id": "POLY-613770",
+      "title": "Will Faker Win an International Title in 2026?"
     },
     {
       "id": "POLY-1319953",
@@ -207,23 +207,23 @@
           "side_is_a": false,
           "game": null,
           "line": null,
-          "ask": 0.32,
+          "ask": 0.31,
           "bid": 0.06,
           "volume": 1061,
-          "fee": 0.0152,
-          "cost": 0.3352,
+          "fee": 0.015,
+          "cost": 0.325,
           "our_prob": 0.5895,
           "sensitivity_min": 0.44165,
           "sensitivity_lower": 0.4385721429239745,
-          "sensitivity_ev": 0.3082645538730624,
+          "sensitivity_ev": 0.34956486515487284,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
           "contracts_at_ask": 7,
-          "overround": 0.26,
-          "fair_prob": 0.254,
-          "edge_pct": 33.55,
-          "ev_per_$1": 0.7587,
+          "overround": 0.25,
+          "fair_prob": 0.248,
+          "edge_pct": 34.15,
+          "ev_per_$1": 0.8138,
           "score_consistent": true,
           "has_book": true,
           "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
@@ -239,7 +239,7 @@
           "game": null,
           "line": null,
           "ask": 0.94,
-          "bid": 0.68,
+          "bid": 0.69,
           "volume": 1061,
           "fee": 0.0039,
           "cost": 0.9439,
@@ -251,9 +251,9 @@
           "sensitivity_available": true,
           "cashes_on_lock": false,
           "contracts_at_ask": 5.13,
-          "overround": 0.26,
-          "fair_prob": 0.746,
-          "edge_pct": -33.55,
+          "overround": 0.25,
+          "fair_prob": 0.752,
+          "edge_pct": -34.15,
           "ev_per_$1": -0.5651,
           "score_consistent": false,
           "has_book": true,
