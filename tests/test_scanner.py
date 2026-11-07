@@ -5,6 +5,12 @@ from scanner import sim, edge, forecast, config
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
+@pytest.fixture(autouse=True)
+def pricing_math_without_parameter_stress(monkeypatch):
+    # Hand-specified masses isolate pricing algebra; real stresses have their own regression tests.
+    monkeypatch.setattr(edge, "rating_stress", lambda card: [{**card['sim'], 'sims': 100000}])
+
+
 @pytest.mark.parametrize("bo,keys", [(1, {"1-0", "0-1"}), (3, {"2-0", "2-1", "1-2", "0-2"}),
                                      (5, {"3-0", "3-1", "3-2", "2-3", "1-3", "0-3"})])
 def test_exact_distribution_sums_to_one(bo, keys):
@@ -71,10 +77,10 @@ def test_no_bet_when_only_plus_ev_lines_are_under_50pct():
 
 def test_exactly_50pct_does_not_qualify():
     assert not edge.qualifies({"skip_reason": None, "our_prob": 0.5, "ev_per_$1": 0.2})
-    assert edge.qualifies({"skip_reason": None, "our_prob": 0.5001, "ev_per_$1": 0.0001})
+    assert edge.qualifies({"skip_reason": None, "our_prob": 0.5001, "ev_per_$1": 0.0001, "cost": 0.4})
     assert not edge.qualifies({"skip_reason": "price < 0.03", "our_prob": 0.9, "ev_per_$1": 0.5})
     assert not edge.qualifies({"skip_reason": None, "our_prob": 0.9, "ev_per_$1": 0})
-    assert edge.BEST_BET_RULE_VERSION.startswith("r4") and "50%" in edge.BEST_BET_RULE and "NO BET" in edge.BEST_BET_RULE
+    assert edge.BEST_BET_RULE_VERSION.startswith("r5") and "50%" in edge.BEST_BET_RULE and "NO BET" in edge.BEST_BET_RULE
 
 
 def test_pass_when_nothing_plus_ev():
@@ -96,10 +102,10 @@ def test_sanity_guard_skips_pinned_and_dead_lines():
     assert by["ML BBB"]["eligible"] is False and "0.03" in by["ML BBB"]["skip_reason"]
     assert best["label"] == "ML AAA"
     # a 0.98 line is skipped too
-    assert edge.sanity_skip({"ask": .98, "volume": 10}) and edge.sanity_skip({"ask": .5, "volume": 10}) is None
+    assert edge.sanity_skip({"bid": .49, "ask": .98, "volume": 10}) and edge.sanity_skip({"bid": .49, "ask": .5, "volume": 10}) is None
     # no volume and no orderbook -> skipped; volume or a book -> fine
-    assert edge.sanity_skip({"ask": .5, "volume": 0, "has_book": False}) == "no volume and no orderbook"
-    assert edge.sanity_skip({"ask": .5, "volume": 0, "has_book": True}) is None
+    assert edge.sanity_skip({"bid": .49, "ask": .5, "volume": 0, "has_book": False}) == "no volume and no orderbook"
+    assert edge.sanity_skip({"bid": .49, "ask": .5, "volume": 0, "has_book": True}) is None
 
 
 def test_bo1_ignores_handicap_and_totals():

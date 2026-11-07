@@ -35,7 +35,9 @@ jobs:
       - name: Import archived forecasts, grade finals and evaluate calibration candidates
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python scripts/model_learning.py --collect
+        run: |
+          python scripts/model_learning.py --collect
+          python scripts/bet_learning.py --collect
       - name: Save permanent evaluation record
         run: |
           git config user.name "model-learning-bot"

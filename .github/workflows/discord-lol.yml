@@ -166,6 +166,19 @@ jobs:
         run: |
           if [ "$DRY_RUN" = "true" ]; then python -m scanner.discord_report --date "${{ steps.d.outputs.date }}" --dry-run
           else python -m scanner.discord_report --date "${{ steps.d.outputs.date }}"; fi
+      - name: Preserve delivered recommendations for market-specific calibration
+        if: success() && !inputs.dry_run
+        continue-on-error: true
+        env:
+          AUDIT_DATE: ${{ steps.d.outputs.date }}
+        run: python3 scripts/bet_learning.py --capture
+      - uses: actions/upload-artifact@v4
+        if: success() && !inputs.dry_run
+        with:
+          name: bet-learning-${{ github.run_id }}
+          path: learning/bets-inbox.jsonl
+          retention-days: 90
+          if-no-files-found: warn
       - name: Report failure / cancellation to Discord (always answer the user)
         if: ${{ (failure() || cancelled()) && !inputs.dry_run && env.GUILD_OK == '1' }}
         env:
