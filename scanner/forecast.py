@@ -177,7 +177,7 @@ def freeze_addendum(body, now=None, revision=False):
             cutoff = c.get("model", {}).get("history_cutoff_utc")
             if start <= now or (cutoff and datetime.fromisoformat(cutoff.replace("Z", "+00:00")) > now):
                 raise ValueError("forecast revisions must be frozen before start using only available history")
-        body = {**body, "revision": "pre-start primary/data-day upgrade or missing-history retry", "supersedes_sha256": (have.get("addenda") or [{"sha256": have["sha256"]}])[-1]["sha256"]}
+        body = {**body, "revision": "pre-start fresh-input rerun, primary/data-day upgrade or missing-history retry", "supersedes_sha256": (have.get("addenda") or [{"sha256": have["sha256"]}])[-1]["sha256"]}
     n = len(addendum_paths(body["date"], ver)) + 1
     p = base.with_name(f"{base.name[:-5]}.add{n}.json")
     body = _stamp({**body, "addendum": n}, now)

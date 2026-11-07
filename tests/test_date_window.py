@@ -173,3 +173,19 @@ def test_slow_build_never_publishes_a_revision_after_start(tmp_repo, monkeypatch
                               models=("v2",), clock=lambda: datetime(2026, 10, 30, 12, 1, tzinfo=timezone.utc))
     assert logs == [] and not forecast.addendum_paths("2026-10-30", "v2")
     assert forecast.load_frozen("2026-10-30", "v2")["model_version"] == "v2-old"
+
+
+def test_command_refresh_reruns_same_day_without_overwriting(tmp_repo,monkeypatch):
+    from scanner import forecast_v2
+    now=datetime(2026,10,30,11,tzinfo=timezone.utc)
+    card=_card('m','A','B','2026-10-30T23:00:00Z');card['model']['history_cutoff_utc']=now.isoformat()
+    body={'date':'2026-10-30','model_version':forecast_v2.MODEL_VERSION,'cards':[card]}
+    forecast.freeze(body,now=now);original=forecast.frozen_path('2026-10-30','v2').read_bytes()
+    calls=[]
+    def build(*a,**k):calls.append(k);return body
+    monkeypatch.setattr(forecast_v2,'build_forecast',build)
+    rows=[{'match_id':'m','a':'A','b':'B','state':'unstarted','start':card['start_utc']}]
+    for _ in range(2):window.freeze_date('2026-10-30',[],rows,now,models=('v2',),refresh=[True],clock=lambda:now,rerun=True)
+    assert len(calls)==2 and all(c['refresh_corpus'] for c in calls)
+    assert len(forecast.addendum_paths('2026-10-30','v2'))==2
+    assert forecast.frozen_path('2026-10-30','v2').read_bytes()==original

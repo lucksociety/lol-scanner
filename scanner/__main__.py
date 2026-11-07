@@ -17,6 +17,7 @@ def main(argv=None):
     ap.add_argument("--model", default=config.MODEL_VERSION, choices=["v1", "v2"], help="primary model (default v2)")
     ap.add_argument("--back", type=int, default=2, help="window stage: days before today (ET)")
     ap.add_argument("--ahead", type=int, default=7, help="window stage: days after today (ET)")
+    ap.add_argument("--refresh", action="store_true", help="rebuild every pending primary forecast from fresh rosters and corpus")
     a = ap.parse_args(argv)
     date = a.date
     events = None
@@ -53,8 +54,8 @@ def main(argv=None):
         for v in models:
             if forecast.frozen_path(date, v).exists():
                 body = forecast.load_frozen(date, v)
-                print(f"[forecast {v}] {date} already frozen at {body['frozen_at_et']} (sha256 {body['sha256'][:12]}); not recomputed")
-        for line in window.freeze_date(date, events, rows, datetime.now(timezone.utc), models=models, refresh=[True]):
+                print(f"[forecast {v}] {date} previous snapshot frozen at {body['frozen_at_et']} (sha256 {body['sha256'][:12]}); retained in immutable history")
+        for line in window.freeze_date(date, events, rows, datetime.now(timezone.utc), models=models, refresh=[True], rerun=a.refresh):
             print(line)
 
     if a.stage in ("all", "edge") and not a.no_odds:

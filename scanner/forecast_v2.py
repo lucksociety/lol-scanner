@@ -3,6 +3,7 @@
 Integrity: imports nothing from scanner.edge; inputs are lolesports (schedule/results, official rosters, game
 sides), gol.gg (pro game drafts, lineups, patch, champion stats) and Riot Data Dragon (champion tags). No odds.
 """
+import os
 import json, math
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
@@ -42,8 +43,8 @@ class NoHistory(Exception):
 
 
 def lineup_status(E, gname, roster, event_tournaments, before_date):
-    """Per role: expected starter + status. CONFIRMED = on the official roster and started every game of this event
-    in that role; PROBABLE = started the latest game but not every event game (or not matched to the roster);
+    """Per role: expected starter + status. Historical continuity and roster membership do not confirm
+    the match starting lineup. PROBABLE = expected from recent games and the official roster;
     UNCERTAIN = another player started one of the team's last 3 event games in that role -> both simulated."""
     ev = [g for g in E.games if g["tournament"] in event_tournaments and g["date"] < before_date and gname in (g["blue"], g["red"])]
     if not ev:
@@ -60,25 +61,40 @@ def lineup_status(E, gname, roster, event_tournaments, before_date):
             names[p["pid"]] = p["player"]; starts[r][p["pid"]] += 0.8 ** (len(ev) - 1 - i)
     seen = {golgg.norm(n) for n in names.values()}
     rosters = [{golgg.norm(p.get("summonerName", "")) for p in t.get("players", [])} for t in (roster or [])]
-    roster_names = max(rosters, key=lambda rs: len(rs & seen), default=set())
+    selected = max(zip(roster or [], rosters), key=lambda pair:len(pair[1] & seen), default=({},set()))
+    roster_names = selected[1]
+    if os.getenv("LIVE_REFRESH") == "1" and not roster_names:
+        raise NoHistory(f"{gname}: current official roster unavailable")
+    role_map = {"top":"TOP", "jungle":"JUNGLE", "mid":"MID", "bottom":"BOT", "bot":"BOT", "adc":"BOT", "support":"SUPPORT"}
+    roster_players = selected[0].get("players",[])
     if not seq or any(len(x) < 5 for x in seq[-1:]):
         raise NoHistory(gname)
     out = []
     for r in range(5):
         latest = seq[-1][r]
+        changed = False
+        if roster_names and golgg.norm(names[latest]) not in roster_names:
+            options = [p for p in roster_players if role_map.get(str(p.get("role","")).lower()) == dm.ROLES[r]]
+            known = {p["pid"]:p["player"] for g in E.games if g["date"] < before_date for p in g["players"] if p.get("role")==dm.ROLES[r]}
+            replacements = [(pid,name) for pid,name in known.items() if any(golgg.norm(name)==golgg.norm(p.get("summonerName", "")) for p in options)]
+            if len(replacements)!=1:
+                raise NoHistory(f"{gname}: roster changed in {dm.ROLES[r]}; replacement lacks unique pro history")
+            latest, name = replacements[0]; names[latest]=name; changed=True
         all_same = all(s[r] == latest for s in seq)
         recent_alt = {s[r] for s in seq[-3:]} - {latest}
         on_roster = golgg.norm(names[latest]) in roster_names
-        if recent_alt:
+        if changed:
+            status = "PROBABLE"
+        elif recent_alt:
             status = "UNCERTAIN"
         elif all_same and on_roster:
-            status = "CONFIRMED"
+            status = "PROBABLE"
         else:
             status = "PROBABLE"
         tot = sum(starts[r].values())
         alts = sorted(((pid, w / tot) for pid, w in starts[r].items()), key=lambda x: -x[1])
         out.append({"role": dm.ROLES[r], "pid": latest, "name": names[latest], "status": status,
-                    "on_official_roster": on_roster, "event_games": len(seq),
+                    "on_official_roster": on_roster, "roster_changed": changed, "confirmation": "expected from roster/history, not official match starters", "event_games": len(seq),
                     "starts_this_event": sum(1 for s in seq if s[r] == latest),
                     "alternatives": [{"pid": p, "name": names[p], "w": round(w, 3)} for p, w in alts if p != latest]
                     if status == "UNCERTAIN" else []})
@@ -200,6 +216,8 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
     try:
         teams = schedule._get("getTeams")["data"]["teams"]
     except Exception:
+        if os.getenv("LIVE_REFRESH") == "1":
+            raise RuntimeError("Current official LoL rosters unavailable; refusing cached lineup refresh")
         teams = json.loads((config.CACHE_DIR / "teams_all.json").read_text())["data"]["teams"]
     slate = [r for r in rows if _et_date(r["start"]) == date and r["a"] != "TBD" and r["b"] != "TBD"
              and (only is None or r["match_id"] in only)]
@@ -263,6 +281,8 @@ def build_forecast(date, now=None, events=None, sims=None, refresh_corpus=True, 
                       "continuity_maps_together": {row["a"]: E.S.continuity(ga, [s["pid"] for s in sa]),
                                                    row["b"]: E.S.continuity(gb, [s["pid"] for s in sb])},
                       "history_cutoff_utc": cutoff},
+            "availability": {"checked_at_utc": datetime.now(timezone.utc).isoformat(), "source": "live lolesports getTeams + refreshed gol.gg",
+                             "block_reason": "Roster changed: team rating does not yet price the replacement" if any(x.get("roster_changed") for x in sa+sb) else None},
             "sim": simout,
             **({"draft_sim": draft_sim} if draft_sim else {}),
             "drafts": drafts,
