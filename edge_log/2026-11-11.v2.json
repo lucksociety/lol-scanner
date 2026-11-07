@@ -6,9 +6,9 @@
   "forecast_sha256": "bc5790a60e0d84e50d4ed114e236de6a400beaae99b5b52742635d2cd7d01a14",
   "forecast_view_sha256": "9e2c21c1597e3e2b5db1e4a7e0a44b294f83f6dea7f03620ef9a8b6bee02069b",
   "forecast_frozen_at_utc": "2026-11-07T12:04:16.234661Z",
-  "odds_fetched_at_utc": "2026-11-07T17:30:52.108516+00:00",
-  "odds_fetched_at_et": "2026-11-07 12:30:52 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-11/20261107T173052Z.json",
+  "odds_fetched_at_utc": "2026-11-07T20:57:17.422668+00:00",
+  "odds_fetched_at_et": "2026-11-07 03:57:17 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-11/20261107T205717Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 249
+      "n": 239
     },
     {
       "endpoint": "GET /events/POLY-1270992/markets?includeAllMarkets=true (paged)",
@@ -88,16 +88,20 @@
       "title": "Most Banned Champion at Worlds 2026"
     },
     {
+      "id": "POLY-1120919",
+      "title": "How many Pentakills will there be at Worlds 2026?"
+    },
+    {
       "id": "POLY-1186055",
       "title": "Worlds 2026: Grand Final Region Matchup"
     },
     {
-      "id": "POLY-1120940",
-      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
     },
     {
-      "id": "POLY-1120919",
-      "title": "How many Pentakills will there be at Worlds 2026?"
+      "id": "POLY-1120940",
+      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
     },
     {
       "id": "POLY-1186058",
@@ -112,12 +116,12 @@
       "title": "Will any game at Worlds 2026 last 50 minutes or more?"
     },
     {
-      "id": "POLY-1319954",
-      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
-    },
-    {
       "id": "POLY-1186057",
       "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+    },
+    {
+      "id": "POLY-1319954",
+      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
     },
     {
       "id": "POLY-796849",
@@ -126,10 +130,6 @@
     {
       "id": "POLY-613770",
       "title": "Will Faker Win an International Title in 2026?"
-    },
-    {
-      "id": "POLY-1070134",
-      "title": "Total Unique Champions Played at Worlds 2026"
     },
     {
       "id": "POLY-1070055",
@@ -207,23 +207,23 @@
           "side_is_a": false,
           "game": null,
           "line": null,
-          "ask": 0.34,
+          "ask": 0.32,
           "bid": 0.06,
           "volume": 1061,
-          "fee": 0.0157,
-          "cost": 0.3557,
+          "fee": 0.0152,
+          "cost": 0.3352,
           "our_prob": 0.5895,
           "sensitivity_min": 0.44165,
           "sensitivity_lower": 0.4385721429239745,
-          "sensitivity_ev": 0.23295552229349492,
+          "sensitivity_ev": 0.3082645538730624,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 8,
-          "overround": 0.28,
-          "fair_prob": 0.2656,
-          "edge_pct": 32.39,
-          "ev_per_$1": 0.6573,
+          "contracts_at_ask": 7,
+          "overround": 0.26,
+          "fair_prob": 0.254,
+          "edge_pct": 33.55,
+          "ev_per_$1": 0.7587,
           "score_consistent": true,
           "has_book": true,
           "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
@@ -239,7 +239,7 @@
           "game": null,
           "line": null,
           "ask": 0.94,
-          "bid": 0.66,
+          "bid": 0.68,
           "volume": 1061,
           "fee": 0.0039,
           "cost": 0.9439,
@@ -251,9 +251,9 @@
           "sensitivity_available": true,
           "cashes_on_lock": false,
           "contracts_at_ask": 5.13,
-          "overround": 0.28,
-          "fair_prob": 0.7344,
-          "edge_pct": -32.39,
+          "overround": 0.26,
+          "fair_prob": 0.746,
+          "edge_pct": -33.55,
           "ev_per_$1": -0.5651,
           "score_consistent": false,
           "has_book": true,
