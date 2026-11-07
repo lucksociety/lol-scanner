@@ -327,6 +327,7 @@ def winner_disagreement(card):
 def evaluate(card, ev, obs, markets=None):
     """Price every Jupiter market derivable from the frozen sim. Returns (legs, best, best_any, not_modeled, unpriced)."""
     sim = card["sim"]; exact = sim["exact"]; bo = card["bo"]
+    stress = rating_stress(card)
     la, lb = map(int, sim["locked_score"].split("-"))
     legs, not_modeled, unpriced = [], [], []
     for m in (markets if markets is not None else ev.get("markets", [])):
@@ -349,6 +350,13 @@ def evaluate(card, ev, obs, markets=None):
             else:
                 f = outcome_fn(kind, side_is_a, line, g, bo)
                 q = _game_q(sim, card, g, side_is_a, bo) if kind == "game" else prob_from_exact(exact, f)
+            qs = [q]
+            for variant in stress:
+                sq = _game_q(variant, card, g, side_is_a, bo) if kind == "game" else prob_from_exact(variant["exact"], f)
+                qs.append(1 - sq if kind == "game" and flip else sq)
+            ns = [sim.get("sims", 100000)] + [v["sims"] for v in stress]
+            lower = min(x - 1.96 * math.sqrt(max(0, x * (1 - x)) / n) for x, n in zip(qs, ns) if n > 0)
+            conditional = kind == "game" and (sim.get("p_game_reached") or [sum(v for k, v in exact.items() if sum(map(int, k.split("-"))) >= game) for game in range(1, bo + 1)])[g - 1] < 1 - 1e-9
             cost = ask + fee(ask)
             ob = obs.get(m["marketId"])
             depth = None
@@ -362,6 +370,8 @@ def evaluate(card, ev, obs, markets=None):
                          "game": g, "line": line if not isinstance(line, tuple) else list(line),
                          "ask": ask, "bid": bid, "volume": (m.get("pricing") or {}).get("volume"),
                          "fee": round(fee(ask), 4), "cost": round(cost, 4), "our_prob": round(q, 4),
+                         "sensitivity_min": min(qs), "sensitivity_lower": lower, "sensitivity_ev": lower / cost - 1,
+                         "conditional_game": conditional, "sensitivity_available": bool(stress),
                          "cashes_on_lock": f(la, lb), "contracts_at_ask": depth})
     # de-vig per binary pair (proportional normalisation of the two asks)
     pairs = {}
@@ -387,26 +397,49 @@ def evaluate(card, ev, obs, markets=None):
     # EV > 0 that pass the price/liquidity guard. None qualifies -> NO BET. The lock is the headline prediction only;
     # cashes_on_lock is informational and never filters the pick. best_any = top +EV guarded line at any
     # probability, recorded for transparency only (it is never the bet).
-    best = max((x for x in legs if x["qualifies"]), key=lambda x: x["ev_per_$1"], default=None)
+    best = max((x for x in legs if x["qualifies"]), key=lambda x: (x["sensitivity_lower"], x["ev_per_$1"]), default=None)
     best_any = max((x for x in legs if x["eligible"] and x["ev_per_$1"] > 0), key=lambda x: x["ev_per_$1"], default=None)
     return legs, best, best_any, not_modeled, unpriced
 
 
 def qualifies(leg):
-    """Best-bet eligibility: passes the sanity guard, model probability > MIN_MODEL_PROB, EV > 0."""
-    return leg.get("skip_reason") is None and leg["our_prob"] > MIN_MODEL_PROB and leg["ev_per_$1"] > 0
+    """Keep >50% and positive EV under rating sensitivity, not only numerical precision."""
+    lower = leg.get("sensitivity_lower", leg["our_prob"])
+    return (leg.get("skip_reason") is None and lower > MIN_MODEL_PROB
+            and leg["ev_per_$1"] > 0 and lower > leg.get("cost", leg["our_prob"] / (1 + leg["ev_per_$1"])))
+
+
+def rating_stress(card):
+    """A +/- one existing rating-SD stress, not a calibrated confidence interval.
+    The price layer cannot tune these scenarios; only frozen model inputs are read.
+    """
+    from . import sim_r
+    p = card.get("model", {}).get("p_map_a_elo_only", card.get("model", {}).get("p_map_a"))
+    if not isinstance(p, (float, int)) or not 0 < p < 1:
+        return []
+    base = math.log(p / (1 - p))
+    return [sim_r.simulate(1 / (1 + math.exp(-(base + shift))), card["bo"], sims=100000, seed=config.SEED)
+            for shift in (-sim_r.RATING_SD, sim_r.RATING_SD)]
 
 
 MIN_MODEL_PROB = 0.50
-BEST_BET_RULE_VERSION = "r4-prob50-model-agreement"   # r2 (624ca75) = pure max-EV; r1 = had to cash on the lock
-BEST_BET_RULE = (f"prob>50%+max-EV: highest-EV Jupiter line among lines with model probability > {MIN_MODEL_PROB:.0%} AND EV > 0 "
-                 f"(any market/side); skip ask < {config.MIN_ASK} or > {config.MAX_ASK} or no volume and no orderbook; "
-                 "ratings/draft winner disagreement -> NO BET; none qualifies -> NO BET; cashes_on_lock is info only")
-NO_BET_REASON = f"no Jupiter line has model probability > {MIN_MODEL_PROB:.0%} and +EV after fees"
+BEST_BET_RULE_VERSION = "r5-prob50-rating-sensitivity"   # r2 (624ca75) = pure max-EV; r1 = had to cash on the lock
+BEST_BET_RULE = ("model >50% and positive EV after fees across +/- one rating-SD sensitivity scenarios; "
+                 "highest sensitivity probability first, EV breaks ties; verified two-sided quotes; "
+                 "ratings/draft winner disagreement or conditional unplayed-game payout -> NO BET. "
+                 "Sensitivity scenarios are stress tests, not confidence intervals or proven calibration.")
+NO_BET_REASON = f"no verified line stays > {MIN_MODEL_PROB:.0%} with positive EV across rating sensitivity scenarios"
 
 
 def sanity_skip(leg):
     """Liquidity / price guard so dead or pinned lines can't win the best bet. Returns a reason or None."""
+    bid, ask = leg.get("bid"), leg.get("ask")
+    if not isinstance(bid, (int, float)) or not math.isfinite(bid) or not 0 < bid <= ask or ask - bid > 0.10 + 1e-9:
+        return "missing, crossed, or wider than 10c two-sided quote"
+    if leg.get("conditional_game"):
+        return "unplayed-game half-payout is not a >50% chance of a full win"
+    if leg.get("sensitivity_available") is False:
+        return "frozen rating input unavailable for sensitivity check"
     if leg["ask"] < config.MIN_ASK:
         return f"price < {config.MIN_ASK:.2f}"
     if leg["ask"] > config.MAX_ASK:

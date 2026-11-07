@@ -59,6 +59,8 @@ def _series_field(c, row, have_edge, short=False):
         bet = f"💰 **{bs['market']} · {bs['side']} @ {bs['ask']:.2f}** · **EV {bs['ev_per_$1']:+.3f}/$1**"
         if not short:
             bet += f"\nour {_pct(bs['our_prob'])} vs no-vig {_pct(bs['fair_prob'])} · edge {bs['edge_pct']:+.1f} pp"
+    if not bs['pass'] and not short and bs.get('sensitivity_min') is not None:
+        bet += f"\nRating sensitivity minimum {_pct(bs['sensitivity_min'])} (stress test, not a confidence interval)"
     name = f"{A['code']} vs {B['code']} · Bo{c['bo']} · 🕓 {when}"
     if row and row.get("status") == "ok" and not short:
         nm = len(row.get("not_modeled") or [])
