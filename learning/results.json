@@ -42,5 +42,9 @@
  "115660540726095115": {
   "label": "A",
   "source": "calibration/calibration_log.csv"
+ },
+ "115660540726095127": {
+  "label": "A",
+  "source": "calibration/calibration_log.csv"
  }
 }
