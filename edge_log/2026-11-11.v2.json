@@ -4,21 +4,21 @@
   "forecast_model_version": "v2.1-ratings-patch",
   "forecast_file": "2026-11-11.v2.json",
   "forecast_sha256": "bc5790a60e0d84e50d4ed114e236de6a400beaae99b5b52742635d2cd7d01a14",
-  "forecast_view_sha256": "9e2c21c1597e3e2b5db1e4a7e0a44b294f83f6dea7f03620ef9a8b6bee02069b",
-  "forecast_frozen_at_utc": "2026-11-07T12:04:16.234661Z",
-  "odds_fetched_at_utc": "2026-11-07T22:27:00.973210+00:00",
-  "odds_fetched_at_et": "2026-11-07 05:27:00 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-11/20261107T222700Z.json",
+  "forecast_view_sha256": "b22ea0d963e9211cb9bad573d4456966e0b9ef03967caf6fec4d5e24e7ba76eb",
+  "forecast_frozen_at_utc": "2026-11-08T17:45:06.658695Z",
+  "odds_fetched_at_utc": "2026-11-08T17:45:15.456228+00:00",
+  "odds_fetched_at_et": "2026-11-08 12:45:15 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-11/20261108T174515Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
       "ok": true,
-      "n": 36
+      "n": 35
     },
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 235
+      "n": 232
     },
     {
       "endpoint": "GET /events/POLY-1270992/markets?includeAllMarkets=true (paged)",
@@ -40,16 +40,12 @@
   "coverage": "1/1 series",
   "jupiter_lol_events_listed": [
     {
-      "id": "POLY-1317036",
-      "title": "LoL: Invictus Gaming vs Gen.G (BO5) - Worlds Playoffs"
+      "id": "POLY-1328861",
+      "title": "LoL: Bilibili Gaming vs T1 (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-991810",
       "title": "Worlds 2026: Winner"
-    },
-    {
-      "id": "POLY-1328861",
-      "title": "LoL: Bilibili Gaming vs T1 (BO5) - Worlds Playoffs"
     },
     {
       "id": "POLY-131447",
@@ -64,76 +60,92 @@
       "title": "Worlds 2026: Finals MVP"
     },
     {
-      "id": "POLY-244347",
-      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
-    },
-    {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
-    },
-    {
-      "id": "POLY-1120918",
-      "title": "Most Kills at Worlds 2026"
+      "id": "POLY-1319953",
+      "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
     },
     {
       "id": "POLY-1120919",
       "title": "How many Pentakills will there be at Worlds 2026?"
     },
     {
+      "id": "POLY-1120918",
+      "title": "Most Kills at Worlds 2026"
+    },
+    {
       "id": "POLY-775290",
       "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
+    },
+    {
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
     },
     {
       "id": "POLY-1195015",
       "title": "Most Banned Champion at Worlds 2026"
     },
     {
-      "id": "POLY-806410",
-      "title": "Which Teams Will Make a Roster Change Before December?"
-    },
-    {
-      "id": "POLY-1186055",
-      "title": "Worlds 2026: Grand Final Region Matchup"
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
     },
     {
       "id": "POLY-1070134",
       "title": "Total Unique Champions Played at Worlds 2026"
     },
     {
-      "id": "POLY-1120940",
-      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
-    },
-    {
-      "id": "POLY-1186058",
-      "title": "Will T1 win a fourth straight Worlds title?"
-    },
-    {
-      "id": "POLY-1261303",
-      "title": "Worlds 2026: Peak Viewership"
-    },
-    {
-      "id": "POLY-1186059",
-      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
+      "id": "POLY-1186055",
+      "title": "Worlds 2026: Grand Final Region Matchup"
     },
     {
       "id": "POLY-1186057",
       "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
     },
     {
-      "id": "POLY-1319954",
-      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
-    },
-    {
-      "id": "POLY-796849",
-      "title": "Will Caedrel Reach Challenger Before the End of the Year?"
-    },
-    {
       "id": "POLY-1070055",
       "title": "LoL Offseason: Deft Next Team"
     },
     {
+      "id": "POLY-1186060",
+      "title": "LoL Offseason: Diable Next Team"
+    },
+    {
+      "id": "POLY-1186059",
+      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
+    },
+    {
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
+    },
+    {
+      "id": "POLY-244347",
+      "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
+    },
+    {
+      "id": "POLY-1319954",
+      "title": "LoL: Saigon Warriors vs Gromp Esports (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-1186056",
+      "title": "Worlds 2026: Grand Final Series Score"
+    },
+    {
+      "id": "POLY-1120940",
+      "title": "Will Gen.G and T1 meet in the Worlds 2026 Grand Final?"
+    },
+    {
+      "id": "POLY-1270992",
+      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-1186058",
+      "title": "Will T1 win a fourth straight Worlds title?"
+    },
+    {
       "id": "POLY-927473",
       "title": "Joe Marsh out as T1 CEO by December 31?"
+    },
+    {
+      "id": "POLY-796849",
+      "title": "Will Caedrel Reach Challenger Before the End of the Year?"
     },
     {
       "id": "POLY-796527",
@@ -148,24 +160,8 @@
       "title": "Will Faker Win an International Title in 2026?"
     },
     {
-      "id": "POLY-1319953",
-      "title": "LoL: FENNEL vs Nothin'Here (BO5) - LCP Promotion Playoffs"
-    },
-    {
       "id": "POLY-1302616",
       "title": "Which teams will qualify for LCP 2027?"
-    },
-    {
-      "id": "POLY-1270992",
-      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
-    },
-    {
-      "id": "POLY-1186060",
-      "title": "LoL Offseason: Diable Next Team"
-    },
-    {
-      "id": "POLY-1186056",
-      "title": "Worlds 2026: Grand Final Series Score"
     },
     {
       "id": "POLY-1120943",
@@ -207,27 +203,27 @@
           "side_is_a": false,
           "game": null,
           "line": null,
-          "ask": 0.31,
-          "bid": 0.06,
-          "volume": 1061,
-          "fee": 0.015,
-          "cost": 0.325,
+          "ask": 0.24,
+          "bid": 0.15,
+          "volume": 1071,
+          "fee": 0.0128,
+          "cost": 0.2528,
           "our_prob": 0.5895,
           "sensitivity_min": 0.44165,
           "sensitivity_lower": 0.4385721429239745,
-          "sensitivity_ev": 0.34956486515487284,
+          "sensitivity_ev": 0.7350777904005827,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 7,
-          "overround": 0.25,
-          "fair_prob": 0.248,
-          "edge_pct": 34.15,
-          "ev_per_$1": 0.8138,
+          "contracts_at_ask": 20,
+          "overround": 0.09,
+          "fair_prob": 0.2202,
+          "edge_pct": 36.93,
+          "ev_per_$1": 1.3319,
           "score_consistent": true,
           "has_book": true,
-          "skip_reason": "missing, crossed, or wider than 10c two-sided quote",
-          "eligible": false,
+          "skip_reason": null,
+          "eligible": true,
           "qualifies": false
         },
         {
@@ -238,23 +234,23 @@
           "side_is_a": true,
           "game": null,
           "line": null,
-          "ask": 0.94,
-          "bid": 0.69,
-          "volume": 1061,
-          "fee": 0.0039,
-          "cost": 0.9439,
+          "ask": 0.85,
+          "bid": 0.76,
+          "volume": 1071,
+          "fee": 0.0089,
+          "cost": 0.8589,
           "our_prob": 0.4105,
           "sensitivity_min": 0.27405,
           "sensitivity_lower": 0.27128545076195776,
-          "sensitivity_ev": -0.7126055134796008,
+          "sensitivity_ev": -0.6841569976866924,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 5.13,
-          "overround": 0.25,
-          "fair_prob": 0.752,
-          "edge_pct": -34.15,
-          "ev_per_$1": -0.5651,
+          "contracts_at_ask": 20,
+          "overround": 0.09,
+          "fair_prob": 0.7798,
+          "edge_pct": -36.93,
+          "ev_per_$1": -0.5221,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -281,7 +277,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 7.49,
+          "contracts_at_ask": 7.5,
           "overround": 0.92,
           "fair_prob": 0.5,
           "edge_pct": 24.7,
@@ -394,7 +390,7 @@
           "game": null,
           "line": 3.5,
           "ask": 0.74,
-          "bid": 0.04,
+          "bid": 0.08,
           "volume": 0,
           "fee": 0.0135,
           "cost": 0.7535,
@@ -406,9 +402,9 @@
           "sensitivity_available": true,
           "cashes_on_lock": true,
           "contracts_at_ask": 19.23,
-          "overround": 0.7,
-          "fair_prob": 0.4353,
-          "edge_pct": 28.45,
+          "overround": 0.66,
+          "fair_prob": 0.4458,
+          "edge_pct": 27.4,
           "ev_per_$1": -0.0447,
           "score_consistent": true,
           "has_book": true,
@@ -436,7 +432,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 7.5,
+          "contracts_at_ask": 8.78,
           "overround": 0.92,
           "fair_prob": 0.5,
           "edge_pct": -15.26,
@@ -455,23 +451,23 @@
           "side_is_a": null,
           "game": null,
           "line": 3.5,
-          "ask": 0.96,
+          "ask": 0.92,
           "bid": 0.26,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0052,
+          "cost": 0.9252,
           "our_prob": 0.2802,
           "sensitivity_min": 0.27558,
           "sensitivity_lower": 0.27281066729105047,
-          "sensitivity_ev": -0.7166156976184906,
+          "sensitivity_ev": -0.7051180051590977,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 7.5,
-          "overround": 0.7,
-          "fair_prob": 0.5647,
-          "edge_pct": -28.45,
-          "ev_per_$1": -0.7089,
+          "contracts_at_ask": 37.5,
+          "overround": 0.66,
+          "fair_prob": 0.5542,
+          "edge_pct": -27.4,
+          "ev_per_$1": -0.6971,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -498,7 +494,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 7.49,
+          "contracts_at_ask": 14.8,
           "overround": 0.92,
           "fair_prob": 0.5,
           "edge_pct": 15.26,
@@ -517,23 +513,23 @@
           "side_is_a": false,
           "game": 1,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.5492,
           "sensitivity_min": 0.46526999999999996,
           "sensitivity_lower": 0.46217845286921355,
-          "sensitivity_ev": -0.5199083681637109,
+          "sensitivity_ev": -0.5054571814568682,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 15.44,
-          "overround": 0.92,
+          "contracts_at_ask": 30.74,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": 4.92,
-          "ev_per_$1": -0.4295,
+          "ev_per_$1": -0.4124,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -548,23 +544,23 @@
           "side_is_a": true,
           "game": 1,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.4508,
           "sensitivity_min": 0.36964,
           "sensitivity_lower": 0.3666481495886849,
-          "sensitivity_ev": -0.6191412486821433,
+          "sensitivity_ev": -0.6076770602663242,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 16.07,
-          "overround": 0.92,
+          "contracts_at_ask": 30.74,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": -4.92,
-          "ev_per_$1": -0.5317,
+          "ev_per_$1": -0.5177,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -579,23 +575,23 @@
           "side_is_a": false,
           "game": 2,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.5513,
           "sensitivity_min": 0.46856,
           "sensitivity_lower": 0.46546710058388857,
-          "sensitivity_ev": -0.5164922585677929,
+          "sensitivity_ev": -0.5019382439124755,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 14.25,
-          "overround": 0.92,
+          "contracts_at_ask": 30.75,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": 5.13,
-          "ev_per_$1": -0.4273,
+          "ev_per_$1": -0.4101,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -610,23 +606,23 @@
           "side_is_a": true,
           "game": 2,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.4487,
           "sensitivity_min": 0.3671,
           "sensitivity_lower": 0.3641124456728889,
-          "sensitivity_ev": -0.6217752317751037,
+          "sensitivity_ev": -0.6103903286017986,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 11.48,
-          "overround": 0.92,
+          "contracts_at_ask": 30.75,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": -5.13,
-          "ev_per_$1": -0.5339,
+          "ev_per_$1": -0.5199,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -641,23 +637,23 @@
           "side_is_a": false,
           "game": 3,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.5505,
           "sensitivity_min": 0.46614999999999995,
           "sensitivity_lower": 0.4630580779306651,
-          "sensitivity_ev": -0.5189946504675813,
+          "sensitivity_ev": -0.504515960042389,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 14.33,
-          "overround": 0.92,
+          "contracts_at_ask": 25,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": 5.05,
-          "ev_per_$1": -0.4282,
+          "ev_per_$1": -0.411,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -672,23 +668,23 @@
           "side_is_a": true,
           "game": 3,
           "line": null,
-          "ask": 0.96,
-          "bid": 0.04,
+          "ask": 0.93,
+          "bid": 0.07,
           "volume": 0,
-          "fee": 0.0027,
-          "cost": 0.9627,
+          "fee": 0.0046,
+          "cost": 0.9346,
           "our_prob": 0.4495,
           "sensitivity_min": 0.3692,
           "sensitivity_lower": 0.366208887416736,
-          "sensitivity_ev": -0.6195975358405464,
+          "sensitivity_ev": -0.6081470820755331,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 11.48,
-          "overround": 0.92,
+          "contracts_at_ask": 25,
+          "overround": 0.86,
           "fair_prob": 0.5,
           "edge_pct": -5.05,
-          "ev_per_$1": -0.5331,
+          "ev_per_$1": -0.519,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -746,7 +742,7 @@
           "conditional_game": true,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 11.48,
+          "contracts_at_ask": 16.23,
           "overround": 0.92,
           "fair_prob": 0.5,
           "edge_pct": -3.47,
@@ -759,7 +755,37 @@
         }
       ],
       "best_bet": null,
-      "best_ev_any": null,
+      "best_ev_any": {
+        "market_id": "POLY-6337341-1",
+        "pair_id": "POLY-6337341",
+        "label": "ML FAK",
+        "type": "moneyline",
+        "side_is_a": false,
+        "game": null,
+        "line": null,
+        "ask": 0.24,
+        "bid": 0.15,
+        "volume": 1071,
+        "fee": 0.0128,
+        "cost": 0.2528,
+        "our_prob": 0.5895,
+        "sensitivity_min": 0.44165,
+        "sensitivity_lower": 0.4385721429239745,
+        "sensitivity_ev": 0.7350777904005827,
+        "conditional_game": false,
+        "sensitivity_available": true,
+        "cashes_on_lock": true,
+        "contracts_at_ask": 20,
+        "overround": 0.09,
+        "fair_prob": 0.2202,
+        "edge_pct": 36.93,
+        "ev_per_$1": 1.3319,
+        "score_consistent": true,
+        "has_book": true,
+        "skip_reason": null,
+        "eligible": true,
+        "qualifies": false
+      },
       "best_bet_rule_version": "r6-score-consistent-rating-sensitivity",
       "market_inventory": {
         "child_moneyline": {
