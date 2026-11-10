@@ -1,0 +1,150 @@
+{
+  "date": "2026-11-12",
+  "integrity": {
+    "protocol": "Zero-Market Influence Prediction Protocol v4.0",
+    "market_inputs_to_forecast": "NONE",
+    "data_sources": [
+      "lolesports.com persisted gateway: getSchedule (results + schedule)"
+    ],
+    "excluded": [
+      "sportsbook odds",
+      "prediction-market prices",
+      "betting sites/ads",
+      "tipster picks"
+    ]
+  },
+  "model_version": "elo-map-v1",
+  "cards": [
+    {
+      "match_id": "117393592614464354",
+      "start_utc": "2026-11-12T09:00:00Z",
+      "start_et": "Thu Nov 12, 04:00 AM ET",
+      "league": "LCP P&R",
+      "stage": "Regional Qualifier",
+      "bo": 5,
+      "team_a": {
+        "code": "SGW",
+        "name": "Saigon Warrior",
+        "img": "http://static.lolesports.com/teams/1771230875226_logo_SW-removebg-preview.png",
+        "elo": 1551.3,
+        "home": "VCS",
+        "event_record": "1-0",
+        "form": [
+          {
+            "date": "2026-11-10",
+            "opp": "TGM",
+            "score": "3-0",
+            "won": true,
+            "league": "LCP P&R"
+          },
+          {
+            "date": "2026-10-11",
+            "opp": "MVKA",
+            "score": "0-3",
+            "won": false,
+            "league": "VCS"
+          },
+          {
+            "date": "2026-09-25",
+            "opp": "SLY",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-25",
+            "opp": "MVKA",
+            "score": "3-1",
+            "won": true,
+            "league": "VCS"
+          },
+          {
+            "date": "2026-09-25",
+            "opp": "ZSK",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-24",
+            "opp": "9G",
+            "score": "2-1",
+            "won": true,
+            "league": "VCS"
+          },
+          {
+            "date": "2026-09-23",
+            "opp": "GL",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          },
+          {
+            "date": "2026-09-23",
+            "opp": "SLY",
+            "score": "0-1",
+            "won": false,
+            "league": "WSCI"
+          }
+        ]
+      },
+      "team_b": {
+        "code": "NTH",
+        "name": "Nothin'Here",
+        "img": "http://static.lolesports.com/teams/1792576868179_NTH-LogoColoredwithTeamName.png",
+        "elo": 1417.3,
+        "home": "LCP P&R",
+        "event_record": "1-0",
+        "form": [
+          {
+            "date": "2026-11-10",
+            "opp": "FL",
+            "score": "3-0",
+            "won": true,
+            "league": "LCP P&R"
+          }
+        ]
+      },
+      "model": {
+        "p_map_a": 0.6838,
+        "elo_diff": 134.0,
+        "train_maps": 14250,
+        "train_logloss": 0.6503,
+        "history_cutoff_utc": "2026-11-10T19:24:55Z"
+      },
+      "sim": {
+        "bo": 5,
+        "sims": 100000,
+        "p_map_a": 0.6838034984349145,
+        "p_series_a": 0.79298,
+        "exact": {
+          "0-3": 0.03898,
+          "1-3": 0.07391,
+          "2-3": 0.09413,
+          "3-0": 0.32433,
+          "3-1": 0.28764,
+          "3-2": 0.18101
+        },
+        "e_maps": 3.91183,
+        "maps_dist": {
+          "3": 0.36331,
+          "4": 0.36155,
+          "5": 0.27514
+        },
+        "locked_score": "3-0",
+        "locked_score_prob": 0.32433
+      },
+      "adversarial_review": [
+        "Saigon Warrior: no recent international series; cross-region strength is inferred",
+        "Nothin'Here: thin sample (3 maps in history) -> rating prior-dominated",
+        "Nothin'Here: no recent international series; cross-region strength is inferred",
+        "Cross-region matchup (VCS vs LCP P&R): largest source of Elo error",
+        "Model is results-only Elo: no draft/patch/roster-news adjustment (disclosed limitation)"
+      ]
+    }
+  ],
+  "skipped": [],
+  "frozen_at_utc": "2026-11-10T19:24:55.390051Z",
+  "frozen_at_et": "2026-11-10 02:24:55 PM ET",
+  "sha256": "a9b493287efca64b79fa30f61ca5fac070a691b3fa7d55581b201ffee4701342"
+}
