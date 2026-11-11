@@ -6,6 +6,7 @@ Hard rules enforced here:
   * Never writes to forecast_log/. Outputs go to odds_snapshots/ (raw prices, for CLV grading) and edge_log/.
   * Nothing computed here flows back into any forecast number.
 """
+from .sports_policy import excluded
 import json, math, re, time, urllib.parse, urllib.request
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -89,7 +90,7 @@ def fetch_lol_events(log):
                 seen.setdefault(e["eventId"], e)
     except Exception as e:  # noqa
         log.append({"endpoint": "GET /events?category=esports", "ok": False, "error": str(e)[:200]})
-    return list(seen.values())
+    return [e for e in seen.values() if not excluded(e)]
 
 
 def fetch_event_markets(ev, log):

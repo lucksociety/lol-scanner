@@ -1,6 +1,7 @@
 """LoL Esports schedule/results (public lolesports gateway). Market-free data source."""
 import json, time, urllib.request, urllib.parse
 from . import config
+from .sports_policy import excluded
 
 UA = "lol-scanner/1.0 (+github actions)"
 
@@ -28,7 +29,7 @@ def fetch_all_events(since=None, max_pages=80):
     events, token, pages = [], None, 0
     while pages < max_pages:
         d = _get("getSchedule", **({"pageToken": token} if token else {}))["data"]["schedule"]
-        evs = [e for e in d["events"] if e.get("type") == "match" and e.get("match")]
+        evs = [e for e in d["events"] if e.get("type") == "match" and e.get("match") and not excluded(e)]
         events += evs
         pages += 1
         token = d["pages"].get("older")
@@ -49,6 +50,7 @@ def series_rows(events):
     """Flatten events into dict rows."""
     rows = []
     for e in events:
+        if excluded(e): continue
         m = e["match"]; t = m["teams"]
         if len(t) != 2:
             continue

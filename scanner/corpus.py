@@ -4,6 +4,7 @@ the event itself. Used both live (the current event) and by the walk-forward bac
 import json, re
 from datetime import date, timedelta
 from . import golgg, config
+from .sports_policy import excluded
 
 TIER1 = r"^(LCK|LPL|LEC|LCS|LTA|LCP|CBLOL|MSI|Worlds|First Stand|Esports World Cup|2025 Mid-Season Invitational|2026 First Stand)"
 EXCL = r"(CL |Academy|Challengers|LPLOL)"
@@ -23,7 +24,7 @@ def tier1_tournaments(refresh=False):
     out = []
     for s in ("S15", "S16"):
         for t in golgg.tournaments(s, refresh=refresh and s == "S16"):
-            if re.search(TIER1, t["trname"]) and not re.search(EXCL, t["trname"]):
+            if not excluded({"tournament":t["trname"]}) and re.search(TIER1, t["trname"]) and not re.search(EXCL, t["trname"]):
                 out.append(t)
     return out
 
