@@ -9,6 +9,7 @@ env: DISCORD_APPLICATION_ID, DISCORD_INTERACTION_TOKEN, DISCORD_CHANNEL_ID, DISC
 """
 import argparse, json, os, sys, time, urllib.request, urllib.error
 from . import config, edgeview as ev
+from .sports_policy import excluded
 from .forecast import load_frozen, frozen_path
 
 GOLD, GOLD_HI, GREEN, RED = 0xD79D07, 0xF6D12B, 0x036718, 0xB3261E
@@ -83,8 +84,8 @@ def render(date, fc, edge):
     only the first one's text, so per-series embeds pointing at the dashboard were silently dropped."""
     rows = {r["match_id"]: r for r in (edge or {}).get("series", [])}
     link = f"{PAGES}/{date}.html"
-    cards = fc.get("cards", [])
-    skipped = fc.get("skipped") or []
+    cards = [c for c in fc.get("cards", []) if not excluded(c)]
+    skipped = [c for c in (fc.get("skipped") or []) if not excluded(c)]
     desc = ("🔒 Forecast locked before market prices. Split forecasts do not qualify for a bet.\n"
             f"Forecast **{fc.get('model_version', 'v1')}** frozen {fc['frozen_at_et']} · market inputs to forecast: **NONE**\n"
             + (f"POST-FORECAST Jupiter odds snapshot: {edge['odds_fetched_at_et']} (never fed back into the forecast)"
