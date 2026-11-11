@@ -125,6 +125,6 @@ def best_summary(row):
     b = row.get("best_bet")
     if not b:
         from .edge import NO_BET_REASON
-        return {"pass": True, "verdict": "NO BET", "reason": NO_BET_REASON}
+        return {"pass": True, "verdict": "NO BET", "reason": ("ratings and draft disagree on series winner"if(row.get("assessment")or{}).get("status")=="INPUT_BLOCKED"else NO_BET_REASON)}
     m, s = market_side(b)
     return {"pass": False, "verdict": "BEST BET", **b, "market": m, "side": s}

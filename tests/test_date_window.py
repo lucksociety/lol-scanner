@@ -189,3 +189,14 @@ def test_command_refresh_reruns_same_day_without_overwriting(tmp_repo,monkeypatc
     assert len(calls)==2 and all(c['refresh_corpus'] for c in calls)
     assert len(forecast.addendum_paths('2026-10-30','v2'))==2
     assert forecast.frozen_path('2026-10-30','v2').read_bytes()==original
+
+
+def test_market_identity_uses_exact_start_and_rejects_ambiguous_ties():
+    c=_card('test','KOI','T1','2026-10-28T20:00:00+00:00')
+    c['team_a']['name']='Movistar KOI'
+    a=_jev('J1','Movistar KOI','T1',c['start_utc'])
+    b=_jev('J2','Movistar KOI','T1',c['start_utc'])
+    assert edge.match_event(c,[a,a])['eventId']=='J1'
+    assert edge.match_event(c,[a,b])is None
+    no_time=dict(a);no_time.pop('beginAt')
+    assert edge.match_event(c,[no_time])is None
