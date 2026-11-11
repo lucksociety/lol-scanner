@@ -174,7 +174,7 @@ def _edge_panel(c, r, snap_et=""):
             '<p class="muted">Sorted by EV per $1 (fee 0.07·p·(1−p) included). Implied = raw ask; No-vig = ask normalised within its binary pair. '
             'Our sim = the frozen headline distribution (v2.1-ratings and later: ratings-only; v2 files: draft-path sims); Ratings-only = patch-recency Elo without the draft layer. '
             f'BEST BET = highest-EV Jupiter line (every market and alt line, both sides) among lines with model probability &gt; 50% AND EV &gt; 0; lines priced under 0.03 / over 0.97 or with no volume and no orderbook are skipped. If none qualifies: NO BET. '
-            'Cashes on lock is info only.</p>{ex}'
+            'A recommended bet must cash at the displayed score.</p>{ex}'
             f'<p class="muted"><a href="{E(r["jupiter_url"])}">{E(r["jupiter_title"])}</a></p></div>')
 
 
@@ -278,7 +278,7 @@ def _slate(fc, erows, edge, srows=(), date=""):
             f'<p class="eh">POST-FORECAST: Jupiter prices read only after the forecast froze; they never feed back into it{snap}</p>'
             '<div class="tw"><table><tr><th>Time (ET)</th><th>League</th><th>Matchup</th><th>Lock (exact %)</th><th>Series win</th>'
             '<th>Best bet (market · side)</th><th>Jupiter price</th><th>Our prob</th><th>No-vig mkt</th><th>Edge pp</th><th>EV/$1</th><th>Final</th><th>Sim</th></tr>'
-            + "".join(t for _, t in items) + '</table></div><p class="muted">BEST BET = highest-EV Jupiter line with model probability &gt; 50% and EV &gt; 0 (after fees, price/liquidity guard applied). NO BET = no line meets both. PASS = no Jupiter market. The lock is the headline score prediction; the best bet is chosen regardless of it. '
+            + "".join(t for _, t in items) + '</table></div><p class="muted">BEST BET = highest-EV Jupiter line with model probability &gt; 50% and EV &gt; 0 (after fees, price/liquidity guard applied). NO BET = no line meets both. PASS = no Jupiter market. Every recommended bet must win at the displayed score; pushes and unknown map order do not qualify. '
             'NOT MODELED / TEAMS TBD / NO LOCK rows are listed so no series is dropped; none of them can carry a bet.</p></section>')
 
 
@@ -566,7 +566,7 @@ def write_simulate_page():
  <div><label class="muted" for="co">Opp. price (opt)</label><input id="co" placeholder="0.40 or +130"></div>
  <div><button class="ghost" id="add">+ add</button></div>
 </div>
-<p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest-EV line (any market, any side) among lines with model probability &gt; 50% AND EV &gt; 0; otherwise NO BET. Cashes on lock is info only. Not financial advice.</p>
+<p class="muted">Prices: 0.62, 62%, 62c, or American (-150 / +130). Implied = price; No-vig = price ÷ (price + opposite side) when both sides are priced. Fee = Jupiter 0.07·p·(1−p), on by default for 0–1 prices, off for American odds (the vig is in the price). EV/$1 = model ÷ (price + fee) − 1. Game-winner markets: an unplayed game resolves 50-50 on Jupiter, so Model = expected payout. Totals side: A = Over, B = Under. BEST BET = highest-EV line (any market, any side) among lines with model probability &gt; 50% AND EV &gt; 0; otherwise NO BET. A recommended bet must cash at the displayed score. Not financial advice.</p>
 </section></main>
 <footer>Luck Society · in-browser ratings sim (Web Worker) · data: lolesports results → v2 patch-recency Elo, official rosters · Jupiter prices are post-forecast snapshots, never inputs to any forecast.</footer>
 <script src="assets/sim-core.js"></script><script src="assets/simulate.js"></script><script src="assets/datenav.js"></script></body></html>"""

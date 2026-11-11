@@ -158,8 +158,8 @@ def _day_gap(card, e):
 
 def match_event(card, events, max_days=1):
     """Same two teams (either order) and a Jupiter start within +/-max_days ET days of the official start;
-    the closest start wins (the same pair can meet twice in one event, e.g. Swiss then knockouts)."""
-    best = None
+    the closest exact start wins; equally close distinct event IDs are ambiguous and do not match."""
+    matches={}
     for e in events:
         teams = {m.get("title") for m in e.get("markets", []) if m.get("sportsMarketType") == "moneyline"}
         if len(teams) != 2:
@@ -171,10 +171,15 @@ def match_event(card, events, max_days=1):
         gap = _day_gap(card, e)
         if gap is not None and gap > max_days:
             continue
-        key = 99 if gap is None else gap
-        if best is None or key < best[0]:
-            best = (key, e)
-    return best[1] if best else None
+        start=_event_start(e)
+        if gap is None or start is None:continue
+        official=datetime.fromisoformat(card['start_utc'].replace('Z','+00:00'))
+        key=abs((start-official).total_seconds())
+        matches[e['eventId']]=(key,e)
+    if not matches:return None
+    closest=min(x[0]for x in matches.values())
+    candidates=[e for gap,e in matches.values()if gap==closest]
+    return candidates[0]if len(candidates)==1 else None
 
 
 # ------------------------------------------------------------------ pricing
@@ -496,6 +501,16 @@ def inventory(markets):
     return {t: {"markets": v["markets"], "lines": sorted(v["lines"]), "games": sorted(v["games"])} for t, v in sorted(inv.items())}
 
 
+def selection_assessment(card,legs,best):
+    from collections import Counter
+    blocked=winner_disagreement(card)
+    return {'status':'INPUT_BLOCKED'if blocked else'BET'if best else'PRICE_UNAVAILABLE'if not legs else'NO_QUALIFYING_EDGE',
+            'priced':len(legs),'over50':sum(x.get('our_prob',0)>.5 for x in legs),
+            'score_aligned':sum(x.get('our_prob',0)>.5 and bool(x.get('score_consistent')) for x in legs),
+            'qualifying':sum(bool(x.get('qualifies'))for x in legs),
+            'rejections':dict(Counter(x.get('skip_reason')or'probability/EV/sensitivity threshold'for x in legs if not x.get('qualifies')))}
+
+
 def run(date, version=None, jup_events=None, jup_log=None):
     if version and not frozen_path(date, version).exists():
         version = None
@@ -544,6 +559,7 @@ def run(date, version=None, jup_events=None, jup_log=None):
                      "status": "ok", "jupiter_event_id": ev["eventId"], "jupiter_title": ev["metadata"].get("title"),
                      "jupiter_url": f"https://jup.ag/prediction/{ev['eventId']}",
                      "exact_score_offered": "exact" in offered, "warnings": warn, "legs": legs,
+                     "assessment": selection_assessment(card,legs,best),
                      "best_bet": best, "best_ev_any": best_any, "best_bet_rule_version": BEST_BET_RULE_VERSION,
                      "market_inventory": inventory(markets), "n_markets": len(markets), "n_priced_legs": len(legs),
                      "not_modeled": not_modeled, "unpriced": unpriced,
