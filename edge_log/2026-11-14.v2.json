@@ -6,19 +6,19 @@
   "forecast_sha256": "9f968a6b4eddae1ef51010ea79c0e9373a35fac99224d5bad6c31deedf125349",
   "forecast_view_sha256": "12dc7766a3c5276c7ae9a4c5159d62a6a08d8a1928a1bb2abb335809f8181ad6",
   "forecast_frozen_at_utc": "2026-11-11T16:23:04.407238Z",
-  "odds_fetched_at_utc": "2026-11-11T16:23:20.738091+00:00",
-  "odds_fetched_at_et": "2026-11-11 11:23:20 AM ET",
-  "snapshot_file": "odds_snapshots/2026-11-14/20261111T162320Z.json",
+  "odds_fetched_at_utc": "2026-11-11T19:18:57.283582+00:00",
+  "odds_fetched_at_et": "2026-11-11 02:18:57 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-14/20261111T191857Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
       "ok": true,
-      "n": 30
+      "n": 29
     },
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 231
+      "n": 219
     },
     {
       "endpoint": "GET /events/POLY-1345375/markets?includeAllMarkets=true (paged)",
@@ -40,28 +40,24 @@
   "coverage": "1/1 series",
   "jupiter_lol_events_listed": [
     {
-      "id": "POLY-1270992",
-      "title": "LoL: Ground Zero Gaming vs Frank Esports (BO5) - LCP Promotion Playoffs"
-    },
-    {
       "id": "POLY-1345375",
       "title": "LoL: Bilibili Gaming vs Gen.G (BO5) - Worlds Playoffs"
-    },
-    {
-      "id": "POLY-991810",
-      "title": "Worlds 2026: Winner"
     },
     {
       "id": "POLY-1355767",
       "title": "LoL: Nothin'Here vs Saigon Warriors (BO5) - LCP Promotion Playoffs"
     },
     {
-      "id": "POLY-131447",
-      "title": "Worlds 2026 Winning Region"
+      "id": "POLY-991810",
+      "title": "Worlds 2026: Winner"
     },
     {
       "id": "POLY-991821",
       "title": "Worlds 2026: Finals MVP"
+    },
+    {
+      "id": "POLY-131447",
+      "title": "Worlds 2026 Winning Region"
     },
     {
       "id": "POLY-775290",
@@ -72,28 +68,28 @@
       "title": "Most Kills at Worlds 2026"
     },
     {
+      "id": "POLY-1120919",
+      "title": "How many Pentakills will there be at Worlds 2026?"
+    },
+    {
       "id": "POLY-1186060",
       "title": "LoL Offseason: Diable Next Team"
+    },
+    {
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
     },
     {
       "id": "POLY-1070055",
       "title": "LoL Offseason: Deft Next Team"
     },
     {
-      "id": "POLY-1120919",
-      "title": "How many Pentakills will there be at Worlds 2026?"
-    },
-    {
-      "id": "POLY-1186057",
-      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
-    },
-    {
       "id": "POLY-806410",
       "title": "Which Teams Will Make a Roster Change Before December?"
     },
     {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
+      "id": "POLY-1186057",
+      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
     },
     {
       "id": "POLY-1261303",
@@ -185,7 +181,7 @@
           "line": null,
           "ask": 0.38,
           "bid": 0.37,
-          "volume": 519621,
+          "volume": 540432,
           "fee": 0.0165,
           "cost": 0.3965,
           "our_prob": 0.4782,
@@ -195,7 +191,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 604554.83,
+          "contracts_at_ask": 599608.6,
           "overround": 0.01,
           "fair_prob": 0.3762,
           "edge_pct": 10.2,
@@ -216,7 +212,7 @@
           "line": null,
           "ask": 0.63,
           "bid": 0.62,
-          "volume": 519621,
+          "volume": 540432,
           "fee": 0.0163,
           "cost": 0.6463,
           "our_prob": 0.5218,
@@ -226,7 +222,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 655977.95,
+          "contracts_at_ask": 654765.13,
           "overround": 0.01,
           "fair_prob": 0.6238,
           "edge_pct": -10.2,
@@ -247,7 +243,7 @@
           "line": 1.5,
           "ask": 0.57,
           "bid": 0.56,
-          "volume": 201493,
+          "volume": 201652,
           "fee": 0.0172,
           "cost": 0.5872,
           "our_prob": 0.6579,
@@ -257,7 +253,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 73719.6,
+          "contracts_at_ask": 97646.52,
           "overround": 0.01,
           "fair_prob": 0.5644,
           "edge_pct": 9.35,
@@ -278,7 +274,7 @@
           "line": 2.5,
           "ask": 0.81,
           "bid": 0.8,
-          "volume": 5144,
+          "volume": 5147,
           "fee": 0.0108,
           "cost": 0.8208,
           "our_prob": 0.8536,
@@ -288,7 +284,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 455836.77,
+          "contracts_at_ask": 456081.77,
           "overround": 0.01,
           "fair_prob": 0.802,
           "edge_pct": 5.16,
@@ -309,7 +305,7 @@
           "line": -1.5,
           "ask": 0.44,
           "bid": 0.43,
-          "volume": 201493,
+          "volume": 201652,
           "fee": 0.0172,
           "cost": 0.4572,
           "our_prob": 0.3421,
@@ -319,7 +315,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 28747.55,
+          "contracts_at_ask": 58600.02,
           "overround": 0.01,
           "fair_prob": 0.4356,
           "edge_pct": -9.35,
@@ -340,7 +336,7 @@
           "line": -2.5,
           "ask": 0.2,
           "bid": 0.19,
-          "volume": 5144,
+          "volume": 5147,
           "fee": 0.0112,
           "cost": 0.2112,
           "our_prob": 0.1464,
@@ -371,7 +367,7 @@
           "line": 3.5,
           "ask": 0.73,
           "bid": 0.72,
-          "volume": 17696,
+          "volume": 17813,
           "fee": 0.0138,
           "cost": 0.7438,
           "our_prob": 0.7265,
@@ -381,7 +377,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 397440.64,
+          "contracts_at_ask": 397875.41,
           "overround": 0.01,
           "fair_prob": 0.7228,
           "edge_pct": 0.37,
@@ -400,23 +396,23 @@
           "side_is_a": null,
           "game": null,
           "line": 4.5,
-          "ask": 0.36,
+          "ask": 0.35,
           "bid": 0.34,
-          "volume": 9839,
-          "fee": 0.0161,
-          "cost": 0.3761,
+          "volume": 10221,
+          "fee": 0.0159,
+          "cost": 0.3659,
           "our_prob": 0.3522,
           "sensitivity_min": 0.32993,
           "sensitivity_lower": 0.3270157482759786,
-          "sensitivity_ev": -0.13057324029059614,
+          "sensitivity_ev": -0.10633122012440088,
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 187892.11,
-          "overround": 0.02,
-          "fair_prob": 0.3529,
-          "edge_pct": -0.07,
-          "ev_per_$1": -0.0635,
+          "contracts_at_ask": 3723.52,
+          "overround": 0.01,
+          "fair_prob": 0.3465,
+          "edge_pct": 0.57,
+          "ev_per_$1": -0.0374,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -433,7 +429,7 @@
           "line": 3.5,
           "ask": 0.28,
           "bid": 0.27,
-          "volume": 17696,
+          "volume": 17813,
           "fee": 0.0141,
           "cost": 0.2941,
           "our_prob": 0.2735,
@@ -443,7 +439,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 17505.56,
+          "contracts_at_ask": 17211.86,
           "overround": 0.01,
           "fair_prob": 0.2772,
           "edge_pct": -0.37,
@@ -463,8 +459,8 @@
           "game": null,
           "line": 4.5,
           "ask": 0.66,
-          "bid": 0.64,
-          "volume": 9839,
+          "bid": 0.65,
+          "volume": 10221,
           "fee": 0.0157,
           "cost": 0.6757,
           "our_prob": 0.6478,
@@ -474,10 +470,10 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 18471.97,
-          "overround": 0.02,
-          "fair_prob": 0.6471,
-          "edge_pct": 0.07,
+          "contracts_at_ask": 16974.34,
+          "overround": 0.01,
+          "fair_prob": 0.6535,
+          "edge_pct": -0.57,
           "ev_per_$1": -0.0413,
           "score_consistent": true,
           "has_book": true,
@@ -536,7 +532,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 13770.63,
+          "contracts_at_ask": 13848.16,
           "overround": 0.01,
           "fair_prob": 0.5743,
           "edge_pct": -6.05,
@@ -567,7 +563,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 1278.3,
+          "contracts_at_ask": 1378.3,
           "overround": 0.01,
           "fair_prob": 0.4158,
           "edge_pct": 7.36,
@@ -598,7 +594,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 35799.89,
+          "contracts_at_ask": 36809.89,
           "overround": 0.01,
           "fair_prob": 0.5842,
           "edge_pct": -7.36,
@@ -629,7 +625,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 14923.61,
+          "contracts_at_ask": 14587.61,
           "overround": 0.01,
           "fair_prob": 0.4257,
           "edge_pct": 6.09,
@@ -660,7 +656,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 20587.91,
+          "contracts_at_ask": 21597.91,
           "overround": 0.01,
           "fair_prob": 0.5743,
           "edge_pct": -6.09,
@@ -691,7 +687,7 @@
           "conditional_game": true,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 17885.78,
+          "contracts_at_ask": 17697.78,
           "overround": 0.02,
           "fair_prob": 0.451,
           "edge_pct": 4.08,
@@ -745,7 +741,7 @@
         "line": 2.5,
         "ask": 0.81,
         "bid": 0.8,
-        "volume": 5144,
+        "volume": 5147,
         "fee": 0.0108,
         "cost": 0.8208,
         "our_prob": 0.8536,
@@ -755,7 +751,7 @@
         "conditional_game": false,
         "sensitivity_available": true,
         "cashes_on_lock": true,
-        "contracts_at_ask": 455836.77,
+        "contracts_at_ask": 456081.77,
         "overround": 0.01,
         "fair_prob": 0.802,
         "edge_pct": 5.16,
@@ -879,7 +875,7 @@
           "status": "open",
           "yes_ask": 0.68,
           "no_ask": null,
-          "volume": 28556,
+          "volume": 29721,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -912,7 +908,7 @@
           "status": "open",
           "yes_ask": 0.33,
           "no_ask": null,
-          "volume": 28556,
+          "volume": 29721,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -978,7 +974,7 @@
           "status": "open",
           "yes_ask": 0.67,
           "no_ask": null,
-          "volume": 336,
+          "volume": 378,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1011,7 +1007,7 @@
           "status": "open",
           "yes_ask": 0.35,
           "no_ask": null,
-          "volume": 336,
+          "volume": 378,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1075,9 +1071,9 @@
           "label": "Game 3 Kills Over",
           "game": 3,
           "status": "open",
-          "yes_ask": 0.66,
+          "yes_ask": 0.67,
           "no_ask": null,
-          "volume": 190,
+          "volume": 240,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1108,9 +1104,9 @@
           "label": "Game 3 Kills Under",
           "game": 3,
           "status": "open",
-          "yes_ask": 0.35,
+          "yes_ask": 0.34,
           "no_ask": null,
-          "volume": 190,
+          "volume": 240,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1174,7 +1170,7 @@
           "label": "Game 4 Kills Over",
           "game": 4,
           "status": "open",
-          "yes_ask": 0.63,
+          "yes_ask": 0.62,
           "no_ask": null,
           "volume": 133,
           "reason": "per-game total kills; the sim does not output kills"
