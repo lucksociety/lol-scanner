@@ -159,3 +159,16 @@ The offsets fix the LCK under-rating at Worlds. At First Stand 2026 they over-co
 time (ET), league, matchup, Bo, locked exact score and %, series win %, and the Jupiter best bet with EV, or NO BET (no line > 50% model prob and +EV), or PASS (no Jupiter market).
 Flow: Discord → Cloudflare Worker (`worker/`, Ed25519-verified) → `workflow_dispatch` of `discord-lol.yml` → forecast freeze →
 post-forecast Jupiter edge → dashboard → Discord follow-up. Invite: https://discord.com/oauth2/authorize?client_id=1564914230837248060&scope=bot%20applications.commands&permissions=18432
+
+
+### Reviewed team identity (November 12)
+
+A November 11 card labeled Frank Esports had inherited FURIA’s roster/draft
+history through an old fuzzy join. Team identity now requires exact normalized
+full names or explicit reviewed rebrands; both opponents and unique series/date
+must agree. Corpus lookup ignores poisoned historical join maps and unrelated
+spellings. Missing true history produces PASS instead of another team’s players.
+LOS/Los Grandes, Gen.G’s naming variation and DRX’s verified branding remain
+supported. Numerical rating/simulation parameters are unchanged. The ratings-only
+headline and informational draft simulation remain separate; this repair does
+not claim the headline would have picked the winner of that historical series.

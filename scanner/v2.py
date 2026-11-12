@@ -60,7 +60,7 @@ def attach_series_context(games, fearless):
 
 # Verified identity: Riot's LOS (also styled LØS) is gol.gg's Los Grandes.
 # https://gol.gg/tournament/tournament-ranking/Worlds%202026%20Main%20Event/
-TEAM_ALIASES = {"los": "losgrandes"}
+TEAM_ALIASES = {"los": "losgrandes", "gengesports":"geng", "kiwoomdrx":"drx"}
 
 
 def team_key(name):
@@ -69,14 +69,9 @@ def team_key(name):
 
 
 def _sim(a, b):
-    a, b = team_key(a), team_key(b)
-    if not a or not b:
-        return 0.0
-    if (a in TEAM_ALIASES.values() or b in TEAM_ALIASES.values()) and a != b:
-        return 0.0
-    if a == b or (len(a) > 3 and a in b) or (len(b) > 3 and b in a):
-        return 1.0
-    return difflib.SequenceMatcher(None, a, b).ratio()
+    # Team identity is categorical. Similar spelling is not evidence of a rebrand.
+    a,b=team_key(a),team_key(b)
+    return 1.0 if a and a==b else 0.0
 
 
 def join(series, rows):
@@ -89,20 +84,20 @@ def join(series, rows):
     for k, gs in series.items():
         g0 = gs[0]; d = Date.fromisoformat(g0["date"])
         ta, tb = g0["blue"], g0["red"]
-        best, bs = None, 0.0
+        matches={}
         for dd in (d, d - timedelta(days=1), d + timedelta(days=1)):
             for r in by_day.get(dd.isoformat(), []):
-                if r["a_w"] + r["b_w"] != len(gs):
-                    continue
-                for x, y, flip in ((ta, tb, False), (tb, ta, True)):
-                    s = min(max(_sim(x, r["a_name"]), _sim(x, r["a"])), max(_sim(y, r["b_name"]), _sim(y, r["b"])))
-                    if s > bs:
-                        best, bs = (r, flip), s
-        if best and bs >= 0.6:
-            r, flip = best
-            out[k] = r
-            names[ta] = r["b_name"] if flip else r["a_name"]
-            names[tb] = r["a_name"] if flip else r["b_name"]
+                if r["a_w"] + r["b_w"] != len(gs):continue
+                for x,y,flip in ((ta,tb,False),(tb,ta,True)):
+                    # Both complete official names must agree through verified aliases.
+                    # A coincident short code may belong to another organization.
+                    if _sim(x,r["a_name"])!=1 or _sim(y,r["b_name"])!=1:continue
+                    key=r.get('match_id') or (r['start'],r['a_name'],r['b_name'],r['a_w'],r['b_w'])
+                    matches[key]=(r,flip)
+        if len(matches)==1:
+            r,flip=next(iter(matches.values()));out[k]=r
+            names[ta]=r['b_name']if flip else r['a_name']
+            names[tb]=r['a_name']if flip else r['b_name']
     return out, names
 
 
@@ -217,12 +212,12 @@ class Engine:
             if before_date is None or g["date"] < before_date:
                 for t in (g["blue"], g["red"]):
                     last[t] = max(last.get(t, ""), g["date"])
-        cands = [gn for gn in last if self.names.get(gn) == ls_name or team_key(gn) == team_key(ls_name)]
+        cands = [gn for gn in last if team_key(gn) == team_key(ls_name)]
         if cands:
             return max(cands, key=lambda gn: (last[gn], gn))
-        # Fuzzy fallback is restricted to joined identities with actual pre-cutoff history.
-        best = max((gn for gn in self.names if gn in last), key=lambda gn: _sim(gn, ls_name), default=None)
-        return best if best and _sim(best, ls_name) >= 0.6 else None
+        # Historical join maps may contain old fuzzy misjoins; never use them to
+        # turn a missing team into another organization's roster/draft history.
+        return None
 
 
 # ---------------------------------------------------------------- beam search: most likely drafts for one map
