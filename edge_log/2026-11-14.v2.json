@@ -6,9 +6,9 @@
   "forecast_sha256": "9f968a6b4eddae1ef51010ea79c0e9373a35fac99224d5bad6c31deedf125349",
   "forecast_view_sha256": "8b349910b7bb24396a82843a626c1632e29d55bc06fd3650eb795db523470c88",
   "forecast_frozen_at_utc": "2026-11-12T01:12:15.579634Z",
-  "odds_fetched_at_utc": "2026-11-12T20:35:42.534673+00:00",
-  "odds_fetched_at_et": "2026-11-12 03:35:42 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-14/20261112T203542Z.json",
+  "odds_fetched_at_utc": "2026-11-12T23:56:36.968708+00:00",
+  "odds_fetched_at_et": "2026-11-12 06:56:36 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-14/20261112T235636Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 224
+      "n": 237
     },
     {
       "endpoint": "GET /events/POLY-1345375/markets?includeAllMarkets=true (paged)",
@@ -52,12 +52,12 @@
       "title": "Worlds 2026: Finals MVP"
     },
     {
-      "id": "POLY-131447",
-      "title": "Worlds 2026 Winning Region"
-    },
-    {
       "id": "POLY-1370994",
       "title": "LoL: DetonatioN FocusMe vs Saigon Warriors (BO5) - LCP Promotion Playoffs"
+    },
+    {
+      "id": "POLY-131447",
+      "title": "Worlds 2026 Winning Region"
     },
     {
       "id": "POLY-775290",
@@ -72,28 +72,28 @@
       "title": "Worlds 2026: Peak Viewership"
     },
     {
-      "id": "POLY-1120919",
-      "title": "How many Pentakills will there be at Worlds 2026?"
-    },
-    {
       "id": "POLY-1186060",
       "title": "LoL Offseason: Diable Next Team"
-    },
-    {
-      "id": "POLY-1186059",
-      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
     },
     {
       "id": "POLY-1120926",
       "title": "Most Played Champion at Worlds 2026"
     },
     {
-      "id": "POLY-1070134",
-      "title": "Total Unique Champions Played at Worlds 2026"
+      "id": "POLY-1186059",
+      "title": "Will any game at Worlds 2026 last 50 minutes or more?"
     },
     {
       "id": "POLY-1302616",
       "title": "Which teams will qualify for LCP 2027?"
+    },
+    {
+      "id": "POLY-1070134",
+      "title": "Total Unique Champions Played at Worlds 2026"
+    },
+    {
+      "id": "POLY-1120919",
+      "title": "How many Pentakills will there be at Worlds 2026?"
     },
     {
       "id": "POLY-1186056",
@@ -181,7 +181,7 @@
           "line": null,
           "ask": 0.38,
           "bid": 0.37,
-          "volume": 664129,
+          "volume": 671542,
           "fee": 0.0165,
           "cost": 0.3965,
           "our_prob": 0.4782,
@@ -191,7 +191,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 684256.71,
+          "contracts_at_ask": 674259.81,
           "overround": 0.01,
           "fair_prob": 0.3762,
           "edge_pct": 10.2,
@@ -212,7 +212,7 @@
           "line": null,
           "ask": 0.63,
           "bid": 0.62,
-          "volume": 664129,
+          "volume": 671542,
           "fee": 0.0163,
           "cost": 0.6463,
           "our_prob": 0.5218,
@@ -222,7 +222,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 707768,
+          "contracts_at_ask": 714422.94,
           "overround": 0.01,
           "fair_prob": 0.6238,
           "edge_pct": -10.2,
@@ -243,7 +243,7 @@
           "line": 1.5,
           "ask": 0.57,
           "bid": 0.56,
-          "volume": 206576,
+          "volume": 206578,
           "fee": 0.0172,
           "cost": 0.5872,
           "our_prob": 0.6579,
@@ -253,7 +253,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 69459.05,
+          "contracts_at_ask": 82558.51,
           "overround": 0.01,
           "fair_prob": 0.5644,
           "edge_pct": 9.35,
@@ -274,7 +274,7 @@
           "line": 2.5,
           "ask": 0.81,
           "bid": 0.8,
-          "volume": 10444,
+          "volume": 17372,
           "fee": 0.0108,
           "cost": 0.8208,
           "our_prob": 0.8536,
@@ -284,7 +284,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 449165.64,
+          "contracts_at_ask": 447211.72,
           "overround": 0.01,
           "fair_prob": 0.802,
           "edge_pct": 5.16,
@@ -305,7 +305,7 @@
           "line": -1.5,
           "ask": 0.44,
           "bid": 0.43,
-          "volume": 206576,
+          "volume": 206578,
           "fee": 0.0172,
           "cost": 0.4572,
           "our_prob": 0.3421,
@@ -315,7 +315,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 45222.19,
+          "contracts_at_ask": 29258.03,
           "overround": 0.01,
           "fair_prob": 0.4356,
           "edge_pct": -9.35,
@@ -336,7 +336,7 @@
           "line": -2.5,
           "ask": 0.2,
           "bid": 0.19,
-          "volume": 10444,
+          "volume": 17372,
           "fee": 0.0112,
           "cost": 0.2112,
           "our_prob": 0.1464,
@@ -346,7 +346,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 427.08,
+          "contracts_at_ask": 382.33,
           "overround": 0.01,
           "fair_prob": 0.198,
           "edge_pct": -5.16,
@@ -367,7 +367,7 @@
           "line": 3.5,
           "ask": 0.73,
           "bid": 0.72,
-          "volume": 22284,
+          "volume": 28114,
           "fee": 0.0138,
           "cost": 0.7438,
           "our_prob": 0.7265,
@@ -377,7 +377,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 394589.5,
+          "contracts_at_ask": 388754.32,
           "overround": 0.01,
           "fair_prob": 0.7228,
           "edge_pct": 0.37,
@@ -408,7 +408,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 2206.46,
+          "contracts_at_ask": 2201.46,
           "overround": 0.01,
           "fair_prob": 0.3465,
           "edge_pct": 0.57,
@@ -429,7 +429,7 @@
           "line": 3.5,
           "ask": 0.28,
           "bid": 0.27,
-          "volume": 22284,
+          "volume": 28114,
           "fee": 0.0141,
           "cost": 0.2941,
           "our_prob": 0.2735,
@@ -439,7 +439,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 33593.46,
+          "contracts_at_ask": 35440.39,
           "overround": 0.01,
           "fair_prob": 0.2772,
           "edge_pct": -0.37,
@@ -501,7 +501,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 37498.55,
+          "contracts_at_ask": 37476.55,
           "overround": 0.01,
           "fair_prob": 0.4257,
           "edge_pct": 6.05,
@@ -532,7 +532,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 15440.69,
+          "contracts_at_ask": 18130.69,
           "overround": 0.01,
           "fair_prob": 0.5743,
           "edge_pct": -6.05,
@@ -563,7 +563,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 1569.42,
+          "contracts_at_ask": 1642.42,
           "overround": 0.01,
           "fair_prob": 0.4158,
           "edge_pct": 7.36,
@@ -594,7 +594,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 31824.95,
+          "contracts_at_ask": 31784.06,
           "overround": 0.01,
           "fair_prob": 0.5842,
           "edge_pct": -7.36,
@@ -625,7 +625,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 4371.01,
+          "contracts_at_ask": 4232.11,
           "overround": 0.01,
           "fair_prob": 0.4257,
           "edge_pct": 6.09,
@@ -753,7 +753,7 @@
         "line": 2.5,
         "ask": 0.81,
         "bid": 0.8,
-        "volume": 10444,
+        "volume": 17372,
         "fee": 0.0108,
         "cost": 0.8208,
         "our_prob": 0.8536,
@@ -763,7 +763,7 @@
         "conditional_game": false,
         "sensitivity_available": true,
         "cashes_on_lock": true,
-        "contracts_at_ask": 449165.64,
+        "contracts_at_ask": 447211.72,
         "overround": 0.01,
         "fair_prob": 0.802,
         "edge_pct": 5.16,
