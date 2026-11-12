@@ -6,9 +6,9 @@
   "forecast_sha256": "9f968a6b4eddae1ef51010ea79c0e9373a35fac99224d5bad6c31deedf125349",
   "forecast_view_sha256": "8b349910b7bb24396a82843a626c1632e29d55bc06fd3650eb795db523470c88",
   "forecast_frozen_at_utc": "2026-11-12T01:12:15.579634Z",
-  "odds_fetched_at_utc": "2026-11-12T01:12:32.724041+00:00",
-  "odds_fetched_at_et": "2026-11-11 08:12:32 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-14/20261112T011232Z.json",
+  "odds_fetched_at_utc": "2026-11-12T19:37:58.559901+00:00",
+  "odds_fetched_at_et": "2026-11-12 02:37:58 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-14/20261112T193758Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 246
+      "n": 226
     },
     {
       "endpoint": "GET /events/POLY-1345375/markets?includeAllMarkets=true (paged)",
@@ -44,8 +44,8 @@
       "title": "LoL: Bilibili Gaming vs Gen.G (BO5) - Worlds Playoffs"
     },
     {
-      "id": "POLY-1355767",
-      "title": "LoL: Nothin'Here vs Saigon Warriors (BO5) - LCP Promotion Playoffs"
+      "id": "POLY-991810",
+      "title": "Worlds 2026: Winner"
     },
     {
       "id": "POLY-991821",
@@ -56,8 +56,8 @@
       "title": "Worlds 2026 Winning Region"
     },
     {
-      "id": "POLY-991810",
-      "title": "Worlds 2026: Winner"
+      "id": "POLY-1370994",
+      "title": "LoL: DetonatioN FocusMe vs Saigon Warriors (BO5) - LCP Promotion Playoffs"
     },
     {
       "id": "POLY-775290",
@@ -68,52 +68,52 @@
       "title": "How many Pentakills will there be at Worlds 2026?"
     },
     {
-      "id": "POLY-1120918",
-      "title": "Most Kills at Worlds 2026"
-    },
-    {
       "id": "POLY-1186060",
       "title": "LoL Offseason: Diable Next Team"
-    },
-    {
-      "id": "POLY-1120926",
-      "title": "Most Played Champion at Worlds 2026"
     },
     {
       "id": "POLY-1261303",
       "title": "Worlds 2026: Peak Viewership"
     },
     {
+      "id": "POLY-1120918",
+      "title": "Most Kills at Worlds 2026"
+    },
+    {
       "id": "POLY-1186059",
       "title": "Will any game at Worlds 2026 last 50 minutes or more?"
     },
     {
-      "id": "POLY-1186057",
-      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+      "id": "POLY-1120926",
+      "title": "Most Played Champion at Worlds 2026"
     },
     {
       "id": "POLY-1070055",
       "title": "LoL Offseason: Deft Next Team"
     },
     {
-      "id": "POLY-806410",
-      "title": "Which Teams Will Make a Roster Change Before December?"
-    },
-    {
       "id": "POLY-1070134",
       "title": "Total Unique Champions Played at Worlds 2026"
     },
     {
-      "id": "POLY-796849",
-      "title": "Will Caedrel Reach Challenger Before the End of the Year?"
+      "id": "POLY-1302616",
+      "title": "Which teams will qualify for LCP 2027?"
     },
     {
-      "id": "POLY-1120943",
-      "title": "Will Humzh's subathon end by...?"
+      "id": "POLY-1186056",
+      "title": "Worlds 2026: Grand Final Series Score"
+    },
+    {
+      "id": "POLY-806410",
+      "title": "Which Teams Will Make a Roster Change Before December?"
     },
     {
       "id": "POLY-927473",
       "title": "Joe Marsh out as T1 CEO by December 31?"
+    },
+    {
+      "id": "POLY-796849",
+      "title": "Will Caedrel Reach Challenger Before the End of the Year?"
     },
     {
       "id": "POLY-796527",
@@ -132,16 +132,16 @@
       "title": "Will Faker win a Finals MVP Award at an international event in 2026?"
     },
     {
-      "id": "POLY-1302616",
-      "title": "Which teams will qualify for LCP 2027?"
-    },
-    {
       "id": "POLY-1195015",
       "title": "Most Banned Champion at Worlds 2026"
     },
     {
-      "id": "POLY-1186056",
-      "title": "Worlds 2026: Grand Final Series Score"
+      "id": "POLY-1186057",
+      "title": "Will the Worlds 2026 champion be a first-time Worlds winner?"
+    },
+    {
+      "id": "POLY-1120943",
+      "title": "Will Humzh's subathon end by...?"
     },
     {
       "id": "POLY-1070185",
@@ -181,7 +181,7 @@
           "line": null,
           "ask": 0.38,
           "bid": 0.37,
-          "volume": 543015,
+          "volume": 663975,
           "fee": 0.0165,
           "cost": 0.3965,
           "our_prob": 0.4782,
@@ -191,7 +191,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 596417.51,
+          "contracts_at_ask": 684334.43,
           "overround": 0.01,
           "fair_prob": 0.3762,
           "edge_pct": 10.2,
@@ -212,7 +212,7 @@
           "line": null,
           "ask": 0.63,
           "bid": 0.62,
-          "volume": 543015,
+          "volume": 663975,
           "fee": 0.0163,
           "cost": 0.6463,
           "our_prob": 0.5218,
@@ -222,7 +222,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 568956.49,
+          "contracts_at_ask": 657768,
           "overround": 0.01,
           "fair_prob": 0.6238,
           "edge_pct": -10.2,
@@ -243,7 +243,7 @@
           "line": 1.5,
           "ask": 0.57,
           "bid": 0.56,
-          "volume": 203964,
+          "volume": 206576,
           "fee": 0.0172,
           "cost": 0.5872,
           "our_prob": 0.6579,
@@ -253,7 +253,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 72791.05,
+          "contracts_at_ask": 69449.05,
           "overround": 0.01,
           "fair_prob": 0.5644,
           "edge_pct": 9.35,
@@ -274,7 +274,7 @@
           "line": 2.5,
           "ask": 0.81,
           "bid": 0.8,
-          "volume": 5508,
+          "volume": 10444,
           "fee": 0.0108,
           "cost": 0.8208,
           "our_prob": 0.8536,
@@ -284,7 +284,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 455581,
+          "contracts_at_ask": 449155.64,
           "overround": 0.01,
           "fair_prob": 0.802,
           "edge_pct": 5.16,
@@ -305,7 +305,7 @@
           "line": -1.5,
           "ask": 0.44,
           "bid": 0.43,
-          "volume": 203964,
+          "volume": 206576,
           "fee": 0.0172,
           "cost": 0.4572,
           "our_prob": 0.3421,
@@ -315,7 +315,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 19209.42,
+          "contracts_at_ask": 45222.19,
           "overround": 0.01,
           "fair_prob": 0.4356,
           "edge_pct": -9.35,
@@ -336,7 +336,7 @@
           "line": -2.5,
           "ask": 0.2,
           "bid": 0.19,
-          "volume": 5508,
+          "volume": 10444,
           "fee": 0.0112,
           "cost": 0.2112,
           "our_prob": 0.1464,
@@ -346,7 +346,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 1279.9,
+          "contracts_at_ask": 427.08,
           "overround": 0.01,
           "fair_prob": 0.198,
           "edge_pct": -5.16,
@@ -367,7 +367,7 @@
           "line": 3.5,
           "ask": 0.73,
           "bid": 0.72,
-          "volume": 17813,
+          "volume": 22284,
           "fee": 0.0138,
           "cost": 0.7438,
           "our_prob": 0.7265,
@@ -377,7 +377,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 397930.41,
+          "contracts_at_ask": 394579.5,
           "overround": 0.01,
           "fair_prob": 0.7228,
           "edge_pct": 0.37,
@@ -398,7 +398,7 @@
           "line": 4.5,
           "ask": 0.35,
           "bid": 0.34,
-          "volume": 10221,
+          "volume": 12664,
           "fee": 0.0159,
           "cost": 0.3659,
           "our_prob": 0.3522,
@@ -408,7 +408,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 4017.51,
+          "contracts_at_ask": 2196.46,
           "overround": 0.01,
           "fair_prob": 0.3465,
           "edge_pct": 0.57,
@@ -429,7 +429,7 @@
           "line": 3.5,
           "ask": 0.28,
           "bid": 0.27,
-          "volume": 17813,
+          "volume": 22284,
           "fee": 0.0141,
           "cost": 0.2941,
           "our_prob": 0.2735,
@@ -439,7 +439,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 16956.39,
+          "contracts_at_ask": 34808.31,
           "overround": 0.01,
           "fair_prob": 0.2772,
           "edge_pct": -0.37,
@@ -460,7 +460,7 @@
           "line": 4.5,
           "ask": 0.66,
           "bid": 0.65,
-          "volume": 10221,
+          "volume": 12664,
           "fee": 0.0157,
           "cost": 0.6757,
           "our_prob": 0.6478,
@@ -470,7 +470,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 16642.97,
+          "contracts_at_ask": 24751.27,
           "overround": 0.01,
           "fair_prob": 0.6535,
           "edge_pct": -0.57,
@@ -491,7 +491,7 @@
           "line": null,
           "ask": 0.43,
           "bid": 0.42,
-          "volume": 11216,
+          "volume": 13631,
           "fee": 0.0172,
           "cost": 0.4472,
           "our_prob": 0.4862,
@@ -501,7 +501,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 25625.51,
+          "contracts_at_ask": 37488.55,
           "overround": 0.01,
           "fair_prob": 0.4257,
           "edge_pct": 6.05,
@@ -522,7 +522,7 @@
           "line": null,
           "ask": 0.58,
           "bid": 0.57,
-          "volume": 11216,
+          "volume": 13631,
           "fee": 0.0171,
           "cost": 0.5971,
           "our_prob": 0.5138,
@@ -532,7 +532,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 12839.49,
+          "contracts_at_ask": 15733.46,
           "overround": 0.01,
           "fair_prob": 0.5743,
           "edge_pct": -6.05,
@@ -553,7 +553,7 @@
           "line": null,
           "ask": 0.42,
           "bid": 0.41,
-          "volume": 5074,
+          "volume": 5159,
           "fee": 0.0171,
           "cost": 0.4371,
           "our_prob": 0.4894,
@@ -563,7 +563,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 1466.3,
+          "contracts_at_ask": 1569.42,
           "overround": 0.01,
           "fair_prob": 0.4158,
           "edge_pct": 7.36,
@@ -584,7 +584,7 @@
           "line": null,
           "ask": 0.59,
           "bid": 0.58,
-          "volume": 5074,
+          "volume": 5159,
           "fee": 0.0169,
           "cost": 0.6069,
           "our_prob": 0.5106,
@@ -594,7 +594,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 36809.89,
+          "contracts_at_ask": 31824.95,
           "overround": 0.01,
           "fair_prob": 0.5842,
           "edge_pct": -7.36,
@@ -615,7 +615,7 @@
           "line": null,
           "ask": 0.43,
           "bid": 0.42,
-          "volume": 4813,
+          "volume": 4893,
           "fee": 0.0172,
           "cost": 0.4472,
           "our_prob": 0.4866,
@@ -625,7 +625,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 3774.22,
+          "contracts_at_ask": 4372.11,
           "overround": 0.01,
           "fair_prob": 0.4257,
           "edge_pct": 6.09,
@@ -646,7 +646,7 @@
           "line": null,
           "ask": 0.58,
           "bid": 0.57,
-          "volume": 4813,
+          "volume": 4893,
           "fee": 0.0171,
           "cost": 0.5971,
           "our_prob": 0.5134,
@@ -656,7 +656,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 21597.91,
+          "contracts_at_ask": 31737.58,
           "overround": 0.01,
           "fair_prob": 0.5743,
           "edge_pct": -6.09,
@@ -675,23 +675,23 @@
           "side_is_a": false,
           "game": 4,
           "line": null,
-          "ask": 0.46,
+          "ask": 0.45,
           "bid": 0.44,
-          "volume": 94,
-          "fee": 0.0174,
-          "cost": 0.4774,
+          "volume": 153,
+          "fee": 0.0173,
+          "cost": 0.4673,
           "our_prob": 0.4918,
           "sensitivity_min": 0.43824,
           "sensitivity_lower": 0.43516470002383534,
-          "sensitivity_ev": -0.08844650467997661,
+          "sensitivity_ev": -0.06881784620160414,
           "conditional_game": true,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 17853.57,
-          "overround": 0.02,
-          "fair_prob": 0.451,
-          "edge_pct": 4.08,
-          "ev_per_$1": 0.0302,
+          "contracts_at_ask": 35.71,
+          "overround": 0.01,
+          "fair_prob": 0.4455,
+          "edge_pct": 4.63,
+          "ev_per_$1": 0.0524,
           "score_consistent": false,
           "has_book": true,
           "skip_reason": "bet does not win at displayed predicted score (or map order unknown)",
@@ -707,8 +707,8 @@
           "game": 4,
           "line": null,
           "ask": 0.56,
-          "bid": 0.54,
-          "volume": 94,
+          "bid": 0.55,
+          "volume": 153,
           "fee": 0.0172,
           "cost": 0.5772,
           "our_prob": 0.5082,
@@ -718,10 +718,10 @@
           "conditional_game": true,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 1550,
-          "overround": 0.02,
-          "fair_prob": 0.549,
-          "edge_pct": -4.08,
+          "contracts_at_ask": 17286.9,
+          "overround": 0.01,
+          "fair_prob": 0.5545,
+          "edge_pct": -4.63,
           "ev_per_$1": -0.1195,
           "score_consistent": true,
           "has_book": true,
@@ -753,7 +753,7 @@
         "line": 2.5,
         "ask": 0.81,
         "bid": 0.8,
-        "volume": 5508,
+        "volume": 10444,
         "fee": 0.0108,
         "cost": 0.8208,
         "our_prob": 0.8536,
@@ -763,7 +763,7 @@
         "conditional_game": false,
         "sensitivity_available": true,
         "cashes_on_lock": true,
-        "contracts_at_ask": 455581,
+        "contracts_at_ask": 449155.64,
         "overround": 0.01,
         "fair_prob": 0.802,
         "edge_pct": 5.16,
@@ -887,7 +887,7 @@
           "status": "open",
           "yes_ask": 0.68,
           "no_ask": null,
-          "volume": 29721,
+          "volume": 29850,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -898,7 +898,7 @@
           "status": "open",
           "yes_ask": 0.49,
           "no_ask": null,
-          "volume": 5679,
+          "volume": 6922,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -909,7 +909,7 @@
           "status": "open",
           "yes_ask": 0.52,
           "no_ask": null,
-          "volume": 5679,
+          "volume": 6922,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -920,7 +920,7 @@
           "status": "open",
           "yes_ask": 0.33,
           "no_ask": null,
-          "volume": 29721,
+          "volume": 29850,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -929,8 +929,8 @@
           "label": "Game 1 Both teams Baron",
           "game": 1,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
         },
@@ -940,8 +940,8 @@
           "label": "Game 1 Both teams dragon",
           "game": 1,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
         },
@@ -951,8 +951,8 @@
           "label": "Game 1 Both teams inhib",
           "game": 1,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
@@ -962,8 +962,8 @@
           "label": "Game 1 Any penta kill",
           "game": 1,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -973,8 +973,8 @@
           "label": "Game 1 Any quadra kill",
           "game": 1,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -984,9 +984,9 @@
           "label": "Game 2 Kills Over",
           "game": 2,
           "status": "open",
-          "yes_ask": 0.67,
+          "yes_ask": 0.68,
           "no_ask": null,
-          "volume": 378,
+          "volume": 551,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -997,7 +997,7 @@
           "status": "open",
           "yes_ask": 0.51,
           "no_ask": null,
-          "volume": 12225,
+          "volume": 13244,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1006,9 +1006,9 @@
           "label": "Game 2 Kills Under",
           "game": 2,
           "status": "open",
-          "yes_ask": 0.5,
+          "yes_ask": 0.51,
           "no_ask": null,
-          "volume": 12225,
+          "volume": 13244,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1019,7 +1019,7 @@
           "status": "open",
           "yes_ask": 0.35,
           "no_ask": null,
-          "volume": 378,
+          "volume": 551,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1028,8 +1028,8 @@
           "label": "Game 2 Both teams Baron",
           "game": 2,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
         },
@@ -1039,8 +1039,8 @@
           "label": "Game 2 Both teams dragon",
           "game": 2,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
         },
@@ -1050,8 +1050,8 @@
           "label": "Game 2 Both teams inhib",
           "game": 2,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
@@ -1061,8 +1061,8 @@
           "label": "Game 2 Any penta kill",
           "game": 2,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -1072,8 +1072,8 @@
           "label": "Game 2 Any quadra kill",
           "game": 2,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -1085,7 +1085,7 @@
           "status": "open",
           "yes_ask": 0.67,
           "no_ask": null,
-          "volume": 240,
+          "volume": 372,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1096,7 +1096,7 @@
           "status": "open",
           "yes_ask": 0.5,
           "no_ask": null,
-          "volume": 12050,
+          "volume": 13093,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1107,7 +1107,7 @@
           "status": "open",
           "yes_ask": 0.51,
           "no_ask": null,
-          "volume": 12050,
+          "volume": 13093,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1116,9 +1116,9 @@
           "label": "Game 3 Kills Under",
           "game": 3,
           "status": "open",
-          "yes_ask": 0.34,
+          "yes_ask": 0.35,
           "no_ask": null,
-          "volume": 240,
+          "volume": 372,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1127,8 +1127,8 @@
           "label": "Game 3 Both teams Baron",
           "game": 3,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
         },
@@ -1138,8 +1138,8 @@
           "label": "Game 3 Both teams dragon",
           "game": 3,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
         },
@@ -1149,8 +1149,8 @@
           "label": "Game 3 Both teams inhib",
           "game": 3,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
@@ -1161,7 +1161,7 @@
           "game": 3,
           "status": "open",
           "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -1171,8 +1171,8 @@
           "label": "Game 3 Any quadra kill",
           "game": 3,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -1182,9 +1182,9 @@
           "label": "Game 4 Kills Over",
           "game": 4,
           "status": "open",
-          "yes_ask": 0.62,
+          "yes_ask": 0.63,
           "no_ask": null,
-          "volume": 133,
+          "volume": 149,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1195,7 +1195,7 @@
           "status": "open",
           "yes_ask": 0.51,
           "no_ask": null,
-          "volume": 8674,
+          "volume": 8698,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1206,7 +1206,7 @@
           "status": "open",
           "yes_ask": 0.5,
           "no_ask": null,
-          "volume": 8674,
+          "volume": 8698,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1217,7 +1217,7 @@
           "status": "open",
           "yes_ask": 0.39,
           "no_ask": null,
-          "volume": 133,
+          "volume": 149,
           "reason": "per-game total kills; the sim does not output kills"
         },
         {
@@ -1226,8 +1226,8 @@
           "label": "Game 4 Both teams Baron",
           "game": 4,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
         },
@@ -1237,8 +1237,8 @@
           "label": "Game 4 Both teams dragon",
           "game": 4,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
         },
@@ -1248,8 +1248,8 @@
           "label": "Game 4 Both teams inhib",
           "game": 4,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
@@ -1259,8 +1259,8 @@
           "label": "Game 4 Any penta kill",
           "game": 4,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -1270,8 +1270,8 @@
           "label": "Game 4 Any quadra kill",
           "game": 4,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -1281,8 +1281,8 @@
           "label": "Game 5 Both teams Baron",
           "game": 5,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams Baron); the sim models map winners only"
         },
@@ -1292,8 +1292,8 @@
           "label": "Game 5 Both teams dragon",
           "game": 5,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams dragon); the sim models map winners only"
         },
@@ -1303,8 +1303,8 @@
           "label": "Game 5 Both teams inhib",
           "game": 5,
           "status": "open",
-          "yes_ask": 0.97,
-          "no_ask": 0.97,
+          "yes_ask": 0.99,
+          "no_ask": 0.99,
           "volume": 0,
           "reason": "in-game objective prop (both teams inhibitor); the sim models map winners only"
         },
@@ -1314,8 +1314,8 @@
           "label": "Game 5 Any penta kill",
           "game": 5,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         },
@@ -1325,8 +1325,8 @@
           "label": "Game 5 Any quadra kill",
           "game": 5,
           "status": "open",
-          "yes_ask": 0.99,
-          "no_ask": 0.99,
+          "yes_ask": 1.0,
+          "no_ask": 1.0,
           "volume": 0,
           "reason": "player multikill prop; the sim models map winners only"
         }
