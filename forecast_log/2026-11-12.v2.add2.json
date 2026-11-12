@@ -1,0 +1,264 @@
+{
+  "date": "2026-11-12",
+  "integrity": {
+    "protocol": "Zero-Market Influence Prediction Protocol v4.0",
+    "market_inputs_to_forecast": "NONE",
+    "data_sources": [
+      "lolesports.com persisted gateway: getSchedule (results + schedule), getTeams (official rosters), getEventDetails (game sides)",
+      "gol.gg: pro game pages (patch, bans/picks, lineups, KDA) and per-patch champion statistics",
+      "Riot Data Dragon: champion tags (AP/AD, tank)"
+    ],
+    "excluded": [
+      "sportsbook odds",
+      "prediction-market prices",
+      "betting sites/ads",
+      "tipster picks"
+    ]
+  },
+  "model_version": "v2.1-ratings-patch",
+  "params": {
+    "ratings_variant": "v2.1",
+    "headline": "ratings",
+    "headline_simulator": "ratings-only (sim_r: rating_sd 0.35, map_sd 0.25, no side/draft term); draft sims are an informational panel",
+    "elo_patch_lambda": 0.98,
+    "elo_kscale": 0.5,
+    "elo_intl_k_leagues": [
+      "Esports World Cup",
+      "First Stand",
+      "MSI",
+      "Worlds"
+    ],
+    "league_offsets": {
+      "offsets": {},
+      "note": "not used in v2.1"
+    },
+    "draft_model": {
+      "w_pick": [
+        0.7564275224269562,
+        0.6443592468249775,
+        0.291872527629042
+      ],
+      "w_ban": [
+        0.1664289794016879,
+        0.5748977705424179,
+        0.9931814882892374
+      ],
+      "nll_pick": 3.417786709478827,
+      "nll_ban": 3.3330658218556444,
+      "n_pick_steps": 11978,
+      "n_ban_steps": 11999,
+      "uniform_nll_pick": 5.965901127715305,
+      "uniform_nll_ban": 5.042298292310294
+    },
+    "outcome_model": {
+      "side_blue": 0.1755006251993887,
+      "gamma": [
+        0.7255435285720337,
+        0.07526027507351005,
+        -0.17703211236345812,
+        0.4799963320969476,
+        -0.1224905832797519
+      ],
+      "rho": 0.0,
+      "use_cont": false,
+      "train_logloss_elo_only": 0.6428212167358158,
+      "train_logloss_with_draft": 0.6318177680743718,
+      "n_maps": 1940
+    },
+    "q_loser_blue": 0.4698242933537051,
+    "q_loser_blue_n": 1307,
+    "fitted": [
+      "elo_patch_lambda (tuned on grid)",
+      "elo_kscale (tuned on grid)",
+      "draft_model weights (MLE)",
+      "outcome_model side/draft coefficients (ridge MLE; continuity term only in v2)",
+      "q_loser_blue (frequency)"
+    ],
+    "hand_set": {
+      "PREV_W": 0.6,
+      "POOL_ALPHA": 5.0,
+      "META_K": 20.0,
+      "PROF_K": 6.0,
+      "KDA_K": 4.0,
+      "TEAMBAN_BETA": 6.0,
+      "DRAFT_CAP": 0.45,
+      "RIDGE": 8.0,
+      "CONT_TAU": 8.0,
+      "TOPK_draft_sampling": 4,
+      "rating_sd": 0.35,
+      "map_sd": 0.2
+    },
+    "fearless_check": {
+      "Worlds 2026 Play-In": {
+        "multi_game_series": 6,
+        "series_with_repeat_picks": 0,
+        "fearless": true
+      },
+      "Worlds 2026 Main Event": {
+        "multi_game_series": 18,
+        "series_with_repeat_picks": 0,
+        "fearless": true
+      }
+    },
+    "meta": {
+      "patch": "16.20",
+      "prev_patch_blend": "16.17",
+      "prev_weight": 0.6,
+      "games_on_patch_golgg": 168.2,
+      "top_by_role": {
+        "TOP": [
+          {
+            "champ": "Rumble",
+            "games": 41.6,
+            "wr_shrunk": 0.471
+          },
+          {
+            "champ": "K'Sante",
+            "games": 37.6,
+            "wr_shrunk": 0.448
+          },
+          {
+            "champ": "Ambessa",
+            "games": 34.0,
+            "wr_shrunk": 0.567
+          },
+          {
+            "champ": "Olaf",
+            "games": 28.4,
+            "wr_shrunk": 0.475
+          },
+          {
+            "champ": "Jayce",
+            "games": 24.4,
+            "wr_shrunk": 0.396
+          }
+        ],
+        "JUNGLE": [
+          {
+            "champ": "Lee Sin",
+            "games": 35.8,
+            "wr_shrunk": 0.545
+          },
+          {
+            "champ": "Jarvan IV",
+            "games": 33.8,
+            "wr_shrunk": 0.498
+          },
+          {
+            "champ": "Qiyana",
+            "games": 30.8,
+            "wr_shrunk": 0.563
+          },
+          {
+            "champ": "Vi",
+            "games": 28.0,
+            "wr_shrunk": 0.479
+          },
+          {
+            "champ": "Wukong",
+            "games": 25.8,
+            "wr_shrunk": 0.528
+          }
+        ],
+        "MID": [
+          {
+            "champ": "Syndra",
+            "games": 35.6,
+            "wr_shrunk": 0.565
+          },
+          {
+            "champ": "Orianna",
+            "games": 35.2,
+            "wr_shrunk": 0.529
+          },
+          {
+            "champ": "Ryze",
+            "games": 30.4,
+            "wr_shrunk": 0.504
+          },
+          {
+            "champ": "Viktor",
+            "games": 29.6,
+            "wr_shrunk": 0.496
+          },
+          {
+            "champ": "Akali",
+            "games": 26.0,
+            "wr_shrunk": 0.448
+          }
+        ],
+        "BOT": [
+          {
+            "champ": "Ezreal",
+            "games": 40.6,
+            "wr_shrunk": 0.535
+          },
+          {
+            "champ": "Lucian",
+            "games": 34.0,
+            "wr_shrunk": 0.422
+          },
+          {
+            "champ": "Yunara",
+            "games": 33.8,
+            "wr_shrunk": 0.535
+          },
+          {
+            "champ": "Kalista",
+            "games": 33.6,
+            "wr_shrunk": 0.511
+          },
+          {
+            "champ": "Jhin",
+            "games": 28.6,
+            "wr_shrunk": 0.477
+          }
+        ],
+        "SUPPORT": [
+          {
+            "champ": "Lulu",
+            "games": 36.8,
+            "wr_shrunk": 0.553
+          },
+          {
+            "champ": "Renata Glasc",
+            "games": 32.6,
+            "wr_shrunk": 0.532
+          },
+          {
+            "champ": "Seraphine",
+            "games": 32.0,
+            "wr_shrunk": 0.592
+          },
+          {
+            "champ": "Karma",
+            "games": 31.0,
+            "wr_shrunk": 0.533
+          },
+          {
+            "champ": "Nautilus",
+            "games": 30.0,
+            "wr_shrunk": 0.488
+          }
+        ]
+      }
+    },
+    "corpus_games": 2055,
+    "corpus_series_joined": 698
+  },
+  "cards": [],
+  "skipped": [
+    {
+      "match_id": "117393592614464354",
+      "series": "SGW vs NTH",
+      "start_utc": "2026-11-12T06:00:00Z",
+      "reason": "no pro-game history in the gol.gg corpus for SGW (team not mapped to gol.gg); not modeled (PASS)"
+    }
+  ],
+  "revision": "pre-start fresh-input rerun, primary/data-day upgrade or missing-history retry",
+  "supersedes_sha256": "3d33dc94b3762796450ac76e4b435fd941d3bd30335be688843e1da9f198f52d",
+  "addendum": 2,
+  "frozen_at_utc": "2026-11-12T01:11:07.028469Z",
+  "frozen_at_et": "2026-11-11 08:11:07 PM ET",
+  "sha256": "f16558b5d23baf1e88ef819700aefe069faec128722eb985bc15782ee60e5cf3"
+}
