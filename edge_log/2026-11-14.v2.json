@@ -6,9 +6,9 @@
   "forecast_sha256": "9f968a6b4eddae1ef51010ea79c0e9373a35fac99224d5bad6c31deedf125349",
   "forecast_view_sha256": "8b349910b7bb24396a82843a626c1632e29d55bc06fd3650eb795db523470c88",
   "forecast_frozen_at_utc": "2026-11-12T01:12:15.579634Z",
-  "odds_fetched_at_utc": "2026-11-12T19:37:58.559901+00:00",
-  "odds_fetched_at_et": "2026-11-12 02:37:58 PM ET",
-  "snapshot_file": "odds_snapshots/2026-11-14/20261112T193758Z.json",
+  "odds_fetched_at_utc": "2026-11-12T20:35:42.534673+00:00",
+  "odds_fetched_at_et": "2026-11-12 03:35:42 PM ET",
+  "snapshot_file": "odds_snapshots/2026-11-14/20261112T203542Z.json",
   "endpoints": [
     {
       "endpoint": "GET /events?category=esports&subcategory=lol&includeMarkets=true&includeAllMarkets=true (paged)",
@@ -18,7 +18,7 @@
     {
       "endpoint": "GET /events?category=esports (paged, LoL by subcategory/title)",
       "ok": true,
-      "n": 226
+      "n": 224
     },
     {
       "endpoint": "GET /events/POLY-1345375/markets?includeAllMarkets=true (paged)",
@@ -64,6 +64,14 @@
       "title": "League of Legends Global Power Rankings Post Worlds: Rank 1"
     },
     {
+      "id": "POLY-1120918",
+      "title": "Most Kills at Worlds 2026"
+    },
+    {
+      "id": "POLY-1261303",
+      "title": "Worlds 2026: Peak Viewership"
+    },
+    {
       "id": "POLY-1120919",
       "title": "How many Pentakills will there be at Worlds 2026?"
     },
@@ -72,24 +80,12 @@
       "title": "LoL Offseason: Diable Next Team"
     },
     {
-      "id": "POLY-1261303",
-      "title": "Worlds 2026: Peak Viewership"
-    },
-    {
-      "id": "POLY-1120918",
-      "title": "Most Kills at Worlds 2026"
-    },
-    {
       "id": "POLY-1186059",
       "title": "Will any game at Worlds 2026 last 50 minutes or more?"
     },
     {
       "id": "POLY-1120926",
       "title": "Most Played Champion at Worlds 2026"
-    },
-    {
-      "id": "POLY-1070055",
-      "title": "LoL Offseason: Deft Next Team"
     },
     {
       "id": "POLY-1070134",
@@ -106,6 +102,10 @@
     {
       "id": "POLY-806410",
       "title": "Which Teams Will Make a Roster Change Before December?"
+    },
+    {
+      "id": "POLY-1070055",
+      "title": "LoL Offseason: Deft Next Team"
     },
     {
       "id": "POLY-927473",
@@ -181,7 +181,7 @@
           "line": null,
           "ask": 0.38,
           "bid": 0.37,
-          "volume": 663975,
+          "volume": 664129,
           "fee": 0.0165,
           "cost": 0.3965,
           "our_prob": 0.4782,
@@ -191,7 +191,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 684334.43,
+          "contracts_at_ask": 684256.71,
           "overround": 0.01,
           "fair_prob": 0.3762,
           "edge_pct": 10.2,
@@ -212,7 +212,7 @@
           "line": null,
           "ask": 0.63,
           "bid": 0.62,
-          "volume": 663975,
+          "volume": 664129,
           "fee": 0.0163,
           "cost": 0.6463,
           "our_prob": 0.5218,
@@ -222,7 +222,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 657768,
+          "contracts_at_ask": 707768,
           "overround": 0.01,
           "fair_prob": 0.6238,
           "edge_pct": -10.2,
@@ -253,7 +253,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 69449.05,
+          "contracts_at_ask": 69459.05,
           "overround": 0.01,
           "fair_prob": 0.5644,
           "edge_pct": 9.35,
@@ -284,7 +284,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 449155.64,
+          "contracts_at_ask": 449165.64,
           "overround": 0.01,
           "fair_prob": 0.802,
           "edge_pct": 5.16,
@@ -377,7 +377,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": true,
-          "contracts_at_ask": 394579.5,
+          "contracts_at_ask": 394589.5,
           "overround": 0.01,
           "fair_prob": 0.7228,
           "edge_pct": 0.37,
@@ -408,7 +408,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 2196.46,
+          "contracts_at_ask": 2206.46,
           "overround": 0.01,
           "fair_prob": 0.3465,
           "edge_pct": 0.57,
@@ -439,7 +439,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": false,
-          "contracts_at_ask": 34808.31,
+          "contracts_at_ask": 33593.46,
           "overround": 0.01,
           "fair_prob": 0.2772,
           "edge_pct": -0.37,
@@ -501,7 +501,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 37488.55,
+          "contracts_at_ask": 37498.55,
           "overround": 0.01,
           "fair_prob": 0.4257,
           "edge_pct": 6.05,
@@ -532,7 +532,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 15733.46,
+          "contracts_at_ask": 15440.69,
           "overround": 0.01,
           "fair_prob": 0.5743,
           "edge_pct": -6.05,
@@ -625,7 +625,7 @@
           "conditional_game": false,
           "sensitivity_available": true,
           "cashes_on_lock": null,
-          "contracts_at_ask": 4372.11,
+          "contracts_at_ask": 4371.01,
           "overround": 0.01,
           "fair_prob": 0.4257,
           "edge_pct": 6.09,
@@ -763,7 +763,7 @@
         "conditional_game": false,
         "sensitivity_available": true,
         "cashes_on_lock": true,
-        "contracts_at_ask": 449155.64,
+        "contracts_at_ask": 449165.64,
         "overround": 0.01,
         "fair_prob": 0.802,
         "edge_pct": 5.16,
