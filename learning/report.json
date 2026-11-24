@@ -18,8 +18,8 @@
   },
   "forecast_policy": "Last pre-game freeze per event per model version. No retrospectively generated forecast is graded.",
   "forecasts": 65,
-  "generated_at": "2026-11-23T23:29:38.499805+00:00",
-  "last_successful_refresh": "2026-11-23T23:29:25+00:00",
+  "generated_at": "2026-11-24T04:09:09.709682+00:00",
+  "last_successful_refresh": "2026-11-24T04:09:02+00:00",
   "project": "lol-scanner",
   "settled_by_version": {
     "elo-map-v1": {
